@@ -1,0 +1,125 @@
+---
+swagger: "2.0"
+info:
+  description: "## Home Id Generator API\n\n## Version : 1.1 - August, 20 2019\nSee\
+    \ home ID generator description at the wiki page: https://gard.telekom.de/gardwiki/display/DGHB/HomeID"
+  version: "v1"
+  title: "Home Id Generator"
+host: "localhost:8122"
+tags:
+  - name: "HomeIdGeneratorController"
+schemes:
+  - "http"
+paths:
+  /api/homeId/v1/generator/:
+    post:
+      tags:
+        - "HomeIdGeneratorController"
+      summary: "Generate home id"
+      description: ""
+      operationId: "generate"
+      produces:
+        - "application/json;charset=UTF-8"
+      parameters: []
+      responses:
+        201:
+          description: "New home id created"
+          schema:
+            $ref: "#/definitions/SingleHomeId"
+        500:
+          description: "Can't perform operation"
+          schema:
+            $ref: "#/definitions/ProblemDetails"
+  /api/homeId/v1/generator/batch:
+    post:
+      tags:
+        - "HomeIdGeneratorController"
+      summary: "Generate batch of home ids for PON port"
+      description: ""
+      operationId: "generateBatch"
+      produces:
+        - "application/json;charset=UTF-8"
+      parameters:
+        - name: "numberHomeIds"
+          in: "query"
+          description: "Number of homeIds which should be created"
+          required: false
+          type: "integer"
+          maximum: 32
+          minimum: 0
+          format: "int32"
+      responses:
+        201:
+          description: "Array of number home IDs created"
+          schema:
+            $ref: "#/definitions/PoolHomeId"
+        400:
+          description: "Invalid input parameter"
+          schema:
+            $ref: "#/definitions/ProblemDetails"
+        500:
+          description: "Can't perform operation"
+          schema:
+            $ref: "#/definitions/ProblemDetails"
+definitions:
+  PoolHomeId:
+    type: "object"
+    properties:
+      homeIds:
+        type: "array"
+        description: "Generated pool of new HomeIds"
+        items:
+          type: "string"
+  ProblemDetails:
+    type: "object"
+    required:
+      - "title"
+      - "type"
+    properties:
+      type:
+        type: "string"
+        format: "uri"
+        description: "type"
+      title:
+        type: "string"
+        description: "title"
+      status:
+        type: "integer"
+        format: "int32"
+        description: "status"
+      detail:
+        type: "string"
+        description: "detail"
+      instance:
+        type: "string"
+        description: "instance"
+      embedded:
+        description: "embedded"
+        $ref: "#/definitions/SpecificProblemDetails"
+    description: "Error response of 4xx and 5xx http statuses."
+  SingleHomeId:
+    type: "object"
+    properties:
+      homeId:
+        type: "string"
+        description: "Generated new HomeId"
+  SpecificProblemDetails:
+    type: "object"
+    required:
+      - "code"
+      - "reason"
+    properties:
+      code:
+        type: "string"
+        description: "code"
+      reason:
+        type: "string"
+        description: "reason"
+      message:
+        type: "string"
+        description: "message"
+      status:
+        type: "integer"
+        format: "int32"
+        description: "status"
+    description: "Specific problem details(including fehlerbuildnummer code)."

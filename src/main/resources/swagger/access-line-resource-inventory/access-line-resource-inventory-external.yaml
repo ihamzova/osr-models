@@ -1,0 +1,1302 @@
+---
+swagger: "2.0"
+info:
+  description: "## Access Line Resource Inventory API\n\nIt is a logical part of OLT\
+    \ Resource Inventory.\nContains information about access lines, network and line\
+    \ profiles. "
+  version: "3.0.0"
+  title: "Access Line Resource Inventory"
+host: "localhost:8060"
+tags:
+- name: "AccessLineExternalController"
+- name: "AccessLineManagementExternalController"
+- name: "AssuranceExternalController"
+- name: "HomeIdExternalController"
+schemes:
+- "http"
+paths:
+  /resource-order-resource-inventory/v3/accessLine:
+    post:
+      tags:
+      - "AccessLineExternalController"
+      summary: "Creates an access line"
+      description: ""
+      operationId: "create"
+      consumes:
+      - "application/json;charset=UTF-8"
+      produces:
+      - "application/json;charset=UTF-8"
+      parameters:
+      - in: "body"
+        name: "body"
+        description: "Access Line Dto"
+        required: false
+        schema:
+          $ref: "#/definitions/AccessLineDto"
+      responses:
+        201:
+          description: "Successfully created"
+          schema:
+            $ref: "#/definitions/AccessLineDto"
+        400:
+          description: "Can't perform operation"
+          schema:
+            $ref: "#/definitions/ProblemDetails"
+        500:
+          description: "Internal error"
+          schema:
+            $ref: "#/definitions/ProblemDetails"
+    put:
+      tags:
+      - "AccessLineExternalController"
+      summary: "Updates an access line"
+      description: ""
+      operationId: "update"
+      consumes:
+      - "application/json;charset=UTF-8"
+      produces:
+      - "application/json;charset=UTF-8"
+      parameters:
+      - in: "body"
+        name: "body"
+        description: "Access Line Dto"
+        required: false
+        schema:
+          $ref: "#/definitions/AccessLineDto"
+      responses:
+        200:
+          description: "Successfully updated"
+          schema:
+            $ref: "#/definitions/AccessLineDto"
+        400:
+          description: "Can't perform operation"
+          schema:
+            $ref: "#/definitions/ProblemDetails"
+        404:
+          description: "Not present in database"
+          schema:
+            $ref: "#/definitions/ProblemDetails"
+        409:
+          description: "Access line already updated"
+          schema:
+            $ref: "#/definitions/ProblemDetails"
+        500:
+          description: "Internal error"
+          schema:
+            $ref: "#/definitions/ProblemDetails"
+    delete:
+      tags:
+      - "AccessLineExternalController"
+      summary: "Deletes AccessLine by lineId"
+      description: ""
+      operationId: "delete"
+      parameters:
+      - name: "lineId"
+        in: "query"
+        description: "lineId"
+        required: true
+        type: "string"
+        pattern: "[A-Z0-9]{3}\\.[A-Z0-9]{1,6}\\.[A-Z0-9]{1,10}"
+      responses:
+        200:
+          description: "Successfully deleted"
+        400:
+          description: "Can't perform operation"
+          schema:
+            $ref: "#/definitions/ProblemDetails"
+        500:
+          description: "Internal error"
+          schema:
+            $ref: "#/definitions/ProblemDetails"
+  /resource-order-resource-inventory/v3/accessLine/search:
+    post:
+      tags:
+      - "AccessLineExternalController"
+      summary: "Search Access Lines by criteria"
+      description: ""
+      operationId: "searchAccessLines"
+      consumes:
+      - "application/json;charset=UTF-8"
+      produces:
+      - "application/json;charset=UTF-8"
+      parameters:
+      - in: "body"
+        name: "body"
+        description: "SearchAccessLineDto"
+        required: true
+        schema:
+          $ref: "#/definitions/SearchAccessLineDto"
+      responses:
+        200:
+          description: "Successfully get"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/AccessLineDto"
+        400:
+          description: "Can't perform operation"
+          schema:
+            $ref: "#/definitions/ProblemDetails"
+        500:
+          description: "Internal error"
+          schema:
+            $ref: "#/definitions/ProblemDetails"
+  /resource-order-resource-inventory/v3/assurance/accessLine:
+    get:
+      tags:
+      - "AssuranceExternalController"
+      summary: "Find access lines by criteria"
+      description: ""
+      operationId: "findAccessLinesByCriteria"
+      produces:
+      - "application/xml"
+      parameters:
+      - name: "lineId"
+        in: "query"
+        description: ""
+        required: false
+        type: "string"
+      - name: "ontId"
+        in: "query"
+        description: ""
+        required: false
+        type: "integer"
+        format: "int32"
+      - name: "ontSerialNumber"
+        in: "query"
+        description: ""
+        required: false
+        type: "string"
+      - name: "technology"
+        in: "query"
+        description: ""
+        required: false
+        type: "string"
+        enum:
+        - "GFAST"
+        - "GPON"
+      responses:
+        200:
+          description: "Successfully found"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/AssuranceAccessLineDto"
+        400:
+          description: "Can't perform operation"
+          schema:
+            $ref: "#/definitions/ProblemDetails"
+        404:
+          description: "Not present in database"
+          schema:
+            $ref: "#/definitions/ProblemDetails"
+        500:
+          description: "Internal error"
+          schema:
+            $ref: "#/definitions/ProblemDetails"
+  /resource-order-resource-inventory/v3/assurance/accessLine/{id}:
+    get:
+      tags:
+      - "AssuranceExternalController"
+      summary: "Finds access line by id"
+      description: ""
+      operationId: "findAccessLineById"
+      produces:
+      - "application/xml"
+      parameters:
+      - name: "id"
+        in: "path"
+        required: true
+        type: "integer"
+        format: "int64"
+      responses:
+        200:
+          description: "Successfully found"
+          schema:
+            $ref: "#/definitions/AssuranceAccessLineDto"
+        400:
+          description: "Can't perform operation"
+          schema:
+            $ref: "#/definitions/ProblemDetails"
+        404:
+          description: "Not present in database"
+          schema:
+            $ref: "#/definitions/ProblemDetails"
+        500:
+          description: "Internal error"
+          schema:
+            $ref: "#/definitions/ProblemDetails"
+  /resource-order-resource-inventory/v3/assurance/accessLineByEndSzSlotPort:
+    get:
+      tags:
+      - "AssuranceExternalController"
+      summary: "Finds access lines by EndSz, Slot, Port"
+      description: ""
+      operationId: "findAccessLinesByEndSzSlotPort"
+      produces:
+      - "application/xml"
+      parameters:
+      - name: "endSz"
+        in: "query"
+        description: ""
+        required: false
+        type: "string"
+      - name: "portNumber"
+        in: "query"
+        description: ""
+        required: false
+        type: "string"
+      - name: "slotNumber"
+        in: "query"
+        description: ""
+        required: false
+        type: "string"
+      responses:
+        200:
+          description: "Successfully found"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/AssuranceAccessLineDto"
+        400:
+          description: "Can't perform operation"
+          schema:
+            $ref: "#/definitions/ProblemDetails"
+        500:
+          description: "Internal error"
+          schema:
+            $ref: "#/definitions/ProblemDetails"
+  /resource-order-resource-inventory/v3/homeIdPool:
+    post:
+      tags:
+      - "HomeIdExternalController"
+      summary: "Appends homeIDs by endSZ, slotNumber and portNumber."
+      description: ""
+      operationId: "addHomeIds"
+      consumes:
+      - "application/json;charset=UTF-8"
+      parameters:
+      - in: "body"
+        name: "body"
+        description: "HomeIDs list"
+        required: true
+        schema:
+          type: "array"
+          items:
+            $ref: "#/definitions/HomeIdDto"
+      responses:
+        201:
+          description: "HomeIDs were added"
+        400:
+          description: "Bad request"
+          schema:
+            $ref: "#/definitions/ProblemDetails"
+        500:
+          description: "Internal error"
+          schema:
+            $ref: "#/definitions/ProblemDetails"
+    delete:
+      tags:
+      - "HomeIdExternalController"
+      summary: "Deletes homeIDs for port"
+      description: ""
+      operationId: "deleteHomeIDs"
+      parameters:
+      - name: "endSz"
+        in: "query"
+        description: "EndSz"
+        required: true
+        type: "string"
+        pattern: "[0-9]{1,6}\\/[0-9]{1,6}\\/[0-9]{1,6}\\/[a-zA-Z0-9]{2,4}"
+      - name: "slotNumber"
+        in: "query"
+        description: "Slot number"
+        required: true
+        type: "string"
+      - name: "portNumber"
+        in: "query"
+        description: "Port number"
+        required: true
+        type: "string"
+      responses:
+        200:
+          description: "Successfully deleted"
+        400:
+          description: "Can't perform operation"
+          schema:
+            $ref: "#/definitions/ProblemDetails"
+        500:
+          description: "Internal error"
+          schema:
+            $ref: "#/definitions/ProblemDetails"
+  /resource-order-resource-inventory/v3/homeIdPool/homeId:
+    put:
+      tags:
+      - "HomeIdExternalController"
+      summary: "Update particular home id in pool"
+      description: ""
+      operationId: "updateHomeId"
+      consumes:
+      - "application/json;charset=UTF-8"
+      parameters:
+      - in: "body"
+        name: "body"
+        description: "HomeIdDto"
+        required: true
+        schema:
+          $ref: "#/definitions/HomeIdDto"
+      responses:
+        200:
+          description: "HomeId was updated"
+        400:
+          description: "Bad request"
+          schema:
+            $ref: "#/definitions/ProblemDetails"
+        404:
+          description: "Reference to physical resource not found"
+          schema:
+            $ref: "#/definitions/ProblemDetails"
+        409:
+          description: "HomeId already updated"
+          schema:
+            $ref: "#/definitions/ProblemDetails"
+        500:
+          description: "Internal error"
+          schema:
+            $ref: "#/definitions/ProblemDetails"
+  /resource-order-resource-inventory/v3/homeIdPool/search/homeId:
+    post:
+      tags:
+      - "HomeIdExternalController"
+      summary: "Search homeIDs in pool by criteria"
+      description: ""
+      operationId: "searchHomeIds"
+      consumes:
+      - "application/json;charset=UTF-8"
+      produces:
+      - "application/json;charset=UTF-8"
+      parameters:
+      - in: "body"
+        name: "body"
+        description: "Search homeID criteria"
+        required: true
+        schema:
+          $ref: "#/definitions/SearchHomeIdDto"
+      responses:
+        200:
+          description: "Successfully get"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/HomeIdDto"
+        400:
+          description: "Can't perform operation"
+          schema:
+            $ref: "#/definitions/ProblemDetails"
+        500:
+          description: "Internal error"
+          schema:
+            $ref: "#/definitions/ProblemDetails"
+  /resource-order-resource-inventory/v3/managementAccessLine/info:
+    post:
+      tags:
+      - "AccessLineManagementExternalController"
+      summary: "Find or Get an access line by Line Id"
+      description: ""
+      operationId: "getLineInfo"
+      consumes:
+      - "application/json;charset=UTF-8"
+      produces:
+      - "application/json;charset=UTF-8"
+      parameters:
+      - in: "body"
+        name: "body"
+        description: "lineId"
+        required: true
+        schema:
+          $ref: "#/definitions/GetAccessLineDto"
+      responses:
+        200:
+          description: "Successfully sent"
+          schema:
+            $ref: "#/definitions/AccessLineDto"
+        400:
+          description: "Can't perform operation"
+          schema:
+            $ref: "#/definitions/ProblemDetails"
+        401:
+          description: "Unauthorized"
+          schema:
+            $ref: "#/definitions/ProblemDetails"
+        403:
+          description: "Forbidden"
+          schema:
+            $ref: "#/definitions/ProblemDetails"
+        404:
+          description: "Not present in database"
+          schema:
+            $ref: "#/definitions/ProblemDetails"
+        500:
+          description: "Internal error"
+          schema:
+            $ref: "#/definitions/ProblemDetails"
+      security:
+      - apmToken: []
+  /resource-order-resource-inventory/v3/managementAccessLine/search:
+    post:
+      tags:
+      - "AccessLineManagementExternalController"
+      summary: "Gets AccessLines by search criteria"
+      description: "Gets AccessLines by input parameters for search and with additional\
+        \ sort parameters."
+      operationId: "search"
+      consumes:
+      - "application/json;charset=UTF-8"
+      produces:
+      - "application/json;charset=UTF-8"
+      parameters:
+      - in: "body"
+        name: "body"
+        description: "Request AccessLineViewDto"
+        required: false
+        schema:
+          $ref: "#/definitions/RequestAccessLineViewDto"
+      - name: "direction"
+        in: "query"
+        description: "direction"
+        required: false
+        type: "string"
+        enum:
+        - "ASC"
+        - "DESC"
+      - name: "page"
+        in: "query"
+        description: "page"
+        required: false
+        type: "integer"
+        format: "int32"
+      - name: "pageSize"
+        in: "query"
+        description: "pageSize"
+        required: false
+        type: "integer"
+        format: "int32"
+      - name: "sortField"
+        in: "query"
+        description: "sortField"
+        required: false
+        type: "string"
+        enum:
+        - "END_SZ"
+        - "SLOT_NUMBER"
+        - "PORT_NUMBER"
+        - "LINE_ID"
+        - "HOME_ID"
+        - "ACCESS_LINE_STATUS"
+        - "SUBSCRIBER_NE_PROFILE_STATE"
+        - "SUBSCRIBER_NETWORK_LINE_PROFILE_STATE"
+        - "PARTY_ID"
+      responses:
+        200:
+          description: "Successfully received"
+          schema:
+            $ref: "#/definitions/PageAccessLineViewDto"
+        400:
+          description: "Can't perform operation"
+          schema:
+            $ref: "#/definitions/ProblemDetails"
+        401:
+          description: "Unauthorized"
+          schema:
+            $ref: "#/definitions/ProblemDetails"
+        403:
+          description: "Forbidden"
+          schema:
+            $ref: "#/definitions/ProblemDetails"
+        500:
+          description: "Internal error"
+          schema:
+            $ref: "#/definitions/ProblemDetails"
+      security:
+      - apmToken: []
+definitions:
+  AccessLineDto:
+    type: "object"
+    properties:
+      id:
+        type: "integer"
+        format: "int64"
+        description: "Internal (from database) id of Access Line entity"
+      technology:
+        type: "string"
+        description: "Technology of Access Line entity"
+        enum:
+        - "GFAST"
+        - "GPON"
+      status:
+        type: "string"
+        description: "Status of Access Line (inactive, walled Garden or assigned)"
+        enum:
+        - "INACTIVE"
+        - "WALLED_GARDEN"
+        - "ASSIGNED"
+      lineId:
+        type: "string"
+        description: "Line Id"
+      homeId:
+        type: "string"
+        description: "Home Id"
+      defaultNeProfile:
+        description: "Default Ne profile of Access Line"
+        $ref: "#/definitions/DefaultNeProfileDto"
+      defaultNetworkLineProfile:
+        description: "Default network line profile of Access Line"
+        $ref: "#/definitions/DefaultNetworkLineProfileDto"
+      subscriberNetworkLineProfile:
+        description: "Subscriber network line profile of Access Line"
+        $ref: "#/definitions/SubscriberNetworkLineProfileDto"
+      reference:
+        description: "Reference to physical resource"
+        $ref: "#/definitions/ReferenceDto"
+      resourceAssociation:
+        description: "Resource Association"
+        $ref: "#/definitions/ResourceAssociationDto"
+      version:
+        type: "integer"
+        format: "int64"
+        description: "Version of object"
+  AccessLineViewDto:
+    type: "object"
+    properties:
+      lineId:
+        type: "string"
+        description: "Line Id"
+      homeId:
+        type: "string"
+        description: "Home Id"
+      endSz:
+        type: "string"
+        description: "EndSz"
+      slotNumber:
+        type: "string"
+        description: "Slot number"
+      portNumber:
+        type: "string"
+        description: "Port number"
+      status:
+        type: "string"
+        description: "Status of Access Line (inactive, walled Garden or assigned)"
+        enum:
+        - "INACTIVE"
+        - "WALLED_GARDEN"
+        - "ASSIGNED"
+      subscriberNeProfileState:
+        type: "string"
+        description: "State of SubscriberNeProfile (inactive, active)"
+        enum:
+        - "INACTIVE"
+        - "ACTIVE"
+      subscriberNetworkLineProfileState:
+        type: "string"
+        description: "State of SubscriberNetworkLineProfile (inactive, active)"
+        enum:
+        - "INACTIVE"
+        - "ACTIVE"
+  AnpTagDto:
+    type: "object"
+    properties:
+      id:
+        type: "integer"
+        format: "int64"
+        description: "Internal (from database) id of AnpTag entity"
+      anpTag:
+        type: "integer"
+        format: "int32"
+        description: "Anptag"
+  AssuranceAccessLineDto:
+    type: "object"
+    properties:
+      defaultNeProfile:
+        description: "Default Ne profile reference"
+        $ref: "#/definitions/AssuranceDefaultNeProfileDto"
+      defaultNetworkLineProfile:
+        description: "SubscriberNeProfile reference"
+        $ref: "#/definitions/AssuranceDefaultNetworkLineProfileDto"
+      resourceId:
+        type: "string"
+        description: "Unique ID of a resource"
+      id:
+        type: "integer"
+        format: "int64"
+        description: "Internal (from database) id of Access Line entity"
+      lineId:
+        type: "string"
+        description: "Line Id"
+      portId:
+        type: "integer"
+        format: "int64"
+        description: "Port Id"
+      partyId:
+        type: "integer"
+        format: "int32"
+        description: "Party id of Access Line"
+      status:
+        type: "string"
+        description: "Status of Access Line (inactive, walled Garden or assigned)"
+      subscriberNeProfile:
+        description: "Default Network Line profile reference"
+        $ref: "#/definitions/AssuranceSubscriberNeProfileDto"
+      subscriberNetworkLineProfile:
+        description: "SubscriberNetworkLineProfile reference"
+        $ref: "#/definitions/AssuranceSubscriberNetworkLineProfileDto"
+      technology:
+        type: "string"
+        description: "Technology of Access Line"
+  AssuranceDefaultNeProfileDto:
+    type: "object"
+    properties:
+      ancpPartitionId:
+        type: "integer"
+        format: "int32"
+        description: "Id of ANCP partition"
+      anpTag:
+        type: "integer"
+        format: "int32"
+        description: "Anptag"
+      ontId:
+        type: "integer"
+        format: "int32"
+        description: "Id of ont"
+      ontSerialNumber:
+        type: "string"
+        description: "ONT serial number of DefaultNeProfile"
+      profileName:
+        type: "string"
+        description: "Name of profile"
+      state:
+        type: "string"
+        description: "State of DefaultNeProfile (inactive, active)"
+  AssuranceDefaultNetworkLineProfileDto:
+    type: "object"
+    properties:
+      accessNetworkType:
+        type: "string"
+        description: "Access network type of DefaultNetworkLineProfile"
+      accessType:
+        type: "string"
+        description: "Access type of DefaultNetworkLineProfile"
+      authMethod:
+        type: "integer"
+        format: "int32"
+        description: "Authentication method of DefaultNetworkLineProfile"
+      guaranteedDownBandwidth:
+        type: "integer"
+        format: "int32"
+        description: "Guaranteed down bandwidth of DefaultNetworkLineProfile"
+      guaranteedUpBandwidth:
+        type: "integer"
+        format: "int32"
+        description: "Guaranteed up bandwidth of DefaultNetworkLineProfile"
+      klsId:
+        type: "integer"
+        format: "int64"
+        description: "KlsId of DefaultNetworkLineProfile"
+      maxDownBandwidth:
+        type: "integer"
+        format: "int32"
+        description: "Maximum down bandwidth of DefaultNetworkLineProfile"
+      maxUpBandwidth:
+        type: "integer"
+        format: "int32"
+        description: "Maximum up bandwidth of DefaultNetworkLineProfile"
+      minDownBandwidth:
+        type: "integer"
+        format: "int32"
+        description: "Minimum down bandwidth of DefaultNetworkLineProfile"
+      minUpBandwidth:
+        type: "integer"
+        format: "int32"
+        description: "Minimum up bandwidth of DefaultNetworkLineProfile"
+      state:
+        type: "string"
+        description: "State of DefaultNeProfile (inactive, active)"
+  AssuranceSubscriberNeProfileDto:
+    type: "object"
+    properties:
+      ontSerialNumber:
+        type: "string"
+        description: "ONT serial number of DefaultNeProfile"
+      profileName:
+        type: "string"
+        description: "Name of profile"
+  AssuranceSubscriberNetworkLineProfileDto:
+    type: "object"
+    properties:
+      authMethod:
+        type: "integer"
+        format: "int32"
+        description: "Authentication method of SubscriberNetworkLineProfile"
+      downBandwidth:
+        type: "integer"
+        format: "int32"
+        description: "Down band width of SubscriberNetworkLineProfile"
+      federationPartner:
+        type: "string"
+        description: "Federation Partner of SubscriberNetworkLineProfile"
+      guaranteedDownBandwidth:
+        type: "integer"
+        format: "int32"
+        description: "Guaranteed down band width of SubscriberNetworkLineProfile"
+      guaranteedUpBandwidth:
+        type: "integer"
+        format: "int32"
+        description: "Guaranteed up band width of SubscriberNetworkLineProfile"
+      klsId:
+        type: "integer"
+        format: "int64"
+        description: "KlsId of SubscriberNetworkLineProfile"
+      l2ccid:
+        type: "string"
+        description: "12 ccid of SubscriberNetworkLineProfile"
+      maxDownBandwidth:
+        type: "integer"
+        format: "int32"
+        description: "Maximum down bandwidth of SubscriberNetworkLineProfile"
+      maxUpBandwidth:
+        type: "integer"
+        format: "int32"
+        description: "Maximum up bandwidth of SubscriberNetworkLineProfile"
+      minDownBandwidth:
+        type: "integer"
+        format: "int32"
+        description: "Minimum down bandwidth of SubscriberNetworkLineProfile"
+      minUpBandwidth:
+        type: "integer"
+        format: "int32"
+        description: "Minimum up bandwidth of SubscriberNetworkLineProfile"
+      providerId:
+        type: "string"
+        description: "Minimum up bandwidth of SubscriberNetworkLineProfile"
+      substitutionDomain:
+        type: "string"
+        description: "Substitution Domain of SubscriberNetworkLineProfile"
+      upBandwidth:
+        type: "integer"
+        format: "int32"
+        description: "Up band width of SubscriberNetworkLineProfile"
+  DefaultNeProfileDto:
+    type: "object"
+    properties:
+      id:
+        type: "integer"
+        format: "int64"
+        description: "Internal (from database) id of DefaultNeProfile entity"
+      profileName:
+        type: "string"
+        description: "Name of profile"
+      ontSerialNumber:
+        type: "string"
+        description: "ONT serial number of DefaultNeProfile"
+      state:
+        type: "string"
+        description: "State of DefaultNeProfile (inactive, active)"
+        enum:
+        - "INACTIVE"
+        - "ACTIVE"
+      ancpPartitionId:
+        type: "integer"
+        format: "int32"
+        description: "Id of ANCP partition"
+      ontId:
+        type: "integer"
+        format: "int32"
+        description: "Id of ont"
+      anpTag:
+        description: "AnpTag reference"
+        $ref: "#/definitions/AnpTagDto"
+      ontState:
+        type: "string"
+        description: "State of ONT (offline, online, unknown)"
+        enum:
+        - "OFFLINE"
+        - "ONLINE"
+        - "UNKNOWN"
+      subscriberNeProfile:
+        description: "SubscriberNeProfile reference"
+        $ref: "#/definitions/SubscriberNeProfileDto"
+      version:
+        type: "integer"
+        format: "int64"
+        description: "Version of object"
+  DefaultNetworkLineProfileDto:
+    type: "object"
+    properties:
+      id:
+        type: "integer"
+        format: "int64"
+        description: "Internal (from database) id of DefaultNetworkLineProfile entity"
+      authMethod:
+        type: "integer"
+        format: "int32"
+        description: "Authentication method of DefaultNetworkLineProfile"
+      klsId:
+        type: "integer"
+        format: "int64"
+        description: "KlsId of DefaultNetworkLineProfile"
+      minDownBandwidth:
+        type: "integer"
+        format: "int32"
+        description: "Minimum down bandwidth of DefaultNetworkLineProfile"
+      minUpBandwidth:
+        type: "integer"
+        format: "int32"
+        description: "Minimum up bandwidth of DefaultNetworkLineProfile"
+      guaranteedDownBandwidth:
+        type: "integer"
+        format: "int32"
+        description: "Guaranteed down bandwidth of DefaultNetworkLineProfile"
+      guaranteedUpBandwidth:
+        type: "integer"
+        format: "int32"
+        description: "Guaranteed up bandwidth of DefaultNetworkLineProfile"
+      maxDownBandwidth:
+        type: "integer"
+        format: "int32"
+        description: "Maximum down bandwidth of DefaultNetworkLineProfile"
+      maxUpBandwidth:
+        type: "integer"
+        format: "int32"
+        description: "Maximum up bandwidth of DefaultNetworkLineProfile"
+      state:
+        type: "string"
+        description: "State of DefaultNeProfile (inactive, active)"
+        enum:
+        - "INACTIVE"
+        - "ACTIVE"
+      federationPartner:
+        type: "string"
+        description: "Federation partner of DefaultNetworkLineProfile"
+      accessNetworkType:
+        type: "string"
+        description: "Access network type of DefaultNetworkLineProfile"
+      accessType:
+        type: "string"
+        description: "Access type of DefaultNetworkLineProfile"
+      version:
+        type: "integer"
+        format: "int64"
+        description: "Version of object"
+  GetAccessLineDto:
+    type: "object"
+    required:
+    - "lineId"
+    properties:
+      lineId:
+        type: "string"
+        description: "Criteria for search Access Line by line id"
+        pattern: "[A-Z0-9]{3}\\.[A-Z0-9]{1,6}\\.[A-Z0-9]{1,10}"
+  HomeIdDto:
+    type: "object"
+    required:
+    - "homeId"
+    - "port"
+    - "status"
+    properties:
+      id:
+        type: "integer"
+        format: "int64"
+        description: "Internal (from database) id of home id entity"
+      homeId:
+        type: "string"
+        description: "HomeId from pool for access line"
+        pattern: "^[A-Z0-9]{7}$"
+      status:
+        type: "string"
+        description: "Status of home id"
+        enum:
+        - "FREE"
+        - "RESERVED"
+        - "ASSIGNED"
+      port:
+        description: "Reference to physical resource"
+        $ref: "#/definitions/ReferenceDto"
+      version:
+        type: "integer"
+        format: "int64"
+        description: "HomeId version"
+  Page:
+    type: "object"
+    properties:
+      totalPages:
+        type: "integer"
+        format: "int32"
+      totalElements:
+        type: "integer"
+        format: "int64"
+      size:
+        type: "integer"
+        format: "int32"
+      content:
+        type: "array"
+        items:
+          type: "object"
+      number:
+        type: "integer"
+        format: "int32"
+      sort:
+        $ref: "#/definitions/Sort"
+      pageable:
+        $ref: "#/definitions/Pageable"
+      last:
+        type: "boolean"
+      numberOfElements:
+        type: "integer"
+        format: "int32"
+      first:
+        type: "boolean"
+  PageAccessLineViewDto:
+    type: "object"
+    properties:
+      totalPages:
+        type: "integer"
+        format: "int32"
+      totalElements:
+        type: "integer"
+        format: "int64"
+      size:
+        type: "integer"
+        format: "int32"
+      content:
+        type: "array"
+        items:
+          $ref: "#/definitions/AccessLineViewDto"
+      number:
+        type: "integer"
+        format: "int32"
+      sort:
+        $ref: "#/definitions/Sort"
+      pageable:
+        $ref: "#/definitions/Pageable"
+      last:
+        type: "boolean"
+      numberOfElements:
+        type: "integer"
+        format: "int32"
+      first:
+        type: "boolean"
+  Pageable:
+    type: "object"
+    properties:
+      offset:
+        type: "integer"
+        format: "int64"
+      sort:
+        $ref: "#/definitions/Sort"
+      pageNumber:
+        type: "integer"
+        format: "int32"
+      unpaged:
+        type: "boolean"
+      paged:
+        type: "boolean"
+      pageSize:
+        type: "integer"
+        format: "int32"
+  ProblemDetails:
+    type: "object"
+    required:
+    - "title"
+    - "type"
+    properties:
+      type:
+        type: "string"
+        format: "uri"
+        description: "type"
+      title:
+        type: "string"
+        description: "title"
+      status:
+        type: "integer"
+        format: "int32"
+        description: "status"
+      detail:
+        type: "string"
+        description: "detail"
+      instance:
+        type: "string"
+        description: "instance"
+      embedded:
+        description: "embedded"
+        $ref: "#/definitions/SpecificProblemDetails"
+    description: "Error response of 4xx and 5xx http statuses."
+  ReferenceDto:
+    type: "object"
+    required:
+    - "endSz"
+    - "portNumber"
+    - "slotNumber"
+    properties:
+      id:
+        type: "integer"
+        format: "int64"
+        description: "Internal (from database) id of Reference entity"
+      endSz:
+        type: "string"
+        description: "Endsz of physical resource"
+        pattern: "[0-9]{1,6}\\/[0-9]{1,6}\\/[0-9]{1,6}\\/[a-zA-Z0-9]{2,4}"
+      slotNumber:
+        type: "string"
+        description: "Slot number of physical resource"
+      portNumber:
+        type: "string"
+        description: "Port number of physical resource"
+      connectionType:
+        type: "string"
+        description: "Connection type of physical resource"
+        enum:
+        - "OLT_BNG"
+        - "A4"
+      version:
+        type: "integer"
+        format: "int64"
+        description: "Version of object"
+  RequestAccessLineViewDto:
+    type: "object"
+    properties:
+      lineId:
+        type: "string"
+        pattern: "[A-Z0-9]{3}\\.[A-Z0-9]{1,6}\\.[A-Z0-9]{1,10}"
+      homeId:
+        type: "string"
+        pattern: "^[A-Z0-9]{7}$"
+      endSz:
+        type: "string"
+        pattern: "[0-9]{1,6}\\/[0-9]{1,6}\\/[0-9]{1,6}\\/[a-zA-Z0-9]{2,4}"
+      statuses:
+        type: "array"
+        uniqueItems: true
+        items:
+          type: "string"
+          enum:
+          - "INACTIVE"
+          - "WALLED_GARDEN"
+          - "ASSIGNED"
+      subscriberNeProfileState:
+        type: "string"
+        enum:
+        - "INACTIVE"
+        - "ACTIVE"
+      subscriberNetworkLineProfileState:
+        type: "string"
+        enum:
+        - "INACTIVE"
+        - "ACTIVE"
+      slotNumber:
+        type: "string"
+      portNumber:
+        type: "string"
+  ResourceAssociationDto:
+    type: "object"
+    properties:
+      id:
+        type: "integer"
+        format: "int64"
+        description: "Internal (from database) id of ResourceAssociation entity"
+      version:
+        type: "integer"
+        format: "int64"
+        description: "Version of object"
+      partyId:
+        type: "integer"
+        format: "int64"
+        description: "Party Id value"
+      resourceId:
+        type: "string"
+        description: "Unique resource ID (GUID)"
+  SearchAccessLineDto:
+    type: "object"
+    properties:
+      id:
+        type: "integer"
+        format: "int64"
+        description: "Criteria for search Access Line by internal id"
+      endSz:
+        type: "string"
+        description: "Criteria for search Access Line by endsz"
+        pattern: "[0-9]{1,6}\\/[0-9]{1,6}\\/[0-9]{1,6}\\/[a-zA-Z0-9]{2,4}"
+      slotNumber:
+        type: "string"
+        description: "Criteria for search Access Line by slot number"
+      portNumber:
+        type: "string"
+        description: "Criteria for search Access Line by port number"
+      lineId:
+        type: "string"
+        description: "Criteria for search Access Line by line id"
+      homeId:
+        type: "string"
+        description: "Criteria for search Access Line by home id"
+      status:
+        type: "string"
+        description: "Criteria for search Access Line by status"
+        enum:
+        - "INACTIVE"
+        - "WALLED_GARDEN"
+        - "ASSIGNED"
+      technology:
+        type: "string"
+        description: "Criteria for search Access Line by technology"
+        enum:
+        - "GFAST"
+        - "GPON"
+      ontSerialNumber:
+        type: "string"
+        description: "Criteria for search Access Line by ont serial number"
+  SearchHomeIdDto:
+    type: "object"
+    properties:
+      endSz:
+        type: "string"
+        description: "Criteria for search home id by endsz"
+        pattern: "[0-9]{1,6}\\/[0-9]{1,6}\\/[0-9]{1,6}\\/[a-zA-Z0-9]{2,4}"
+      slotNumber:
+        type: "string"
+        description: "Criteria for search home id by slot number"
+      portNumber:
+        type: "string"
+        description: "Criteria for search home id by port number"
+      id:
+        type: "integer"
+        format: "int64"
+        description: "Criteria for search home id by internal id"
+      homeId:
+        type: "string"
+        description: "Criteria for search home id by homeId"
+        pattern: "^[A-Z0-9]{7}$"
+      status:
+        type: "string"
+        description: "Criteria for search home id by status"
+        enum:
+        - "FREE"
+        - "RESERVED"
+        - "ASSIGNED"
+  Sort:
+    type: "object"
+    properties:
+      sorted:
+        type: "boolean"
+      unsorted:
+        type: "boolean"
+  SpecificProblemDetails:
+    type: "object"
+    required:
+    - "code"
+    - "reason"
+    properties:
+      code:
+        type: "string"
+        description: "code"
+      reason:
+        type: "string"
+        description: "reason"
+      message:
+        type: "string"
+        description: "message"
+      status:
+        type: "integer"
+        format: "int32"
+        description: "status"
+    description: "Specific problem details(including fehlerbuildnummer code)."
+  SubscriberNeProfileDto:
+    type: "object"
+    properties:
+      id:
+        type: "integer"
+        format: "int64"
+        description: "Internal (from database) id of SubscriberNeProfile entity"
+      profileName:
+        type: "string"
+        description: "Name of profile"
+      state:
+        type: "string"
+        description: "State of DefaultNeProfile (inactive, active)"
+        enum:
+        - "INACTIVE"
+        - "ACTIVE"
+      ontSerialNumber:
+        type: "string"
+        description: "ONT serial number of DefaultNeProfile"
+      version:
+        type: "integer"
+        format: "int64"
+        description: "Version of object"
+  SubscriberNetworkLineProfileDto:
+    type: "object"
+    properties:
+      id:
+        type: "integer"
+        format: "int64"
+        description: "Internal (from database) id of SubscriberNetworkLineProfile\
+          \ entity"
+      authMethod:
+        type: "integer"
+        format: "int32"
+        description: "Authentication method of SubscriberNetworkLineProfile"
+      klsId:
+        type: "integer"
+        format: "int64"
+        description: "KlsId of SubscriberNetworkLineProfile"
+      minDownBandwidth:
+        type: "integer"
+        format: "int32"
+        description: "Minimum down bandwidth of SubscriberNetworkLineProfile"
+      minUpBandwidth:
+        type: "integer"
+        format: "int32"
+        description: "Minimum up bandwidth of SubscriberNetworkLineProfile"
+      guaranteedDownBandwidth:
+        type: "integer"
+        format: "int32"
+        description: "Guaranteed down bandwidth of SubscriberNetworkLineProfile"
+      guaranteedUpBandwidth:
+        type: "integer"
+        format: "int32"
+        description: "Guaranteed up bandwidth of SubscriberNetworkLineProfile"
+      maxDownBandwidth:
+        type: "integer"
+        format: "int32"
+        description: "Maximum down bandwidth of SubscriberNetworkLineProfile"
+      maxUpBandwidth:
+        type: "integer"
+        format: "int32"
+        description: "Maximum up bandwidth of SubscriberNetworkLineProfile"
+      downBandwidth:
+        type: "integer"
+        format: "int32"
+        description: "Down bandwidth of SubscriberNetworkLineProfile"
+      upBandwidth:
+        type: "integer"
+        format: "int32"
+        description: "Up bandwidth of SubscriberNetworkLineProfile"
+      state:
+        type: "string"
+        description: "State of SubscriberNetworkLineProfile (inactive, active)"
+        enum:
+        - "INACTIVE"
+        - "ACTIVE"
+      federationPartner:
+        type: "string"
+        description: "Federation partner of SubscriberNetworkLineProfile"
+      providerId:
+        type: "string"
+        description: "provider id of SubscriberNetworkLineProfile"
+      substitutionDomain:
+        type: "string"
+        description: "Substitution domain of SubscriberNetworkLineProfile"
+      l2ccid:
+        type: "string"
+        description: "12 ccid of SubscriberNetworkLineProfile"
+      version:
+        type: "integer"
+        format: "int64"
+        description: "Version of object"
