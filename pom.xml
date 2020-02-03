@@ -17,6 +17,14 @@
         <common.swagger.template.folder>${project.build.outputDirectory}</common.swagger.template.folder>
     </properties>
 
+    <repositories>
+        <repository>
+            <id>automation</id>
+            <name>automation</name>
+            <url>http://digihub-wbench.psst.t-online.corp/nexus/content/repositories/automation/</url>
+        </repository>
+    </repositories>
+
     <dependencies>
         <dependency>
             <groupId>com.tsystems.tm.acc.tests</groupId>
