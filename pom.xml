@@ -124,9 +124,9 @@
                                 <basePackage>${project.groupId}.osr</basePackage>
                                 <items>
                                     <item>
-                                        <name>access.line.resource.inventory.internal.client</name>
+                                        <name>hello.world</name>
                                         <inputSpec>
-                                            ${project.basedir}/src/main/resources/swagger/access-line-resource-inventory/access-line-resource-inventory-internal.yaml
+                                            ${project.basedir}/src/main/resources/swagger/hello-world/hello-world-internal.yaml
                                         </inputSpec>
                                     </item>
                                     <item>
