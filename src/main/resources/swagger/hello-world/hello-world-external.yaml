@@ -1,0 +1,39 @@
+---
+swagger: "2.0"
+info:
+  description: "A simple hello-world service project for onboarding task into DGIG-Env.\n\
+    \tSee https://gard.telekom.de/gard/browse/DIGIHUB-48584."
+  version: "0.0.1"
+  title: "hello-world"
+host: "localhost:8080"
+tags:
+- name: "HelloWorldController"
+schemes:
+- "http"
+paths:
+  /hello/v1/hello:
+    get:
+      tags:
+      - "HelloWorldController"
+      summary: "hello by hello"
+      description: ""
+      operationId: "hello"
+      parameters: []
+      responses:
+        200:
+          description: "Successfully found"
+          schema:
+            type: "string"
+  /hello/v1/name:
+    get:
+      tags:
+      - "HelloWorldController"
+      summary: "hello by name"
+      description: ""
+      operationId: "name"
+      parameters: []
+      responses:
+        200:
+          description: "Successfully found"
+          schema:
+            type: "string"
