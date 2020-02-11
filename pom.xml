@@ -130,6 +130,12 @@
                                         </inputSpec>
                                     </item>
                                     <item>
+                                        <name>access.line.resource.inventory.internal.client</name>
+                                        <inputSpec>
+                                            ${project.basedir}/src/main/resources/swagger/access-line-resource-inventory/access-line-resource-inventory-internal.yaml
+                                        </inputSpec>
+                                    </item>
+                                    <item>
                                         <name>access.line.resource.inventory.external.client</name>
                                         <inputSpec>
                                             ${project.basedir}/src/main/resources/swagger/access-line-resource-inventory/access-line-resource-inventory-external.yaml
