@@ -10,7 +10,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>osr-models</artifactId>
-    <version>0.0.2</version>
+    <version>0.0.3</version>
 
     <properties>
         <framework.version>${project.parent.version}</framework.version>
@@ -154,18 +154,6 @@
                                         </inputSpec>
                                     </item>
                                     <item>
-                                        <name>olt.resource.inventory.internal.client</name>
-                                        <inputSpec>
-                                            ${project.basedir}/src/main/resources/swagger/olt-resource-inventory/internal-swagger.yaml
-                                        </inputSpec>
-                                    </item>
-                                    <item>
-                                        <name>olt.resource.inventory.external.client</name>
-                                        <inputSpec>
-                                            ${project.basedir}/src/main/resources/swagger/olt-resource-inventory/external-swagger.yaml
-                                        </inputSpec>
-                                    </item>
-                                    <item>
                                         <name>wg.access.provisioning.internal.client</name>
                                         <inputSpec>
                                             ${project.basedir}/src/main/resources/swagger/wg-access-provisioning/swagger.yaml
@@ -175,6 +163,35 @@
                                         <name>wg.access.provisioning.external.client</name>
                                         <inputSpec>
                                             ${project.basedir}/src/main/resources/swagger/wg-access-provisioning/swagger-external.yaml
+                                        </inputSpec>
+                                    </item>
+                                </items>
+                            </bulk>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>generate-clients-olt-ri</id>
+                        <phase>generate-sources</phase>
+                        <goals>
+                            <goal>generate</goal>
+                        </goals>
+                        <configuration>
+                            <configOptions>
+                                <dateLibrary>java8-localdatetime</dateLibrary>
+                            </configOptions>
+                            <bulk>
+                                <basePackage>${project.groupId}.osr</basePackage>
+                                <items>
+                                    <item>
+                                        <name>olt.resource.inventory.internal.client</name>
+                                        <inputSpec>
+                                            ${project.basedir}/src/main/resources/swagger/olt-resource-inventory/internal-swagger.yaml
+                                        </inputSpec>
+                                    </item>
+                                    <item>
+                                        <name>olt.resource.inventory.external.client</name>
+                                        <inputSpec>
+                                            ${project.basedir}/src/main/resources/swagger/olt-resource-inventory/external-swagger.yaml
                                         </inputSpec>
                                     </item>
                                 </items>
