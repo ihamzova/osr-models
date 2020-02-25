@@ -54,64 +54,65 @@ info:
     \ pattern  |\n| -----------------------  |---------------  |-------------------------------------\
     \  |-----------  |--------------------------------------------------------------------------------------------------------------------------------------------------------\
     \  |\n|    id     |    integer     |           |    M      |       |"
-  version: "v1"
+  version: "3.2.0"
   title: "OLT Resource Inventory"
 host: "localhost:8080"
 tags:
-  - name: "AccessLineExternalController"
-  - name: "AssuranceExternalController"
-  - name: "AssuranceExternalControllerV2"
-  - name: "DeviceExternalController"
-  - name: "HomeIdExternalController"
+- name: "AccessLineExternalController"
+- name: "AssuranceExternalController"
+- name: "AssuranceExternalControllerV2"
+- name: "AssuranceExternalControllerV3"
+- name: "DeviceExternalController"
+- name: "HomeIdExternalController"
 schemes:
-  - "http"
+- "http"
 paths:
   /resource-order-resource-inventory/v1/assurance/accessLine:
     get:
       tags:
-        - "AssuranceExternalController"
+      - "AssuranceExternalController"
       summary: "Find Access Line by criteria"
       description: ""
       operationId: "findAccessLinesByCriteria"
       produces:
-        - "application/xml"
+      - "application/xml"
       parameters:
-        - name: "lineId"
-          in: "query"
-          description: ""
-          required: false
-          type: "string"
-        - name: "ontId"
-          in: "query"
-          description: ""
-          required: false
-          type: "integer"
-          format: "int32"
-        - name: "ontSerialNumber"
-          in: "query"
-          description: ""
-          required: false
-          type: "string"
-        - name: "technology"
-          in: "query"
-          description: ""
-          required: false
-          type: "string"
-          enum:
-            - "GFAST"
-            - "GPON"
-        - name: "X-Business-Context"
-          in: "header"
-          description: "The business context is a general classification for a larger\
+      - name: "lineId"
+        in: "query"
+        description: ""
+        required: false
+        type: "string"
+      - name: "ontId"
+        in: "query"
+        description: ""
+        required: false
+        type: "integer"
+        format: "int32"
+      - name: "ontSerialNumber"
+        in: "query"
+        description: ""
+        required: false
+        type: "string"
+      - name: "technology"
+        in: "query"
+        description: ""
+        required: false
+        type: "string"
+        enum:
+        - "GFAST"
+        - "GPON"
+      - name: "X-Business-Context"
+        in: "header"
+        description: "The business context is a general classification for a larger\
           \ number of requests (types) usually set by the originating consumer. Any\
           \ service receiving this header parameter MUST forward it unmodified to\
           \ other services it invokes. Non-REST technologies (e.g. SOABP) might use\
           \ a different identifier for this attribute."
-          required: false
-          type: "string"
-        - name: "X-Correlation-ID"
-          in: "header"
-          description: "Value for identifying a single transaction across multiple services\
+        required: false
+        type: "string"
+      - name: "X-Correlation-ID"
+        in: "header"
+        description: "Value for identifying a single transaction across multiple services\
           \ up to the backend. Usually set by the originating consumer.Any service\
           \ receiving this header parameter MUST forward it unmodified to other services\
           \ it invokes. Non-REST technologies (e.g. SOABP) might use a different identifier\
@@ -120,19 +121,19 @@ paths:
           \ 256 characters MUST NOT be exceeded (a standard UUID has 36 characters).\
           \ The creator MAY prefix the UUID with an application and/or instance defined\
           \ string."
-          required: false
-          type: "string"
-        - name: "X-Request-ID"
-          in: "header"
-          description: "Value to identify an individual request across consuming application,\
+        required: false
+        type: "string"
+      - name: "X-Request-ID"
+        in: "header"
+        description: "Value to identify an individual request across consuming application,\
           \ middleware and service provider. This ID is to be generated for every\
           \ single request and not to be passed down (as X-Correlation-ID) to sub-services.\
           \ Every consuming application MUST create this value as UUID. The maximum\
           \ length of 256 characters MUST NOT be exceeded (a standard UUID has 36\
           \ characters). The creator MAY prefix the UUID with an application and/or\
           \ instance defined string."
-          required: false
-          type: "string"
+        required: false
+        type: "string"
       responses:
         200:
           description: "Successfully found"
@@ -151,30 +152,30 @@ paths:
   /resource-order-resource-inventory/v1/assurance/accessLine/{id}:
     get:
       tags:
-        - "AssuranceExternalController"
+      - "AssuranceExternalController"
       summary: "Find Access Line by id"
       description: ""
       operationId: "findAccessLineById"
       produces:
-        - "application/xml"
+      - "application/xml"
       parameters:
-        - name: "id"
-          in: "path"
-          required: true
-          type: "integer"
-          format: "int64"
-        - name: "X-Business-Context"
-          in: "header"
-          description: "The business context is a general classification for a larger\
+      - name: "id"
+        in: "path"
+        required: true
+        type: "integer"
+        format: "int64"
+      - name: "X-Business-Context"
+        in: "header"
+        description: "The business context is a general classification for a larger\
           \ number of requests (types) usually set by the originating consumer. Any\
           \ service receiving this header parameter MUST forward it unmodified to\
           \ other services it invokes. Non-REST technologies (e.g. SOABP) might use\
           \ a different identifier for this attribute."
-          required: false
-          type: "string"
-        - name: "X-Correlation-ID"
-          in: "header"
-          description: "Value for identifying a single transaction across multiple services\
+        required: false
+        type: "string"
+      - name: "X-Correlation-ID"
+        in: "header"
+        description: "Value for identifying a single transaction across multiple services\
           \ up to the backend. Usually set by the originating consumer.Any service\
           \ receiving this header parameter MUST forward it unmodified to other services\
           \ it invokes. Non-REST technologies (e.g. SOABP) might use a different identifier\
@@ -183,19 +184,19 @@ paths:
           \ 256 characters MUST NOT be exceeded (a standard UUID has 36 characters).\
           \ The creator MAY prefix the UUID with an application and/or instance defined\
           \ string."
-          required: false
-          type: "string"
-        - name: "X-Request-ID"
-          in: "header"
-          description: "Value to identify an individual request across consuming application,\
+        required: false
+        type: "string"
+      - name: "X-Request-ID"
+        in: "header"
+        description: "Value to identify an individual request across consuming application,\
           \ middleware and service provider. This ID is to be generated for every\
           \ single request and not to be passed down (as X-Correlation-ID) to sub-services.\
           \ Every consuming application MUST create this value as UUID. The maximum\
           \ length of 256 characters MUST NOT be exceeded (a standard UUID has 36\
           \ characters). The creator MAY prefix the UUID with an application and/or\
           \ instance defined string."
-          required: false
-          type: "string"
+        required: false
+        type: "string"
       responses:
         200:
           description: "Successfully found"
@@ -212,46 +213,46 @@ paths:
   /resource-order-resource-inventory/v1/assurance/card:
     get:
       tags:
-        - "AssuranceExternalController"
+      - "AssuranceExternalController"
       summary: "Find card by criteria"
       description: ""
       operationId: "findCardByCriteria"
       produces:
-        - "application/xml"
+      - "application/xml"
       parameters:
-        - name: "cardtype"
-          in: "query"
-          description: ""
-          required: false
-          type: "string"
-          enum:
-            - "GPON"
-            - "UPLINK_CARD"
-            - "MANAGEMENT_CARD"
-            - "SUPPORT_MODULE"
-            - "PROCESSING_BOARD"
-        - name: "emsName"
-          in: "query"
-          description: ""
-          required: false
-          type: "string"
-        - name: "firmwareVersion"
-          in: "query"
-          description: ""
-          required: false
-          type: "string"
-        - name: "X-Business-Context"
-          in: "header"
-          description: "The business context is a general classification for a larger\
+      - name: "cardtype"
+        in: "query"
+        description: ""
+        required: false
+        type: "string"
+        enum:
+        - "GPON"
+        - "UPLINK_CARD"
+        - "MANAGEMENT_CARD"
+        - "SUPPORT_MODULE"
+        - "PROCESSING_BOARD"
+      - name: "emsName"
+        in: "query"
+        description: ""
+        required: false
+        type: "string"
+      - name: "firmwareVersion"
+        in: "query"
+        description: ""
+        required: false
+        type: "string"
+      - name: "X-Business-Context"
+        in: "header"
+        description: "The business context is a general classification for a larger\
           \ number of requests (types) usually set by the originating consumer. Any\
           \ service receiving this header parameter MUST forward it unmodified to\
           \ other services it invokes. Non-REST technologies (e.g. SOABP) might use\
           \ a different identifier for this attribute."
-          required: false
-          type: "string"
-        - name: "X-Correlation-ID"
-          in: "header"
-          description: "Value for identifying a single transaction across multiple services\
+        required: false
+        type: "string"
+      - name: "X-Correlation-ID"
+        in: "header"
+        description: "Value for identifying a single transaction across multiple services\
           \ up to the backend. Usually set by the originating consumer.Any service\
           \ receiving this header parameter MUST forward it unmodified to other services\
           \ it invokes. Non-REST technologies (e.g. SOABP) might use a different identifier\
@@ -260,19 +261,19 @@ paths:
           \ 256 characters MUST NOT be exceeded (a standard UUID has 36 characters).\
           \ The creator MAY prefix the UUID with an application and/or instance defined\
           \ string."
-          required: false
-          type: "string"
-        - name: "X-Request-ID"
-          in: "header"
-          description: "Value to identify an individual request across consuming application,\
+        required: false
+        type: "string"
+      - name: "X-Request-ID"
+        in: "header"
+        description: "Value to identify an individual request across consuming application,\
           \ middleware and service provider. This ID is to be generated for every\
           \ single request and not to be passed down (as X-Correlation-ID) to sub-services.\
           \ Every consuming application MUST create this value as UUID. The maximum\
           \ length of 256 characters MUST NOT be exceeded (a standard UUID has 36\
           \ characters). The creator MAY prefix the UUID with an application and/or\
           \ instance defined string."
-          required: false
-          type: "string"
+        required: false
+        type: "string"
       responses:
         200:
           description: "Successfully found"
@@ -291,30 +292,30 @@ paths:
   /resource-order-resource-inventory/v1/assurance/card/{cardId}:
     get:
       tags:
-        - "AssuranceExternalController"
+      - "AssuranceExternalController"
       summary: "Find card by id"
       description: ""
       operationId: "findCardById"
       produces:
-        - "application/xml"
+      - "application/xml"
       parameters:
-        - name: "cardId"
-          in: "path"
-          required: true
-          type: "integer"
-          format: "int64"
-        - name: "X-Business-Context"
-          in: "header"
-          description: "The business context is a general classification for a larger\
+      - name: "cardId"
+        in: "path"
+        required: true
+        type: "integer"
+        format: "int64"
+      - name: "X-Business-Context"
+        in: "header"
+        description: "The business context is a general classification for a larger\
           \ number of requests (types) usually set by the originating consumer. Any\
           \ service receiving this header parameter MUST forward it unmodified to\
           \ other services it invokes. Non-REST technologies (e.g. SOABP) might use\
           \ a different identifier for this attribute."
-          required: false
-          type: "string"
-        - name: "X-Correlation-ID"
-          in: "header"
-          description: "Value for identifying a single transaction across multiple services\
+        required: false
+        type: "string"
+      - name: "X-Correlation-ID"
+        in: "header"
+        description: "Value for identifying a single transaction across multiple services\
           \ up to the backend. Usually set by the originating consumer.Any service\
           \ receiving this header parameter MUST forward it unmodified to other services\
           \ it invokes. Non-REST technologies (e.g. SOABP) might use a different identifier\
@@ -323,19 +324,19 @@ paths:
           \ 256 characters MUST NOT be exceeded (a standard UUID has 36 characters).\
           \ The creator MAY prefix the UUID with an application and/or instance defined\
           \ string."
-          required: false
-          type: "string"
-        - name: "X-Request-ID"
-          in: "header"
-          description: "Value to identify an individual request across consuming application,\
+        required: false
+        type: "string"
+      - name: "X-Request-ID"
+        in: "header"
+        description: "Value to identify an individual request across consuming application,\
           \ middleware and service provider. This ID is to be generated for every\
           \ single request and not to be passed down (as X-Correlation-ID) to sub-services.\
           \ Every consuming application MUST create this value as UUID. The maximum\
           \ length of 256 characters MUST NOT be exceeded (a standard UUID has 36\
           \ characters). The creator MAY prefix the UUID with an application and/or\
           \ instance defined string."
-          required: false
-          type: "string"
+        required: false
+        type: "string"
       responses:
         200:
           description: "Successfully found"
@@ -352,53 +353,53 @@ paths:
   /resource-order-resource-inventory/v1/assurance/device:
     get:
       tags:
-        - "AssuranceExternalController"
+      - "AssuranceExternalController"
       summary: "Find device by criteria"
       description: ""
       operationId: "findDeviceByCriteria"
       produces:
-        - "application/xml"
+      - "application/xml"
       parameters:
-        - name: "devicetype"
-          in: "query"
-          description: ""
-          required: false
-          type: "string"
-          enum:
-            - "OLT"
-            - "BNG"
-        - name: "emsName"
-          in: "query"
-          description: ""
-          required: false
-          type: "string"
-        - name: "endsz"
-          in: "query"
-          description: ""
-          required: false
-          type: "string"
-        - name: "fsz"
-          in: "query"
-          description: ""
-          required: false
-          type: "string"
-        - name: "vpsz"
-          in: "query"
-          description: ""
-          required: false
-          type: "string"
-        - name: "X-Business-Context"
-          in: "header"
-          description: "The business context is a general classification for a larger\
+      - name: "devicetype"
+        in: "query"
+        description: ""
+        required: false
+        type: "string"
+        enum:
+        - "OLT"
+        - "BNG"
+      - name: "emsName"
+        in: "query"
+        description: ""
+        required: false
+        type: "string"
+      - name: "endsz"
+        in: "query"
+        description: ""
+        required: false
+        type: "string"
+      - name: "fsz"
+        in: "query"
+        description: ""
+        required: false
+        type: "string"
+      - name: "vpsz"
+        in: "query"
+        description: ""
+        required: false
+        type: "string"
+      - name: "X-Business-Context"
+        in: "header"
+        description: "The business context is a general classification for a larger\
           \ number of requests (types) usually set by the originating consumer. Any\
           \ service receiving this header parameter MUST forward it unmodified to\
           \ other services it invokes. Non-REST technologies (e.g. SOABP) might use\
           \ a different identifier for this attribute."
-          required: false
-          type: "string"
-        - name: "X-Correlation-ID"
-          in: "header"
-          description: "Value for identifying a single transaction across multiple services\
+        required: false
+        type: "string"
+      - name: "X-Correlation-ID"
+        in: "header"
+        description: "Value for identifying a single transaction across multiple services\
           \ up to the backend. Usually set by the originating consumer.Any service\
           \ receiving this header parameter MUST forward it unmodified to other services\
           \ it invokes. Non-REST technologies (e.g. SOABP) might use a different identifier\
@@ -407,19 +408,19 @@ paths:
           \ 256 characters MUST NOT be exceeded (a standard UUID has 36 characters).\
           \ The creator MAY prefix the UUID with an application and/or instance defined\
           \ string."
-          required: false
-          type: "string"
-        - name: "X-Request-ID"
-          in: "header"
-          description: "Value to identify an individual request across consuming application,\
+        required: false
+        type: "string"
+      - name: "X-Request-ID"
+        in: "header"
+        description: "Value to identify an individual request across consuming application,\
           \ middleware and service provider. This ID is to be generated for every\
           \ single request and not to be passed down (as X-Correlation-ID) to sub-services.\
           \ Every consuming application MUST create this value as UUID. The maximum\
           \ length of 256 characters MUST NOT be exceeded (a standard UUID has 36\
           \ characters). The creator MAY prefix the UUID with an application and/or\
           \ instance defined string."
-          required: false
-          type: "string"
+        required: false
+        type: "string"
       responses:
         200:
           description: "Successfully found"
@@ -438,30 +439,30 @@ paths:
   /resource-order-resource-inventory/v1/assurance/device/{deviceId}:
     get:
       tags:
-        - "AssuranceExternalController"
+      - "AssuranceExternalController"
       summary: "Find device by id"
       description: ""
       operationId: "findDeviceById"
       produces:
-        - "application/xml"
+      - "application/xml"
       parameters:
-        - name: "deviceId"
-          in: "path"
-          required: true
-          type: "integer"
-          format: "int64"
-        - name: "X-Business-Context"
-          in: "header"
-          description: "The business context is a general classification for a larger\
+      - name: "deviceId"
+        in: "path"
+        required: true
+        type: "integer"
+        format: "int64"
+      - name: "X-Business-Context"
+        in: "header"
+        description: "The business context is a general classification for a larger\
           \ number of requests (types) usually set by the originating consumer. Any\
           \ service receiving this header parameter MUST forward it unmodified to\
           \ other services it invokes. Non-REST technologies (e.g. SOABP) might use\
           \ a different identifier for this attribute."
-          required: false
-          type: "string"
-        - name: "X-Correlation-ID"
-          in: "header"
-          description: "Value for identifying a single transaction across multiple services\
+        required: false
+        type: "string"
+      - name: "X-Correlation-ID"
+        in: "header"
+        description: "Value for identifying a single transaction across multiple services\
           \ up to the backend. Usually set by the originating consumer.Any service\
           \ receiving this header parameter MUST forward it unmodified to other services\
           \ it invokes. Non-REST technologies (e.g. SOABP) might use a different identifier\
@@ -470,19 +471,19 @@ paths:
           \ 256 characters MUST NOT be exceeded (a standard UUID has 36 characters).\
           \ The creator MAY prefix the UUID with an application and/or instance defined\
           \ string."
-          required: false
-          type: "string"
-        - name: "X-Request-ID"
-          in: "header"
-          description: "Value to identify an individual request across consuming application,\
+        required: false
+        type: "string"
+      - name: "X-Request-ID"
+        in: "header"
+        description: "Value to identify an individual request across consuming application,\
           \ middleware and service provider. This ID is to be generated for every\
           \ single request and not to be passed down (as X-Correlation-ID) to sub-services.\
           \ Every consuming application MUST create this value as UUID. The maximum\
           \ length of 256 characters MUST NOT be exceeded (a standard UUID has 36\
           \ characters). The creator MAY prefix the UUID with an application and/or\
           \ instance defined string."
-          required: false
-          type: "string"
+        required: false
+        type: "string"
       responses:
         200:
           description: "Successfully found"
@@ -499,45 +500,45 @@ paths:
   /resource-order-resource-inventory/v1/assurance/ethernetlink:
     get:
       tags:
-        - "AssuranceExternalController"
+      - "AssuranceExternalController"
       summary: "Find uplinks by filter criteria"
       description: ""
       operationId: "findUplinksByCriteria"
       produces:
-        - "application/xml"
+      - "application/xml"
       parameters:
-        - name: "bngEndSz"
-          in: "query"
-          description: ""
-          required: false
-          type: "string"
-        - name: "lbz"
-          in: "query"
-          description: ""
-          required: false
-          type: "string"
-        - name: "lsz"
-          in: "query"
-          description: ""
-          required: false
-          type: "string"
-        - name: "oltEndSz"
-          in: "query"
-          description: ""
-          required: false
-          type: "string"
-        - name: "X-Business-Context"
-          in: "header"
-          description: "The business context is a general classification for a larger\
+      - name: "bngEndSz"
+        in: "query"
+        description: ""
+        required: false
+        type: "string"
+      - name: "lbz"
+        in: "query"
+        description: ""
+        required: false
+        type: "string"
+      - name: "lsz"
+        in: "query"
+        description: ""
+        required: false
+        type: "string"
+      - name: "oltEndSz"
+        in: "query"
+        description: ""
+        required: false
+        type: "string"
+      - name: "X-Business-Context"
+        in: "header"
+        description: "The business context is a general classification for a larger\
           \ number of requests (types) usually set by the originating consumer. Any\
           \ service receiving this header parameter MUST forward it unmodified to\
           \ other services it invokes. Non-REST technologies (e.g. SOABP) might use\
           \ a different identifier for this attribute."
-          required: false
-          type: "string"
-        - name: "X-Correlation-ID"
-          in: "header"
-          description: "Value for identifying a single transaction across multiple services\
+        required: false
+        type: "string"
+      - name: "X-Correlation-ID"
+        in: "header"
+        description: "Value for identifying a single transaction across multiple services\
           \ up to the backend. Usually set by the originating consumer.Any service\
           \ receiving this header parameter MUST forward it unmodified to other services\
           \ it invokes. Non-REST technologies (e.g. SOABP) might use a different identifier\
@@ -546,19 +547,19 @@ paths:
           \ 256 characters MUST NOT be exceeded (a standard UUID has 36 characters).\
           \ The creator MAY prefix the UUID with an application and/or instance defined\
           \ string."
-          required: false
-          type: "string"
-        - name: "X-Request-ID"
-          in: "header"
-          description: "Value to identify an individual request across consuming application,\
+        required: false
+        type: "string"
+      - name: "X-Request-ID"
+        in: "header"
+        description: "Value to identify an individual request across consuming application,\
           \ middleware and service provider. This ID is to be generated for every\
           \ single request and not to be passed down (as X-Correlation-ID) to sub-services.\
           \ Every consuming application MUST create this value as UUID. The maximum\
           \ length of 256 characters MUST NOT be exceeded (a standard UUID has 36\
           \ characters). The creator MAY prefix the UUID with an application and/or\
           \ instance defined string."
-          required: false
-          type: "string"
+        required: false
+        type: "string"
       responses:
         200:
           description: "Successfully found"
@@ -577,30 +578,30 @@ paths:
   /resource-order-resource-inventory/v1/assurance/ethernetlink/{id}:
     get:
       tags:
-        - "AssuranceExternalController"
+      - "AssuranceExternalController"
       summary: "Find uplink by id"
       description: ""
       operationId: "findUplinkById"
       produces:
-        - "application/xml"
+      - "application/xml"
       parameters:
-        - name: "id"
-          in: "path"
-          required: true
-          type: "integer"
-          format: "int64"
-        - name: "X-Business-Context"
-          in: "header"
-          description: "The business context is a general classification for a larger\
+      - name: "id"
+        in: "path"
+        required: true
+        type: "integer"
+        format: "int64"
+      - name: "X-Business-Context"
+        in: "header"
+        description: "The business context is a general classification for a larger\
           \ number of requests (types) usually set by the originating consumer. Any\
           \ service receiving this header parameter MUST forward it unmodified to\
           \ other services it invokes. Non-REST technologies (e.g. SOABP) might use\
           \ a different identifier for this attribute."
-          required: false
-          type: "string"
-        - name: "X-Correlation-ID"
-          in: "header"
-          description: "Value for identifying a single transaction across multiple services\
+        required: false
+        type: "string"
+      - name: "X-Correlation-ID"
+        in: "header"
+        description: "Value for identifying a single transaction across multiple services\
           \ up to the backend. Usually set by the originating consumer.Any service\
           \ receiving this header parameter MUST forward it unmodified to other services\
           \ it invokes. Non-REST technologies (e.g. SOABP) might use a different identifier\
@@ -609,19 +610,19 @@ paths:
           \ 256 characters MUST NOT be exceeded (a standard UUID has 36 characters).\
           \ The creator MAY prefix the UUID with an application and/or instance defined\
           \ string."
-          required: false
-          type: "string"
-        - name: "X-Request-ID"
-          in: "header"
-          description: "Value to identify an individual request across consuming application,\
+        required: false
+        type: "string"
+      - name: "X-Request-ID"
+        in: "header"
+        description: "Value to identify an individual request across consuming application,\
           \ middleware and service provider. This ID is to be generated for every\
           \ single request and not to be passed down (as X-Correlation-ID) to sub-services.\
           \ Every consuming application MUST create this value as UUID. The maximum\
           \ length of 256 characters MUST NOT be exceeded (a standard UUID has 36\
           \ characters). The creator MAY prefix the UUID with an application and/or\
           \ instance defined string."
-          required: false
-          type: "string"
+        required: false
+        type: "string"
       responses:
         200:
           description: "Successfully found"
@@ -638,38 +639,38 @@ paths:
   /resource-order-resource-inventory/v1/assurance/port:
     get:
       tags:
-        - "AssuranceExternalController"
+      - "AssuranceExternalController"
       summary: "Find Port by Name and Type"
       description: ""
       operationId: "findPortsByCriteria"
       produces:
-        - "application/xml"
+      - "application/xml"
       parameters:
-        - name: "name"
-          in: "query"
-          description: ""
-          required: false
-          type: "string"
-        - name: "porttype"
-          in: "query"
-          description: ""
-          required: false
-          type: "string"
-          enum:
-            - "PON"
-            - "ETHERNET"
-        - name: "X-Business-Context"
-          in: "header"
-          description: "The business context is a general classification for a larger\
+      - name: "name"
+        in: "query"
+        description: ""
+        required: false
+        type: "string"
+      - name: "porttype"
+        in: "query"
+        description: ""
+        required: false
+        type: "string"
+        enum:
+        - "PON"
+        - "ETHERNET"
+      - name: "X-Business-Context"
+        in: "header"
+        description: "The business context is a general classification for a larger\
           \ number of requests (types) usually set by the originating consumer. Any\
           \ service receiving this header parameter MUST forward it unmodified to\
           \ other services it invokes. Non-REST technologies (e.g. SOABP) might use\
           \ a different identifier for this attribute."
-          required: false
-          type: "string"
-        - name: "X-Correlation-ID"
-          in: "header"
-          description: "Value for identifying a single transaction across multiple services\
+        required: false
+        type: "string"
+      - name: "X-Correlation-ID"
+        in: "header"
+        description: "Value for identifying a single transaction across multiple services\
           \ up to the backend. Usually set by the originating consumer.Any service\
           \ receiving this header parameter MUST forward it unmodified to other services\
           \ it invokes. Non-REST technologies (e.g. SOABP) might use a different identifier\
@@ -678,19 +679,19 @@ paths:
           \ 256 characters MUST NOT be exceeded (a standard UUID has 36 characters).\
           \ The creator MAY prefix the UUID with an application and/or instance defined\
           \ string."
-          required: false
-          type: "string"
-        - name: "X-Request-ID"
-          in: "header"
-          description: "Value to identify an individual request across consuming application,\
+        required: false
+        type: "string"
+      - name: "X-Request-ID"
+        in: "header"
+        description: "Value to identify an individual request across consuming application,\
           \ middleware and service provider. This ID is to be generated for every\
           \ single request and not to be passed down (as X-Correlation-ID) to sub-services.\
           \ Every consuming application MUST create this value as UUID. The maximum\
           \ length of 256 characters MUST NOT be exceeded (a standard UUID has 36\
           \ characters). The creator MAY prefix the UUID with an application and/or\
           \ instance defined string."
-          required: false
-          type: "string"
+        required: false
+        type: "string"
       responses:
         200:
           description: "Successfully found"
@@ -709,30 +710,30 @@ paths:
   /resource-order-resource-inventory/v1/assurance/port/{id}:
     get:
       tags:
-        - "AssuranceExternalController"
+      - "AssuranceExternalController"
       summary: "Find port by id"
       description: ""
       operationId: "findPortById"
       produces:
-        - "application/xml"
+      - "application/xml"
       parameters:
-        - name: "id"
-          in: "path"
-          required: true
-          type: "integer"
-          format: "int64"
-        - name: "X-Business-Context"
-          in: "header"
-          description: "The business context is a general classification for a larger\
+      - name: "id"
+        in: "path"
+        required: true
+        type: "integer"
+        format: "int64"
+      - name: "X-Business-Context"
+        in: "header"
+        description: "The business context is a general classification for a larger\
           \ number of requests (types) usually set by the originating consumer. Any\
           \ service receiving this header parameter MUST forward it unmodified to\
           \ other services it invokes. Non-REST technologies (e.g. SOABP) might use\
           \ a different identifier for this attribute."
-          required: false
-          type: "string"
-        - name: "X-Correlation-ID"
-          in: "header"
-          description: "Value for identifying a single transaction across multiple services\
+        required: false
+        type: "string"
+      - name: "X-Correlation-ID"
+        in: "header"
+        description: "Value for identifying a single transaction across multiple services\
           \ up to the backend. Usually set by the originating consumer.Any service\
           \ receiving this header parameter MUST forward it unmodified to other services\
           \ it invokes. Non-REST technologies (e.g. SOABP) might use a different identifier\
@@ -741,19 +742,19 @@ paths:
           \ 256 characters MUST NOT be exceeded (a standard UUID has 36 characters).\
           \ The creator MAY prefix the UUID with an application and/or instance defined\
           \ string."
-          required: false
-          type: "string"
-        - name: "X-Request-ID"
-          in: "header"
-          description: "Value to identify an individual request across consuming application,\
+        required: false
+        type: "string"
+      - name: "X-Request-ID"
+        in: "header"
+        description: "Value to identify an individual request across consuming application,\
           \ middleware and service provider. This ID is to be generated for every\
           \ single request and not to be passed down (as X-Correlation-ID) to sub-services.\
           \ Every consuming application MUST create this value as UUID. The maximum\
           \ length of 256 characters MUST NOT be exceeded (a standard UUID has 36\
           \ characters). The creator MAY prefix the UUID with an application and/or\
           \ instance defined string."
-          required: false
-          type: "string"
+        required: false
+        type: "string"
       responses:
         200:
           description: "Successfully found"
@@ -770,49 +771,49 @@ paths:
   /resource-order-resource-inventory/v1/homeId:
     put:
       tags:
-        - "HomeIdExternalController"
+      - "HomeIdExternalController"
       summary: "Appends HomeIds to HomeIdPool by endSZ, slotNumber and portNumber."
       description: ""
       operationId: "addHomeIds"
       consumes:
-        - "application/json"
+      - "application/json"
       produces:
-        - "application/json"
+      - "application/json"
       parameters:
-        - name: "endSz"
-          in: "query"
-          description: "EndSz"
-          required: true
-          type: "string"
-          pattern: "[0-9]{1,6}\\/[0-9]{1,6}\\/[0-9]{1,6}\\/[a-zA-Z0-9]{2,4}"
-        - name: "slotNumber"
-          in: "query"
-          description: "Slot number"
-          required: true
-          type: "string"
-        - name: "portNumber"
-          in: "query"
-          description: "Port number"
-          required: true
-          type: "string"
-        - in: "body"
-          name: "body"
-          description: "HomeIds list"
-          required: true
-          schema:
-            $ref: "#/definitions/HomeIdListDto"
-        - name: "X-Business-Context"
-          in: "header"
-          description: "The business context is a general classification for a larger\
+      - name: "endSz"
+        in: "query"
+        description: "EndSz"
+        required: true
+        type: "string"
+        pattern: "[0-9]{1,6}\\/[0-9]{1,6}\\/[0-9]{1,6}\\/[a-zA-Z0-9]{2,4}"
+      - name: "slotNumber"
+        in: "query"
+        description: "Slot number"
+        required: true
+        type: "string"
+      - name: "portNumber"
+        in: "query"
+        description: "Port number"
+        required: true
+        type: "string"
+      - in: "body"
+        name: "body"
+        description: "HomeIds list"
+        required: true
+        schema:
+          $ref: "#/definitions/HomeIdListDto"
+      - name: "X-Business-Context"
+        in: "header"
+        description: "The business context is a general classification for a larger\
           \ number of requests (types) usually set by the originating consumer. Any\
           \ service receiving this header parameter MUST forward it unmodified to\
           \ other services it invokes. Non-REST technologies (e.g. SOABP) might use\
           \ a different identifier for this attribute."
-          required: false
-          type: "string"
-        - name: "X-Correlation-ID"
-          in: "header"
-          description: "Value for identifying a single transaction across multiple services\
+        required: false
+        type: "string"
+      - name: "X-Correlation-ID"
+        in: "header"
+        description: "Value for identifying a single transaction across multiple services\
           \ up to the backend. Usually set by the originating consumer.Any service\
           \ receiving this header parameter MUST forward it unmodified to other services\
           \ it invokes. Non-REST technologies (e.g. SOABP) might use a different identifier\
@@ -821,19 +822,19 @@ paths:
           \ 256 characters MUST NOT be exceeded (a standard UUID has 36 characters).\
           \ The creator MAY prefix the UUID with an application and/or instance defined\
           \ string."
-          required: false
-          type: "string"
-        - name: "X-Request-ID"
-          in: "header"
-          description: "Value to identify an individual request across consuming application,\
+        required: false
+        type: "string"
+      - name: "X-Request-ID"
+        in: "header"
+        description: "Value to identify an individual request across consuming application,\
           \ middleware and service provider. This ID is to be generated for every\
           \ single request and not to be passed down (as X-Correlation-ID) to sub-services.\
           \ Every consuming application MUST create this value as UUID. The maximum\
           \ length of 256 characters MUST NOT be exceeded (a standard UUID has 36\
           \ characters). The creator MAY prefix the UUID with an application and/or\
           \ instance defined string."
-          required: false
-          type: "string"
+        required: false
+        type: "string"
       responses:
         201:
           description: "HomeIds were added to HomeIdPool"
@@ -848,31 +849,31 @@ paths:
   /resource-order-resource-inventory/v1/homeId/requestFreeHomeId:
     put:
       tags:
-        - "HomeIdExternalController"
+      - "HomeIdExternalController"
       summary: "Request a free HomeID, that is assigned to the given PON-Port."
       description: ""
       operationId: "requestFreeHomeId"
       parameters:
-        - in: "body"
-          name: "body"
-          description: "Pon Port Reference with vpSz (for example *49/30/179*), fachSz\
+      - in: "body"
+        name: "body"
+        description: "Pon Port Reference with vpSz (for example *49/30/179*), fachSz\
           \ (for example *76H1*), slotNumber (example: *4*), portNumber (example:\
           \ *1*)"
-          required: true
-          schema:
-            $ref: "#/definitions/PonPortReferenceDto"
-        - name: "X-Business-Context"
-          in: "header"
-          description: "The business context is a general classification for a larger\
+        required: true
+        schema:
+          $ref: "#/definitions/PonPortReferenceDto"
+      - name: "X-Business-Context"
+        in: "header"
+        description: "The business context is a general classification for a larger\
           \ number of requests (types) usually set by the originating consumer. Any\
           \ service receiving this header parameter MUST forward it unmodified to\
           \ other services it invokes. Non-REST technologies (e.g. SOABP) might use\
           \ a different identifier for this attribute."
-          required: false
-          type: "string"
-        - name: "X-Correlation-ID"
-          in: "header"
-          description: "Value for identifying a single transaction across multiple services\
+        required: false
+        type: "string"
+      - name: "X-Correlation-ID"
+        in: "header"
+        description: "Value for identifying a single transaction across multiple services\
           \ up to the backend. Usually set by the originating consumer.Any service\
           \ receiving this header parameter MUST forward it unmodified to other services\
           \ it invokes. Non-REST technologies (e.g. SOABP) might use a different identifier\
@@ -881,19 +882,19 @@ paths:
           \ 256 characters MUST NOT be exceeded (a standard UUID has 36 characters).\
           \ The creator MAY prefix the UUID with an application and/or instance defined\
           \ string."
-          required: false
-          type: "string"
-        - name: "X-Request-ID"
-          in: "header"
-          description: "Value to identify an individual request across consuming application,\
+        required: false
+        type: "string"
+      - name: "X-Request-ID"
+        in: "header"
+        description: "Value to identify an individual request across consuming application,\
           \ middleware and service provider. This ID is to be generated for every\
           \ single request and not to be passed down (as X-Correlation-ID) to sub-services.\
           \ Every consuming application MUST create this value as UUID. The maximum\
           \ length of 256 characters MUST NOT be exceeded (a standard UUID has 36\
           \ characters). The creator MAY prefix the UUID with an application and/or\
           \ instance defined string."
-          required: false
-          type: "string"
+        required: false
+        type: "string"
       responses:
         200:
           description: "HomeId was succesfully given"
@@ -910,29 +911,29 @@ paths:
   /resource-order-resource-inventory/v1/homeId/status/assigned:
     put:
       tags:
-        - "HomeIdExternalController"
+      - "HomeIdExternalController"
       summary: "Change selected homeId status to \"Assigned\"."
       description: ""
       operationId: "assignHomeId"
       parameters:
-        - in: "body"
-          name: "body"
-          description: "homeId"
-          required: true
-          schema:
-            type: "string"
-        - name: "X-Business-Context"
-          in: "header"
-          description: "The business context is a general classification for a larger\
+      - in: "body"
+        name: "body"
+        description: "homeId"
+        required: true
+        schema:
+          type: "string"
+      - name: "X-Business-Context"
+        in: "header"
+        description: "The business context is a general classification for a larger\
           \ number of requests (types) usually set by the originating consumer. Any\
           \ service receiving this header parameter MUST forward it unmodified to\
           \ other services it invokes. Non-REST technologies (e.g. SOABP) might use\
           \ a different identifier for this attribute."
-          required: false
-          type: "string"
-        - name: "X-Correlation-ID"
-          in: "header"
-          description: "Value for identifying a single transaction across multiple services\
+        required: false
+        type: "string"
+      - name: "X-Correlation-ID"
+        in: "header"
+        description: "Value for identifying a single transaction across multiple services\
           \ up to the backend. Usually set by the originating consumer.Any service\
           \ receiving this header parameter MUST forward it unmodified to other services\
           \ it invokes. Non-REST technologies (e.g. SOABP) might use a different identifier\
@@ -941,19 +942,19 @@ paths:
           \ 256 characters MUST NOT be exceeded (a standard UUID has 36 characters).\
           \ The creator MAY prefix the UUID with an application and/or instance defined\
           \ string."
-          required: false
-          type: "string"
-        - name: "X-Request-ID"
-          in: "header"
-          description: "Value to identify an individual request across consuming application,\
+        required: false
+        type: "string"
+      - name: "X-Request-ID"
+        in: "header"
+        description: "Value to identify an individual request across consuming application,\
           \ middleware and service provider. This ID is to be generated for every\
           \ single request and not to be passed down (as X-Correlation-ID) to sub-services.\
           \ Every consuming application MUST create this value as UUID. The maximum\
           \ length of 256 characters MUST NOT be exceeded (a standard UUID has 36\
           \ characters). The creator MAY prefix the UUID with an application and/or\
           \ instance defined string."
-          required: false
-          type: "string"
+        required: false
+        type: "string"
       responses:
         204:
           description: "HomeId has assigned"
@@ -964,33 +965,33 @@ paths:
   /resource-order-resource-inventory/v1/managementAccessLine/info:
     post:
       tags:
-        - "AccessLineExternalController"
+      - "AccessLineExternalController"
       summary: "Find or Get an access line by Line Id"
       description: ""
       operationId: "getLineInfo"
       consumes:
-        - "application/json;charset=UTF-8"
+      - "application/json;charset=UTF-8"
       produces:
-        - "application/json;charset=UTF-8"
+      - "application/json;charset=UTF-8"
       parameters:
-        - in: "body"
-          name: "body"
-          description: "lineId"
-          required: true
-          schema:
-            $ref: "#/definitions/LineIdDto"
-        - name: "X-Business-Context"
-          in: "header"
-          description: "The business context is a general classification for a larger\
+      - in: "body"
+        name: "body"
+        description: "lineId"
+        required: true
+        schema:
+          $ref: "#/definitions/LineIdDto"
+      - name: "X-Business-Context"
+        in: "header"
+        description: "The business context is a general classification for a larger\
           \ number of requests (types) usually set by the originating consumer. Any\
           \ service receiving this header parameter MUST forward it unmodified to\
           \ other services it invokes. Non-REST technologies (e.g. SOABP) might use\
           \ a different identifier for this attribute."
-          required: false
-          type: "string"
-        - name: "X-Correlation-ID"
-          in: "header"
-          description: "Value for identifying a single transaction across multiple services\
+        required: false
+        type: "string"
+      - name: "X-Correlation-ID"
+        in: "header"
+        description: "Value for identifying a single transaction across multiple services\
           \ up to the backend. Usually set by the originating consumer. Any service\
           \ receiving this header parameter MUST forward it unmodified to other services\
           \ it invokes. Non-REST technologies (e.g. SOABP) might use a different identifier\
@@ -999,19 +1000,19 @@ paths:
           \ 256 characters MUST NOT be exceeded (a standard UUID has 36 characters).\
           \ The creator MAY prefix the UUID with an application and/or instance defined\
           \ string."
-          required: false
-          type: "string"
-        - name: "X-Request-ID"
-          in: "header"
-          description: "Value to identify an individual request across consuming application,\
+        required: false
+        type: "string"
+      - name: "X-Request-ID"
+        in: "header"
+        description: "Value to identify an individual request across consuming application,\
           \ middleware and service provider. This ID is to be generated for every\
           \ single request and not to be passed down (as X-Correlation-ID) to sub-services.\
           \ Every consuming application MUST create this value as UUID. The maximum\
           \ length of 256 characters MUST NOT be exceeded (a standard UUID has 36\
           \ characters). The creator MAY prefix the UUID with an application and/or\
           \ instance defined string."
-          required: false
-          type: "string"
+        required: false
+        type: "string"
       responses:
         200:
           description: "Successfully sent"
@@ -1032,68 +1033,68 @@ paths:
   /resource-order-resource-inventory/v1/managementAccessLine/search:
     post:
       tags:
-        - "AccessLineExternalController"
+      - "AccessLineExternalController"
       summary: "Gets AccessLines by requestManagementAccessLineDto and managementUIPage."
       description: "Gets AccessLines by input parameters for search and with additional\
         \ sort parameters."
       operationId: "search"
       consumes:
-        - "application/json;charset=UTF-8"
+      - "application/json;charset=UTF-8"
       produces:
-        - "application/json;charset=UTF-8"
+      - "application/json;charset=UTF-8"
       parameters:
-        - in: "body"
-          name: "body"
-          description: "Request AccessLineViewDto"
-          required: false
-          schema:
-            $ref: "#/definitions/RequestAccessLineViewDto"
-        - name: "direction"
-          in: "query"
-          description: "direction"
-          required: false
-          type: "string"
-          enum:
-            - "ASC"
-            - "DESC"
-        - name: "page"
-          in: "query"
-          description: "page"
-          required: false
-          type: "integer"
-          format: "int32"
-        - name: "pageSize"
-          in: "query"
-          description: "pageSize"
-          required: false
-          type: "integer"
-          format: "int32"
-        - name: "sortField"
-          in: "query"
-          description: "sortField"
-          required: false
-          type: "string"
-          enum:
-            - "END_SZ"
-            - "SLOT_NUMBER"
-            - "PORT_NUMBER"
-            - "LINE_ID"
-            - "HOME_ID"
-            - "ACCESS_LINE_STATUS"
-            - "SUBSCRIBER_NE_PROFILE_STATE"
-            - "SUBSCRIBER_NETWORK_LINE_PROFILE_STATE"
-        - name: "X-Business-Context"
-          in: "header"
-          description: "The business context is a general classification for a larger\
+      - in: "body"
+        name: "body"
+        description: "Request AccessLineViewDto"
+        required: false
+        schema:
+          $ref: "#/definitions/RequestAccessLineViewDto"
+      - name: "direction"
+        in: "query"
+        description: "direction"
+        required: false
+        type: "string"
+        enum:
+        - "ASC"
+        - "DESC"
+      - name: "page"
+        in: "query"
+        description: "page"
+        required: false
+        type: "integer"
+        format: "int32"
+      - name: "pageSize"
+        in: "query"
+        description: "pageSize"
+        required: false
+        type: "integer"
+        format: "int32"
+      - name: "sortField"
+        in: "query"
+        description: "sortField"
+        required: false
+        type: "string"
+        enum:
+        - "END_SZ"
+        - "SLOT_NUMBER"
+        - "PORT_NUMBER"
+        - "LINE_ID"
+        - "HOME_ID"
+        - "ACCESS_LINE_STATUS"
+        - "SUBSCRIBER_NE_PROFILE_STATE"
+        - "SUBSCRIBER_NETWORK_LINE_PROFILE_STATE"
+      - name: "X-Business-Context"
+        in: "header"
+        description: "The business context is a general classification for a larger\
           \ number of requests (types) usually set by the originating consumer. Any\
           \ service receiving this header parameter MUST forward it unmodified to\
           \ other services it invokes. Non-REST technologies (e.g. SOABP) might use\
           \ a different identifier for this attribute."
-          required: false
-          type: "string"
-        - name: "X-Correlation-ID"
-          in: "header"
-          description: "Value for identifying a single transaction across multiple services\
+        required: false
+        type: "string"
+      - name: "X-Correlation-ID"
+        in: "header"
+        description: "Value for identifying a single transaction across multiple services\
           \ up to the backend. Usually set by the originating consumer. Any service\
           \ receiving this header parameter MUST forward it unmodified to other services\
           \ it invokes. Non-REST technologies (e.g. SOABP) might use a different identifier\
@@ -1102,19 +1103,19 @@ paths:
           \ 256 characters MUST NOT be exceeded (a standard UUID has 36 characters).\
           \ The creator MAY prefix the UUID with an application and/or instance defined\
           \ string."
-          required: false
-          type: "string"
-        - name: "X-Request-ID"
-          in: "header"
-          description: "Value to identify an individual request across consuming application,\
+        required: false
+        type: "string"
+      - name: "X-Request-ID"
+        in: "header"
+        description: "Value to identify an individual request across consuming application,\
           \ middleware and service provider. This ID is to be generated for every\
           \ single request and not to be passed down (as X-Correlation-ID) to sub-services.\
           \ Every consuming application MUST create this value as UUID. The maximum\
           \ length of 256 characters MUST NOT be exceeded (a standard UUID has 36\
           \ characters). The creator MAY prefix the UUID with an application and/or\
           \ instance defined string."
-          required: false
-          type: "string"
+        required: false
+        type: "string"
       responses:
         200:
           description: "Successfully received"
@@ -1135,32 +1136,32 @@ paths:
   /resource-order-resource-inventory/v1/olt:
     get:
       tags:
-        - "DeviceExternalController"
+      - "DeviceExternalController"
       summary: "Get Device by EndSz"
       description: ""
       operationId: "getOltByEndSZ"
       produces:
-        - "application/json"
+      - "application/json"
       parameters:
-        - name: "endSZ"
-          in: "query"
-          description: "endSZ"
-          required: true
-          type: "string"
-          pattern: "[0-9]{1,6}\\/[0-9]{1,6}\\/[0-9]{1,6}\\/[a-zA-Z0-9]{2,4}"
-          allowEmptyValue: true
-        - name: "X-Business-Context"
-          in: "header"
-          description: "The business context is a general classification for a larger\
+      - name: "endSZ"
+        in: "query"
+        description: "endSZ"
+        required: true
+        type: "string"
+        pattern: "[0-9]{1,6}\\/[0-9]{1,6}\\/[0-9]{1,6}\\/[a-zA-Z0-9]{2,4}"
+        allowEmptyValue: true
+      - name: "X-Business-Context"
+        in: "header"
+        description: "The business context is a general classification for a larger\
           \ number of requests (types) usually set by the originating consumer. Any\
           \ service receiving this header parameter MUST forward it unmodified to\
           \ other services it invokes. Non-REST technologies (e.g. SOABP) might use\
           \ a different identifier for this attribute."
-          required: false
-          type: "string"
-        - name: "X-Correlation-ID"
-          in: "header"
-          description: "Value for identifying a single transaction across multiple services\
+        required: false
+        type: "string"
+      - name: "X-Correlation-ID"
+        in: "header"
+        description: "Value for identifying a single transaction across multiple services\
           \ up to the backend. Usually set by the originating consumer.Any service\
           \ receiving this header parameter MUST forward it unmodified to other services\
           \ it invokes. Non-REST technologies (e.g. SOABP) might use a different identifier\
@@ -1169,19 +1170,19 @@ paths:
           \ 256 characters MUST NOT be exceeded (a standard UUID has 36 characters).\
           \ The creator MAY prefix the UUID with an application and/or instance defined\
           \ string."
-          required: false
-          type: "string"
-        - name: "X-Request-ID"
-          in: "header"
-          description: "Value to identify an individual request across consuming application,\
+        required: false
+        type: "string"
+      - name: "X-Request-ID"
+        in: "header"
+        description: "Value to identify an individual request across consuming application,\
           \ middleware and service provider. This ID is to be generated for every\
           \ single request and not to be passed down (as X-Correlation-ID) to sub-services.\
           \ Every consuming application MUST create this value as UUID. The maximum\
           \ length of 256 characters MUST NOT be exceeded (a standard UUID has 36\
           \ characters). The creator MAY prefix the UUID with an application and/or\
           \ instance defined string."
-          required: false
-          type: "string"
+        required: false
+        type: "string"
       responses:
         200:
           description: "Successfully found"
@@ -1197,32 +1198,32 @@ paths:
             $ref: "#/definitions/ErrorResponse"
     post:
       tags:
-        - "DeviceExternalController"
+      - "DeviceExternalController"
       summary: "Create OLT by EndSz"
       description: ""
       operationId: "createOltByEndSZ"
       produces:
-        - "application/json"
+      - "application/json"
       parameters:
-        - name: "endSZ"
-          in: "query"
-          description: "endSZ"
-          required: true
-          type: "string"
-          pattern: "[0-9]{1,6}\\/[0-9]{1,6}\\/[0-9]{1,6}\\/[a-zA-Z0-9]{2,4}"
-          allowEmptyValue: true
-        - name: "X-Business-Context"
-          in: "header"
-          description: "The business context is a general classification for a larger\
+      - name: "endSZ"
+        in: "query"
+        description: "endSZ"
+        required: true
+        type: "string"
+        pattern: "[0-9]{1,6}\\/[0-9]{1,6}\\/[0-9]{1,6}\\/[a-zA-Z0-9]{2,4}"
+        allowEmptyValue: true
+      - name: "X-Business-Context"
+        in: "header"
+        description: "The business context is a general classification for a larger\
           \ number of requests (types) usually set by the originating consumer. Any\
           \ service receiving this header parameter MUST forward it unmodified to\
           \ other services it invokes. Non-REST technologies (e.g. SOABP) might use\
           \ a different identifier for this attribute."
-          required: false
-          type: "string"
-        - name: "X-Correlation-ID"
-          in: "header"
-          description: "Value for identifying a single transaction across multiple services\
+        required: false
+        type: "string"
+      - name: "X-Correlation-ID"
+        in: "header"
+        description: "Value for identifying a single transaction across multiple services\
           \ up to the backend. Usually set by the originating consumer.Any service\
           \ receiving this header parameter MUST forward it unmodified to other services\
           \ it invokes. Non-REST technologies (e.g. SOABP) might use a different identifier\
@@ -1231,19 +1232,19 @@ paths:
           \ 256 characters MUST NOT be exceeded (a standard UUID has 36 characters).\
           \ The creator MAY prefix the UUID with an application and/or instance defined\
           \ string."
-          required: false
-          type: "string"
-        - name: "X-Request-ID"
-          in: "header"
-          description: "Value to identify an individual request across consuming application,\
+        required: false
+        type: "string"
+      - name: "X-Request-ID"
+        in: "header"
+        description: "Value to identify an individual request across consuming application,\
           \ middleware and service provider. This ID is to be generated for every\
           \ single request and not to be passed down (as X-Correlation-ID) to sub-services.\
           \ Every consuming application MUST create this value as UUID. The maximum\
           \ length of 256 characters MUST NOT be exceeded (a standard UUID has 36\
           \ characters). The creator MAY prefix the UUID with an application and/or\
           \ instance defined string."
-          required: false
-          type: "string"
+        required: false
+        type: "string"
       responses:
         200:
           description: "Successfully found"
@@ -1263,31 +1264,31 @@ paths:
             $ref: "#/definitions/ErrorResponse"
     put:
       tags:
-        - "DeviceExternalController"
+      - "DeviceExternalController"
       summary: "Create a OLT"
       description: ""
       operationId: "saveDevice"
       produces:
-        - "application/json"
+      - "application/json"
       parameters:
-        - in: "body"
-          name: "body"
-          description: "Properties of Olt"
-          required: false
-          schema:
-            $ref: "#/definitions/Device"
-        - name: "X-Business-Context"
-          in: "header"
-          description: "The business context is a general classification for a larger\
+      - in: "body"
+        name: "body"
+        description: "Properties of Olt"
+        required: false
+        schema:
+          $ref: "#/definitions/Device"
+      - name: "X-Business-Context"
+        in: "header"
+        description: "The business context is a general classification for a larger\
           \ number of requests (types) usually set by the originating consumer. Any\
           \ service receiving this header parameter MUST forward it unmodified to\
           \ other services it invokes. Non-REST technologies (e.g. SOABP) might use\
           \ a different identifier for this attribute."
-          required: false
-          type: "string"
-        - name: "X-Correlation-ID"
-          in: "header"
-          description: "Value for identifying a single transaction across multiple services\
+        required: false
+        type: "string"
+      - name: "X-Correlation-ID"
+        in: "header"
+        description: "Value for identifying a single transaction across multiple services\
           \ up to the backend. Usually set by the originating consumer.Any service\
           \ receiving this header parameter MUST forward it unmodified to other services\
           \ it invokes. Non-REST technologies (e.g. SOABP) might use a different identifier\
@@ -1296,19 +1297,19 @@ paths:
           \ 256 characters MUST NOT be exceeded (a standard UUID has 36 characters).\
           \ The creator MAY prefix the UUID with an application and/or instance defined\
           \ string."
-          required: false
-          type: "string"
-        - name: "X-Request-ID"
-          in: "header"
-          description: "Value to identify an individual request across consuming application,\
+        required: false
+        type: "string"
+      - name: "X-Request-ID"
+        in: "header"
+        description: "Value to identify an individual request across consuming application,\
           \ middleware and service provider. This ID is to be generated for every\
           \ single request and not to be passed down (as X-Correlation-ID) to sub-services.\
           \ Every consuming application MUST create this value as UUID. The maximum\
           \ length of 256 characters MUST NOT be exceeded (a standard UUID has 36\
           \ characters). The creator MAY prefix the UUID with an application and/or\
           \ instance defined string."
-          required: false
-          type: "string"
+        required: false
+        type: "string"
       responses:
         200:
           description: "Successfully added"
@@ -1324,32 +1325,32 @@ paths:
             $ref: "#/definitions/ErrorResponse"
     delete:
       tags:
-        - "DeviceExternalController"
+      - "DeviceExternalController"
       summary: "Delete a Device"
       description: ""
       operationId: "deleteDevice"
       produces:
-        - "application/json"
+      - "application/json"
       parameters:
-        - name: "endSZ"
-          in: "query"
-          description: "Properties of Device"
-          required: true
-          type: "string"
-          pattern: "[0-9]{1,6}\\/[0-9]{1,6}\\/[0-9]{1,6}\\/[a-zA-Z0-9]{2,4}"
-          allowEmptyValue: true
-        - name: "X-Business-Context"
-          in: "header"
-          description: "The business context is a general classification for a larger\
+      - name: "endSZ"
+        in: "query"
+        description: "Properties of Device"
+        required: true
+        type: "string"
+        pattern: "[0-9]{1,6}\\/[0-9]{1,6}\\/[0-9]{1,6}\\/[a-zA-Z0-9]{2,4}"
+        allowEmptyValue: true
+      - name: "X-Business-Context"
+        in: "header"
+        description: "The business context is a general classification for a larger\
           \ number of requests (types) usually set by the originating consumer. Any\
           \ service receiving this header parameter MUST forward it unmodified to\
           \ other services it invokes. Non-REST technologies (e.g. SOABP) might use\
           \ a different identifier for this attribute."
-          required: false
-          type: "string"
-        - name: "X-Correlation-ID"
-          in: "header"
-          description: "Value for identifying a single transaction across multiple services\
+        required: false
+        type: "string"
+      - name: "X-Correlation-ID"
+        in: "header"
+        description: "Value for identifying a single transaction across multiple services\
           \ up to the backend. Usually set by the originating consumer.Any service\
           \ receiving this header parameter MUST forward it unmodified to other services\
           \ it invokes. Non-REST technologies (e.g. SOABP) might use a different identifier\
@@ -1358,19 +1359,19 @@ paths:
           \ 256 characters MUST NOT be exceeded (a standard UUID has 36 characters).\
           \ The creator MAY prefix the UUID with an application and/or instance defined\
           \ string."
-          required: false
-          type: "string"
-        - name: "X-Request-ID"
-          in: "header"
-          description: "Value to identify an individual request across consuming application,\
+        required: false
+        type: "string"
+      - name: "X-Request-ID"
+        in: "header"
+        description: "Value to identify an individual request across consuming application,\
           \ middleware and service provider. This ID is to be generated for every\
           \ single request and not to be passed down (as X-Correlation-ID) to sub-services.\
           \ Every consuming application MUST create this value as UUID. The maximum\
           \ length of 256 characters MUST NOT be exceeded (a standard UUID has 36\
           \ characters). The creator MAY prefix the UUID with an application and/or\
           \ instance defined string."
-          required: false
-          type: "string"
+        required: false
+        type: "string"
       responses:
         200:
           description: "Successfully deleted"
@@ -1391,29 +1392,29 @@ paths:
   /resource-order-resource-inventory/v1/olt/findBngByOltEndSz:
     post:
       tags:
-        - "DeviceExternalController"
+      - "DeviceExternalController"
       summary: "Find bng by olt endSz"
       description: ""
       operationId: "findBngByOltEndSz"
       parameters:
-        - name: "oltEndSz"
-          in: "query"
-          description: "OLT EndSz"
-          required: true
-          type: "string"
-          pattern: "[0-9]{1,6}\\/[0-9]{1,6}\\/[0-9]{1,6}\\/[a-zA-Z0-9]{2,4}"
-        - name: "X-Business-Context"
-          in: "header"
-          description: "The business context is a general classification for a larger\
+      - name: "oltEndSz"
+        in: "query"
+        description: "OLT EndSz"
+        required: true
+        type: "string"
+        pattern: "[0-9]{1,6}\\/[0-9]{1,6}\\/[0-9]{1,6}\\/[a-zA-Z0-9]{2,4}"
+      - name: "X-Business-Context"
+        in: "header"
+        description: "The business context is a general classification for a larger\
           \ number of requests (types) usually set by the originating consumer. Any\
           \ service receiving this header parameter MUST forward it unmodified to\
           \ other services it invokes. Non-REST technologies (e.g. SOABP) might use\
           \ a different identifier for this attribute."
-          required: false
-          type: "string"
-        - name: "X-Correlation-ID"
-          in: "header"
-          description: "Value for identifying a single transaction across multiple services\
+        required: false
+        type: "string"
+      - name: "X-Correlation-ID"
+        in: "header"
+        description: "Value for identifying a single transaction across multiple services\
           \ up to the backend. Usually set by the originating consumer.Any service\
           \ receiving this header parameter MUST forward it unmodified to other services\
           \ it invokes. Non-REST technologies (e.g. SOABP) might use a different identifier\
@@ -1422,19 +1423,19 @@ paths:
           \ 256 characters MUST NOT be exceeded (a standard UUID has 36 characters).\
           \ The creator MAY prefix the UUID with an application and/or instance defined\
           \ string."
-          required: false
-          type: "string"
-        - name: "X-Request-ID"
-          in: "header"
-          description: "Value to identify an individual request across consuming application,\
+        required: false
+        type: "string"
+      - name: "X-Request-ID"
+        in: "header"
+        description: "Value to identify an individual request across consuming application,\
           \ middleware and service provider. This ID is to be generated for every\
           \ single request and not to be passed down (as X-Correlation-ID) to sub-services.\
           \ Every consuming application MUST create this value as UUID. The maximum\
           \ length of 256 characters MUST NOT be exceeded (a standard UUID has 36\
           \ characters). The creator MAY prefix the UUID with an application and/or\
           \ instance defined string."
-          required: false
-          type: "string"
+        required: false
+        type: "string"
       responses:
         200:
           description: "Successfully found"
@@ -1453,39 +1454,39 @@ paths:
   /resource-order-resource-inventory/v1/olt/findDeviceByPortId:
     post:
       tags:
-        - "DeviceExternalController"
+      - "DeviceExternalController"
       summary: "Find device by port id"
       description: ""
       operationId: "findDeviceByPortId"
       produces:
-        - "application/json"
+      - "application/json"
       parameters:
-        - name: "portId"
-          in: "query"
-          description: "Port id"
-          required: true
-          type: "integer"
-          allowEmptyValue: true
-          format: "int64"
-        - name: "type"
-          in: "query"
-          required: false
-          type: "string"
-          enum:
-            - "OLT"
-            - "BNG"
-        - name: "X-Business-Context"
-          in: "header"
-          description: "The business context is a general classification for a larger\
+      - name: "portId"
+        in: "query"
+        description: "Port id"
+        required: true
+        type: "integer"
+        allowEmptyValue: true
+        format: "int64"
+      - name: "type"
+        in: "query"
+        required: false
+        type: "string"
+        enum:
+        - "OLT"
+        - "BNG"
+      - name: "X-Business-Context"
+        in: "header"
+        description: "The business context is a general classification for a larger\
           \ number of requests (types) usually set by the originating consumer. Any\
           \ service receiving this header parameter MUST forward it unmodified to\
           \ other services it invokes. Non-REST technologies (e.g. SOABP) might use\
           \ a different identifier for this attribute."
-          required: false
-          type: "string"
-        - name: "X-Correlation-ID"
-          in: "header"
-          description: "Value for identifying a single transaction across multiple services\
+        required: false
+        type: "string"
+      - name: "X-Correlation-ID"
+        in: "header"
+        description: "Value for identifying a single transaction across multiple services\
           \ up to the backend. Usually set by the originating consumer.Any service\
           \ receiving this header parameter MUST forward it unmodified to other services\
           \ it invokes. Non-REST technologies (e.g. SOABP) might use a different identifier\
@@ -1494,19 +1495,19 @@ paths:
           \ 256 characters MUST NOT be exceeded (a standard UUID has 36 characters).\
           \ The creator MAY prefix the UUID with an application and/or instance defined\
           \ string."
-          required: false
-          type: "string"
-        - name: "X-Request-ID"
-          in: "header"
-          description: "Value to identify an individual request across consuming application,\
+        required: false
+        type: "string"
+      - name: "X-Request-ID"
+        in: "header"
+        description: "Value to identify an individual request across consuming application,\
           \ middleware and service provider. This ID is to be generated for every\
           \ single request and not to be passed down (as X-Correlation-ID) to sub-services.\
           \ Every consuming application MUST create this value as UUID. The maximum\
           \ length of 256 characters MUST NOT be exceeded (a standard UUID has 36\
           \ characters). The creator MAY prefix the UUID with an application and/or\
           \ instance defined string."
-          required: false
-          type: "string"
+        required: false
+        type: "string"
       responses:
         200:
           description: "Successfully found"
@@ -1523,31 +1524,31 @@ paths:
   /resource-order-resource-inventory/v1/olt/findEndSzByDeviceType:
     post:
       tags:
-        - "DeviceExternalController"
+      - "DeviceExternalController"
       summary: "Find EndSz's by Device-Type"
       description: ""
       operationId: "findEndSzByDeviceType"
       parameters:
-        - name: "type"
-          in: "query"
-          description: "Device-Type"
-          required: true
-          type: "string"
-          enum:
-            - "OLT"
-            - "BNG"
-        - name: "X-Business-Context"
-          in: "header"
-          description: "The business context is a general classification for a larger\
+      - name: "type"
+        in: "query"
+        description: "Device-Type"
+        required: true
+        type: "string"
+        enum:
+        - "OLT"
+        - "BNG"
+      - name: "X-Business-Context"
+        in: "header"
+        description: "The business context is a general classification for a larger\
           \ number of requests (types) usually set by the originating consumer. Any\
           \ service receiving this header parameter MUST forward it unmodified to\
           \ other services it invokes. Non-REST technologies (e.g. SOABP) might use\
           \ a different identifier for this attribute."
-          required: false
-          type: "string"
-        - name: "X-Correlation-ID"
-          in: "header"
-          description: "Value for identifying a single transaction across multiple services\
+        required: false
+        type: "string"
+      - name: "X-Correlation-ID"
+        in: "header"
+        description: "Value for identifying a single transaction across multiple services\
           \ up to the backend. Usually set by the originating consumer.Any service\
           \ receiving this header parameter MUST forward it unmodified to other services\
           \ it invokes. Non-REST technologies (e.g. SOABP) might use a different identifier\
@@ -1556,19 +1557,19 @@ paths:
           \ 256 characters MUST NOT be exceeded (a standard UUID has 36 characters).\
           \ The creator MAY prefix the UUID with an application and/or instance defined\
           \ string."
-          required: false
-          type: "string"
-        - name: "X-Request-ID"
-          in: "header"
-          description: "Value to identify an individual request across consuming application,\
+        required: false
+        type: "string"
+      - name: "X-Request-ID"
+        in: "header"
+        description: "Value to identify an individual request across consuming application,\
           \ middleware and service provider. This ID is to be generated for every\
           \ single request and not to be passed down (as X-Correlation-ID) to sub-services.\
           \ Every consuming application MUST create this value as UUID. The maximum\
           \ length of 256 characters MUST NOT be exceeded (a standard UUID has 36\
           \ characters). The creator MAY prefix the UUID with an application and/or\
           \ instance defined string."
-          required: false
-          type: "string"
+        required: false
+        type: "string"
       responses:
         200:
           description: "Successfully found"
@@ -1587,17 +1588,17 @@ paths:
   /resource-order-resource-inventory/v1/olt/findFlatOltByEndsz:
     get:
       tags:
-        - "DeviceExternalController"
+      - "DeviceExternalController"
       summary: "Find flat OLT (without related objects) by Endsz"
       description: ""
       operationId: "findFlatOltbyEndsz"
       parameters:
-        - name: "endsz"
-          in: "query"
-          description: "OLT EndSz"
-          required: true
-          type: "string"
-          pattern: "[0-9]{1,6}\\/[0-9]{1,6}\\/[0-9]{1,6}\\/[a-zA-Z0-9]{2,4}"
+      - name: "endsz"
+        in: "query"
+        description: "OLT EndSz"
+        required: true
+        type: "string"
+        pattern: "[0-9]{1,6}\\/[0-9]{1,6}\\/[0-9]{1,6}\\/[a-zA-Z0-9]{2,4}"
       responses:
         200:
           description: "Successfully found"
@@ -1614,29 +1615,29 @@ paths:
   /resource-order-resource-inventory/v1/olt/findOltByLineId:
     post:
       tags:
-        - "DeviceExternalController"
+      - "DeviceExternalController"
       summary: "Find OLT by LineId"
       description: ""
       operationId: "findOltByLineId"
       parameters:
-        - in: "body"
-          name: "body"
-          description: "LineId"
-          required: true
-          schema:
-            type: "string"
-        - name: "X-Business-Context"
-          in: "header"
-          description: "The business context is a general classification for a larger\
+      - in: "body"
+        name: "body"
+        description: "LineId"
+        required: true
+        schema:
+          type: "string"
+      - name: "X-Business-Context"
+        in: "header"
+        description: "The business context is a general classification for a larger\
           \ number of requests (types) usually set by the originating consumer. Any\
           \ service receiving this header parameter MUST forward it unmodified to\
           \ other services it invokes. Non-REST technologies (e.g. SOABP) might use\
           \ a different identifier for this attribute."
-          required: false
-          type: "string"
-        - name: "X-Correlation-ID"
-          in: "header"
-          description: "Value for identifying a single transaction across multiple services\
+        required: false
+        type: "string"
+      - name: "X-Correlation-ID"
+        in: "header"
+        description: "Value for identifying a single transaction across multiple services\
           \ up to the backend. Usually set by the originating consumer.Any service\
           \ receiving this header parameter MUST forward it unmodified to other services\
           \ it invokes. Non-REST technologies (e.g. SOABP) might use a different identifier\
@@ -1645,19 +1646,19 @@ paths:
           \ 256 characters MUST NOT be exceeded (a standard UUID has 36 characters).\
           \ The creator MAY prefix the UUID with an application and/or instance defined\
           \ string."
-          required: false
-          type: "string"
-        - name: "X-Request-ID"
-          in: "header"
-          description: "Value to identify an individual request across consuming application,\
+        required: false
+        type: "string"
+      - name: "X-Request-ID"
+        in: "header"
+        description: "Value to identify an individual request across consuming application,\
           \ middleware and service provider. This ID is to be generated for every\
           \ single request and not to be passed down (as X-Correlation-ID) to sub-services.\
           \ Every consuming application MUST create this value as UUID. The maximum\
           \ length of 256 characters MUST NOT be exceeded (a standard UUID has 36\
           \ characters). The creator MAY prefix the UUID with an application and/or\
           \ instance defined string."
-          required: false
-          type: "string"
+        required: false
+        type: "string"
       responses:
         200:
           description: "Successfully found"
@@ -1674,30 +1675,30 @@ paths:
   /resource-order-resource-inventory/v1/olt/getoltbyhomeid:
     post:
       tags:
-        - "DeviceExternalController"
+      - "DeviceExternalController"
       summary: "Get Device by Home-ID"
       description: ""
       operationId: "getoltbyhomeid"
       produces:
-        - "application/json"
+      - "application/json"
       parameters:
-        - in: "body"
-          name: "body"
-          required: false
-          schema:
-            type: "string"
-        - name: "X-Business-Context"
-          in: "header"
-          description: "The business context is a general classification for a larger\
+      - in: "body"
+        name: "body"
+        required: false
+        schema:
+          type: "string"
+      - name: "X-Business-Context"
+        in: "header"
+        description: "The business context is a general classification for a larger\
           \ number of requests (types) usually set by the originating consumer. Any\
           \ service receiving this header parameter MUST forward it unmodified to\
           \ other services it invokes. Non-REST technologies (e.g. SOABP) might use\
           \ a different identifier for this attribute."
-          required: false
-          type: "string"
-        - name: "X-Correlation-ID"
-          in: "header"
-          description: "Value for identifying a single transaction across multiple services\
+        required: false
+        type: "string"
+      - name: "X-Correlation-ID"
+        in: "header"
+        description: "Value for identifying a single transaction across multiple services\
           \ up to the backend. Usually set by the originating consumer.Any service\
           \ receiving this header parameter MUST forward it unmodified to other services\
           \ it invokes. Non-REST technologies (e.g. SOABP) might use a different identifier\
@@ -1706,19 +1707,19 @@ paths:
           \ 256 characters MUST NOT be exceeded (a standard UUID has 36 characters).\
           \ The creator MAY prefix the UUID with an application and/or instance defined\
           \ string."
-          required: false
-          type: "string"
-        - name: "X-Request-ID"
-          in: "header"
-          description: "Value to identify an individual request across consuming application,\
+        required: false
+        type: "string"
+      - name: "X-Request-ID"
+        in: "header"
+        description: "Value to identify an individual request across consuming application,\
           \ middleware and service provider. This ID is to be generated for every\
           \ single request and not to be passed down (as X-Correlation-ID) to sub-services.\
           \ Every consuming application MUST create this value as UUID. The maximum\
           \ length of 256 characters MUST NOT be exceeded (a standard UUID has 36\
           \ characters). The creator MAY prefix the UUID with an application and/or\
           \ instance defined string."
-          required: false
-          type: "string"
+        required: false
+        type: "string"
       responses:
         200:
           description: "Successfully found"
@@ -1735,32 +1736,32 @@ paths:
   /resource-order-resource-inventory/v1/olt/removeSlotFromDevice:
     post:
       tags:
-        - "DeviceExternalController"
+      - "DeviceExternalController"
       summary: "Remove Equipmentholder by id"
       description: ""
       operationId: "removeSlotFromDevice"
       produces:
-        - "application/json"
+      - "application/json"
       parameters:
-        - name: "equipmentHolderId"
-          in: "query"
-          description: "Id of the equipmentholder"
-          required: true
-          type: "integer"
-          allowEmptyValue: true
-          format: "int64"
-        - name: "X-Business-Context"
-          in: "header"
-          description: "The business context is a general classification for a larger\
+      - name: "equipmentHolderId"
+        in: "query"
+        description: "Id of the equipmentholder"
+        required: true
+        type: "integer"
+        allowEmptyValue: true
+        format: "int64"
+      - name: "X-Business-Context"
+        in: "header"
+        description: "The business context is a general classification for a larger\
           \ number of requests (types) usually set by the originating consumer. Any\
           \ service receiving this header parameter MUST forward it unmodified to\
           \ other services it invokes. Non-REST technologies (e.g. SOABP) might use\
           \ a different identifier for this attribute."
-          required: false
-          type: "string"
-        - name: "X-Correlation-ID"
-          in: "header"
-          description: "Value for identifying a single transaction across multiple services\
+        required: false
+        type: "string"
+      - name: "X-Correlation-ID"
+        in: "header"
+        description: "Value for identifying a single transaction across multiple services\
           \ up to the backend. Usually set by the originating consumer.Any service\
           \ receiving this header parameter MUST forward it unmodified to other services\
           \ it invokes. Non-REST technologies (e.g. SOABP) might use a different identifier\
@@ -1769,19 +1770,19 @@ paths:
           \ 256 characters MUST NOT be exceeded (a standard UUID has 36 characters).\
           \ The creator MAY prefix the UUID with an application and/or instance defined\
           \ string."
-          required: false
-          type: "string"
-        - name: "X-Request-ID"
-          in: "header"
-          description: "Value to identify an individual request across consuming application,\
+        required: false
+        type: "string"
+      - name: "X-Request-ID"
+        in: "header"
+        description: "Value to identify an individual request across consuming application,\
           \ middleware and service provider. This ID is to be generated for every\
           \ single request and not to be passed down (as X-Correlation-ID) to sub-services.\
           \ Every consuming application MUST create this value as UUID. The maximum\
           \ length of 256 characters MUST NOT be exceeded (a standard UUID has 36\
           \ characters). The creator MAY prefix the UUID with an application and/or\
           \ instance defined string."
-          required: false
-          type: "string"
+        required: false
+        type: "string"
       responses:
         200:
           description: "Successfully found"
@@ -1796,37 +1797,37 @@ paths:
   /resource-order-resource-inventory/v1/olt/updateKlsId:
     put:
       tags:
-        - "DeviceExternalController"
+      - "DeviceExternalController"
       summary: "Update Kls Id of OLT"
       description: ""
       operationId: "updateKlsId"
       produces:
-        - "application/json"
+      - "application/json"
       parameters:
-        - name: "endSZ"
-          in: "query"
-          description: "endSZ"
-          required: true
-          type: "string"
-          pattern: "[0-9]{1,6}\\/[0-9]{1,6}\\/[0-9]{1,6}\\/[a-zA-Z0-9]{2,4}"
-          allowEmptyValue: true
-        - name: "klsID"
-          in: "query"
-          required: false
-          type: "integer"
-          format: "int64"
-        - name: "X-Business-Context"
-          in: "header"
-          description: "The business context is a general classification for a larger\
+      - name: "endSZ"
+        in: "query"
+        description: "endSZ"
+        required: true
+        type: "string"
+        pattern: "[0-9]{1,6}\\/[0-9]{1,6}\\/[0-9]{1,6}\\/[a-zA-Z0-9]{2,4}"
+        allowEmptyValue: true
+      - name: "klsID"
+        in: "query"
+        required: false
+        type: "integer"
+        format: "int64"
+      - name: "X-Business-Context"
+        in: "header"
+        description: "The business context is a general classification for a larger\
           \ number of requests (types) usually set by the originating consumer. Any\
           \ service receiving this header parameter MUST forward it unmodified to\
           \ other services it invokes. Non-REST technologies (e.g. SOABP) might use\
           \ a different identifier for this attribute."
-          required: false
-          type: "string"
-        - name: "X-Correlation-ID"
-          in: "header"
-          description: "Value for identifying a single transaction across multiple services\
+        required: false
+        type: "string"
+      - name: "X-Correlation-ID"
+        in: "header"
+        description: "Value for identifying a single transaction across multiple services\
           \ up to the backend. Usually set by the originating consumer.Any service\
           \ receiving this header parameter MUST forward it unmodified to other services\
           \ it invokes. Non-REST technologies (e.g. SOABP) might use a different identifier\
@@ -1835,19 +1836,19 @@ paths:
           \ 256 characters MUST NOT be exceeded (a standard UUID has 36 characters).\
           \ The creator MAY prefix the UUID with an application and/or instance defined\
           \ string."
-          required: false
-          type: "string"
-        - name: "X-Request-ID"
-          in: "header"
-          description: "Value to identify an individual request across consuming application,\
+        required: false
+        type: "string"
+      - name: "X-Request-ID"
+        in: "header"
+        description: "Value to identify an individual request across consuming application,\
           \ middleware and service provider. This ID is to be generated for every\
           \ single request and not to be passed down (as X-Correlation-ID) to sub-services.\
           \ Every consuming application MUST create this value as UUID. The maximum\
           \ length of 256 characters MUST NOT be exceeded (a standard UUID has 36\
           \ characters). The creator MAY prefix the UUID with an application and/or\
           \ instance defined string."
-          required: false
-          type: "string"
+        required: false
+        type: "string"
       responses:
         200:
           description: "Successfully added"
@@ -1864,40 +1865,40 @@ paths:
   /resource-order-resource-inventory/v1/olt/vpszlookup:
     get:
       tags:
-        - "DeviceExternalController"
+      - "DeviceExternalController"
       summary: "Returns all EndSz's based on the DeviceType and VPSZ based on EndSz\
         \ Like% search."
       description: ""
       operationId: "getOltsByEndSzSegment"
       produces:
-        - "application/json"
+      - "application/json"
       parameters:
-        - name: "vpsz"
-          in: "query"
-          description: " Part of Endsz"
-          required: true
-          type: "string"
-          pattern: "^[0-9]{1,6}\\/[0-9]{1,6}\\/[0-9]{1,6}[\\/a-zA-Z0-9]{0,5}"
-        - name: "devicetype"
-          in: "query"
-          description: "Type of element"
-          required: true
-          type: "string"
-          enum:
-            - "OLT"
-            - "BNG"
-        - name: "X-Business-Context"
-          in: "header"
-          description: "The business context is a general classification for a larger\
+      - name: "vpsz"
+        in: "query"
+        description: " Part of Endsz"
+        required: true
+        type: "string"
+        pattern: "^[0-9]{1,6}\\/[0-9]{1,6}\\/[0-9]{1,6}[\\/a-zA-Z0-9]{0,5}"
+      - name: "devicetype"
+        in: "query"
+        description: "Type of element"
+        required: true
+        type: "string"
+        enum:
+        - "OLT"
+        - "BNG"
+      - name: "X-Business-Context"
+        in: "header"
+        description: "The business context is a general classification for a larger\
           \ number of requests (types) usually set by the originating consumer. Any\
           \ service receiving this header parameter MUST forward it unmodified to\
           \ other services it invokes. Non-REST technologies (e.g. SOABP) might use\
           \ a different identifier for this attribute."
-          required: false
-          type: "string"
-        - name: "X-Correlation-ID"
-          in: "header"
-          description: "Value for identifying a single transaction across multiple services\
+        required: false
+        type: "string"
+      - name: "X-Correlation-ID"
+        in: "header"
+        description: "Value for identifying a single transaction across multiple services\
           \ up to the backend. Usually set by the originating consumer.Any service\
           \ receiving this header parameter MUST forward it unmodified to other services\
           \ it invokes. Non-REST technologies (e.g. SOABP) might use a different identifier\
@@ -1906,19 +1907,19 @@ paths:
           \ 256 characters MUST NOT be exceeded (a standard UUID has 36 characters).\
           \ The creator MAY prefix the UUID with an application and/or instance defined\
           \ string."
-          required: false
-          type: "string"
-        - name: "X-Request-ID"
-          in: "header"
-          description: "Value to identify an individual request across consuming application,\
+        required: false
+        type: "string"
+      - name: "X-Request-ID"
+        in: "header"
+        description: "Value to identify an individual request across consuming application,\
           \ middleware and service provider. This ID is to be generated for every\
           \ single request and not to be passed down (as X-Correlation-ID) to sub-services.\
           \ Every consuming application MUST create this value as UUID. The maximum\
           \ length of 256 characters MUST NOT be exceeded (a standard UUID has 36\
           \ characters). The creator MAY prefix the UUID with an application and/or\
           \ instance defined string."
-          required: false
-          type: "string"
+        required: false
+        type: "string"
       responses:
         200:
           description: "Successfully found"
@@ -1933,49 +1934,49 @@ paths:
   /resource-order-resource-inventory/v2/assurance/accessLine:
     get:
       tags:
-        - "AssuranceExternalControllerV2"
+      - "AssuranceExternalControllerV2"
       summary: "Find access lines by criteria"
       description: ""
       operationId: "findAccessLinesByCriteriaV2"
       produces:
-        - "application/xml"
+      - "application/xml"
       parameters:
-        - name: "lineId"
-          in: "query"
-          description: ""
-          required: false
-          type: "string"
-        - name: "ontId"
-          in: "query"
-          description: ""
-          required: false
-          type: "integer"
-          format: "int32"
-        - name: "ontSerialNumber"
-          in: "query"
-          description: ""
-          required: false
-          type: "string"
-        - name: "technology"
-          in: "query"
-          description: ""
-          required: false
-          type: "string"
-          enum:
-            - "GFAST"
-            - "GPON"
-        - name: "X-Business-Context"
-          in: "header"
-          description: "The business context is a general classification for a larger\
+      - name: "lineId"
+        in: "query"
+        description: ""
+        required: false
+        type: "string"
+      - name: "ontId"
+        in: "query"
+        description: ""
+        required: false
+        type: "integer"
+        format: "int32"
+      - name: "ontSerialNumber"
+        in: "query"
+        description: ""
+        required: false
+        type: "string"
+      - name: "technology"
+        in: "query"
+        description: ""
+        required: false
+        type: "string"
+        enum:
+        - "GFAST"
+        - "GPON"
+      - name: "X-Business-Context"
+        in: "header"
+        description: "The business context is a general classification for a larger\
           \ number of requests (types) usually set by the originating consumer. Any\
           \ service receiving this header parameter MUST forward it unmodified to\
           \ other services it invokes. Non-REST technologies (e.g. SOABP) might use\
           \ a different identifier for this attribute."
-          required: false
-          type: "string"
-        - name: "X-Correlation-ID"
-          in: "header"
-          description: "Value for identifying a single transaction across multiple services\
+        required: false
+        type: "string"
+      - name: "X-Correlation-ID"
+        in: "header"
+        description: "Value for identifying a single transaction across multiple services\
           \ up to the backend. Usually set by the originating consumer.Any service\
           \ receiving this header parameter MUST forward it unmodified to other services\
           \ it invokes. Non-REST technologies (e.g. SOABP) might use a different identifier\
@@ -1984,19 +1985,19 @@ paths:
           \ 256 characters MUST NOT be exceeded (a standard UUID has 36 characters).\
           \ The creator MAY prefix the UUID with an application and/or instance defined\
           \ string."
-          required: false
-          type: "string"
-        - name: "X-Request-ID"
-          in: "header"
-          description: "Value to identify an individual request across consuming application,\
+        required: false
+        type: "string"
+      - name: "X-Request-ID"
+        in: "header"
+        description: "Value to identify an individual request across consuming application,\
           \ middleware and service provider. This ID is to be generated for every\
           \ single request and not to be passed down (as X-Correlation-ID) to sub-services.\
           \ Every consuming application MUST create this value as UUID. The maximum\
           \ length of 256 characters MUST NOT be exceeded (a standard UUID has 36\
           \ characters). The creator MAY prefix the UUID with an application and/or\
           \ instance defined string."
-          required: false
-          type: "string"
+        required: false
+        type: "string"
       responses:
         200:
           description: "Successfully found"
@@ -2015,30 +2016,30 @@ paths:
   /resource-order-resource-inventory/v2/assurance/accessLine/{id}:
     get:
       tags:
-        - "AssuranceExternalControllerV2"
+      - "AssuranceExternalControllerV2"
       summary: "Find accessline by id"
       description: ""
       operationId: "findAccessLineByIdV2"
       produces:
-        - "application/xml"
+      - "application/xml"
       parameters:
-        - name: "id"
-          in: "path"
-          required: true
-          type: "integer"
-          format: "int64"
-        - name: "X-Business-Context"
-          in: "header"
-          description: "The business context is a general classification for a larger\
+      - name: "id"
+        in: "path"
+        required: true
+        type: "integer"
+        format: "int64"
+      - name: "X-Business-Context"
+        in: "header"
+        description: "The business context is a general classification for a larger\
           \ number of requests (types) usually set by the originating consumer. Any\
           \ service receiving this header parameter MUST forward it unmodified to\
           \ other services it invokes. Non-REST technologies (e.g. SOABP) might use\
           \ a different identifier for this attribute."
-          required: false
-          type: "string"
-        - name: "X-Correlation-ID"
-          in: "header"
-          description: "Value for identifying a single transaction across multiple services\
+        required: false
+        type: "string"
+      - name: "X-Correlation-ID"
+        in: "header"
+        description: "Value for identifying a single transaction across multiple services\
           \ up to the backend. Usually set by the originating consumer.Any service\
           \ receiving this header parameter MUST forward it unmodified to other services\
           \ it invokes. Non-REST technologies (e.g. SOABP) might use a different identifier\
@@ -2047,19 +2048,19 @@ paths:
           \ 256 characters MUST NOT be exceeded (a standard UUID has 36 characters).\
           \ The creator MAY prefix the UUID with an application and/or instance defined\
           \ string."
-          required: false
-          type: "string"
-        - name: "X-Request-ID"
-          in: "header"
-          description: "Value to identify an individual request across consuming application,\
+        required: false
+        type: "string"
+      - name: "X-Request-ID"
+        in: "header"
+        description: "Value to identify an individual request across consuming application,\
           \ middleware and service provider. This ID is to be generated for every\
           \ single request and not to be passed down (as X-Correlation-ID) to sub-services.\
           \ Every consuming application MUST create this value as UUID. The maximum\
           \ length of 256 characters MUST NOT be exceeded (a standard UUID has 36\
           \ characters). The creator MAY prefix the UUID with an application and/or\
           \ instance defined string."
-          required: false
-          type: "string"
+        required: false
+        type: "string"
       responses:
         200:
           description: "Successfully found"
@@ -2076,46 +2077,46 @@ paths:
   /resource-order-resource-inventory/v2/assurance/card:
     get:
       tags:
-        - "AssuranceExternalControllerV2"
+      - "AssuranceExternalControllerV2"
       summary: "Find card by criteria"
       description: ""
       operationId: "findCardByCriteriaV2"
       produces:
-        - "application/xml"
+      - "application/xml"
       parameters:
-        - name: "cardtype"
-          in: "query"
-          description: ""
-          required: false
-          type: "string"
-          enum:
-            - "GPON"
-            - "UPLINK_CARD"
-            - "MANAGEMENT_CARD"
-            - "SUPPORT_MODULE"
-            - "PROCESSING_BOARD"
-        - name: "emsName"
-          in: "query"
-          description: ""
-          required: false
-          type: "string"
-        - name: "firmwareVersion"
-          in: "query"
-          description: ""
-          required: false
-          type: "string"
-        - name: "X-Business-Context"
-          in: "header"
-          description: "The business context is a general classification for a larger\
+      - name: "cardtype"
+        in: "query"
+        description: ""
+        required: false
+        type: "string"
+        enum:
+        - "GPON"
+        - "UPLINK_CARD"
+        - "MANAGEMENT_CARD"
+        - "SUPPORT_MODULE"
+        - "PROCESSING_BOARD"
+      - name: "emsName"
+        in: "query"
+        description: ""
+        required: false
+        type: "string"
+      - name: "firmwareVersion"
+        in: "query"
+        description: ""
+        required: false
+        type: "string"
+      - name: "X-Business-Context"
+        in: "header"
+        description: "The business context is a general classification for a larger\
           \ number of requests (types) usually set by the originating consumer. Any\
           \ service receiving this header parameter MUST forward it unmodified to\
           \ other services it invokes. Non-REST technologies (e.g. SOABP) might use\
           \ a different identifier for this attribute."
-          required: false
-          type: "string"
-        - name: "X-Correlation-ID"
-          in: "header"
-          description: "Value for identifying a single transaction across multiple services\
+        required: false
+        type: "string"
+      - name: "X-Correlation-ID"
+        in: "header"
+        description: "Value for identifying a single transaction across multiple services\
           \ up to the backend. Usually set by the originating consumer.Any service\
           \ receiving this header parameter MUST forward it unmodified to other services\
           \ it invokes. Non-REST technologies (e.g. SOABP) might use a different identifier\
@@ -2124,19 +2125,19 @@ paths:
           \ 256 characters MUST NOT be exceeded (a standard UUID has 36 characters).\
           \ The creator MAY prefix the UUID with an application and/or instance defined\
           \ string."
-          required: false
-          type: "string"
-        - name: "X-Request-ID"
-          in: "header"
-          description: "Value to identify an individual request across consuming application,\
+        required: false
+        type: "string"
+      - name: "X-Request-ID"
+        in: "header"
+        description: "Value to identify an individual request across consuming application,\
           \ middleware and service provider. This ID is to be generated for every\
           \ single request and not to be passed down (as X-Correlation-ID) to sub-services.\
           \ Every consuming application MUST create this value as UUID. The maximum\
           \ length of 256 characters MUST NOT be exceeded (a standard UUID has 36\
           \ characters). The creator MAY prefix the UUID with an application and/or\
           \ instance defined string."
-          required: false
-          type: "string"
+        required: false
+        type: "string"
       responses:
         200:
           description: "Successfully found"
@@ -2155,30 +2156,30 @@ paths:
   /resource-order-resource-inventory/v2/assurance/card/{cardId}:
     get:
       tags:
-        - "AssuranceExternalControllerV2"
+      - "AssuranceExternalControllerV2"
       summary: "Find card by id"
       description: ""
       operationId: "findCardByIdV2"
       produces:
-        - "application/xml"
+      - "application/xml"
       parameters:
-        - name: "cardId"
-          in: "path"
-          required: true
-          type: "integer"
-          format: "int64"
-        - name: "X-Business-Context"
-          in: "header"
-          description: "The business context is a general classification for a larger\
+      - name: "cardId"
+        in: "path"
+        required: true
+        type: "integer"
+        format: "int64"
+      - name: "X-Business-Context"
+        in: "header"
+        description: "The business context is a general classification for a larger\
           \ number of requests (types) usually set by the originating consumer. Any\
           \ service receiving this header parameter MUST forward it unmodified to\
           \ other services it invokes. Non-REST technologies (e.g. SOABP) might use\
           \ a different identifier for this attribute."
-          required: false
-          type: "string"
-        - name: "X-Correlation-ID"
-          in: "header"
-          description: "Value for identifying a single transaction across multiple services\
+        required: false
+        type: "string"
+      - name: "X-Correlation-ID"
+        in: "header"
+        description: "Value for identifying a single transaction across multiple services\
           \ up to the backend. Usually set by the originating consumer.Any service\
           \ receiving this header parameter MUST forward it unmodified to other services\
           \ it invokes. Non-REST technologies (e.g. SOABP) might use a different identifier\
@@ -2187,19 +2188,19 @@ paths:
           \ 256 characters MUST NOT be exceeded (a standard UUID has 36 characters).\
           \ The creator MAY prefix the UUID with an application and/or instance defined\
           \ string."
-          required: false
-          type: "string"
-        - name: "X-Request-ID"
-          in: "header"
-          description: "Value to identify an individual request across consuming application,\
+        required: false
+        type: "string"
+      - name: "X-Request-ID"
+        in: "header"
+        description: "Value to identify an individual request across consuming application,\
           \ middleware and service provider. This ID is to be generated for every\
           \ single request and not to be passed down (as X-Correlation-ID) to sub-services.\
           \ Every consuming application MUST create this value as UUID. The maximum\
           \ length of 256 characters MUST NOT be exceeded (a standard UUID has 36\
           \ characters). The creator MAY prefix the UUID with an application and/or\
           \ instance defined string."
-          required: false
-          type: "string"
+        required: false
+        type: "string"
       responses:
         200:
           description: "Successfully found"
@@ -2216,53 +2217,53 @@ paths:
   /resource-order-resource-inventory/v2/assurance/device:
     get:
       tags:
-        - "AssuranceExternalControllerV2"
+      - "AssuranceExternalControllerV2"
       summary: "Find device by criteria"
       description: ""
       operationId: "findDeviceByCriteriaV2"
       produces:
-        - "application/xml"
+      - "application/xml"
       parameters:
-        - name: "devicetype"
-          in: "query"
-          description: ""
-          required: false
-          type: "string"
-          enum:
-            - "OLT"
-            - "BNG"
-        - name: "emsName"
-          in: "query"
-          description: ""
-          required: false
-          type: "string"
-        - name: "endsz"
-          in: "query"
-          description: ""
-          required: false
-          type: "string"
-        - name: "fsz"
-          in: "query"
-          description: ""
-          required: false
-          type: "string"
-        - name: "vpsz"
-          in: "query"
-          description: ""
-          required: false
-          type: "string"
-        - name: "X-Business-Context"
-          in: "header"
-          description: "The business context is a general classification for a larger\
+      - name: "devicetype"
+        in: "query"
+        description: ""
+        required: false
+        type: "string"
+        enum:
+        - "OLT"
+        - "BNG"
+      - name: "emsName"
+        in: "query"
+        description: ""
+        required: false
+        type: "string"
+      - name: "endsz"
+        in: "query"
+        description: ""
+        required: false
+        type: "string"
+      - name: "fsz"
+        in: "query"
+        description: ""
+        required: false
+        type: "string"
+      - name: "vpsz"
+        in: "query"
+        description: ""
+        required: false
+        type: "string"
+      - name: "X-Business-Context"
+        in: "header"
+        description: "The business context is a general classification for a larger\
           \ number of requests (types) usually set by the originating consumer. Any\
           \ service receiving this header parameter MUST forward it unmodified to\
           \ other services it invokes. Non-REST technologies (e.g. SOABP) might use\
           \ a different identifier for this attribute."
-          required: false
-          type: "string"
-        - name: "X-Correlation-ID"
-          in: "header"
-          description: "Value for identifying a single transaction across multiple services\
+        required: false
+        type: "string"
+      - name: "X-Correlation-ID"
+        in: "header"
+        description: "Value for identifying a single transaction across multiple services\
           \ up to the backend. Usually set by the originating consumer.Any service\
           \ receiving this header parameter MUST forward it unmodified to other services\
           \ it invokes. Non-REST technologies (e.g. SOABP) might use a different identifier\
@@ -2271,19 +2272,19 @@ paths:
           \ 256 characters MUST NOT be exceeded (a standard UUID has 36 characters).\
           \ The creator MAY prefix the UUID with an application and/or instance defined\
           \ string."
-          required: false
-          type: "string"
-        - name: "X-Request-ID"
-          in: "header"
-          description: "Value to identify an individual request across consuming application,\
+        required: false
+        type: "string"
+      - name: "X-Request-ID"
+        in: "header"
+        description: "Value to identify an individual request across consuming application,\
           \ middleware and service provider. This ID is to be generated for every\
           \ single request and not to be passed down (as X-Correlation-ID) to sub-services.\
           \ Every consuming application MUST create this value as UUID. The maximum\
           \ length of 256 characters MUST NOT be exceeded (a standard UUID has 36\
           \ characters). The creator MAY prefix the UUID with an application and/or\
           \ instance defined string."
-          required: false
-          type: "string"
+        required: false
+        type: "string"
       responses:
         200:
           description: "Successfully found"
@@ -2302,30 +2303,30 @@ paths:
   /resource-order-resource-inventory/v2/assurance/device/{deviceId}:
     get:
       tags:
-        - "AssuranceExternalControllerV2"
+      - "AssuranceExternalControllerV2"
       summary: "Find device by id"
       description: ""
       operationId: "findDeviceByIdV2"
       produces:
-        - "application/xml"
+      - "application/xml"
       parameters:
-        - name: "deviceId"
-          in: "path"
-          required: true
-          type: "integer"
-          format: "int64"
-        - name: "X-Business-Context"
-          in: "header"
-          description: "The business context is a general classification for a larger\
+      - name: "deviceId"
+        in: "path"
+        required: true
+        type: "integer"
+        format: "int64"
+      - name: "X-Business-Context"
+        in: "header"
+        description: "The business context is a general classification for a larger\
           \ number of requests (types) usually set by the originating consumer. Any\
           \ service receiving this header parameter MUST forward it unmodified to\
           \ other services it invokes. Non-REST technologies (e.g. SOABP) might use\
           \ a different identifier for this attribute."
-          required: false
-          type: "string"
-        - name: "X-Correlation-ID"
-          in: "header"
-          description: "Value for identifying a single transaction across multiple services\
+        required: false
+        type: "string"
+      - name: "X-Correlation-ID"
+        in: "header"
+        description: "Value for identifying a single transaction across multiple services\
           \ up to the backend. Usually set by the originating consumer.Any service\
           \ receiving this header parameter MUST forward it unmodified to other services\
           \ it invokes. Non-REST technologies (e.g. SOABP) might use a different identifier\
@@ -2334,19 +2335,19 @@ paths:
           \ 256 characters MUST NOT be exceeded (a standard UUID has 36 characters).\
           \ The creator MAY prefix the UUID with an application and/or instance defined\
           \ string."
-          required: false
-          type: "string"
-        - name: "X-Request-ID"
-          in: "header"
-          description: "Value to identify an individual request across consuming application,\
+        required: false
+        type: "string"
+      - name: "X-Request-ID"
+        in: "header"
+        description: "Value to identify an individual request across consuming application,\
           \ middleware and service provider. This ID is to be generated for every\
           \ single request and not to be passed down (as X-Correlation-ID) to sub-services.\
           \ Every consuming application MUST create this value as UUID. The maximum\
           \ length of 256 characters MUST NOT be exceeded (a standard UUID has 36\
           \ characters). The creator MAY prefix the UUID with an application and/or\
           \ instance defined string."
-          required: false
-          type: "string"
+        required: false
+        type: "string"
       responses:
         200:
           description: "Successfully found"
@@ -2363,45 +2364,45 @@ paths:
   /resource-order-resource-inventory/v2/assurance/ethernetlink:
     get:
       tags:
-        - "AssuranceExternalControllerV2"
+      - "AssuranceExternalControllerV2"
       summary: "Find ethernetlinks by filter criteria"
       description: ""
       operationId: "findUplinksByCriteriaV2"
       produces:
-        - "application/xml"
+      - "application/xml"
       parameters:
-        - name: "bngEndSz"
-          in: "query"
-          description: ""
-          required: false
-          type: "string"
-        - name: "lbz"
-          in: "query"
-          description: ""
-          required: false
-          type: "string"
-        - name: "lsz"
-          in: "query"
-          description: ""
-          required: false
-          type: "string"
-        - name: "oltEndSz"
-          in: "query"
-          description: ""
-          required: false
-          type: "string"
-        - name: "X-Business-Context"
-          in: "header"
-          description: "The business context is a general classification for a larger\
+      - name: "bngEndSz"
+        in: "query"
+        description: ""
+        required: false
+        type: "string"
+      - name: "lbz"
+        in: "query"
+        description: ""
+        required: false
+        type: "string"
+      - name: "lsz"
+        in: "query"
+        description: ""
+        required: false
+        type: "string"
+      - name: "oltEndSz"
+        in: "query"
+        description: ""
+        required: false
+        type: "string"
+      - name: "X-Business-Context"
+        in: "header"
+        description: "The business context is a general classification for a larger\
           \ number of requests (types) usually set by the originating consumer. Any\
           \ service receiving this header parameter MUST forward it unmodified to\
           \ other services it invokes. Non-REST technologies (e.g. SOABP) might use\
           \ a different identifier for this attribute."
-          required: false
-          type: "string"
-        - name: "X-Correlation-ID"
-          in: "header"
-          description: "Value for identifying a single transaction across multiple services\
+        required: false
+        type: "string"
+      - name: "X-Correlation-ID"
+        in: "header"
+        description: "Value for identifying a single transaction across multiple services\
           \ up to the backend. Usually set by the originating consumer.Any service\
           \ receiving this header parameter MUST forward it unmodified to other services\
           \ it invokes. Non-REST technologies (e.g. SOABP) might use a different identifier\
@@ -2410,19 +2411,19 @@ paths:
           \ 256 characters MUST NOT be exceeded (a standard UUID has 36 characters).\
           \ The creator MAY prefix the UUID with an application and/or instance defined\
           \ string."
-          required: false
-          type: "string"
-        - name: "X-Request-ID"
-          in: "header"
-          description: "Value to identify an individual request across consuming application,\
+        required: false
+        type: "string"
+      - name: "X-Request-ID"
+        in: "header"
+        description: "Value to identify an individual request across consuming application,\
           \ middleware and service provider. This ID is to be generated for every\
           \ single request and not to be passed down (as X-Correlation-ID) to sub-services.\
           \ Every consuming application MUST create this value as UUID. The maximum\
           \ length of 256 characters MUST NOT be exceeded (a standard UUID has 36\
           \ characters). The creator MAY prefix the UUID with an application and/or\
           \ instance defined string."
-          required: false
-          type: "string"
+        required: false
+        type: "string"
       responses:
         200:
           description: "Successfully found"
@@ -2441,30 +2442,30 @@ paths:
   /resource-order-resource-inventory/v2/assurance/ethernetlink/{id}:
     get:
       tags:
-        - "AssuranceExternalControllerV2"
+      - "AssuranceExternalControllerV2"
       summary: "Find ethernetlink by id"
       description: ""
       operationId: "findUplinkByIdV2"
       produces:
-        - "application/xml"
+      - "application/xml"
       parameters:
-        - name: "id"
-          in: "path"
-          required: true
-          type: "integer"
-          format: "int64"
-        - name: "X-Business-Context"
-          in: "header"
-          description: "The business context is a general classification for a larger\
+      - name: "id"
+        in: "path"
+        required: true
+        type: "integer"
+        format: "int64"
+      - name: "X-Business-Context"
+        in: "header"
+        description: "The business context is a general classification for a larger\
           \ number of requests (types) usually set by the originating consumer. Any\
           \ service receiving this header parameter MUST forward it unmodified to\
           \ other services it invokes. Non-REST technologies (e.g. SOABP) might use\
           \ a different identifier for this attribute."
-          required: false
-          type: "string"
-        - name: "X-Correlation-ID"
-          in: "header"
-          description: "Value for identifying a single transaction across multiple services\
+        required: false
+        type: "string"
+      - name: "X-Correlation-ID"
+        in: "header"
+        description: "Value for identifying a single transaction across multiple services\
           \ up to the backend. Usually set by the originating consumer.Any service\
           \ receiving this header parameter MUST forward it unmodified to other services\
           \ it invokes. Non-REST technologies (e.g. SOABP) might use a different identifier\
@@ -2473,19 +2474,19 @@ paths:
           \ 256 characters MUST NOT be exceeded (a standard UUID has 36 characters).\
           \ The creator MAY prefix the UUID with an application and/or instance defined\
           \ string."
-          required: false
-          type: "string"
-        - name: "X-Request-ID"
-          in: "header"
-          description: "Value to identify an individual request across consuming application,\
+        required: false
+        type: "string"
+      - name: "X-Request-ID"
+        in: "header"
+        description: "Value to identify an individual request across consuming application,\
           \ middleware and service provider. This ID is to be generated for every\
           \ single request and not to be passed down (as X-Correlation-ID) to sub-services.\
           \ Every consuming application MUST create this value as UUID. The maximum\
           \ length of 256 characters MUST NOT be exceeded (a standard UUID has 36\
           \ characters). The creator MAY prefix the UUID with an application and/or\
           \ instance defined string."
-          required: false
-          type: "string"
+        required: false
+        type: "string"
       responses:
         200:
           description: "Successfully found"
@@ -2502,38 +2503,38 @@ paths:
   /resource-order-resource-inventory/v2/assurance/port:
     get:
       tags:
-        - "AssuranceExternalControllerV2"
+      - "AssuranceExternalControllerV2"
       summary: "Find Port by Name and Type"
       description: ""
       operationId: "findPortsByCriteriaV2"
       produces:
-        - "application/xml"
+      - "application/xml"
       parameters:
-        - name: "name"
-          in: "query"
-          description: ""
-          required: false
-          type: "string"
-        - name: "porttype"
-          in: "query"
-          description: ""
-          required: false
-          type: "string"
-          enum:
-            - "PON"
-            - "ETHERNET"
-        - name: "X-Business-Context"
-          in: "header"
-          description: "The business context is a general classification for a larger\
+      - name: "name"
+        in: "query"
+        description: ""
+        required: false
+        type: "string"
+      - name: "porttype"
+        in: "query"
+        description: ""
+        required: false
+        type: "string"
+        enum:
+        - "PON"
+        - "ETHERNET"
+      - name: "X-Business-Context"
+        in: "header"
+        description: "The business context is a general classification for a larger\
           \ number of requests (types) usually set by the originating consumer. Any\
           \ service receiving this header parameter MUST forward it unmodified to\
           \ other services it invokes. Non-REST technologies (e.g. SOABP) might use\
           \ a different identifier for this attribute."
-          required: false
-          type: "string"
-        - name: "X-Correlation-ID"
-          in: "header"
-          description: "Value for identifying a single transaction across multiple services\
+        required: false
+        type: "string"
+      - name: "X-Correlation-ID"
+        in: "header"
+        description: "Value for identifying a single transaction across multiple services\
           \ up to the backend. Usually set by the originating consumer.Any service\
           \ receiving this header parameter MUST forward it unmodified to other services\
           \ it invokes. Non-REST technologies (e.g. SOABP) might use a different identifier\
@@ -2542,19 +2543,19 @@ paths:
           \ 256 characters MUST NOT be exceeded (a standard UUID has 36 characters).\
           \ The creator MAY prefix the UUID with an application and/or instance defined\
           \ string."
-          required: false
-          type: "string"
-        - name: "X-Request-ID"
-          in: "header"
-          description: "Value to identify an individual request across consuming application,\
+        required: false
+        type: "string"
+      - name: "X-Request-ID"
+        in: "header"
+        description: "Value to identify an individual request across consuming application,\
           \ middleware and service provider. This ID is to be generated for every\
           \ single request and not to be passed down (as X-Correlation-ID) to sub-services.\
           \ Every consuming application MUST create this value as UUID. The maximum\
           \ length of 256 characters MUST NOT be exceeded (a standard UUID has 36\
           \ characters). The creator MAY prefix the UUID with an application and/or\
           \ instance defined string."
-          required: false
-          type: "string"
+        required: false
+        type: "string"
       responses:
         200:
           description: "Successfully found"
@@ -2573,30 +2574,30 @@ paths:
   /resource-order-resource-inventory/v2/assurance/port/{id}:
     get:
       tags:
-        - "AssuranceExternalControllerV2"
+      - "AssuranceExternalControllerV2"
       summary: "Find port by id"
       description: ""
       operationId: "findPortByIdV2"
       produces:
-        - "application/xml"
+      - "application/xml"
       parameters:
-        - name: "id"
-          in: "path"
-          required: true
-          type: "integer"
-          format: "int64"
-        - name: "X-Business-Context"
-          in: "header"
-          description: "The business context is a general classification for a larger\
+      - name: "id"
+        in: "path"
+        required: true
+        type: "integer"
+        format: "int64"
+      - name: "X-Business-Context"
+        in: "header"
+        description: "The business context is a general classification for a larger\
           \ number of requests (types) usually set by the originating consumer. Any\
           \ service receiving this header parameter MUST forward it unmodified to\
           \ other services it invokes. Non-REST technologies (e.g. SOABP) might use\
           \ a different identifier for this attribute."
-          required: false
-          type: "string"
-        - name: "X-Correlation-ID"
-          in: "header"
-          description: "Value for identifying a single transaction across multiple services\
+        required: false
+        type: "string"
+      - name: "X-Correlation-ID"
+        in: "header"
+        description: "Value for identifying a single transaction across multiple services\
           \ up to the backend. Usually set by the originating consumer.Any service\
           \ receiving this header parameter MUST forward it unmodified to other services\
           \ it invokes. Non-REST technologies (e.g. SOABP) might use a different identifier\
@@ -2605,19 +2606,19 @@ paths:
           \ 256 characters MUST NOT be exceeded (a standard UUID has 36 characters).\
           \ The creator MAY prefix the UUID with an application and/or instance defined\
           \ string."
-          required: false
-          type: "string"
-        - name: "X-Request-ID"
-          in: "header"
-          description: "Value to identify an individual request across consuming application,\
+        required: false
+        type: "string"
+      - name: "X-Request-ID"
+        in: "header"
+        description: "Value to identify an individual request across consuming application,\
           \ middleware and service provider. This ID is to be generated for every\
           \ single request and not to be passed down (as X-Correlation-ID) to sub-services.\
           \ Every consuming application MUST create this value as UUID. The maximum\
           \ length of 256 characters MUST NOT be exceeded (a standard UUID has 36\
           \ characters). The creator MAY prefix the UUID with an application and/or\
           \ instance defined string."
-          required: false
-          type: "string"
+        required: false
+        type: "string"
       responses:
         200:
           description: "Successfully found"
@@ -2631,11 +2632,571 @@ paths:
           description: "Not present in database"
           schema:
             $ref: "#/definitions/ErrorResponse"
+  /resource-order-resource-inventory/v3/assurance/card:
+    get:
+      tags:
+      - "AssuranceExternalControllerV3"
+      summary: "Find card by criteria"
+      description: ""
+      operationId: "findCardByCriteriaV3"
+      produces:
+      - "application/xml"
+      parameters:
+      - name: "cardtype"
+        in: "query"
+        description: ""
+        required: false
+        type: "string"
+        enum:
+        - "GPON"
+        - "UPLINK_CARD"
+        - "MANAGEMENT_CARD"
+        - "SUPPORT_MODULE"
+        - "PROCESSING_BOARD"
+      - name: "emsName"
+        in: "query"
+        description: ""
+        required: false
+        type: "string"
+      - name: "firmwareVersion"
+        in: "query"
+        description: ""
+        required: false
+        type: "string"
+      - name: "X-Business-Context"
+        in: "header"
+        description: "The business context is a general classification for a larger\
+          \ number of requests (types) usually set by the originating consumer. Any\
+          \ service receiving this header parameter MUST forward it unmodified to\
+          \ other services it invokes. Non-REST technologies (e.g. SOABP) might use\
+          \ a different identifier for this attribute."
+        required: false
+        type: "string"
+      - name: "X-Correlation-ID"
+        in: "header"
+        description: "Value for identifying a single transaction across multiple services\
+          \ up to the backend. Usually set by the originating consumer.Any service\
+          \ receiving this header parameter MUST forward it unmodified to other services\
+          \ it invokes. Non-REST technologies (e.g. SOABP) might use a different identifier\
+          \ for this attribute. If this ID is not available (not supplied, empty or\
+          \ at origin), the service MUST create it as a UUID. The maximum length of\
+          \ 256 characters MUST NOT be exceeded (a standard UUID has 36 characters).\
+          \ The creator MAY prefix the UUID with an application and/or instance defined\
+          \ string."
+        required: false
+        type: "string"
+      - name: "X-Request-ID"
+        in: "header"
+        description: "Value to identify an individual request across consuming application,\
+          \ middleware and service provider. This ID is to be generated for every\
+          \ single request and not to be passed down (as X-Correlation-ID) to sub-services.\
+          \ Every consuming application MUST create this value as UUID. The maximum\
+          \ length of 256 characters MUST NOT be exceeded (a standard UUID has 36\
+          \ characters). The creator MAY prefix the UUID with an application and/or\
+          \ instance defined string."
+        required: false
+        type: "string"
+      responses:
+        200:
+          description: "Successfully found"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/AssuranceCardDtoV3"
+        400:
+          description: "Can't perform operation"
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+        404:
+          description: "Not present in database"
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+  /resource-order-resource-inventory/v3/assurance/card/{cardId}:
+    get:
+      tags:
+      - "AssuranceExternalControllerV3"
+      summary: "Find card by id"
+      description: ""
+      operationId: "findCardByIdV3"
+      produces:
+      - "application/xml"
+      parameters:
+      - name: "cardId"
+        in: "path"
+        required: true
+        type: "integer"
+        format: "int64"
+      - name: "X-Business-Context"
+        in: "header"
+        description: "The business context is a general classification for a larger\
+          \ number of requests (types) usually set by the originating consumer. Any\
+          \ service receiving this header parameter MUST forward it unmodified to\
+          \ other services it invokes. Non-REST technologies (e.g. SOABP) might use\
+          \ a different identifier for this attribute."
+        required: false
+        type: "string"
+      - name: "X-Correlation-ID"
+        in: "header"
+        description: "Value for identifying a single transaction across multiple services\
+          \ up to the backend. Usually set by the originating consumer.Any service\
+          \ receiving this header parameter MUST forward it unmodified to other services\
+          \ it invokes. Non-REST technologies (e.g. SOABP) might use a different identifier\
+          \ for this attribute. If this ID is not available (not supplied, empty or\
+          \ at origin), the service MUST create it as a UUID. The maximum length of\
+          \ 256 characters MUST NOT be exceeded (a standard UUID has 36 characters).\
+          \ The creator MAY prefix the UUID with an application and/or instance defined\
+          \ string."
+        required: false
+        type: "string"
+      - name: "X-Request-ID"
+        in: "header"
+        description: "Value to identify an individual request across consuming application,\
+          \ middleware and service provider. This ID is to be generated for every\
+          \ single request and not to be passed down (as X-Correlation-ID) to sub-services.\
+          \ Every consuming application MUST create this value as UUID. The maximum\
+          \ length of 256 characters MUST NOT be exceeded (a standard UUID has 36\
+          \ characters). The creator MAY prefix the UUID with an application and/or\
+          \ instance defined string."
+        required: false
+        type: "string"
+      responses:
+        200:
+          description: "Successfully found"
+          schema:
+            $ref: "#/definitions/AssuranceCardDtoV3"
+        400:
+          description: "Can't perform operation"
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+        404:
+          description: "Not present in database"
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+  /resource-order-resource-inventory/v3/assurance/device:
+    get:
+      tags:
+      - "AssuranceExternalControllerV3"
+      summary: "Find device by criteria"
+      description: ""
+      operationId: "findDeviceByCriteriaV3"
+      produces:
+      - "application/xml"
+      parameters:
+      - name: "devicetype"
+        in: "query"
+        description: ""
+        required: false
+        type: "string"
+        enum:
+        - "OLT"
+        - "BNG"
+      - name: "emsName"
+        in: "query"
+        description: ""
+        required: false
+        type: "string"
+      - name: "endsz"
+        in: "query"
+        description: ""
+        required: false
+        type: "string"
+      - name: "fsz"
+        in: "query"
+        description: ""
+        required: false
+        type: "string"
+      - name: "vpsz"
+        in: "query"
+        description: ""
+        required: false
+        type: "string"
+      - name: "X-Business-Context"
+        in: "header"
+        description: "The business context is a general classification for a larger\
+          \ number of requests (types) usually set by the originating consumer. Any\
+          \ service receiving this header parameter MUST forward it unmodified to\
+          \ other services it invokes. Non-REST technologies (e.g. SOABP) might use\
+          \ a different identifier for this attribute."
+        required: false
+        type: "string"
+      - name: "X-Correlation-ID"
+        in: "header"
+        description: "Value for identifying a single transaction across multiple services\
+          \ up to the backend. Usually set by the originating consumer.Any service\
+          \ receiving this header parameter MUST forward it unmodified to other services\
+          \ it invokes. Non-REST technologies (e.g. SOABP) might use a different identifier\
+          \ for this attribute. If this ID is not available (not supplied, empty or\
+          \ at origin), the service MUST create it as a UUID. The maximum length of\
+          \ 256 characters MUST NOT be exceeded (a standard UUID has 36 characters).\
+          \ The creator MAY prefix the UUID with an application and/or instance defined\
+          \ string."
+        required: false
+        type: "string"
+      - name: "X-Request-ID"
+        in: "header"
+        description: "Value to identify an individual request across consuming application,\
+          \ middleware and service provider. This ID is to be generated for every\
+          \ single request and not to be passed down (as X-Correlation-ID) to sub-services.\
+          \ Every consuming application MUST create this value as UUID. The maximum\
+          \ length of 256 characters MUST NOT be exceeded (a standard UUID has 36\
+          \ characters). The creator MAY prefix the UUID with an application and/or\
+          \ instance defined string."
+        required: false
+        type: "string"
+      responses:
+        200:
+          description: "Successfully found"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/AssuranceDeviceDtoV3"
+        400:
+          description: "Can't perform operation"
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+        404:
+          description: "Not present in database"
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+  /resource-order-resource-inventory/v3/assurance/device/{deviceId}:
+    get:
+      tags:
+      - "AssuranceExternalControllerV3"
+      summary: "Find device by id"
+      description: ""
+      operationId: "findDeviceByIdV3"
+      produces:
+      - "application/xml"
+      parameters:
+      - name: "deviceId"
+        in: "path"
+        required: true
+        type: "integer"
+        format: "int64"
+      - name: "X-Business-Context"
+        in: "header"
+        description: "The business context is a general classification for a larger\
+          \ number of requests (types) usually set by the originating consumer. Any\
+          \ service receiving this header parameter MUST forward it unmodified to\
+          \ other services it invokes. Non-REST technologies (e.g. SOABP) might use\
+          \ a different identifier for this attribute."
+        required: false
+        type: "string"
+      - name: "X-Correlation-ID"
+        in: "header"
+        description: "Value for identifying a single transaction across multiple services\
+          \ up to the backend. Usually set by the originating consumer.Any service\
+          \ receiving this header parameter MUST forward it unmodified to other services\
+          \ it invokes. Non-REST technologies (e.g. SOABP) might use a different identifier\
+          \ for this attribute. If this ID is not available (not supplied, empty or\
+          \ at origin), the service MUST create it as a UUID. The maximum length of\
+          \ 256 characters MUST NOT be exceeded (a standard UUID has 36 characters).\
+          \ The creator MAY prefix the UUID with an application and/or instance defined\
+          \ string."
+        required: false
+        type: "string"
+      - name: "X-Request-ID"
+        in: "header"
+        description: "Value to identify an individual request across consuming application,\
+          \ middleware and service provider. This ID is to be generated for every\
+          \ single request and not to be passed down (as X-Correlation-ID) to sub-services.\
+          \ Every consuming application MUST create this value as UUID. The maximum\
+          \ length of 256 characters MUST NOT be exceeded (a standard UUID has 36\
+          \ characters). The creator MAY prefix the UUID with an application and/or\
+          \ instance defined string."
+        required: false
+        type: "string"
+      responses:
+        200:
+          description: "Successfully found"
+          schema:
+            $ref: "#/definitions/AssuranceDeviceDtoV3"
+        400:
+          description: "Can't perform operation"
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+        404:
+          description: "Not present in database"
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+  /resource-order-resource-inventory/v3/assurance/ethernetlink:
+    get:
+      tags:
+      - "AssuranceExternalControllerV3"
+      summary: "Find ethernetlinks by filter criteria"
+      description: ""
+      operationId: "findUplinksByCriteriaV3"
+      produces:
+      - "application/xml"
+      parameters:
+      - name: "bngEndSz"
+        in: "query"
+        description: ""
+        required: false
+        type: "string"
+      - name: "lbz"
+        in: "query"
+        description: ""
+        required: false
+        type: "string"
+      - name: "lsz"
+        in: "query"
+        description: ""
+        required: false
+        type: "string"
+      - name: "oltEndSz"
+        in: "query"
+        description: ""
+        required: false
+        type: "string"
+      - name: "X-Business-Context"
+        in: "header"
+        description: "The business context is a general classification for a larger\
+          \ number of requests (types) usually set by the originating consumer. Any\
+          \ service receiving this header parameter MUST forward it unmodified to\
+          \ other services it invokes. Non-REST technologies (e.g. SOABP) might use\
+          \ a different identifier for this attribute."
+        required: false
+        type: "string"
+      - name: "X-Correlation-ID"
+        in: "header"
+        description: "Value for identifying a single transaction across multiple services\
+          \ up to the backend. Usually set by the originating consumer.Any service\
+          \ receiving this header parameter MUST forward it unmodified to other services\
+          \ it invokes. Non-REST technologies (e.g. SOABP) might use a different identifier\
+          \ for this attribute. If this ID is not available (not supplied, empty or\
+          \ at origin), the service MUST create it as a UUID. The maximum length of\
+          \ 256 characters MUST NOT be exceeded (a standard UUID has 36 characters).\
+          \ The creator MAY prefix the UUID with an application and/or instance defined\
+          \ string."
+        required: false
+        type: "string"
+      - name: "X-Request-ID"
+        in: "header"
+        description: "Value to identify an individual request across consuming application,\
+          \ middleware and service provider. This ID is to be generated for every\
+          \ single request and not to be passed down (as X-Correlation-ID) to sub-services.\
+          \ Every consuming application MUST create this value as UUID. The maximum\
+          \ length of 256 characters MUST NOT be exceeded (a standard UUID has 36\
+          \ characters). The creator MAY prefix the UUID with an application and/or\
+          \ instance defined string."
+        required: false
+        type: "string"
+      responses:
+        200:
+          description: "Successfully found"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/AssuranceEthernetLinkDtoV3"
+        400:
+          description: "Can't perform operation"
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+        404:
+          description: "Not present in database"
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+  /resource-order-resource-inventory/v3/assurance/ethernetlink/{id}:
+    get:
+      tags:
+      - "AssuranceExternalControllerV3"
+      summary: "Find ethernetlink by id"
+      description: ""
+      operationId: "findUplinkByIdV3"
+      produces:
+      - "application/xml"
+      parameters:
+      - name: "id"
+        in: "path"
+        required: true
+        type: "integer"
+        format: "int64"
+      - name: "X-Business-Context"
+        in: "header"
+        description: "The business context is a general classification for a larger\
+          \ number of requests (types) usually set by the originating consumer. Any\
+          \ service receiving this header parameter MUST forward it unmodified to\
+          \ other services it invokes. Non-REST technologies (e.g. SOABP) might use\
+          \ a different identifier for this attribute."
+        required: false
+        type: "string"
+      - name: "X-Correlation-ID"
+        in: "header"
+        description: "Value for identifying a single transaction across multiple services\
+          \ up to the backend. Usually set by the originating consumer.Any service\
+          \ receiving this header parameter MUST forward it unmodified to other services\
+          \ it invokes. Non-REST technologies (e.g. SOABP) might use a different identifier\
+          \ for this attribute. If this ID is not available (not supplied, empty or\
+          \ at origin), the service MUST create it as a UUID. The maximum length of\
+          \ 256 characters MUST NOT be exceeded (a standard UUID has 36 characters).\
+          \ The creator MAY prefix the UUID with an application and/or instance defined\
+          \ string."
+        required: false
+        type: "string"
+      - name: "X-Request-ID"
+        in: "header"
+        description: "Value to identify an individual request across consuming application,\
+          \ middleware and service provider. This ID is to be generated for every\
+          \ single request and not to be passed down (as X-Correlation-ID) to sub-services.\
+          \ Every consuming application MUST create this value as UUID. The maximum\
+          \ length of 256 characters MUST NOT be exceeded (a standard UUID has 36\
+          \ characters). The creator MAY prefix the UUID with an application and/or\
+          \ instance defined string."
+        required: false
+        type: "string"
+      responses:
+        200:
+          description: "Successfully found"
+          schema:
+            $ref: "#/definitions/AssuranceEthernetLinkDtoV3"
+        400:
+          description: "Can't perform operation"
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+        404:
+          description: "Not present in database"
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+  /resource-order-resource-inventory/v3/assurance/port:
+    get:
+      tags:
+      - "AssuranceExternalControllerV3"
+      summary: "Find port by endSz, slot and port name"
+      description: ""
+      operationId: "findPortsByCriteriaV3"
+      produces:
+      - "application/xml"
+      parameters:
+      - name: "deviceEndSz"
+        in: "query"
+        description: ""
+        required: false
+        type: "string"
+      - name: "name"
+        in: "query"
+        description: ""
+        required: false
+        type: "string"
+      - name: "slotNumber"
+        in: "query"
+        description: ""
+        required: false
+        type: "string"
+      - name: "X-Business-Context"
+        in: "header"
+        description: "The business context is a general classification for a larger\
+          \ number of requests (types) usually set by the originating consumer. Any\
+          \ service receiving this header parameter MUST forward it unmodified to\
+          \ other services it invokes. Non-REST technologies (e.g. SOABP) might use\
+          \ a different identifier for this attribute."
+        required: false
+        type: "string"
+      - name: "X-Correlation-ID"
+        in: "header"
+        description: "Value for identifying a single transaction across multiple services\
+          \ up to the backend. Usually set by the originating consumer.Any service\
+          \ receiving this header parameter MUST forward it unmodified to other services\
+          \ it invokes. Non-REST technologies (e.g. SOABP) might use a different identifier\
+          \ for this attribute. If this ID is not available (not supplied, empty or\
+          \ at origin), the service MUST create it as a UUID. The maximum length of\
+          \ 256 characters MUST NOT be exceeded (a standard UUID has 36 characters).\
+          \ The creator MAY prefix the UUID with an application and/or instance defined\
+          \ string."
+        required: false
+        type: "string"
+      - name: "X-Request-ID"
+        in: "header"
+        description: "Value to identify an individual request across consuming application,\
+          \ middleware and service provider. This ID is to be generated for every\
+          \ single request and not to be passed down (as X-Correlation-ID) to sub-services.\
+          \ Every consuming application MUST create this value as UUID. The maximum\
+          \ length of 256 characters MUST NOT be exceeded (a standard UUID has 36\
+          \ characters). The creator MAY prefix the UUID with an application and/or\
+          \ instance defined string."
+        required: false
+        type: "string"
+      responses:
+        200:
+          description: "Successfully found"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/AssurancePortDtoV3"
+        400:
+          description: "Can't perform operation"
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+        404:
+          description: "Not present in database"
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+  /resource-order-resource-inventory/v3/assurance/port/{id}:
+    get:
+      tags:
+      - "AssuranceExternalControllerV3"
+      summary: "Find port by id"
+      description: ""
+      operationId: "findPortByIdV3"
+      produces:
+      - "application/xml"
+      parameters:
+      - name: "id"
+        in: "path"
+        required: true
+        type: "integer"
+        format: "int64"
+      - name: "X-Business-Context"
+        in: "header"
+        description: "The business context is a general classification for a larger\
+          \ number of requests (types) usually set by the originating consumer. Any\
+          \ service receiving this header parameter MUST forward it unmodified to\
+          \ other services it invokes. Non-REST technologies (e.g. SOABP) might use\
+          \ a different identifier for this attribute."
+        required: false
+        type: "string"
+      - name: "X-Correlation-ID"
+        in: "header"
+        description: "Value for identifying a single transaction across multiple services\
+          \ up to the backend. Usually set by the originating consumer.Any service\
+          \ receiving this header parameter MUST forward it unmodified to other services\
+          \ it invokes. Non-REST technologies (e.g. SOABP) might use a different identifier\
+          \ for this attribute. If this ID is not available (not supplied, empty or\
+          \ at origin), the service MUST create it as a UUID. The maximum length of\
+          \ 256 characters MUST NOT be exceeded (a standard UUID has 36 characters).\
+          \ The creator MAY prefix the UUID with an application and/or instance defined\
+          \ string."
+        required: false
+        type: "string"
+      - name: "X-Request-ID"
+        in: "header"
+        description: "Value to identify an individual request across consuming application,\
+          \ middleware and service provider. This ID is to be generated for every\
+          \ single request and not to be passed down (as X-Correlation-ID) to sub-services.\
+          \ Every consuming application MUST create this value as UUID. The maximum\
+          \ length of 256 characters MUST NOT be exceeded (a standard UUID has 36\
+          \ characters). The creator MAY prefix the UUID with an application and/or\
+          \ instance defined string."
+        required: false
+        type: "string"
+      responses:
+        200:
+          description: "Successfully found"
+          schema:
+            $ref: "#/definitions/AssurancePortDtoV3"
+        400:
+          description: "Can't perform operation"
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+        404:
+          description: "Not present in database"
+          schema:
+            $ref: "#/definitions/ErrorResponse"
 definitions:
   AccessLine:
     type: "object"
     required:
-      - "lineId"
+    - "lineId"
     properties:
       id:
         type: "integer"
@@ -2645,14 +3206,14 @@ definitions:
       technology:
         type: "string"
         enum:
-          - "GFAST"
-          - "GPON"
+        - "GFAST"
+        - "GPON"
       status:
         type: "string"
         enum:
-          - "INACTIVE"
-          - "WALLED_GARDEN"
-          - "ASSIGNED"
+        - "INACTIVE"
+        - "WALLED_GARDEN"
+        - "ASSIGNED"
       lineId:
         type: "string"
         pattern: "[A-Z0-9]{3}\\.[A-Z0-9]{1,6}\\.[A-Z0-9]{1,10}"
@@ -2666,11 +3227,14 @@ definitions:
         $ref: "#/definitions/DefaultNeProfile"
       defaultNetworkLineProfile:
         $ref: "#/definitions/DefaultNetworkLineProfile"
+      compositePartyId:
+        type: "integer"
+        format: "int64"
   AccessLineDto:
     type: "object"
     required:
-      - "accessLine"
-      - "portId"
+    - "accessLine"
+    - "portId"
     properties:
       portId:
         type: "integer"
@@ -2693,19 +3257,19 @@ definitions:
       status:
         type: "string"
         enum:
-          - "INACTIVE"
-          - "WALLED_GARDEN"
-          - "ASSIGNED"
+        - "INACTIVE"
+        - "WALLED_GARDEN"
+        - "ASSIGNED"
       subscriberNeProfileState:
         type: "string"
         enum:
-          - "INACTIVE"
-          - "ACTIVE"
+        - "INACTIVE"
+        - "ACTIVE"
       subscriberNetworkLineProfileState:
         type: "string"
         enum:
-          - "INACTIVE"
-          - "ACTIVE"
+        - "INACTIVE"
+        - "ACTIVE"
   AllocatedFttbAnptags:
     type: "object"
     properties:
@@ -2786,11 +3350,11 @@ definitions:
         type: "string"
         description: "Type of element"
         enum:
-          - "GPON"
-          - "UPLINK_CARD"
-          - "MANAGEMENT_CARD"
-          - "SUPPORT_MODULE"
-          - "PROCESSING_BOARD"
+        - "GPON"
+        - "UPLINK_CARD"
+        - "MANAGEMENT_CARD"
+        - "SUPPORT_MODULE"
+        - "PROCESSING_BOARD"
       description:
         type: "string"
         description: "Description of element"
@@ -2834,7 +3398,7 @@ definitions:
         description: "Short name of element"
       slotNumber:
         type: "string"
-        description: "SlotNumber of Device where this card is"
+        description: "SlotNumber of device where this card is"
       equipmentNumber:
         type: "string"
         description: "Equipment number of this card"
@@ -2845,11 +3409,11 @@ definitions:
         type: "string"
         description: "Type of element"
         enum:
-          - "GPON"
-          - "UPLINK_CARD"
-          - "MANAGEMENT_CARD"
-          - "SUPPORT_MODULE"
-          - "PROCESSING_BOARD"
+        - "GPON"
+        - "UPLINK_CARD"
+        - "MANAGEMENT_CARD"
+        - "SUPPORT_MODULE"
+        - "PROCESSING_BOARD"
       description:
         type: "string"
         description: "Description of element"
@@ -2893,7 +3457,73 @@ definitions:
         description: "Short name of element"
       slotNumber:
         type: "string"
-        description: "SlotNumber of Device where this card is"
+        description: "SlotNumber of device where this card is"
+      equipmentNumber:
+        type: "string"
+        description: "Equipment number of this card"
+      partyId:
+        type: "integer"
+        format: "int64"
+        description: "Composite Party ID of this card"
+      ressourceId:
+        type: "string"
+        description: "Resource ID of this card"
+  AssuranceCardDtoV3:
+    type: "object"
+    properties:
+      cardtype:
+        type: "string"
+        description: "Type of element"
+        enum:
+        - "GPON"
+        - "UPLINK_CARD"
+        - "MANAGEMENT_CARD"
+        - "SUPPORT_MODULE"
+        - "PROCESSING_BOARD"
+      description:
+        type: "string"
+        description: "Description of element"
+      deviceId:
+        type: "integer"
+        format: "int64"
+        description: "ID of the device where this card is"
+      emsName:
+        type: "string"
+        description: "It is the unique identifier"
+      firmwareVersion:
+        type: "string"
+        description: "The current firmware version of element"
+      id:
+        type: "integer"
+        format: "int64"
+        description: "It is the unique identifier in database"
+      materialNumber:
+        type: "string"
+        description: "Material number of element"
+      name:
+        type: "string"
+        description: "Name of element"
+      portIDs:
+        type: "array"
+        description: "List of id of port for this card"
+        items:
+          type: "integer"
+          format: "int64"
+      resourceState:
+        type: "string"
+        description: "Status of element"
+      serialNumber:
+        type: "string"
+        description: "Serial number of element"
+      serviceState:
+        type: "string"
+        description: "Service number of CARD"
+      shortName:
+        type: "string"
+        description: "Short name of element"
+      slotNumber:
+        type: "string"
+        description: "SlotNumber of device where this card is"
       equipmentNumber:
         type: "string"
         description: "Equipment number of this card"
@@ -2977,8 +3607,8 @@ definitions:
         type: "string"
         description: "Type of element"
         enum:
-          - "OLT"
-          - "BNG"
+        - "OLT"
+        - "BNG"
       emsName:
         type: "string"
         description: "It is the unique identifier"
@@ -3054,8 +3684,92 @@ definitions:
         type: "string"
         description: "Type of element"
         enum:
-          - "OLT"
-          - "BNG"
+        - "OLT"
+        - "BNG"
+      emsName:
+        type: "string"
+        description: "It is the unique identifier"
+      endsz:
+        type: "string"
+        description: "EndSz of device"
+        pattern: "[0-9]{1,6}\\/[0-9]{1,6}\\/[0-9]{1,6}\\/[a-zA-Z0-9]{2,4}"
+      firmwareVersion:
+        type: "string"
+        description: "The current firmware version of element"
+      fsz:
+        type: "string"
+        description: "Description of the type network element and it is part of end_sz"
+      id:
+        type: "integer"
+        format: "int64"
+        description: "It is the unique identifier in database"
+      importState:
+        type: "string"
+        description: "Import status of device"
+      ipaddress:
+        type: "string"
+        description: "IP-Address of device"
+      klsid:
+        type: "string"
+        description: "Id of the location of device"
+      materialNumber:
+        type: "string"
+        description: "Material number of element"
+      resourceState:
+        type: "string"
+        description: "Status of element"
+      serialNumber:
+        type: "string"
+        description: "Serial number of element"
+      shortName:
+        type: "string"
+        description: "Short name of element"
+      vendor:
+        type: "string"
+        description: "Model of device"
+      vpsz:
+        type: "string"
+        description: " Part of Endsz"
+      asb:
+        type: "string"
+        description: "ASB of device"
+      technicalLocation:
+        type: "string"
+        description: "Technical location of device"
+      equipmentNumber:
+        type: "string"
+        description: "Equipment number of device"
+      partyId:
+        type: "integer"
+        format: "int64"
+        description: "Composite Party ID of device"
+      ressourceId:
+        type: "string"
+        description: "Resource ID of device"
+  AssuranceDeviceDtoV3:
+    type: "object"
+    properties:
+      cardIDs:
+        type: "array"
+        description: "List of id of card for this device"
+        items:
+          type: "integer"
+          format: "int64"
+      communicationState:
+        type: "string"
+        description: "Communication state of device"
+      description:
+        type: "string"
+        description: "Description of element"
+      deviceName:
+        type: "string"
+        description: "Name of element"
+      devicetype:
+        type: "string"
+        description: "Type of element"
+        enum:
+        - "OLT"
+        - "BNG"
       emsName:
         type: "string"
         description: "It is the unique identifier"
@@ -3123,8 +3837,8 @@ definitions:
         type: "string"
         description: "Ancp status of ethernet link"
         enum:
-          - "ACTIVE"
-          - "INACTIVE"
+        - "ACTIVE"
+        - "INACTIVE"
       bngPortRef:
         type: "integer"
         format: "int64"
@@ -3145,9 +3859,9 @@ definitions:
         type: "string"
         description: "Status of ethernet link"
         enum:
-          - "ACTIVE"
-          - "PLANNED"
-          - "ACTIVATION_PROCESS"
+        - "ACTIVE"
+        - "PLANNED"
+        - "ACTIVATION_PROCESS"
       lbz:
         type: "string"
         description: "LBZ"
@@ -3172,8 +3886,8 @@ definitions:
         type: "string"
         description: "Ancp status of ethernet link"
         enum:
-          - "ACTIVE"
-          - "INACTIVE"
+        - "ACTIVE"
+        - "INACTIVE"
       bngPortRef:
         type: "integer"
         format: "int64"
@@ -3194,9 +3908,65 @@ definitions:
         type: "string"
         description: "Status of ethernet link"
         enum:
-          - "ACTIVE"
-          - "PLANNED"
-          - "ACTIVATION_PROCESS"
+        - "ACTIVE"
+        - "PLANNED"
+        - "ACTIVATION_PROCESS"
+      lbz:
+        type: "string"
+        description: "LBZ"
+      lsz:
+        type: "string"
+        description: "Business description of link between OLT and BNG"
+      oltPortRef:
+        type: "integer"
+        format: "int64"
+        description: "ID of the OLT PORT where this port is"
+      ordnungsnummer:
+        type: "integer"
+        format: "int32"
+        description: "OrderNumber is an identifier of link"
+      uewegId:
+        type: "string"
+        description: "UEWEGID is an identifier of link"
+      partyId:
+        type: "integer"
+        format: "int64"
+        description: "Composite Party ID of this ethernetlink"
+      resourceId:
+        type: "string"
+        description: "Resource ID of this ethernetlink"
+  AssuranceEthernetLinkDtoV3:
+    type: "object"
+    properties:
+      ancpStatus:
+        type: "string"
+        description: "Ancp status of ethernet link"
+        enum:
+        - "ACTIVE"
+        - "INACTIVE"
+      bngPortRef:
+        type: "integer"
+        format: "int64"
+        description: "ID of the BNG PORT where this port is"
+      endsza:
+        type: "string"
+        description: "EndSz of device"
+        pattern: "[0-9]{1,6}\\/[0-9]{1,6}\\/[0-9]{1,6}\\/[a-zA-Z0-9]{2,4}"
+      endszb:
+        type: "string"
+        description: "EndSz of device"
+        pattern: "[0-9]{1,6}\\/[0-9]{1,6}\\/[0-9]{1,6}\\/[a-zA-Z0-9]{2,4}"
+      id:
+        type: "integer"
+        format: "int64"
+        description: "It is the unique identifier in database"
+      ipStatus:
+        type: "string"
+        description: "Status of ethernet link"
+        enum:
+        - "ACTIVE"
+        - "PLANNED"
+        - "ACTIVATION_PROCESS"
       lbz:
         type: "string"
         description: "LBZ"
@@ -3256,6 +4026,26 @@ definitions:
         format: "int64"
       resourceId:
         type: "string"
+  AssuranceOpticalModuleDtoV3:
+    type: "object"
+    properties:
+      description:
+        type: "string"
+      emsName:
+        type: "string"
+      manufacturer:
+        type: "string"
+      materialNumber:
+        type: "string"
+      name:
+        type: "string"
+      shortName:
+        type: "string"
+      partyId:
+        type: "integer"
+        format: "int64"
+      resourceId:
+        type: "string"
   AssurancePortDto:
     type: "object"
     properties:
@@ -3289,8 +4079,8 @@ definitions:
         type: "string"
         description: "Type of element"
         enum:
-          - "PON"
-          - "ETHERNET"
+        - "PON"
+        - "ETHERNET"
   AssurancePortDtoV2:
     type: "object"
     properties:
@@ -3324,8 +4114,44 @@ definitions:
         type: "string"
         description: "Type of element"
         enum:
-          - "PON"
-          - "ETHERNET"
+        - "PON"
+        - "ETHERNET"
+      partyId:
+        type: "integer"
+        format: "int64"
+        description: "Composite Party ID of this port"
+      ressourceId:
+        type: "string"
+        description: "Resource ID of this port"
+  AssurancePortDtoV3:
+    type: "object"
+    properties:
+      cardId:
+        type: "integer"
+        format: "int64"
+        description: "ID of the card where this port is"
+      ethernetLinkIDs:
+        type: "array"
+        description: "List of id of ethernet link for this port"
+        items:
+          type: "integer"
+          format: "int64"
+      id:
+        type: "integer"
+        format: "int64"
+        description: "It is the unique identifier in database"
+      opticalModule:
+        description: "Service number of CARD"
+        $ref: "#/definitions/AssuranceOpticalModuleDtoV3"
+      portNumber:
+        type: "string"
+        description: "It is the unique identifier in database"
+      porttype:
+        type: "string"
+        description: "Type of element"
+        enum:
+        - "PON"
+        - "ETHERNET"
       partyId:
         type: "integer"
         format: "int64"
@@ -3419,11 +4245,11 @@ definitions:
       cardType:
         type: "string"
         enum:
-          - "GPON"
-          - "UPLINK_CARD"
-          - "MANAGEMENT_CARD"
-          - "SUPPORT_MODULE"
-          - "PROCESSING_BOARD"
+        - "GPON"
+        - "UPLINK_CARD"
+        - "MANAGEMENT_CARD"
+        - "SUPPORT_MODULE"
+        - "PROCESSING_BOARD"
       equipmentNumber:
         type: "string"
       manufacturer:
@@ -3432,6 +4258,9 @@ definitions:
         type: "array"
         items:
           $ref: "#/definitions/Port"
+      compositePartyId:
+        type: "integer"
+        format: "int64"
   DefaultNeProfile:
     type: "object"
     properties:
@@ -3446,8 +4275,8 @@ definitions:
       state:
         type: "string"
         enum:
-          - "INACTIVE"
-          - "ACTIVE"
+        - "INACTIVE"
+        - "ACTIVE"
       version:
         type: "integer"
         format: "int64"
@@ -3467,9 +4296,9 @@ definitions:
       ontState:
         type: "string"
         enum:
-          - "OFFLINE"
-          - "ONLINE"
-          - "UNKNOWN"
+        - "OFFLINE"
+        - "ONLINE"
+        - "UNKNOWN"
       anpTag:
         type: "integer"
         format: "int32"
@@ -3507,8 +4336,8 @@ definitions:
       state:
         type: "string"
         enum:
-          - "INACTIVE"
-          - "ACTIVE"
+        - "INACTIVE"
+        - "ACTIVE"
       federationPartner:
         type: "string"
       version:
@@ -3564,25 +4393,25 @@ definitions:
       resourceState:
         type: "string"
         enum:
-          - "NON_WORKING"
-          - "WORKING"
+        - "NON_WORKING"
+        - "WORKING"
       communicationState:
         type: "string"
         enum:
-          - "CS_AVAILABLE"
-          - "CS_UNAVAILABLE"
+        - "CS_AVAILABLE"
+        - "CS_UNAVAILABLE"
       serialNumber:
         type: "string"
       importState:
         type: "string"
         enum:
-          - "PLANNED"
-          - "DISCOVERED"
+        - "PLANNED"
+        - "DISCOVERED"
       type:
         type: "string"
         enum:
-          - "OLT"
-          - "BNG"
+        - "OLT"
+        - "BNG"
       importDate:
         type: "string"
         format: "date-time"
@@ -3605,6 +4434,9 @@ definitions:
         type: "string"
       manufacturer:
         type: "string"
+      compositePartyId:
+        type: "integer"
+        format: "int64"
   EquipmentHolder:
     type: "object"
     properties:
@@ -3664,25 +4496,25 @@ definitions:
       resourceState:
         type: "string"
         enum:
-          - "NON_WORKING"
-          - "WORKING"
+        - "NON_WORKING"
+        - "WORKING"
       communicationState:
         type: "string"
         enum:
-          - "CS_AVAILABLE"
-          - "CS_UNAVAILABLE"
+        - "CS_AVAILABLE"
+        - "CS_UNAVAILABLE"
       serialNumber:
         type: "string"
       importState:
         type: "string"
         enum:
-          - "PLANNED"
-          - "DISCOVERED"
+        - "PLANNED"
+        - "DISCOVERED"
       type:
         type: "string"
         enum:
-          - "OLT"
-          - "BNG"
+        - "OLT"
+        - "BNG"
       importDate:
         type: "string"
         format: "date-time"
@@ -3697,6 +4529,9 @@ definitions:
         type: "string"
       manufacturer:
         type: "string"
+      compositePartyId:
+        type: "integer"
+        format: "int64"
   FttbAnptagRange:
     type: "object"
     properties:
@@ -3744,10 +4579,16 @@ definitions:
         format: "int64"
       homeId:
         type: "string"
+      homeIdStatus:
+        type: "string"
+        enum:
+        - "FREE"
+        - "RESERVED"
+        - "ASSIGNED"
   LineIdDto:
     type: "object"
     required:
-      - "lineId"
+    - "lineId"
     properties:
       lineId:
         type: "string"
@@ -3791,26 +4632,18 @@ definitions:
         type: "string"
       manufacturer:
         type: "string"
+      compositePartyId:
+        type: "integer"
+        format: "int64"
   Page:
     type: "object"
     properties:
-      totalPages:
-        type: "integer"
-        format: "int32"
       totalElements:
         type: "integer"
         format: "int64"
-      sort:
-        $ref: "#/definitions/Sort"
-      numberOfElements:
+      totalPages:
         type: "integer"
         format: "int32"
-      first:
-        type: "boolean"
-      last:
-        type: "boolean"
-      pageable:
-        $ref: "#/definitions/Pageable"
       size:
         type: "integer"
         format: "int32"
@@ -3821,26 +4654,26 @@ definitions:
       number:
         type: "integer"
         format: "int32"
-  PageAccessLineViewDto:
-    type: "object"
-    properties:
-      totalPages:
-        type: "integer"
-        format: "int32"
-      totalElements:
-        type: "integer"
-        format: "int64"
       sort:
         $ref: "#/definitions/Sort"
-      numberOfElements:
-        type: "integer"
-        format: "int32"
-      first:
-        type: "boolean"
       last:
         type: "boolean"
       pageable:
         $ref: "#/definitions/Pageable"
+      first:
+        type: "boolean"
+      numberOfElements:
+        type: "integer"
+        format: "int32"
+  PageAccessLineViewDto:
+    type: "object"
+    properties:
+      totalElements:
+        type: "integer"
+        format: "int64"
+      totalPages:
+        type: "integer"
+        format: "int32"
       size:
         type: "integer"
         format: "int32"
@@ -3851,24 +4684,35 @@ definitions:
       number:
         type: "integer"
         format: "int32"
+      sort:
+        $ref: "#/definitions/Sort"
+      last:
+        type: "boolean"
+      pageable:
+        $ref: "#/definitions/Pageable"
+      first:
+        type: "boolean"
+      numberOfElements:
+        type: "integer"
+        format: "int32"
   Pageable:
     type: "object"
     properties:
-      sort:
-        $ref: "#/definitions/Sort"
-      paged:
-        type: "boolean"
-      unpaged:
-        type: "boolean"
-      pageNumber:
-        type: "integer"
-        format: "int32"
-      pageSize:
-        type: "integer"
-        format: "int32"
       offset:
         type: "integer"
         format: "int64"
+      sort:
+        $ref: "#/definitions/Sort"
+      pageSize:
+        type: "integer"
+        format: "int32"
+      pageNumber:
+        type: "integer"
+        format: "int32"
+      unpaged:
+        type: "boolean"
+      paged:
+        type: "boolean"
   PonPortReferenceDto:
     type: "object"
     properties:
@@ -3891,12 +4735,16 @@ definitions:
       portType:
         type: "string"
         enum:
-          - "PON"
-          - "ETHERNET"
+        - "PON"
+        - "ETHERNET"
       portNumber:
         type: "string"
       opticalModule:
         $ref: "#/definitions/OpticalModule"
+      homeIdPools:
+        type: "array"
+        items:
+          $ref: "#/definitions/HomeIdPool"
       lineIdPools:
         type: "array"
         items:
@@ -3905,10 +4753,9 @@ definitions:
         type: "array"
         items:
           $ref: "#/definitions/AccessLine"
-      homeIdPools:
-        type: "array"
-        items:
-          $ref: "#/definitions/HomeIdPool"
+      compositePartyId:
+        type: "integer"
+        format: "int64"
   RequestAccessLineViewDto:
     type: "object"
     properties:
@@ -3927,19 +4774,19 @@ definitions:
         items:
           type: "string"
           enum:
-            - "INACTIVE"
-            - "WALLED_GARDEN"
-            - "ASSIGNED"
+          - "INACTIVE"
+          - "WALLED_GARDEN"
+          - "ASSIGNED"
       subscriberNeProfileState:
         type: "string"
         enum:
-          - "INACTIVE"
-          - "ACTIVE"
+        - "INACTIVE"
+        - "ACTIVE"
       subscriberNetworkLineProfileState:
         type: "string"
         enum:
-          - "INACTIVE"
-          - "ACTIVE"
+        - "INACTIVE"
+        - "ACTIVE"
       slotNumber:
         type: "string"
       portNumber:
@@ -3965,8 +4812,8 @@ definitions:
       state:
         type: "string"
         enum:
-          - "INACTIVE"
-          - "ACTIVE"
+        - "INACTIVE"
+        - "ACTIVE"
       version:
         type: "integer"
         format: "int64"
@@ -4005,8 +4852,8 @@ definitions:
       state:
         type: "string"
         enum:
-          - "INACTIVE"
-          - "ACTIVE"
+        - "INACTIVE"
+        - "ACTIVE"
       federationPartner:
         type: "string"
       version:
