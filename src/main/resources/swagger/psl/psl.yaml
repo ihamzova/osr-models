@@ -1,0 +1,571 @@
+swagger: "2.0"
+info:
+  title: "PSL REST API"
+  description: "PSL REST API"
+  version: 0.4.0
+host: "localhost:8198"
+schemes:
+  - http
+  - https
+paths:
+  /v1/psl/read-equipment/:
+    post:
+      description: ""
+      tags:
+        - Request
+      operationId: "readEquipmentRequest"
+      consumes:
+        - application/json
+      parameters:
+        - $ref: '#/parameters/X-Callback-Id'
+        - $ref: '#/parameters/X-Callback-Correlation-Id'
+        - $ref: '#/parameters/X-Callback-Url'
+        - $ref: '#/parameters/X-Callback-Method'
+        - in: "body"
+          name: "body"
+          required: true
+          schema:
+            $ref: "#/definitions/ReadEquipmentRequest"
+      responses:
+        200:
+          description: "request accepted"
+        500:
+          description: "Internal error"
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+      x-operation-type: async
+
+  /pslCallback/v1/read-equipment/readEquipmentCallback:
+    post:
+      description: ""
+      tags:
+        - Callbacks
+      operationId: "readEquipmentCallback"
+      consumes:
+        - application/json
+      parameters:
+        - $ref: '#/parameters/X-Callback-Correlation-Id'
+        - in: "body"
+          name: "body"
+          description: "result of ReadEquipmentRequest"
+          required: true
+          schema:
+            $ref: "#/definitions/ReadEquipmentResponseHolder"
+      responses:
+        200:
+          description: "Equipment data processed"
+        500:
+          description: "Internal error"
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+      x-reference-operation-id: readEquipmentRequest
+      x-operation-type: callback
+
+definitions:
+  ErrorResponse:
+    type: "object"
+    properties:
+      errorCode:
+        type: "string"
+        description: "Error code"
+      message:
+        type: "string"
+        description: "Message"
+    description: "Error response of 4xx and 5xx http statuses"
+
+  MessageContext:
+    type: "object"
+    properties:
+      target:
+        type: "string"
+        description: ""
+        minLength: 1
+        maxLength: 64
+      sender:
+        type: "string"
+        description: ""
+        minLength: 2
+        maxLength: 255
+      correlationId:
+        type: "string"
+        description: ""
+        minLength: 5
+        maxLength: 255
+      redelivered:
+        type: "string"
+        description: ""
+      replyTo:
+        type: "string"
+        description: ""
+      requestId:
+        type: "string"
+        description: ""
+        minLength: 5
+        maxLength: 255
+      revision:
+        type: "string"
+        description: ""
+      sequenceId:
+        type: "string"
+        description: ""
+      timeLeft:
+        type: "string"
+        description: ""
+      priority:
+        type: integer
+        description: ""
+
+  ReadEquipmentRequest:
+    type: object
+    required:
+      - requestData
+    properties:
+      messageContext:
+        $ref: "#/definitions/MessageContext"
+      requestData:
+        $ref: "#/definitions/ReadEquipmentRequestData"
+
+  ReadEquipmentResponseHolder:
+    type: "object"
+    properties:
+      error:
+        description: "Result of fail operation."
+        $ref: "#/definitions/CallbackError"
+      response:
+        description: "Result of successful operation."
+        $ref: "#/definitions/ReadEquipmentResponse"
+      success:
+        type: "boolean"
+    description: "result of PSL data session"
+
+  CallbackError:
+    type: "object"
+    properties:
+      message:
+        type: "string"
+      status:
+        type: "integer"
+        format: "int32"
+      code:
+        type: "string"
+
+  ReadEquipmentResponse:
+    type: "object"
+    properties:
+      messageContext:
+        $ref: "#/definitions/MessageContext"
+      responseData:
+        $ref: "#/definitions/ReadEquipmentResponseData"
+
+  ReadEquipmentRequestData:
+    type: object
+    required:
+      - requestEquipment
+    properties:
+      header:
+        $ref: "#/definitions/Header"
+      requestEquipment:
+        type: array
+        items:
+          $ref: "#/definitions/RequestEquipment"
+
+  ReadEquipmentResponseData:
+    type: object
+    required:
+      - Header
+    properties:
+      header:
+        $ref: "#/definitions/Header"
+      equipment:
+        type: array
+        items:
+          $ref: "#/definitions/Equipment"
+      status:
+        $ref: "#/definitions/Status"
+
+  Header:
+    type: object
+    required:
+      - partner
+      - anfoKen
+    properties:
+      partner:
+        type: string
+        maxLength: 40
+        default: "BS_DIGIOSS"
+      anfoKen:
+        type: string
+        maxLength: 20
+
+  Equipment:
+    type: object
+    properties:
+      equnr:
+        type: string
+        description: "Equipment Number"
+        maxLength: 18
+      tplnr:
+        type: string
+        description: "Technischer Platz"
+        maxLength: 30
+      feld:
+        type: string
+        description: ""
+        maxLength: 4
+      ebpl:
+        type: string
+        description: "Einbauplatz"
+        maxLength: 4
+      stpl:
+        type: string
+        description: "Steckplatz"
+        maxLength: 4
+      hequi:
+        type: string
+        description: "Uebergeordnetes Equipment"
+        maxLength: 18
+      heqnr:
+        type: string
+        description: "Position des Equipments"
+        maxLength: 4
+      heUeb:
+        type: string
+        description: "HE-Ueberlauf"
+        maxLength: 1
+      submt:
+        type: string
+        description: "Material Nr."
+        maxLength: 18
+      ktextMat:
+        type: string
+        description: "Material-Kurztext"
+        maxLength: 40
+      herst:
+        type: string
+        description: "Hersteller Nr."
+        maxLength: 10
+      herstName:
+        type: string
+        description: "Hersteller Name (kurz)"
+        maxLength: 10
+      fsachnr:
+        type: string
+        description: "Herstellerteile Nr."
+        maxLength: 30
+      ansdat:
+        type: string
+        description: "Anschaffungsdatum"
+        maxLength: 10
+      eqart:
+        type: string
+        description: "Equipmentart"
+        maxLength: 1
+      endsz:
+        type: string
+        description: "Endstellenschluesselzahl"
+        maxLength: 30
+      ossNodeId:
+        type: string
+        description: ""
+        maxLength: 30
+      eqtyp:
+        type: string
+        description: "Equipmenttyp"
+        maxLength: 1
+      objart:
+        type: string
+        description: "Objektart"
+        maxLength: 10
+      anlkl:
+        type: string
+        description: "Anlagenklasse"
+        maxLength: 8
+      debitor:
+        type: string
+        description: "Kunde"
+        maxLength: 10
+      kund3:
+        type: string
+        description: "Betreiber"
+        maxLength: 10
+      invnr:
+        type: string
+        description: "Inventar Nr."
+        maxLength: 25
+      liznr:
+        type: string
+        description: "Vertrags Nr."
+        maxLength: 20
+      serge:
+        type: string
+        description: "Serien Nr. des Herstellers vom Geraet"
+        maxLength: 30
+      gerstd:
+        type: string
+        description: "Geraetestand"
+        maxLength: 16
+      aenstd:
+        type: string
+        description: "Aenderungsstand"
+        maxLength: 3
+      swstd:
+        type: string
+        description: "Softwarestand"
+        maxLength: 5
+      awstat:
+        type: string
+        description: "Anwenderstatus"
+        maxLength: 4
+      zawstat:
+        type: string
+        description: "Zusaetzlicher Anwenderstatus"
+        maxLength: 4
+      aktion:
+        type: string
+        description: "Bearbeitungsaktion"
+        maxLength: 4
+      dienstekennung:
+        type: string
+        description: "Zusaetzlicher Anwenderstatus"
+        maxLength: 2
+      hostname:
+        type: string
+        description: "Zusaetzlicher Anwenderstatus"
+        maxLength: 30
+      planungsgeraetename:
+        type: string
+        description: "Zusaetzlicher Anwenderstatus"
+        maxLength: 30
+      gesamtstruktur:
+        type: string
+        description: "Zusaetzlicher Anwenderstatus"
+        maxLength: 50
+      anzEbenen:
+        type: string
+        description: "Zusaetzlicher Anwenderstatus"
+        maxLength: 1
+      bgtEquiNr:
+        type: string
+        description: "Zusaetzlicher Anwenderstatus"
+        maxLength: 18
+      deltastruktur:
+        type: string
+        description: "Zusaetzlicher Anwenderstatus"
+        maxLength: 50
+      datumInvBest:
+        type: string
+        description: "Datum zur letzten Bestaetigung des Vorhan-denseins aus Inventursicht"
+        maxLength: 10
+      ersatzteilkennz:
+        type: string
+        description: "Zusaetzlicher Anwenderstatus"
+        maxLength: 1
+      zmBetrDat:
+        type: string
+        description: "Pflege Betriebl. Daten"
+        maxLength: 1
+      zmStatus:
+        type: string
+        description: "Status Materialreferenzierung"
+        maxLength: 1
+      zmScanrel:
+        type: string
+        description: "Scanrelevant"
+        maxLength: 1
+      vpsz:
+        type: string
+        description: "Verbindungspunktschluesselzahl"
+        maxLength: 20
+      starId:
+        type: string
+        description: "KLS–Lokations–ID zum Objekt VPSZ"
+        maxLength: 12
+      adrId:
+        type: string
+        description: "KLS–Grundstuecks–ID"
+        maxLength: 12
+      nkz:
+        type: string
+        description: "Netzkennzahl"
+        maxLength: 6
+      vpz:
+        type: string
+        description: "Verbindungspunkt"
+        maxLength: 6
+      geba:
+        type: string
+        description: "Gebaeude"
+        maxLength: 3
+      raum:
+        type: string
+        description: "Raum"
+        maxLength: 3
+      reihe:
+        type: string
+        description: ""
+        maxLength: 3
+      platz:
+        type: string
+        description: ""
+        maxLength: 3
+      asb:
+        type: string
+        description: "Anschlussbereich"
+        maxLength: 4
+      kvz:
+        type: string
+        description: "Schaltpunkt Nr. bei THS–TPL"
+        maxLength: 6
+      spkt:
+        type: string
+        description: "Schaltpunkt Nr. bei THS–TPL"
+        maxLength: 7
+      iwerk:
+        type: string
+        description: "IH–Planungswerk"
+        maxLength: 4
+      ingrp:
+        type: string
+        description: "H–Planergruppe"
+        maxLength: 3
+      fltyp:
+        type: string
+        description: "Typ des Technischen Platzes"
+        maxLength: 1
+      aufnr:
+        type: string
+        description: "SM–Auftragsnummer"
+        maxLength: 12
+      solldat:
+        type: string
+        description: "Aufbaudatum SOLL vom SM–Auftrag (JJJJMMTT)"
+        maxLength: 10
+      bertdat:
+        type: string
+        description: "Datum Anlage Betriebsbereit (JJJJMMTT)"
+        maxLength: 10
+      kostl:
+        type: string
+        description: "Kostenstelle"
+        maxLength: 10
+      ktextSm:
+        type: string
+        description: "Kurztext SM–Auftrag"
+        maxLength: 40
+      pdhnr:
+        type: string
+        description: "Materialbereichs"
+        maxLength: 11
+      bezMb:
+        type: string
+        description: "Bezeichnung"
+        maxLength: 20
+      lkr:
+        type: string
+        description: "Leistungskriterium"
+        maxLength: 10
+      anzLkr:
+        type: string
+        description: "Leistungskriterien"
+        maxLength: 7
+      anlRel:
+        type: string
+        description: "Anlagen-Relevanz"
+        maxLength: 1
+      permInvRel:
+        type: string
+        description: "Mat. Nr. ist Permanent–Inventurrel"
+        maxLength: 1
+      inventarnrRel:
+        type: string
+        description: "X wenn zum Material eine Inventarnummer benoetigt wird"
+        maxLength: 1
+      sernrRel:
+        type: string
+        description: "X wenn zum Material eine Hersteller Seriennummer benoetigt wird"
+        maxLength: 1
+
+  Status:
+    type: object
+    properties:
+      "type":
+        type: string
+        maxLength: 1
+      id:
+        type: string
+        maxLength: 20
+      number:
+        type: string
+        maxLength: 3
+      message:
+        type: string
+        maxLength: 220
+      logNo:
+        type: string
+        maxLength: 20
+      logMsgNo:
+        type: string
+        maxLength: 6
+      messageV1:
+        type: string
+        maxLength: 50
+      messageV2:
+        type: string
+        maxLength: 50
+      messageV3:
+        type: string
+      messageV4:
+        type: string
+        maxLength: 50
+      parameter:
+        type: string
+        maxLength: 32
+      row:
+        type: string
+        maxLength: 10
+      field:
+        type: string
+        maxLength: 30
+      system:
+        type: string
+        maxLength: 10
+
+  RequestEquipment:
+    type: object
+    required:
+      - endsz
+    properties:
+      endsz:
+        type: string
+        maxLength: 30
+
+parameters:
+  X-Callback-Id:
+    in: header
+    name: X-Callback-Id
+    description: Unique consumerID used to identify the request consumer within FUSE and provide support for maintenance
+    required: true
+    type: string
+  X-Callback-Url:
+    in: header
+    name: X-Callback-Url
+    description: The provided REST-interface from the consumer where the expected callback is sent to
+    required: true
+    type: string
+    format: uri
+  X-Callback-Method:
+    in: header
+    name: X-Callback-Method
+    description: HTTP method which is used for the callback
+    required: false
+    type: string
+    default: POST
+    enum:
+      - POST
+  X-Callback-Correlation-Id:
+    in: header
+    name: X-Callback-Correlation-Id
+    description: Value for identifying a single transaction across multiple services up to the backend. Usually set by the originating consumer
+    required: true
+    type: string
+    format: uuid
