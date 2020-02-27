@@ -10,7 +10,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>osr-models</artifactId>
-    <version>0.0.4</version>
+    <version>0.0.5</version>
 
     <properties>
         <framework.version>${project.parent.version}</framework.version>
@@ -169,6 +169,18 @@
                                         <name>wg.access.provisioning.external.client</name>
                                         <inputSpec>
                                             ${project.basedir}/src/main/resources/swagger/wg-access-provisioning/swagger-external.yaml
+                                        </inputSpec>
+                                    </item>
+                                    <item>
+                                        <name>psl.adapter.client</name>
+                                        <inputSpec>
+                                            ${project.basedir}/src/main/resources/swagger/psl-adapter/psl-adapter.yaml
+                                        </inputSpec>
+                                    </item>
+                                    <item>
+                                        <name>seal.client</name>
+                                        <inputSpec>
+                                            ${project.basedir}/src/main/resources/swagger/seal/seal_2.0.yaml
                                         </inputSpec>
                                     </item>
                                 </items>
