@@ -1,0 +1,299 @@
+---
+swagger: "2.0"
+info:
+  description: "A10NSP API"
+  version: "1.1.0"
+  title: "A10NSP Inventory"
+host: "localhost:8198"
+tags:
+- name: "A10nspInternalController"
+- name: "DatabaseTestController"
+- name: "Inventory Controller"
+schemes:
+- "http"
+paths:
+  /api/a10nspInventory/v1/a10nsp:
+    get:
+      tags:
+      - "A10nspInternalController"
+      summary: "Find A10NSP's by OLT-Endsz list"
+      description: ""
+      operationId: "findA10nspByOltEndSz"
+      parameters:
+      - name: "endsz"
+        in: "query"
+        description: "Olt-EndSz List"
+        required: true
+        type: "array"
+        items:
+          type: "string"
+        collectionFormat: "multi"
+      - name: "X-Business-Context"
+        in: "header"
+        description: "The business context is a general classification for a larger\
+          \ number of requests (types) usually set by the originating consumer. Any\
+          \ service receiving this header parameter MUST forward it unmodified to\
+          \ other services it invokes. Non-REST technologies (e.g. SOABP) might use\
+          \ a different identifier for this attribute."
+        required: false
+        type: "string"
+      - name: "X-Correlation-ID"
+        in: "header"
+        description: "Value for identifying a single transaction across multiple services\
+          \ up to the backend. Usually set by the originating consumer.Any service\
+          \ receiving this header parameter MUST forward it unmodified to other services\
+          \ it invokes. Non-REST technologies (e.g. SOABP) might use a different identifier\
+          \ for this attribute. If this ID is not available (not supplied, empty or\
+          \ at origin), the service MUST create it as a UUID. The maximum length of\
+          \ 256 characters MUST NOT be exceeded (a standard UUID has 36 characters).\
+          \ The creator MAY prefix the UUID with an application and/or instance defined\
+          \ string."
+        required: false
+        type: "string"
+      - name: "X-Request-ID"
+        in: "header"
+        description: "Value to identify an individual request across consuming application,\
+          \ middleware and service provider. This ID is to be generated for every\
+          \ single request and not to be passed down (as X-Correlation-ID) to sub-services.\
+          \ Every consuming application MUST create this value as UUID. The maximum\
+          \ length of 256 characters MUST NOT be exceeded (a standard UUID has 36\
+          \ characters). The creator MAY prefix the UUID with an application and/or\
+          \ instance defined string."
+        required: false
+        type: "string"
+      responses:
+        200:
+          description: "Successfully found"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/OltDto"
+        400:
+          description: "Can't perform operation"
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+  /api/a10nspInventory/v1/a10nsp/carrierConnection:
+    post:
+      tags:
+      - "A10nspInternalController"
+      summary: "Check for existing A10nsp by LineId"
+      description: ""
+      operationId: "checkLineId"
+      parameters:
+      - in: "body"
+        name: "body"
+        description: "LineId"
+        required: true
+        schema:
+          type: "string"
+      - name: "rahmenvertragsnummer"
+        in: "query"
+        description: "Rahmenvertragsnummer"
+        required: true
+        type: "string"
+        pattern: "[0-9]*"
+      - name: "X-Business-Context"
+        in: "header"
+        description: "The business context is a general classification for a larger\
+          \ number of requests (types) usually set by the originating consumer. Any\
+          \ service receiving this header parameter MUST forward it unmodified to\
+          \ other services it invokes. Non-REST technologies (e.g. SOABP) might use\
+          \ a different identifier for this attribute."
+        required: false
+        type: "string"
+      - name: "X-Correlation-ID"
+        in: "header"
+        description: "Value for identifying a single transaction across multiple services\
+          \ up to the backend. Usually set by the originating consumer.Any service\
+          \ receiving this header parameter MUST forward it unmodified to other services\
+          \ it invokes. Non-REST technologies (e.g. SOABP) might use a different identifier\
+          \ for this attribute. If this ID is not available (not supplied, empty or\
+          \ at origin), the service MUST create it as a UUID. The maximum length of\
+          \ 256 characters MUST NOT be exceeded (a standard UUID has 36 characters).\
+          \ The creator MAY prefix the UUID with an application and/or instance defined\
+          \ string."
+        required: false
+        type: "string"
+      - name: "X-Request-ID"
+        in: "header"
+        description: "Value to identify an individual request across consuming application,\
+          \ middleware and service provider. This ID is to be generated for every\
+          \ single request and not to be passed down (as X-Correlation-ID) to sub-services.\
+          \ Every consuming application MUST create this value as UUID. The maximum\
+          \ length of 256 characters MUST NOT be exceeded (a standard UUID has 36\
+          \ characters). The creator MAY prefix the UUID with an application and/or\
+          \ instance defined string."
+        required: false
+        type: "string"
+      responses:
+        200:
+          description: "Successfully found"
+          schema:
+            $ref: "#/definitions/CheckLineIdResult"
+        400:
+          description: "Can't perform operation"
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+        404:
+          description: "Not present in database"
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+  /api/a10nspInventory/v1/admin/a10nsp:
+    post:
+      tags:
+      - "Inventory Controller"
+      summary: "Adds new A10nsp to inventory"
+      description: "This functionality is for internal usage only!"
+      operationId: "addA10nspToInventory"
+      parameters:
+      - name: "active"
+        in: "query"
+        description: "A10nsp"
+        required: false
+        type: "boolean"
+      - name: "bngEndsz"
+        in: "query"
+        description: "A10nsp"
+        required: false
+        type: "string"
+      - name: "carrierBsaReference"
+        in: "query"
+        description: "A10nsp"
+        required: false
+        type: "string"
+      - name: "rahmenvertragsnummer"
+        in: "query"
+        description: "A10nsp"
+        required: false
+        type: "string"
+      - name: "sperrStatus"
+        in: "query"
+        description: "A10nsp"
+        required: false
+        type: "boolean"
+      responses:
+        200:
+          description: "A10nsp added"
+        500:
+          description: "Internal error"
+    delete:
+      tags:
+      - "Inventory Controller"
+      summary: "Reset Inventory"
+      description: "This functionality is for internal usage only!"
+      operationId: "resetInventory"
+      parameters: []
+      responses:
+        200:
+          description: "Inventory reseted"
+        500:
+          description: "Internal error"
+  /api/a10nspInventory/v1/admin/a10nsp/refresh:
+    get:
+      tags:
+      - "Inventory Controller"
+      summary: "Refresh Inventory"
+      description: "This functionality is for internal usage only!"
+      operationId: "refreshInventory"
+      parameters: []
+      responses:
+        200:
+          description: "Inventory refreshed"
+        500:
+          description: "Internal error"
+  /api/test/v1/test-database:
+    get:
+      tags:
+      - "DatabaseTestController"
+      summary: "Add a new a10nsp instance to the database. "
+      description: "This is necessary for automation test case."
+      operationId: "insertIntoDatabase"
+      parameters:
+      - name: "BNG_ENDSZ, default values is 49/30/179/76G8"
+        in: "query"
+        required: false
+        type: "string"
+        pattern: "[0-9]{1,6}\\/[0-9]{1,6}\\/[0-9]{1,6}\\/[a-zA-Z0-9]{2,4}"
+      - name: "CARRIER_BSA_REFERENCE, default values is 0124573457815728"
+        in: "query"
+        required: false
+        type: "string"
+      - name: "RAHMENVERTRAGSNUMMER, default values is 9147922971713834008"
+        in: "query"
+        required: false
+        type: "string"
+      - name: "SPERR_STATUS, default values is 0"
+        in: "query"
+        required: false
+        type: "string"
+      - name: "ACTIVE, default values is 1"
+        in: "query"
+        required: false
+        type: "string"
+      responses:
+        200:
+          description: "a10nsp instance successfully added"
+        500:
+          description: "Internal error"
+    put:
+      tags:
+      - "DatabaseTestController"
+      summary: "Filling the database with thw data. "
+      description: "This is necessary for automation test case."
+      operationId: "setDatabase"
+      parameters: []
+      responses:
+        200:
+          description: "Database data successfully filled"
+        500:
+          description: "Internal error"
+    delete:
+      tags:
+      - "DatabaseTestController"
+      summary: "Clear of data in the database. "
+      description: "This is necessary for automation test case."
+      operationId: "clearDatabase"
+      parameters: []
+      responses:
+        200:
+          description: "Database data successfully deleted"
+        500:
+          description: "Internal error"
+definitions:
+  A10nspDto:
+    type: "object"
+    properties:
+      bngEndsz:
+        type: "string"
+      carrierBsaReference:
+        type: "string"
+      rahmenvertragsnummer:
+        type: "string"
+      sperrStatus:
+        type: "boolean"
+  CheckLineIdResult:
+    type: "object"
+    required:
+    - "carrierConnectionAvailable"
+    properties:
+      carrierConnectionAvailable:
+        type: "boolean"
+  ErrorResponse:
+    type: "object"
+    properties:
+      errorCode:
+        type: "string"
+        description: "Error code"
+      message:
+        type: "string"
+        description: "Message"
+    description: "Error response of 4xx and 5xx http statuses"
+  OltDto:
+    type: "object"
+    properties:
+      a10nsp:
+        type: "array"
+        items:
+          $ref: "#/definitions/A10nspDto"
+      endszOlt:
+        type: "string"

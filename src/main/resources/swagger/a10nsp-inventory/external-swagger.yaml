@@ -1,0 +1,176 @@
+---
+swagger: "2.0"
+info:
+  description: "A10NSP API"
+  version: "1.1.0"
+  title: "A10NSP Inventory"
+host: "localhost:8198"
+tags:
+- name: "A10nspExternalController"
+schemes:
+- "http"
+paths:
+  /resource-order-resource-inventory/v1/a10nsp:
+    get:
+      tags:
+      - "A10nspExternalController"
+      summary: "Find A10NSP's by OLT-Endsz list"
+      description: ""
+      operationId: "findA10nspByOltEndSz"
+      parameters:
+      - name: "endsz"
+        in: "query"
+        description: "Olt-EndSz List"
+        required: true
+        type: "array"
+        items:
+          type: "string"
+        collectionFormat: "multi"
+      - name: "X-Business-Context"
+        in: "header"
+        description: "The business context is a general classification for a larger\
+          \ number of requests (types) usually set by the originating consumer. Any\
+          \ service receiving this header parameter MUST forward it unmodified to\
+          \ other services it invokes. Non-REST technologies (e.g. SOABP) might use\
+          \ a different identifier for this attribute."
+        required: false
+        type: "string"
+      - name: "X-Correlation-ID"
+        in: "header"
+        description: "Value for identifying a single transaction across multiple services\
+          \ up to the backend. Usually set by the originating consumer.Any service\
+          \ receiving this header parameter MUST forward it unmodified to other services\
+          \ it invokes. Non-REST technologies (e.g. SOABP) might use a different identifier\
+          \ for this attribute. If this ID is not available (not supplied, empty or\
+          \ at origin), the service MUST create it as a UUID. The maximum length of\
+          \ 256 characters MUST NOT be exceeded (a standard UUID has 36 characters).\
+          \ The creator MAY prefix the UUID with an application and/or instance defined\
+          \ string."
+        required: false
+        type: "string"
+      - name: "X-Request-ID"
+        in: "header"
+        description: "Value to identify an individual request across consuming application,\
+          \ middleware and service provider. This ID is to be generated for every\
+          \ single request and not to be passed down (as X-Correlation-ID) to sub-services.\
+          \ Every consuming application MUST create this value as UUID. The maximum\
+          \ length of 256 characters MUST NOT be exceeded (a standard UUID has 36\
+          \ characters). The creator MAY prefix the UUID with an application and/or\
+          \ instance defined string."
+        required: false
+        type: "string"
+      responses:
+        200:
+          description: "Successfully found"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/OltDto"
+        400:
+          description: "Can't perform operation"
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+  /resource-order-resource-inventory/v1/a10nsp/carrierConnection:
+    post:
+      tags:
+      - "A10nspExternalController"
+      summary: "Check for existing A10nsp by LineId"
+      description: ""
+      operationId: "checkLineId"
+      parameters:
+      - in: "body"
+        name: "body"
+        description: "LineId"
+        required: true
+        schema:
+          type: "string"
+      - name: "rahmenvertragsnummer"
+        in: "query"
+        description: "Rahmenvertragsnummer"
+        required: true
+        type: "string"
+        pattern: "[0-9]*"
+      - name: "X-Business-Context"
+        in: "header"
+        description: "The business context is a general classification for a larger\
+          \ number of requests (types) usually set by the originating consumer. Any\
+          \ service receiving this header parameter MUST forward it unmodified to\
+          \ other services it invokes. Non-REST technologies (e.g. SOABP) might use\
+          \ a different identifier for this attribute."
+        required: false
+        type: "string"
+      - name: "X-Correlation-ID"
+        in: "header"
+        description: "Value for identifying a single transaction across multiple services\
+          \ up to the backend. Usually set by the originating consumer.Any service\
+          \ receiving this header parameter MUST forward it unmodified to other services\
+          \ it invokes. Non-REST technologies (e.g. SOABP) might use a different identifier\
+          \ for this attribute. If this ID is not available (not supplied, empty or\
+          \ at origin), the service MUST create it as a UUID. The maximum length of\
+          \ 256 characters MUST NOT be exceeded (a standard UUID has 36 characters).\
+          \ The creator MAY prefix the UUID with an application and/or instance defined\
+          \ string."
+        required: false
+        type: "string"
+      - name: "X-Request-ID"
+        in: "header"
+        description: "Value to identify an individual request across consuming application,\
+          \ middleware and service provider. This ID is to be generated for every\
+          \ single request and not to be passed down (as X-Correlation-ID) to sub-services.\
+          \ Every consuming application MUST create this value as UUID. The maximum\
+          \ length of 256 characters MUST NOT be exceeded (a standard UUID has 36\
+          \ characters). The creator MAY prefix the UUID with an application and/or\
+          \ instance defined string."
+        required: false
+        type: "string"
+      responses:
+        200:
+          description: "Successfully found"
+          schema:
+            $ref: "#/definitions/CheckLineIdResult"
+        400:
+          description: "Can't perform operation"
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+        404:
+          description: "Not present in database"
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+definitions:
+  A10nspDto:
+    type: "object"
+    properties:
+      bngEndsz:
+        type: "string"
+      carrierBsaReference:
+        type: "string"
+      rahmenvertragsnummer:
+        type: "string"
+      sperrStatus:
+        type: "boolean"
+  CheckLineIdResult:
+    type: "object"
+    required:
+    - "carrierConnectionAvailable"
+    properties:
+      carrierConnectionAvailable:
+        type: "boolean"
+  ErrorResponse:
+    type: "object"
+    properties:
+      errorCode:
+        type: "string"
+        description: "Error code"
+      message:
+        type: "string"
+        description: "Message"
+    description: "Error response of 4xx and 5xx http statuses"
+  OltDto:
+    type: "object"
+    properties:
+      a10nsp:
+        type: "array"
+        items:
+          $ref: "#/definitions/A10nspDto"
+      endszOlt:
+        type: "string"
