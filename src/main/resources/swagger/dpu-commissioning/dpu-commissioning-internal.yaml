@@ -1,0 +1,122 @@
+---
+swagger: "2.0"
+info:
+  description: "DPU Commissioning\n\tStarting with DIGIHUB-48635"
+  version: "0.0.1"
+  title: "dpu-commissioning"
+host: "localhost:8080"
+tags:
+- name: "DPU-Commissioning"
+schemes:
+- "http"
+paths:
+  /api/dpucommissioning/v1/dpu:
+    post:
+      tags:
+      - "DPU-Commissioning"
+      summary: "Starts DPU commissioning process"
+      description: "Starts commissioning process for DPU device"
+      operationId: "startDpuDeviceCommissioning"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "startDpuCommissioningRequest"
+        description: "StartDpuCommissioningRequest"
+        required: true
+        schema:
+          $ref: "#/definitions/StartDpuCommissioningRequest"
+      - name: "X-Business-Context"
+        in: "header"
+        description: "https://gard.telekom.de/gardwiki/display/DGHB/X-Business-Context"
+        required: false
+        type: "string"
+      - name: "X-B3-TraceId"
+        in: "header"
+        description: "https://gard.telekom.de/gardwiki/display/DGHB/X-B3-TraceId"
+        required: true
+        type: "string"
+      - name: "X-B3-SpanId"
+        in: "header"
+        description: "https://gard.telekom.de/gardwiki/display/DGHB/X-B3-SpanId"
+        required: true
+        type: "string"
+      - name: "X-B3-ParentSpanId"
+        in: "header"
+        description: "https://gard.telekom.de/gardwiki/display/DGHB/X-B3-ParentSpanId"
+        required: true
+        type: "string"
+      responses:
+        201:
+          description: "Process started"
+          schema:
+            $ref: "#/definitions/DpuCommissioningResponse"
+          headers:
+            X-Business-Context:
+              type: "string"
+              description: "https://gard.telekom.de/gardwiki/display/DGHB/X-Business-Context"
+            X-B3-SpanId:
+              type: "string"
+              description: "https://gard.telekom.de/gardwiki/display/DGHB/X-B3-SpanId"
+            X-B3-ParentSpanId:
+              type: "string"
+              description: "https://gard.telekom.de/gardwiki/display/DGHB/X-B3-ParentSpanId"
+            X-B3-TraceId:
+              type: "string"
+              description: "https://gard.telekom.de/gardwiki/display/DGHB/X-B3-TraceId"
+        400:
+          description: "Bad request"
+          headers:
+            X-Business-Context:
+              type: "string"
+              description: "https://gard.telekom.de/gardwiki/display/DGHB/X-Business-Context"
+            X-B3-SpanId:
+              type: "string"
+              description: "https://gard.telekom.de/gardwiki/display/DGHB/X-B3-SpanId"
+            X-B3-ParentSpanId:
+              type: "string"
+              description: "https://gard.telekom.de/gardwiki/display/DGHB/X-B3-ParentSpanId"
+            X-B3-TraceId:
+              type: "string"
+              description: "https://gard.telekom.de/gardwiki/display/DGHB/X-B3-TraceId"
+        500:
+          description: "Can't perform operation"
+          headers:
+            X-Business-Context:
+              type: "string"
+              description: "https://gard.telekom.de/gardwiki/display/DGHB/X-Business-Context"
+            X-B3-SpanId:
+              type: "string"
+              description: "https://gard.telekom.de/gardwiki/display/DGHB/X-B3-SpanId"
+            X-B3-ParentSpanId:
+              type: "string"
+              description: "https://gard.telekom.de/gardwiki/display/DGHB/X-B3-ParentSpanId"
+            X-B3-TraceId:
+              type: "string"
+              description: "https://gard.telekom.de/gardwiki/display/DGHB/X-B3-TraceId"
+definitions:
+  DpuCommissioningResponse:
+    type: "object"
+    properties:
+      processId:
+        type: "string"
+        description: "Process ID"
+      status:
+        type: "string"
+        description: "Status"
+      comment:
+        type: "string"
+        description: "Comment"
+    description: "DpuCommissioningResponse"
+  StartDpuCommissioningRequest:
+    type: "object"
+    required:
+    - "endSZ"
+    properties:
+      endSZ:
+        type: "string"
+        example: "49/8571/0/71GA"
+        description: "Endstellenschluesselzahl"
+        pattern: "[0-9]{1,6}\\/[0-9]{1,6}\\/[0-9]{1,6}\\/[a-zA-Z0-9]{2,4}"
