@@ -10,7 +10,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>osr-models</artifactId>
-    <version>0.0.6</version>
+    <version>0.0.7</version>
 
     <properties>
         <framework.version>${project.parent.version}</framework.version>
@@ -123,6 +123,12 @@
                             <bulk>
                                 <basePackage>${project.groupId}.osr</basePackage>
                                 <items>
+                                    <item>
+                                        <name>dpu.commissioning</name>
+                                        <inputSpec>
+                                            ${project.basedir}/src/main/resources/swagger/dpu-commissioning/dpu-commissioning-internal.yaml
+                                        </inputSpec>
+                                    </item>
                                     <item>
                                         <name>hello.world</name>
                                         <inputSpec>
