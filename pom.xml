@@ -10,7 +10,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>osr-models</artifactId>
-    <version>0.0.7</version>
+    <version>0.0.8</version>
 
     <properties>
         <framework.version>${project.parent.version}</framework.version>
@@ -181,6 +181,12 @@
                                         <name>seal.client</name>
                                         <inputSpec>
                                             ${project.basedir}/src/main/resources/swagger/seal/seal_2.0.yaml
+                                        </inputSpec>
+                                    </item>
+                                    <item>
+                                        <name>a10nsp.inventory.internal.client</name>
+                                        <inputSpec>
+                                            ${project.basedir}/src/main/resources/swagger/a10nsp-inventory/internal-swagger.yaml
                                         </inputSpec>
                                     </item>
                                 </items>
