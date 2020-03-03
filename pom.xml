@@ -124,6 +124,12 @@
                                 <basePackage>${project.groupId}.osr</basePackage>
                                 <items>
                                     <item>
+                                        <name>dpu.commissioning</name>
+                                        <inputSpec>
+                                            ${project.basedir}/src/main/resources/swagger/dpu-commissioning/dpu-commissioning-internal.yaml
+                                        </inputSpec>
+                                    </item>
+                                    <item>
                                         <name>hello.world</name>
                                         <inputSpec>
                                             ${project.basedir}/src/main/resources/swagger/hello-world/hello-world-internal.yaml
