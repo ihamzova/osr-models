@@ -1,16 +1,16 @@
 ---
 swagger: "2.0"
 info:
-  description: "## Access Line Resource Inventory API\n\nMicroservice contains and\
-    \ processes information about access lines, network and line profiles."
-  version: "3.6.0"
+  description: "## Access Line Resource Inventory API\n\nIt is a logical part of OLT\
+    \ Resource Inventory.\nContains information about access lines, network and line\
+    \ profiles. "
+  version: "3.0.0"
   title: "Access Line Resource Inventory"
 host: "localhost:8060"
 tags:
 - name: "AccessLineExternalController"
 - name: "AccessLineManagementExternalController"
 - name: "AssuranceExternalController"
-- name: "BackHaulManagementExternalController"
 - name: "HomeIdExternalController"
 schemes:
 - "http"
@@ -23,9 +23,9 @@ paths:
       description: ""
       operationId: "create"
       consumes:
-      - "application/json"
+      - "application/json;charset=UTF-8"
       produces:
-      - "application/json"
+      - "application/json;charset=UTF-8"
       parameters:
       - in: "body"
         name: "body"
@@ -53,9 +53,9 @@ paths:
       description: ""
       operationId: "update"
       consumes:
-      - "application/json"
+      - "application/json;charset=UTF-8"
       produces:
-      - "application/json"
+      - "application/json;charset=UTF-8"
       parameters:
       - in: "body"
         name: "body"
@@ -112,13 +112,13 @@ paths:
     post:
       tags:
       - "AccessLineExternalController"
-      summary: "Searches Access Lines by criteria"
+      summary: "Search Access Lines by criteria"
       description: ""
       operationId: "searchAccessLines"
       consumes:
-      - "application/json"
+      - "application/json;charset=UTF-8"
       produces:
-      - "application/json"
+      - "application/json;charset=UTF-8"
       parameters:
       - in: "body"
         name: "body"
@@ -145,7 +145,7 @@ paths:
     get:
       tags:
       - "AssuranceExternalController"
-      summary: "Finds access lines by criteria"
+      summary: "Find access lines by criteria"
       description: ""
       operationId: "findAccessLinesByCriteria"
       produces:
@@ -274,7 +274,7 @@ paths:
       description: ""
       operationId: "addHomeIds"
       consumes:
-      - "application/json"
+      - "application/json;charset=UTF-8"
       parameters:
       - in: "body"
         name: "body"
@@ -304,7 +304,7 @@ paths:
       parameters:
       - name: "endSz"
         in: "query"
-        description: "Device endSz"
+        description: "EndSz"
         required: true
         type: "string"
         pattern: "[0-9]{1,6}\\/[0-9]{1,6}\\/[0-9]{1,6}\\/[a-zA-Z0-9]{2,4}"
@@ -333,11 +333,11 @@ paths:
     put:
       tags:
       - "HomeIdExternalController"
-      summary: "Updates particular home id in pool"
+      summary: "Update particular home id in pool"
       description: ""
       operationId: "updateHomeId"
       consumes:
-      - "application/json"
+      - "application/json;charset=UTF-8"
       parameters:
       - in: "body"
         name: "body"
@@ -368,13 +368,13 @@ paths:
     post:
       tags:
       - "HomeIdExternalController"
-      summary: "Searches homeIDs in pool by criteria"
+      summary: "Search homeIDs in pool by criteria"
       description: ""
       operationId: "searchHomeIds"
       consumes:
-      - "application/json"
+      - "application/json;charset=UTF-8"
       produces:
-      - "application/json"
+      - "application/json;charset=UTF-8"
       parameters:
       - in: "body"
         name: "body"
@@ -401,19 +401,14 @@ paths:
     post:
       tags:
       - "AccessLineManagementExternalController"
-      summary: "Finds or gets an access line by Line Id"
+      summary: "Find or Get an access line by Line Id"
       description: ""
       operationId: "getLineInfo"
       consumes:
-      - "application/json"
+      - "application/json;charset=UTF-8"
       produces:
-      - "application/json"
+      - "application/json;charset=UTF-8"
       parameters:
-      - name: "apm-principal-token"
-        in: "header"
-        description: "APM Token"
-        required: false
-        type: "string"
       - in: "body"
         name: "body"
         description: "lineId"
@@ -445,6 +440,8 @@ paths:
           description: "Internal error"
           schema:
             $ref: "#/definitions/ProblemDetails"
+      security:
+      - apmToken: []
   /resource-order-resource-inventory/v3/managementAccessLine/search:
     post:
       tags:
@@ -454,15 +451,10 @@ paths:
         \ sort parameters."
       operationId: "search"
       consumes:
-      - "application/json"
+      - "application/json;charset=UTF-8"
       produces:
-      - "application/json"
+      - "application/json;charset=UTF-8"
       parameters:
-      - name: "apm-principal-token"
-        in: "header"
-        description: "APM Token"
-        required: false
-        type: "string"
       - in: "body"
         name: "body"
         description: "Request AccessLineViewDto"
@@ -500,13 +492,10 @@ paths:
         - "PORT_NUMBER"
         - "LINE_ID"
         - "HOME_ID"
-        - "PRODUCTION_PLATFORM"
         - "ACCESS_LINE_STATUS"
         - "SUBSCRIBER_NE_PROFILE_STATE"
         - "SUBSCRIBER_NETWORK_LINE_PROFILE_STATE"
         - "PARTY_ID"
-        - "ONT_SERIAL_NUMBER"
-        - "KLS_ID"
       responses:
         200:
           description: "Successfully received"
@@ -528,131 +517,8 @@ paths:
           description: "Internal error"
           schema:
             $ref: "#/definitions/ProblemDetails"
-  /resource-order-resource-inventory/v3/managementBackHaul/info:
-    post:
-      tags:
-      - "BackHaulManagementExternalController"
-      summary: "Finds or gets an access lines by backHaulId"
-      description: ""
-      operationId: "getLinesInfo"
-      consumes:
-      - "application/json"
-      produces:
-      - "application/json"
-      parameters:
-      - name: "apm-principal-token"
-        in: "header"
-        description: "APM Token"
-        required: false
-        type: "string"
-      - in: "body"
-        name: "body"
-        description: "backHaulId"
-        required: true
-        schema:
-          $ref: "#/definitions/GetAccessLinesDto"
-      responses:
-        200:
-          description: "Successfully sent"
-          schema:
-            $ref: "#/definitions/AccessLinesDto"
-        400:
-          description: "Can't perform operation"
-          schema:
-            $ref: "#/definitions/ProblemDetails"
-        401:
-          description: "Unauthorized"
-          schema:
-            $ref: "#/definitions/ProblemDetails"
-        403:
-          description: "Forbidden"
-          schema:
-            $ref: "#/definitions/ProblemDetails"
-        404:
-          description: "Not present in database"
-          schema:
-            $ref: "#/definitions/ProblemDetails"
-        500:
-          description: "Internal error"
-          schema:
-            $ref: "#/definitions/ProblemDetails"
-  /resource-order-resource-inventory/v3/managementBackHaul/search:
-    post:
-      tags:
-      - "BackHaulManagementExternalController"
-      summary: "Gets BackHauls by search criteria"
-      description: "Gets BackHauls by input parameters for search and with additional\
-        \ sort parameters."
-      operationId: "searchBackHauls"
-      consumes:
-      - "application/json"
-      produces:
-      - "application/json"
-      parameters:
-      - name: "apm-principal-token"
-        in: "header"
-        description: "APM Token"
-        required: false
-        type: "string"
-      - in: "body"
-        name: "body"
-        description: "Request BackHaulViewDto"
-        required: false
-        schema:
-          $ref: "#/definitions/RequestBackHaulViewDto"
-      - name: "direction"
-        in: "query"
-        description: "direction"
-        required: false
-        type: "string"
-        enum:
-        - "ASC"
-        - "DESC"
-      - name: "page"
-        in: "query"
-        description: "page"
-        required: false
-        type: "integer"
-        format: "int32"
-      - name: "pageSize"
-        in: "query"
-        description: "pageSize"
-        required: false
-        type: "integer"
-        format: "int32"
-      - name: "sortField"
-        in: "query"
-        description: "sortField"
-        required: false
-        type: "string"
-        enum:
-        - "END_SZ"
-        - "SLOT_NUMBER"
-        - "PORT_NUMBER"
-        - "BACK_HAUL_ID"
-        - "PARTY_ID"
-        - "BACK_HAUL_STATUS"
-      responses:
-        200:
-          description: "Successfully received"
-          schema:
-            $ref: "#/definitions/PageBackHaulViewDto"
-        400:
-          description: "Can't perform operation"
-          schema:
-            $ref: "#/definitions/ProblemDetails"
-        401:
-          description: "Unauthorized"
-          schema:
-            $ref: "#/definitions/ProblemDetails"
-        403:
-          description: "Forbidden"
-          schema:
-            $ref: "#/definitions/ProblemDetails"
-        500:
-          description: "Internal error"
-          schema:
-            $ref: "#/definitions/ProblemDetails"
+      security:
+      - apmToken: []
 definitions:
   AccessLineDto:
     type: "object"
@@ -695,20 +561,10 @@ definitions:
       resourceAssociation:
         description: "Resource Association"
         $ref: "#/definitions/ResourceAssociationDto"
-      networkServiceProfileReference:
-        description: "Network service profile reference of A4 Access Line"
-        $ref: "#/definitions/NetworkServiceProfileReferenceDto"
       version:
         type: "integer"
         format: "int64"
         description: "Version of object"
-      productionPlatform:
-        type: "string"
-        description: "Production platform"
-        enum:
-        - "OLT_BNG"
-        - "A4"
-        - "WHOLEBUY"
   AccessLineViewDto:
     type: "object"
     properties:
@@ -746,21 +602,6 @@ definitions:
         enum:
         - "INACTIVE"
         - "ACTIVE"
-      productionPlatform:
-        type: "string"
-        description: "Production platform"
-        enum:
-        - "OLT_BNG"
-        - "A4"
-        - "WHOLEBUY"
-  AccessLinesDto:
-    type: "object"
-    properties:
-      lineIds:
-        type: "array"
-        description: "Line Ids"
-        items:
-          type: "string"
   AnpTagDto:
     type: "object"
     properties:
@@ -943,27 +784,6 @@ definitions:
         type: "integer"
         format: "int32"
         description: "Up band width of SubscriberNetworkLineProfile"
-  BackHaulViewDto:
-    type: "object"
-    properties:
-      backHaulId:
-        type: "string"
-        description: "BackHaul Id"
-      endSz:
-        type: "string"
-        description: "EndSz"
-      slotNumber:
-        type: "string"
-        description: "Slot number"
-      portNumber:
-        type: "string"
-        description: "Port number"
-      status:
-        type: "string"
-        description: "Status of BackHaul (configured or not configured)"
-        enum:
-        - "CONFIGURED"
-        - "NOT_CONFIGURED"
   DefaultNeProfileDto:
     type: "object"
     properties:
@@ -994,6 +814,13 @@ definitions:
       anpTag:
         description: "AnpTag reference"
         $ref: "#/definitions/AnpTagDto"
+      ontState:
+        type: "string"
+        description: "State of ONT (offline, online, unknown)"
+        enum:
+        - "OFFLINE"
+        - "ONLINE"
+        - "UNKNOWN"
       subscriberNeProfile:
         description: "SubscriberNeProfile reference"
         $ref: "#/definitions/SubscriberNeProfileDto"
@@ -1068,15 +895,6 @@ definitions:
         type: "string"
         description: "Criteria for search Access Line by line id"
         pattern: "[A-Z0-9]{3}\\.[A-Z0-9]{1,6}\\.[A-Z0-9]{1,10}"
-  GetAccessLinesDto:
-    type: "object"
-    required:
-    - "backHaulId"
-    properties:
-      backHaulId:
-        type: "string"
-        description: "Criteria for search Access Lines by backHaul id"
-        pattern: "#bhid-[a-z0-9]{2,10}"
   HomeIdDto:
     type: "object"
     required:
@@ -1106,48 +924,15 @@ definitions:
         type: "integer"
         format: "int64"
         description: "HomeId version"
-  NetworkServiceProfileReferenceDto:
-    type: "object"
-    properties:
-      id:
-        type: "integer"
-        format: "int64"
-        description: "Internal (from database) id of network service profile reference\
-          \ entity"
-      tpRef:
-        type: "string"
-        description: "tp reference of network service profile reference entity"
-      creationDate:
-        type: "string"
-        format: "date-time"
-        description: "Date of network service profile creation"
-      version:
-        type: "integer"
-        format: "int64"
-        description: "Version of object"
-      uuid:
-        type: "string"
-        format: "uuid"
   Page:
     type: "object"
     properties:
-      totalElements:
-        type: "integer"
-        format: "int64"
       totalPages:
         type: "integer"
         format: "int32"
-      sort:
-        $ref: "#/definitions/Sort"
-      first:
-        type: "boolean"
-      numberOfElements:
+      totalElements:
         type: "integer"
-        format: "int32"
-      last:
-        type: "boolean"
-      pageable:
-        $ref: "#/definitions/Pageable"
+        format: "int64"
       size:
         type: "integer"
         format: "int32"
@@ -1158,28 +943,26 @@ definitions:
       number:
         type: "integer"
         format: "int32"
-      empty:
-        type: "boolean"
-  PageAccessLineViewDto:
-    type: "object"
-    properties:
-      totalElements:
-        type: "integer"
-        format: "int64"
-      totalPages:
-        type: "integer"
-        format: "int32"
       sort:
         $ref: "#/definitions/Sort"
-      first:
+      pageable:
+        $ref: "#/definitions/Pageable"
+      last:
         type: "boolean"
       numberOfElements:
         type: "integer"
         format: "int32"
-      last:
+      first:
         type: "boolean"
-      pageable:
-        $ref: "#/definitions/Pageable"
+  PageAccessLineViewDto:
+    type: "object"
+    properties:
+      totalPages:
+        type: "integer"
+        format: "int32"
+      totalElements:
+        type: "integer"
+        format: "int64"
       size:
         type: "integer"
         format: "int32"
@@ -1190,58 +973,35 @@ definitions:
       number:
         type: "integer"
         format: "int32"
-      empty:
-        type: "boolean"
-  PageBackHaulViewDto:
-    type: "object"
-    properties:
-      totalElements:
-        type: "integer"
-        format: "int64"
-      totalPages:
-        type: "integer"
-        format: "int32"
       sort:
         $ref: "#/definitions/Sort"
-      first:
+      pageable:
+        $ref: "#/definitions/Pageable"
+      last:
         type: "boolean"
       numberOfElements:
         type: "integer"
         format: "int32"
-      last:
-        type: "boolean"
-      pageable:
-        $ref: "#/definitions/Pageable"
-      size:
-        type: "integer"
-        format: "int32"
-      content:
-        type: "array"
-        items:
-          $ref: "#/definitions/BackHaulViewDto"
-      number:
-        type: "integer"
-        format: "int32"
-      empty:
+      first:
         type: "boolean"
   Pageable:
     type: "object"
     properties:
+      offset:
+        type: "integer"
+        format: "int64"
       sort:
         $ref: "#/definitions/Sort"
-      unpaged:
-        type: "boolean"
       pageNumber:
         type: "integer"
         format: "int32"
+      unpaged:
+        type: "boolean"
       paged:
         type: "boolean"
       pageSize:
         type: "integer"
         format: "int32"
-      offset:
-        type: "integer"
-        format: "int64"
   ProblemDetails:
     type: "object"
     required:
@@ -1290,6 +1050,12 @@ definitions:
       portNumber:
         type: "string"
         description: "Port number of physical resource"
+      connectionType:
+        type: "string"
+        description: "Connection type of physical resource"
+        enum:
+        - "OLT_BNG"
+        - "A4"
       version:
         type: "integer"
         format: "int64"
@@ -1329,41 +1095,6 @@ definitions:
         type: "string"
       portNumber:
         type: "string"
-      productionPlatforms:
-        type: "array"
-        uniqueItems: true
-        items:
-          type: "string"
-          enum:
-          - "OLT_BNG"
-          - "A4"
-          - "WHOLEBUY"
-      ontSerialNumber:
-        type: "string"
-      klsId:
-        type: "integer"
-        format: "int64"
-  RequestBackHaulViewDto:
-    type: "object"
-    properties:
-      backHaulId:
-        type: "string"
-        pattern: "#bhid-[a-z0-9]{2,10}"
-      endSz:
-        type: "string"
-        pattern: "[0-9]{1,6}\\/[0-9]{1,6}\\/[0-9]{1,6}\\/[a-zA-Z0-9]{2,4}"
-      slotNumber:
-        type: "string"
-      portNumber:
-        type: "string"
-      statuses:
-        type: "array"
-        uniqueItems: true
-        items:
-          type: "string"
-          enum:
-          - "CONFIGURED"
-          - "NOT_CONFIGURED"
   ResourceAssociationDto:
     type: "object"
     properties:
@@ -1421,13 +1152,6 @@ definitions:
       ontSerialNumber:
         type: "string"
         description: "Criteria for search Access Line by ont serial number"
-      productionPlatform:
-        type: "string"
-        description: "Criteria for search Access Line by production platform"
-        enum:
-        - "OLT_BNG"
-        - "A4"
-        - "WHOLEBUY"
   SearchHomeIdDto:
     type: "object"
     properties:
@@ -1462,8 +1186,6 @@ definitions:
       sorted:
         type: "boolean"
       unsorted:
-        type: "boolean"
-      empty:
         type: "boolean"
   SpecificProblemDetails:
     type: "object"
@@ -1508,13 +1230,6 @@ definitions:
         type: "integer"
         format: "int64"
         description: "Version of object"
-      ontState:
-        type: "string"
-        description: "State of ONT (offline, online, unknown)"
-        enum:
-        - "OFFLINE"
-        - "ONLINE"
-        - "UNKNOWN"
   SubscriberNetworkLineProfileDto:
     type: "object"
     properties:
