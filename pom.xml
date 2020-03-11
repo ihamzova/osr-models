@@ -10,7 +10,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>osr-models</artifactId>
-    <version>0.0.9</version>
+    <version>0.0.10</version>
 
     <properties>
         <framework.version>${project.parent.version}</framework.version>
@@ -136,18 +136,6 @@
                                         </inputSpec>
                                     </item>
                                     <item>
-                                        <name>access.line.resource.inventory.internal.client</name>
-                                        <inputSpec>
-                                            ${project.basedir}/src/main/resources/swagger/access-line-resource-inventory/access-line-resource-inventory-internal.yaml
-                                        </inputSpec>
-                                    </item>
-                                    <item>
-                                        <name>access.line.resource.inventory.external.client</name>
-                                        <inputSpec>
-                                            ${project.basedir}/src/main/resources/swagger/access-line-resource-inventory/access-line-resource-inventory-external.yaml
-                                        </inputSpec>
-                                    </item>
-                                    <item>
                                         <name>home.id.generator.internal.client</name>
                                         <inputSpec>
                                             ${project.basedir}/src/main/resources/swagger/home-id-generator/swagger.yaml
@@ -195,6 +183,30 @@
                                             ${project.basedir}/src/main/resources/swagger/a10nsp-inventory/internal-swagger.yaml
                                         </inputSpec>
                                     </item>
+                                    <item>
+                                        <name>a4.resource.inventory.internal.client</name>
+                                        <inputSpec>
+                                            ${project.basedir}/src/main/resources/swagger/a4-resource-inventory/ResourceInventory-internal.yaml
+                                        </inputSpec>
+                                    </item>
+                                    <item>
+                                        <name>a4.resource.inventory.external.client</name>
+                                        <inputSpec>
+                                            ${project.basedir}/src/main/resources/swagger/a4-resource-inventory/ResourceInventory-external.yaml
+                                        </inputSpec>
+                                    </item>
+                                    <item>
+                                        <name>wg.a4.provisioning.internal.client</name>
+                                        <inputSpec>
+                                            ${project.basedir}/src/main/resources/swagger/wg-a4-provisioning/wg-a4-provisioning-internal-v1.yaml
+                                        </inputSpec>
+                                    </item>
+                                    <item>
+                                        <name>wg.a4.provisioning.external.client</name>
+                                        <inputSpec>
+                                            ${project.basedir}/src/main/resources/swagger/wg-a4-provisioning/wg-a4-provisioning-external-v1.yaml
+                                        </inputSpec>
+                                    </item>
                                 </items>
                             </bulk>
                         </configuration>
@@ -222,6 +234,35 @@
                                         <name>olt.resource.inventory.external.client</name>
                                         <inputSpec>
                                             ${project.basedir}/src/main/resources/swagger/olt-resource-inventory/external-swagger.yaml
+                                        </inputSpec>
+                                    </item>
+                                </items>
+                            </bulk>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>generate-clients-al-ri</id>
+                        <phase>generate-sources</phase>
+                        <goals>
+                            <goal>generate</goal>
+                        </goals>
+                        <configuration>
+                            <configOptions>
+                                <dateLibrary>java8-localdatetime</dateLibrary>
+                            </configOptions>
+                            <bulk>
+                                <basePackage>${project.groupId}.osr</basePackage>
+                                <items>
+                                    <item>
+                                        <name>access.line.resource.inventory.internal.client</name>
+                                        <inputSpec>
+                                            ${project.basedir}/src/main/resources/swagger/access-line-resource-inventory/access-line-resource-inventory-internal.yaml
+                                        </inputSpec>
+                                    </item>
+                                    <item>
+                                        <name>access.line.resource.inventory.external.client</name>
+                                        <inputSpec>
+                                            ${project.basedir}/src/main/resources/swagger/access-line-resource-inventory/access-line-resource-inventory-external.yaml
                                         </inputSpec>
                                     </item>
                                 </items>
