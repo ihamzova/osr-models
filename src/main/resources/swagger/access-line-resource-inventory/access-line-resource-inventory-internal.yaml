@@ -1,10 +1,9 @@
 ---
 swagger: "2.0"
 info:
-  description: "## Access Line Resource Inventory API\n\nIt is a logical part of OLT\
-    \ Resource Inventory.\nContains information about access lines, network and line\
-    \ profiles. "
-  version: "3.0.0"
+  description: "## Access Line Resource Inventory API\n\nMicroservice contains and\
+    \ processes information about access lines, network and line profiles."
+  version: "3.6.0"
   title: "Access Line Resource Inventory"
 host: "localhost:8060"
 tags:
@@ -12,10 +11,14 @@ tags:
 - name: "AccessLineManagementInternalController"
 - name: "AnpTag Controller"
 - name: "AssuranceInternalController"
+- name: "BackHaulManagementInternalController"
+- name: "Backhaul Id Controller"
+- name: "BackhaulIdGenerator"
 - name: "FillDatabase"
 - name: "HomeIdInternalController"
 - name: "Line Id Controller"
 - name: "Migration Controller"
+- name: "PhysicalResourceReferenceInternalController"
 schemes:
 - "http"
 paths:
@@ -27,9 +30,9 @@ paths:
       description: ""
       operationId: "create"
       consumes:
-      - "application/json;charset=UTF-8"
+      - "application/json"
       produces:
-      - "application/json;charset=UTF-8"
+      - "application/json"
       parameters:
       - in: "body"
         name: "body"
@@ -57,9 +60,9 @@ paths:
       description: ""
       operationId: "update"
       consumes:
-      - "application/json;charset=UTF-8"
+      - "application/json"
       produces:
-      - "application/json;charset=UTF-8"
+      - "application/json"
       parameters:
       - in: "body"
         name: "body"
@@ -116,13 +119,13 @@ paths:
     post:
       tags:
       - "AccessLineInternalController"
-      summary: "Search Access Lines by criteria"
+      summary: "Searches Access Lines by criteria"
       description: ""
       operationId: "searchAccessLines"
       consumes:
-      - "application/json;charset=UTF-8"
+      - "application/json"
       produces:
-      - "application/json;charset=UTF-8"
+      - "application/json"
       parameters:
       - in: "body"
         name: "body"
@@ -153,7 +156,7 @@ paths:
       description: ""
       operationId: "createAnpTag"
       produces:
-      - "application/json;charset=UTF-8"
+      - "application/json"
       parameters:
       - name: "endSz"
         in: "query"
@@ -182,7 +185,7 @@ paths:
     get:
       tags:
       - "AssuranceInternalController"
-      summary: "Find access lines by criteria"
+      summary: "Finds access lines by criteria"
       description: ""
       operationId: "findAccessLinesByCriteria"
       produces:
@@ -303,6 +306,108 @@ paths:
           description: "Internal error"
           schema:
             $ref: "#/definitions/ProblemDetails"
+  /api/accessLineResourceInventory/v3/backhaulId:
+    put:
+      tags:
+      - "Backhaul Id Controller"
+      summary: "Creates or updates particular backhaul id"
+      description: ""
+      operationId: "createOrUpdateBackhaulId"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "body"
+        description: "BackhaulIdDto"
+        required: true
+        schema:
+          $ref: "#/definitions/BackhaulIdDto"
+      responses:
+        200:
+          description: "BackhaulId was created/updated"
+          schema:
+            $ref: "#/definitions/BackhaulIdDto"
+        400:
+          description: "Bad request"
+          schema:
+            $ref: "#/definitions/ProblemDetails"
+        404:
+          description: "Reference to physical resource did not find"
+          schema:
+            $ref: "#/definitions/ProblemDetails"
+        500:
+          description: "Internal error"
+          schema:
+            $ref: "#/definitions/ProblemDetails"
+    delete:
+      tags:
+      - "Backhaul Id Controller"
+      summary: "Deletes backhaul id for port"
+      description: ""
+      operationId: "deleteBackhaulId"
+      parameters:
+      - name: "endSz"
+        in: "query"
+        description: "Device endSz"
+        required: true
+        type: "string"
+        pattern: "[0-9]{1,6}\\/[0-9]{1,6}\\/[0-9]{1,6}\\/[a-zA-Z0-9]{2,4}"
+      - name: "slotNumber"
+        in: "query"
+        description: "Slot number"
+        required: true
+        type: "string"
+      - name: "portNumber"
+        in: "query"
+        description: "Port number"
+        required: true
+        type: "string"
+      responses:
+        200:
+          description: "Successfully deleted"
+        400:
+          description: "Can't perform operation"
+          schema:
+            $ref: "#/definitions/ProblemDetails"
+        500:
+          description: "Internal error"
+          schema:
+            $ref: "#/definitions/ProblemDetails"
+  /api/accessLineResourceInventory/v3/backhaulId/search:
+    post:
+      tags:
+      - "Backhaul Id Controller"
+      summary: "Searches backhaul Ids by criteria"
+      description: ""
+      operationId: "searchBackhaulIds"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "body"
+        description: "SearchBackhaulIdDto"
+        required: true
+        schema:
+          $ref: "#/definitions/SearchBackhaulIdDto"
+      responses:
+        200:
+          description: "Successfully get"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/BackhaulIdDto"
+        400:
+          description: "Can't perform operation"
+          schema:
+            $ref: "#/definitions/ProblemDetails"
+        500:
+          description: "Internal error"
+          schema:
+            $ref: "#/definitions/ProblemDetails"
   /api/accessLineResourceInventory/v3/homeIdPool:
     post:
       tags:
@@ -311,7 +416,7 @@ paths:
       description: ""
       operationId: "addHomeIds"
       consumes:
-      - "application/json;charset=UTF-8"
+      - "application/json"
       parameters:
       - in: "body"
         name: "body"
@@ -341,7 +446,7 @@ paths:
       parameters:
       - name: "endSz"
         in: "query"
-        description: "EndSz"
+        description: "Device endSz"
         required: true
         type: "string"
         pattern: "[0-9]{1,6}\\/[0-9]{1,6}\\/[0-9]{1,6}\\/[a-zA-Z0-9]{2,4}"
@@ -370,11 +475,11 @@ paths:
     put:
       tags:
       - "HomeIdInternalController"
-      summary: "Update particular home id in pool"
+      summary: "Updates particular home id in pool"
       description: ""
       operationId: "updateHomeId"
       consumes:
-      - "application/json;charset=UTF-8"
+      - "application/json"
       parameters:
       - in: "body"
         name: "body"
@@ -405,13 +510,13 @@ paths:
     post:
       tags:
       - "HomeIdInternalController"
-      summary: "Search homeIDs in pool by criteria"
+      summary: "Searches homeIDs in pool by criteria"
       description: ""
       operationId: "searchHomeIds"
       consumes:
-      - "application/json;charset=UTF-8"
+      - "application/json"
       produces:
-      - "application/json;charset=UTF-8"
+      - "application/json"
       parameters:
       - in: "body"
         name: "body"
@@ -442,7 +547,7 @@ paths:
       description: ""
       operationId: "addLineIds"
       consumes:
-      - "application/json;charset=UTF-8"
+      - "application/json"
       parameters:
       - in: "body"
         name: "body"
@@ -472,7 +577,7 @@ paths:
       parameters:
       - name: "endSz"
         in: "query"
-        description: "EndSz"
+        description: "Device endSz"
         required: true
         type: "string"
         pattern: "[0-9]{1,6}\\/[0-9]{1,6}\\/[0-9]{1,6}\\/[a-zA-Z0-9]{2,4}"
@@ -501,11 +606,11 @@ paths:
     put:
       tags:
       - "Line Id Controller"
-      summary: "Update particular line id in pool"
+      summary: "Updates particular line id in pool"
       description: ""
       operationId: "updateLineId"
       consumes:
-      - "application/json;charset=UTF-8"
+      - "application/json"
       parameters:
       - in: "body"
         name: "body"
@@ -532,13 +637,13 @@ paths:
     post:
       tags:
       - "Line Id Controller"
-      summary: "Search Line Ids in pool by criteria"
+      summary: "Searches Line Ids in pool by criteria"
       description: ""
       operationId: "searchLineIds"
       consumes:
-      - "application/json;charset=UTF-8"
+      - "application/json"
       produces:
-      - "application/json;charset=UTF-8"
+      - "application/json"
       parameters:
       - in: "body"
         name: "body"
@@ -565,14 +670,19 @@ paths:
     post:
       tags:
       - "AccessLineManagementInternalController"
-      summary: "Find or Get an access line by Line Id"
+      summary: "Finds or gets an access line by Line Id"
       description: ""
       operationId: "getLineInfo"
       consumes:
-      - "application/json;charset=UTF-8"
+      - "application/json"
       produces:
-      - "application/json;charset=UTF-8"
+      - "application/json"
       parameters:
+      - name: "apm-principal-token"
+        in: "header"
+        description: "APM Token"
+        required: false
+        type: "string"
       - in: "body"
         name: "body"
         description: "lineId"
@@ -604,8 +714,6 @@ paths:
           description: "Internal error"
           schema:
             $ref: "#/definitions/ProblemDetails"
-      security:
-      - apmToken: []
   /api/accessLineResourceInventory/v3/managementAccessLine/search:
     post:
       tags:
@@ -615,10 +723,15 @@ paths:
         \ sort parameters."
       operationId: "search"
       consumes:
-      - "application/json;charset=UTF-8"
+      - "application/json"
       produces:
-      - "application/json;charset=UTF-8"
+      - "application/json"
       parameters:
+      - name: "apm-principal-token"
+        in: "header"
+        description: "APM Token"
+        required: false
+        type: "string"
       - in: "body"
         name: "body"
         description: "Request AccessLineViewDto"
@@ -656,10 +769,13 @@ paths:
         - "PORT_NUMBER"
         - "LINE_ID"
         - "HOME_ID"
+        - "PRODUCTION_PLATFORM"
         - "ACCESS_LINE_STATUS"
         - "SUBSCRIBER_NE_PROFILE_STATE"
         - "SUBSCRIBER_NETWORK_LINE_PROFILE_STATE"
         - "PARTY_ID"
+        - "ONT_SERIAL_NUMBER"
+        - "KLS_ID"
       responses:
         200:
           description: "Successfully received"
@@ -681,8 +797,131 @@ paths:
           description: "Internal error"
           schema:
             $ref: "#/definitions/ProblemDetails"
-      security:
-      - apmToken: []
+  /api/accessLineResourceInventory/v3/managementBackHaul/info:
+    post:
+      tags:
+      - "BackHaulManagementInternalController"
+      summary: "Finds or gets an access lines by backHaulId"
+      description: ""
+      operationId: "getLinesInfo"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "apm-principal-token"
+        in: "header"
+        description: "APM Token"
+        required: false
+        type: "string"
+      - in: "body"
+        name: "body"
+        description: "backHaulId"
+        required: true
+        schema:
+          $ref: "#/definitions/GetAccessLinesDto"
+      responses:
+        200:
+          description: "Successfully sent"
+          schema:
+            $ref: "#/definitions/AccessLinesDto"
+        400:
+          description: "Can't perform operation"
+          schema:
+            $ref: "#/definitions/ProblemDetails"
+        401:
+          description: "Unauthorized"
+          schema:
+            $ref: "#/definitions/ProblemDetails"
+        403:
+          description: "Forbidden"
+          schema:
+            $ref: "#/definitions/ProblemDetails"
+        404:
+          description: "Not present in database"
+          schema:
+            $ref: "#/definitions/ProblemDetails"
+        500:
+          description: "Internal error"
+          schema:
+            $ref: "#/definitions/ProblemDetails"
+  /api/accessLineResourceInventory/v3/managementBackHaul/search:
+    post:
+      tags:
+      - "BackHaulManagementInternalController"
+      summary: "Gets BackHauls by search criteria"
+      description: "Gets BackHauls by input parameters for search and with additional\
+        \ sort parameters."
+      operationId: "searchBackHauls"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "apm-principal-token"
+        in: "header"
+        description: "APM Token"
+        required: false
+        type: "string"
+      - in: "body"
+        name: "body"
+        description: "Request BackHaulViewDto"
+        required: false
+        schema:
+          $ref: "#/definitions/RequestBackHaulViewDto"
+      - name: "direction"
+        in: "query"
+        description: "direction"
+        required: false
+        type: "string"
+        enum:
+        - "ASC"
+        - "DESC"
+      - name: "page"
+        in: "query"
+        description: "page"
+        required: false
+        type: "integer"
+        format: "int32"
+      - name: "pageSize"
+        in: "query"
+        description: "pageSize"
+        required: false
+        type: "integer"
+        format: "int32"
+      - name: "sortField"
+        in: "query"
+        description: "sortField"
+        required: false
+        type: "string"
+        enum:
+        - "END_SZ"
+        - "SLOT_NUMBER"
+        - "PORT_NUMBER"
+        - "BACK_HAUL_ID"
+        - "PARTY_ID"
+        - "BACK_HAUL_STATUS"
+      responses:
+        200:
+          description: "Successfully received"
+          schema:
+            $ref: "#/definitions/PageBackHaulViewDto"
+        400:
+          description: "Can't perform operation"
+          schema:
+            $ref: "#/definitions/ProblemDetails"
+        401:
+          description: "Unauthorized"
+          schema:
+            $ref: "#/definitions/ProblemDetails"
+        403:
+          description: "Forbidden"
+          schema:
+            $ref: "#/definitions/ProblemDetails"
+        500:
+          description: "Internal error"
+          schema:
+            $ref: "#/definitions/ProblemDetails"
   /api/accessLineResourceInventory/v3/migrate:
     get:
       tags:
@@ -691,7 +930,7 @@ paths:
       description: ""
       operationId: "getStatus"
       produces:
-      - "application/json;charset=UTF-8"
+      - "application/json"
       parameters: []
       responses:
         200:
@@ -714,6 +953,68 @@ paths:
           description: "Migration was started"
         500:
           description: "Internal error"
+          schema:
+            $ref: "#/definitions/ProblemDetails"
+  /api/accessLineResourceInventory/v3/physicalResourceReference:
+    delete:
+      tags:
+      - "PhysicalResourceReferenceInternalController"
+      summary: "Deletes physical resource reference"
+      description: ""
+      operationId: "deletePhysicalResourceReference"
+      parameters:
+      - name: "endSz"
+        in: "query"
+        description: "Device endSz"
+        required: true
+        type: "string"
+        pattern: "[0-9]{1,6}\\/[0-9]{1,6}\\/[0-9]{1,6}\\/[a-zA-Z0-9]{2,4}"
+      - name: "slotNumber"
+        in: "query"
+        description: "Slot number"
+        required: true
+        type: "string"
+      - name: "portNumber"
+        in: "query"
+        description: "Port number"
+        required: true
+        type: "string"
+      responses:
+        200:
+          description: "Successfully deleted"
+        400:
+          description: "Can't perform operation"
+          schema:
+            $ref: "#/definitions/ProblemDetails"
+        409:
+          description: "Reference can't be deleted"
+          schema:
+            $ref: "#/definitions/ProblemDetails"
+        500:
+          description: "Internal error"
+          schema:
+            $ref: "#/definitions/ProblemDetails"
+  /api/backhaulId/v3/generator:
+    post:
+      tags:
+      - "BackhaulIdGenerator"
+      summary: "Generates new BackhaulId"
+      description: "Generates new BackhaulId."
+      operationId: "generateBackhaulId"
+      produces:
+      - "application/json"
+      parameters: []
+      responses:
+        201:
+          description: "New BackhaulId generated"
+          schema:
+            $ref: "#/definitions/SingleBackhaulId"
+        400:
+          description: "Bad request"
+          schema:
+            $ref: "#/definitions/ProblemDetails"
+        500:
+          description: "Internal error during generating of BackhaulId"
           schema:
             $ref: "#/definitions/ProblemDetails"
   /api/test/v3/fill-access-line-database:
@@ -810,10 +1111,20 @@ definitions:
       resourceAssociation:
         description: "Resource Association"
         $ref: "#/definitions/ResourceAssociationDto"
+      networkServiceProfileReference:
+        description: "Network service profile reference of A4 Access Line"
+        $ref: "#/definitions/NetworkServiceProfileReferenceDto"
       version:
         type: "integer"
         format: "int64"
         description: "Version of object"
+      productionPlatform:
+        type: "string"
+        description: "Production platform"
+        enum:
+        - "OLT_BNG"
+        - "A4"
+        - "WHOLEBUY"
   AccessLineViewDto:
     type: "object"
     properties:
@@ -851,6 +1162,21 @@ definitions:
         enum:
         - "INACTIVE"
         - "ACTIVE"
+      productionPlatform:
+        type: "string"
+        description: "Production platform"
+        enum:
+        - "OLT_BNG"
+        - "A4"
+        - "WHOLEBUY"
+  AccessLinesDto:
+    type: "object"
+    properties:
+      lineIds:
+        type: "array"
+        description: "Line Ids"
+        items:
+          type: "string"
   AnpTagDto:
     type: "object"
     properties:
@@ -1033,6 +1359,56 @@ definitions:
         type: "integer"
         format: "int32"
         description: "Up band width of SubscriberNetworkLineProfile"
+  BackHaulViewDto:
+    type: "object"
+    properties:
+      backHaulId:
+        type: "string"
+        description: "BackHaul Id"
+      endSz:
+        type: "string"
+        description: "EndSz"
+      slotNumber:
+        type: "string"
+        description: "Slot number"
+      portNumber:
+        type: "string"
+        description: "Port number"
+      status:
+        type: "string"
+        description: "Status of BackHaul (configured or not configured)"
+        enum:
+        - "CONFIGURED"
+        - "NOT_CONFIGURED"
+  BackhaulIdDto:
+    type: "object"
+    required:
+    - "backhaulId"
+    properties:
+      id:
+        type: "integer"
+        format: "int64"
+        description: "Internal (from database) id of backhaul id entity"
+      backhaulId:
+        type: "string"
+        description: "Backhaul id"
+        pattern: "#bhid-[a-z0-9]{2,10}"
+      status:
+        type: "string"
+        description: "Status of backhaul id (not configured or configured)"
+        enum:
+        - "CONFIGURED"
+        - "NOT_CONFIGURED"
+      port:
+        description: "Reference to physical resource"
+        $ref: "#/definitions/ReferenceDto"
+      version:
+        type: "integer"
+        format: "int64"
+        description: "Version of object"
+      resourceAssociation:
+        description: "Resource Association"
+        $ref: "#/definitions/ResourceAssociationDto"
   DefaultNeProfileDto:
     type: "object"
     properties:
@@ -1063,13 +1439,6 @@ definitions:
       anpTag:
         description: "AnpTag reference"
         $ref: "#/definitions/AnpTagDto"
-      ontState:
-        type: "string"
-        description: "State of ONT (offline, online, unknown)"
-        enum:
-        - "OFFLINE"
-        - "ONLINE"
-        - "UNKNOWN"
       subscriberNeProfile:
         description: "SubscriberNeProfile reference"
         $ref: "#/definitions/SubscriberNeProfileDto"
@@ -1144,6 +1513,15 @@ definitions:
         type: "string"
         description: "Criteria for search Access Line by line id"
         pattern: "[A-Z0-9]{3}\\.[A-Z0-9]{1,6}\\.[A-Z0-9]{1,10}"
+  GetAccessLinesDto:
+    type: "object"
+    required:
+    - "backHaulId"
+    properties:
+      backHaulId:
+        type: "string"
+        description: "Criteria for search Access Lines by backHaul id"
+        pattern: "#bhid-[a-z0-9]{2,10}"
   HomeIdDto:
     type: "object"
     required:
@@ -1213,15 +1591,48 @@ definitions:
       message:
         type: "string"
         description: "Message"
+  NetworkServiceProfileReferenceDto:
+    type: "object"
+    properties:
+      id:
+        type: "integer"
+        format: "int64"
+        description: "Internal (from database) id of network service profile reference\
+          \ entity"
+      tpRef:
+        type: "string"
+        description: "tp reference of network service profile reference entity"
+      creationDate:
+        type: "string"
+        format: "date-time"
+        description: "Date of network service profile creation"
+      version:
+        type: "integer"
+        format: "int64"
+        description: "Version of object"
+      uuid:
+        type: "string"
+        format: "uuid"
   Page:
     type: "object"
     properties:
-      totalPages:
-        type: "integer"
-        format: "int32"
       totalElements:
         type: "integer"
         format: "int64"
+      totalPages:
+        type: "integer"
+        format: "int32"
+      sort:
+        $ref: "#/definitions/Sort"
+      first:
+        type: "boolean"
+      numberOfElements:
+        type: "integer"
+        format: "int32"
+      last:
+        type: "boolean"
+      pageable:
+        $ref: "#/definitions/Pageable"
       size:
         type: "integer"
         format: "int32"
@@ -1232,26 +1643,28 @@ definitions:
       number:
         type: "integer"
         format: "int32"
-      sort:
-        $ref: "#/definitions/Sort"
-      pageable:
-        $ref: "#/definitions/Pageable"
-      last:
-        type: "boolean"
-      numberOfElements:
-        type: "integer"
-        format: "int32"
-      first:
+      empty:
         type: "boolean"
   PageAccessLineViewDto:
     type: "object"
     properties:
-      totalPages:
-        type: "integer"
-        format: "int32"
       totalElements:
         type: "integer"
         format: "int64"
+      totalPages:
+        type: "integer"
+        format: "int32"
+      sort:
+        $ref: "#/definitions/Sort"
+      first:
+        type: "boolean"
+      numberOfElements:
+        type: "integer"
+        format: "int32"
+      last:
+        type: "boolean"
+      pageable:
+        $ref: "#/definitions/Pageable"
       size:
         type: "integer"
         format: "int32"
@@ -1262,35 +1675,58 @@ definitions:
       number:
         type: "integer"
         format: "int32"
+      empty:
+        type: "boolean"
+  PageBackHaulViewDto:
+    type: "object"
+    properties:
+      totalElements:
+        type: "integer"
+        format: "int64"
+      totalPages:
+        type: "integer"
+        format: "int32"
       sort:
         $ref: "#/definitions/Sort"
-      pageable:
-        $ref: "#/definitions/Pageable"
-      last:
+      first:
         type: "boolean"
       numberOfElements:
         type: "integer"
         format: "int32"
-      first:
+      last:
+        type: "boolean"
+      pageable:
+        $ref: "#/definitions/Pageable"
+      size:
+        type: "integer"
+        format: "int32"
+      content:
+        type: "array"
+        items:
+          $ref: "#/definitions/BackHaulViewDto"
+      number:
+        type: "integer"
+        format: "int32"
+      empty:
         type: "boolean"
   Pageable:
     type: "object"
     properties:
-      offset:
-        type: "integer"
-        format: "int64"
       sort:
         $ref: "#/definitions/Sort"
+      unpaged:
+        type: "boolean"
       pageNumber:
         type: "integer"
         format: "int32"
-      unpaged:
-        type: "boolean"
       paged:
         type: "boolean"
       pageSize:
         type: "integer"
         format: "int32"
+      offset:
+        type: "integer"
+        format: "int64"
   ProblemDetails:
     type: "object"
     required:
@@ -1339,12 +1775,6 @@ definitions:
       portNumber:
         type: "string"
         description: "Port number of physical resource"
-      connectionType:
-        type: "string"
-        description: "Connection type of physical resource"
-        enum:
-        - "OLT_BNG"
-        - "A4"
       version:
         type: "integer"
         format: "int64"
@@ -1384,6 +1814,41 @@ definitions:
         type: "string"
       portNumber:
         type: "string"
+      productionPlatforms:
+        type: "array"
+        uniqueItems: true
+        items:
+          type: "string"
+          enum:
+          - "OLT_BNG"
+          - "A4"
+          - "WHOLEBUY"
+      ontSerialNumber:
+        type: "string"
+      klsId:
+        type: "integer"
+        format: "int64"
+  RequestBackHaulViewDto:
+    type: "object"
+    properties:
+      backHaulId:
+        type: "string"
+        pattern: "#bhid-[a-z0-9]{2,10}"
+      endSz:
+        type: "string"
+        pattern: "[0-9]{1,6}\\/[0-9]{1,6}\\/[0-9]{1,6}\\/[a-zA-Z0-9]{2,4}"
+      slotNumber:
+        type: "string"
+      portNumber:
+        type: "string"
+      statuses:
+        type: "array"
+        uniqueItems: true
+        items:
+          type: "string"
+          enum:
+          - "CONFIGURED"
+          - "NOT_CONFIGURED"
   ResourceAssociationDto:
     type: "object"
     properties:
@@ -1441,6 +1906,40 @@ definitions:
       ontSerialNumber:
         type: "string"
         description: "Criteria for search Access Line by ont serial number"
+      productionPlatform:
+        type: "string"
+        description: "Criteria for search Access Line by production platform"
+        enum:
+        - "OLT_BNG"
+        - "A4"
+        - "WHOLEBUY"
+  SearchBackhaulIdDto:
+    type: "object"
+    properties:
+      endSz:
+        type: "string"
+        description: "Criteria for search backhaul id by endsz"
+        pattern: "[0-9]{1,6}\\/[0-9]{1,6}\\/[0-9]{1,6}\\/[a-zA-Z0-9]{2,4}"
+      slotNumber:
+        type: "string"
+        description: "Criteria for search backhaul id by slot number"
+      portNumber:
+        type: "string"
+        description: "Criteria for search backhaul id by port number"
+      status:
+        type: "string"
+        description: "Criteria for search backhaul id by status"
+        enum:
+        - "CONFIGURED"
+        - "NOT_CONFIGURED"
+      id:
+        type: "integer"
+        format: "int64"
+        description: "Criteria for search backhaul id by internal id"
+      backhaulId:
+        type: "string"
+        description: "Criteria for search backhaul id by backhaulId"
+        pattern: "#bhid-[a-z0-9]{2,10}"
   SearchHomeIdDto:
     type: "object"
     properties:
@@ -1496,12 +1995,21 @@ definitions:
         enum:
         - "FREE"
         - "USED"
+  SingleBackhaulId:
+    type: "object"
+    properties:
+      backhaulId:
+        type: "string"
+        description: "Generated new BackhaulId"
+    description: "Generated BackhaulId"
   Sort:
     type: "object"
     properties:
       sorted:
         type: "boolean"
       unsorted:
+        type: "boolean"
+      empty:
         type: "boolean"
   SpecificProblemDetails:
     type: "object"
@@ -1546,6 +2054,13 @@ definitions:
         type: "integer"
         format: "int64"
         description: "Version of object"
+      ontState:
+        type: "string"
+        description: "State of ONT (offline, online, unknown)"
+        enum:
+        - "OFFLINE"
+        - "ONLINE"
+        - "UNKNOWN"
   SubscriberNetworkLineProfileDto:
     type: "object"
     properties:
