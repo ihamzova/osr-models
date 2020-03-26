@@ -196,6 +196,12 @@
                                         </inputSpec>
                                     </item>
                                     <item>
+                                        <name>a4.resource.inventory.service.client</name>
+                                        <inputSpec>
+                                            ${project.basedir}/src/main/resources/swagger/a4-resource-inventory-service/Resource_Inventory.customized.json
+                                        </inputSpec>
+                                    </item>
+                                    <item>
                                         <name>wg.a4.provisioning.internal.client</name>
                                         <inputSpec>
                                             ${project.basedir}/src/main/resources/swagger/wg-a4-provisioning/wg-a4-provisioning-internal-v1.yaml
@@ -209,6 +215,7 @@
                                     </item>
                                 </items>
                             </bulk>
+                            <language/>
                         </configuration>
                     </execution>
                     <execution>
@@ -238,6 +245,7 @@
                                     </item>
                                 </items>
                             </bulk>
+                            <language/>
                         </configuration>
                     </execution>
                     <execution>
@@ -267,6 +275,7 @@
                                     </item>
                                 </items>
                             </bulk>
+                            <language/>
                         </configuration>
                     </execution>
                 </executions>
