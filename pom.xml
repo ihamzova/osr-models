@@ -10,7 +10,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>osr-models</artifactId>
-    <version>0.0.11</version>
+    <version>0.0.12</version>
 
     <properties>
         <framework.version>${project.parent.version}</framework.version>
@@ -199,6 +199,18 @@
                                         <name>a4.resource.inventory.service.client</name>
                                         <inputSpec>
                                             ${project.basedir}/src/main/resources/swagger/a4-resource-inventory-service/Resource_Inventory.customized.json
+                                        </inputSpec>
+                                    </item>
+                                    <item>
+                                        <name>a4.nemo.updater.internal.client</name>
+                                        <inputSpec>
+                                            ${project.basedir}/src/main/resources/swagger/a4-nemo-updater/a4-nemo-updater-internal.yaml
+                                        </inputSpec>
+                                    </item>
+                                    <item>
+                                        <name>a4.nemo.updater.external.client</name>
+                                        <inputSpec>
+                                            ${project.basedir}/src/main/resources/swagger/a4-nemo-updater/a4-nemo-updater-external.yaml
                                         </inputSpec>
                                     </item>
                                     <item>
