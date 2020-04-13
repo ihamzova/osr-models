@@ -1,4 +1,4 @@
-package com.tsytems.tm.acc.domain.osr.csv;
+package com.tsystems.tm.acc.domain.osr.csv;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;

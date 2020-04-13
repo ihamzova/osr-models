@@ -5,12 +5,12 @@
     <parent>
         <artifactId>acc-aggregator-bom</artifactId>
         <groupId>com.tsystems.tm.acc.tests</groupId>
-        <version>0.1.16</version>
+        <version>0.1.25</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>osr-models</artifactId>
-    <version>0.0.12</version>
+    <version>0.0.13</version>
 
     <properties>
         <framework.version>${project.parent.version}</framework.version>
@@ -75,35 +75,10 @@
         </resources>
         <plugins>
             <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-dependency-plugin</artifactId>
-                <executions>
-                    <execution>
-                        <id>model-dependencies</id>
-                        <phase>validate</phase>
-                        <goals>
-                            <goal>unpack</goal>
-                        </goals>
-                        <configuration>
-                            <artifactItems>
-                                <artifactItem>
-                                    <groupId>com.tsystems.tm.acc.tests</groupId>
-                                    <artifactId>acc-swagger-cache-plugin</artifactId>
-                                    <outputDirectory>${common.swagger.template.folder}</outputDirectory>
-                                    <includes>openapi-generator-templates\/**\/*.*</includes>
-                                </artifactItem>
-                            </artifactItems>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
-            <plugin>
                 <groupId>com.tsystems.tm.acc.tests</groupId>
                 <artifactId>acc-swagger-cache-plugin</artifactId>
                 <version>${framework.version}</version>
                 <configuration>
-                    <templateDirectory>${common.swagger.template.folder}/openapi-generator-templates/Java
-                    </templateDirectory>
                     <language>java</language>
                     <generateApiTests>false</generateApiTests>
                     <generateModelTests>false</generateModelTests>
