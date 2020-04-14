@@ -28,11 +28,6 @@
     <dependencies>
         <dependency>
             <groupId>com.tsystems.tm.acc.tests</groupId>
-            <artifactId>acc-swagger-cache-plugin</artifactId>
-            <version>${framework.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>com.tsystems.tm.acc.tests</groupId>
             <artifactId>acc-common-models</artifactId>
             <version>${framework.version}</version>
         </dependency>
