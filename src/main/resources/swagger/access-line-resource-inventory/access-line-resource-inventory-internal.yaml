@@ -3,7 +3,7 @@ swagger: "2.0"
 info:
   description: "## Access Line Resource Inventory API\n\nMicroservice contains and\
     \ processes information about access lines, network and line profiles."
-  version: "3.6.0"
+  version: "4.4.0"
   title: "Access Line Resource Inventory"
 host: "localhost:8060"
 tags:
@@ -11,17 +11,151 @@ tags:
 - name: "AccessLineManagementInternalController"
 - name: "AnpTag Controller"
 - name: "AssuranceInternalController"
+- name: "AssuranceInternalControllerV4"
 - name: "BackHaulManagementInternalController"
 - name: "Backhaul Id Controller"
 - name: "BackhaulIdGenerator"
 - name: "FillDatabase"
 - name: "HomeIdInternalController"
 - name: "Line Id Controller"
-- name: "Migration Controller"
 - name: "PhysicalResourceReferenceInternalController"
 schemes:
 - "http"
 paths:
+  /api/accessLineResourceInventory/v4/assurance/accessLine:
+    get:
+      tags:
+      - "AssuranceInternalControllerV4"
+      summary: "Finds access lines by criteria"
+      description: ""
+      operationId: "findAccessLinesByCriteriaV4"
+      produces:
+      - "application/xml"
+      parameters:
+      - name: "endSz"
+        in: "query"
+        description: ""
+        required: false
+        type: "string"
+      - name: "lineId"
+        in: "query"
+        description: ""
+        required: false
+        type: "string"
+      - name: "ontId"
+        in: "query"
+        description: ""
+        required: false
+        type: "integer"
+        format: "int32"
+      - name: "ontSerialNumber"
+        in: "query"
+        description: ""
+        required: false
+        type: "string"
+      - name: "portNumber"
+        in: "query"
+        description: ""
+        required: false
+        type: "string"
+      - name: "slotNumber"
+        in: "query"
+        description: ""
+        required: false
+        type: "string"
+      - name: "status"
+        in: "query"
+        description: ""
+        required: false
+        type: "string"
+        enum:
+        - "INACTIVE"
+        - "WALLED_GARDEN"
+        - "ASSIGNED"
+      - name: "technology"
+        in: "query"
+        description: ""
+        required: false
+        type: "string"
+        enum:
+        - "GFAST"
+        - "GPON"
+      - name: "direction"
+        in: "query"
+        description: "direction"
+        required: false
+        type: "string"
+        enum:
+        - "ASC"
+        - "DESC"
+      - name: "page"
+        in: "query"
+        description: "page"
+        required: false
+        type: "integer"
+        format: "int32"
+      - name: "pageSize"
+        in: "query"
+        description: "pageSize"
+        required: false
+        type: "integer"
+        format: "int32"
+      - name: "sortField"
+        in: "query"
+        description: "sortField"
+        required: false
+        type: "string"
+        enum:
+        - "ID"
+      responses:
+        200:
+          description: "Successfully found"
+          schema:
+            $ref: "#/definitions/PageAssuranceAccessLineDtoV4"
+        400:
+          description: "Can't perform operation"
+          schema:
+            $ref: "#/definitions/ProblemDetails"
+        404:
+          description: "Not present in database"
+          schema:
+            $ref: "#/definitions/ProblemDetails"
+        500:
+          description: "Internal error"
+          schema:
+            $ref: "#/definitions/ProblemDetails"
+  /api/accessLineResourceInventory/v4/assurance/accessLine/{id}:
+    get:
+      tags:
+      - "AssuranceInternalControllerV4"
+      summary: "Finds access line by id"
+      description: ""
+      operationId: "findAccessLineByIdV4"
+      produces:
+      - "application/xml"
+      parameters:
+      - name: "id"
+        in: "path"
+        required: true
+        type: "integer"
+        format: "int64"
+      responses:
+        200:
+          description: "Successfully found"
+          schema:
+            $ref: "#/definitions/AssuranceAccessLineDtoV4"
+        400:
+          description: "Can't perform operation"
+          schema:
+            $ref: "#/definitions/ProblemDetails"
+        404:
+          description: "Not present in database"
+          schema:
+            $ref: "#/definitions/ProblemDetails"
+        500:
+          description: "Internal error"
+          schema:
+            $ref: "#/definitions/ProblemDetails"
   /api/accessLineResourceInventory/v3/accessLine:
     post:
       tags:
@@ -234,6 +368,7 @@ paths:
           description: "Internal error"
           schema:
             $ref: "#/definitions/ProblemDetails"
+      deprecated: true
   /api/accessLineResourceInventory/v3/assurance/accessLine/{id}:
     get:
       tags:
@@ -266,6 +401,7 @@ paths:
           description: "Internal error"
           schema:
             $ref: "#/definitions/ProblemDetails"
+      deprecated: true
   /api/accessLineResourceInventory/v3/assurance/accessLineByEndSzSlotPort:
     get:
       tags:
@@ -306,6 +442,7 @@ paths:
           description: "Internal error"
           schema:
             $ref: "#/definitions/ProblemDetails"
+      deprecated: true
   /api/accessLineResourceInventory/v3/backhaulId:
     put:
       tags:
@@ -922,39 +1059,6 @@ paths:
           description: "Internal error"
           schema:
             $ref: "#/definitions/ProblemDetails"
-  /api/accessLineResourceInventory/v3/migrate:
-    get:
-      tags:
-      - "Migration Controller"
-      summary: "Gets migration status"
-      description: ""
-      operationId: "getStatus"
-      produces:
-      - "application/json"
-      parameters: []
-      responses:
-        200:
-          description: "Status gets"
-          schema:
-            $ref: "#/definitions/MigrationDto"
-        500:
-          description: "Internal error"
-          schema:
-            $ref: "#/definitions/ProblemDetails"
-    post:
-      tags:
-      - "Migration Controller"
-      summary: "Migrates access lines from OLT-RI"
-      description: ""
-      operationId: "migrate"
-      parameters: []
-      responses:
-        202:
-          description: "Migration was started"
-        500:
-          description: "Internal error"
-          schema:
-            $ref: "#/definitions/ProblemDetails"
   /api/accessLineResourceInventory/v3/physicalResourceReference:
     delete:
       tags:
@@ -1125,6 +1229,19 @@ definitions:
         - "OLT_BNG"
         - "A4"
         - "WHOLEBUY"
+  AccessLineInfoDto:
+    type: "object"
+    properties:
+      lineId:
+        type: "string"
+        description: "Line Id"
+      status:
+        type: "string"
+        description: "Status of Access Line (inactive, walled Garden or assigned)"
+        enum:
+        - "INACTIVE"
+        - "WALLED_GARDEN"
+        - "ASSIGNED"
   AccessLineViewDto:
     type: "object"
     properties:
@@ -1174,9 +1291,9 @@ definitions:
     properties:
       lineIds:
         type: "array"
-        description: "Line Ids"
+        description: "Access line Ids and statuses"
         items:
-          type: "string"
+          $ref: "#/definitions/AccessLineInfoDto"
   AnpTagDto:
     type: "object"
     properties:
@@ -1224,6 +1341,59 @@ definitions:
       subscriberNetworkLineProfile:
         description: "SubscriberNetworkLineProfile reference"
         $ref: "#/definitions/AssuranceSubscriberNetworkLineProfileDto"
+      technology:
+        type: "string"
+        description: "Technology of Access Line"
+  AssuranceAccessLineDtoV4:
+    type: "object"
+    properties:
+      defaultNeProfile:
+        description: "Default Ne profile reference"
+        $ref: "#/definitions/AssuranceDefaultNeProfileDto"
+      defaultNetworkLineProfile:
+        description: "SubscriberNeProfile reference"
+        $ref: "#/definitions/AssuranceDefaultNetworkLineProfileDto"
+      endSZ:
+        type: "string"
+        description: "EndSz of physical resource"
+      homeId:
+        type: "string"
+        description: "Home Id"
+      id:
+        type: "integer"
+        format: "int64"
+        description: "Internal (from database) id of Access Line entity"
+      lineId:
+        type: "string"
+        description: "Line Id"
+      nspRef:
+        description: "Network service profile reference of A4 Access Line"
+        $ref: "#/definitions/AssuranceNspRefDtoV4"
+      partyId:
+        type: "integer"
+        format: "int32"
+        description: "Party id of Access Line"
+      portNumber:
+        type: "string"
+        description: "Port number of physical resource"
+      productionPlatform:
+        type: "string"
+        description: "Production platform"
+      resourceId:
+        type: "string"
+        description: "Unique ID of a resource"
+      slotNumber:
+        type: "string"
+        description: "Slot number of physical resource"
+      status:
+        type: "string"
+        description: "Status of Access Line (inactive, walled Garden or assigned)"
+      subscriberNeProfile:
+        description: "Default Network Line profile reference"
+        $ref: "#/definitions/AssuranceSubscriberNeProfileDtoV4"
+      subscriberNetworkLineProfile:
+        description: "SubscriberNetworkLineProfile reference"
+        $ref: "#/definitions/AssuranceSubscriberNetworkLineProfileDtoV4"
       technology:
         type: "string"
         description: "Technology of Access Line"
@@ -1295,6 +1465,19 @@ definitions:
       state:
         type: "string"
         description: "State of DefaultNeProfile (inactive, active)"
+  AssuranceNspRefDtoV4:
+    type: "object"
+    properties:
+      creationDate:
+        type: "string"
+        format: "date-time"
+        description: "Date of network service profile creation"
+      tpRef:
+        type: "string"
+        description: "tp reference of network service profile reference entity"
+      uuid:
+        type: "string"
+        description: "UUID of network service profile reference entity"
   AssuranceSubscriberNeProfileDto:
     type: "object"
     properties:
@@ -1304,6 +1487,21 @@ definitions:
       profileName:
         type: "string"
         description: "Name of profile"
+  AssuranceSubscriberNeProfileDtoV4:
+    type: "object"
+    properties:
+      ontSerialNumber:
+        type: "string"
+        description: "ONT serial number of SubscriberNeProfile"
+      ontState:
+        type: "string"
+        description: "State of ONT"
+      profileName:
+        type: "string"
+        description: "Name of profile"
+      state:
+        type: "string"
+        description: "State of SubscriberNeProfile"
   AssuranceSubscriberNetworkLineProfileDto:
     type: "object"
     properties:
@@ -1355,6 +1553,64 @@ definitions:
       substitutionDomain:
         type: "string"
         description: "Substitution Domain of SubscriberNetworkLineProfile"
+      upBandwidth:
+        type: "integer"
+        format: "int32"
+        description: "Up band width of SubscriberNetworkLineProfile"
+  AssuranceSubscriberNetworkLineProfileDtoV4:
+    type: "object"
+    properties:
+      authMethod:
+        type: "integer"
+        format: "int32"
+        description: "Authentication method of SubscriberNetworkLineProfile"
+      downBandwidth:
+        type: "integer"
+        format: "int32"
+        description: "Down band width of SubscriberNetworkLineProfile"
+      federationPartner:
+        type: "string"
+        description: "Federation Partner of SubscriberNetworkLineProfile"
+      guaranteedDownBandwidth:
+        type: "integer"
+        format: "int32"
+        description: "Guaranteed down band width of SubscriberNetworkLineProfile"
+      guaranteedUpBandwidth:
+        type: "integer"
+        format: "int32"
+        description: "Guaranteed up band width of SubscriberNetworkLineProfile"
+      klsId:
+        type: "integer"
+        format: "int64"
+        description: "KlsId of SubscriberNetworkLineProfile"
+      l2ccid:
+        type: "string"
+        description: "12 ccid of SubscriberNetworkLineProfile"
+      maxDownBandwidth:
+        type: "integer"
+        format: "int32"
+        description: "Maximum down bandwidth of SubscriberNetworkLineProfile"
+      maxUpBandwidth:
+        type: "integer"
+        format: "int32"
+        description: "Maximum up bandwidth of SubscriberNetworkLineProfile"
+      minDownBandwidth:
+        type: "integer"
+        format: "int32"
+        description: "Minimum down bandwidth of SubscriberNetworkLineProfile"
+      minUpBandwidth:
+        type: "integer"
+        format: "int32"
+        description: "Minimum up bandwidth of SubscriberNetworkLineProfile"
+      providerId:
+        type: "string"
+        description: "Minimum up bandwidth of SubscriberNetworkLineProfile"
+      substitutionDomain:
+        type: "string"
+        description: "Substitution Domain of SubscriberNetworkLineProfile"
+      state:
+        type: "string"
+        description: "State of SubscriberNetworkLineProfile"
       upBandwidth:
         type: "integer"
         format: "int32"
@@ -1577,20 +1833,6 @@ definitions:
         type: "integer"
         format: "int64"
         description: "Version of object"
-  MigrationDto:
-    type: "object"
-    properties:
-      status:
-        type: "string"
-        description: "Migration status"
-        enum:
-        - "NOT_STARTED"
-        - "IN_PROGRESS"
-        - "FINISHED"
-        - "FAILED"
-      message:
-        type: "string"
-        description: "Message"
   NetworkServiceProfileReferenceDto:
     type: "object"
     properties:
@@ -1599,6 +1841,9 @@ definitions:
         format: "int64"
         description: "Internal (from database) id of network service profile reference\
           \ entity"
+      uuid:
+        type: "string"
+        description: "UUID of network service profile reference entity"
       tpRef:
         type: "string"
         description: "tp reference of network service profile reference entity"
@@ -1606,33 +1851,22 @@ definitions:
         type: "string"
         format: "date-time"
         description: "Date of network service profile creation"
+      nspOntSerialNumber:
+        type: "string"
+        description: "NSP ONT serial number"
       version:
         type: "integer"
         format: "int64"
         description: "Version of object"
-      uuid:
-        type: "string"
-        format: "uuid"
   Page:
     type: "object"
     properties:
-      totalElements:
-        type: "integer"
-        format: "int64"
       totalPages:
         type: "integer"
         format: "int32"
-      sort:
-        $ref: "#/definitions/Sort"
-      first:
-        type: "boolean"
-      numberOfElements:
+      totalElements:
         type: "integer"
-        format: "int32"
-      last:
-        type: "boolean"
-      pageable:
-        $ref: "#/definitions/Pageable"
+        format: "int64"
       size:
         type: "integer"
         format: "int32"
@@ -1643,28 +1877,28 @@ definitions:
       number:
         type: "integer"
         format: "int32"
+      sort:
+        $ref: "#/definitions/Sort"
+      numberOfElements:
+        type: "integer"
+        format: "int32"
+      first:
+        type: "boolean"
+      last:
+        type: "boolean"
+      pageable:
+        $ref: "#/definitions/Pageable"
       empty:
         type: "boolean"
   PageAccessLineViewDto:
     type: "object"
     properties:
-      totalElements:
-        type: "integer"
-        format: "int64"
       totalPages:
         type: "integer"
         format: "int32"
-      sort:
-        $ref: "#/definitions/Sort"
-      first:
-        type: "boolean"
-      numberOfElements:
+      totalElements:
         type: "integer"
-        format: "int32"
-      last:
-        type: "boolean"
-      pageable:
-        $ref: "#/definitions/Pageable"
+        format: "int64"
       size:
         type: "integer"
         format: "int32"
@@ -1675,28 +1909,60 @@ definitions:
       number:
         type: "integer"
         format: "int32"
+      sort:
+        $ref: "#/definitions/Sort"
+      numberOfElements:
+        type: "integer"
+        format: "int32"
+      first:
+        type: "boolean"
+      last:
+        type: "boolean"
+      pageable:
+        $ref: "#/definitions/Pageable"
+      empty:
+        type: "boolean"
+  PageAssuranceAccessLineDtoV4:
+    type: "object"
+    properties:
+      totalPages:
+        type: "integer"
+        format: "int32"
+      totalElements:
+        type: "integer"
+        format: "int64"
+      size:
+        type: "integer"
+        format: "int32"
+      content:
+        type: "array"
+        items:
+          $ref: "#/definitions/AssuranceAccessLineDtoV4"
+      number:
+        type: "integer"
+        format: "int32"
+      sort:
+        $ref: "#/definitions/Sort"
+      numberOfElements:
+        type: "integer"
+        format: "int32"
+      first:
+        type: "boolean"
+      last:
+        type: "boolean"
+      pageable:
+        $ref: "#/definitions/Pageable"
       empty:
         type: "boolean"
   PageBackHaulViewDto:
     type: "object"
     properties:
-      totalElements:
-        type: "integer"
-        format: "int64"
       totalPages:
         type: "integer"
         format: "int32"
-      sort:
-        $ref: "#/definitions/Sort"
-      first:
-        type: "boolean"
-      numberOfElements:
+      totalElements:
         type: "integer"
-        format: "int32"
-      last:
-        type: "boolean"
-      pageable:
-        $ref: "#/definitions/Pageable"
+        format: "int64"
       size:
         type: "integer"
         format: "int32"
@@ -1707,26 +1973,37 @@ definitions:
       number:
         type: "integer"
         format: "int32"
+      sort:
+        $ref: "#/definitions/Sort"
+      numberOfElements:
+        type: "integer"
+        format: "int32"
+      first:
+        type: "boolean"
+      last:
+        type: "boolean"
+      pageable:
+        $ref: "#/definitions/Pageable"
       empty:
         type: "boolean"
   Pageable:
     type: "object"
     properties:
-      sort:
-        $ref: "#/definitions/Sort"
-      unpaged:
-        type: "boolean"
-      pageNumber:
-        type: "integer"
-        format: "int32"
-      paged:
-        type: "boolean"
-      pageSize:
-        type: "integer"
-        format: "int32"
       offset:
         type: "integer"
         format: "int64"
+      sort:
+        $ref: "#/definitions/Sort"
+      pageSize:
+        type: "integer"
+        format: "int32"
+      pageNumber:
+        type: "integer"
+        format: "int32"
+      unpaged:
+        type: "boolean"
+      paged:
+        type: "boolean"
   ProblemDetails:
     type: "object"
     required:
@@ -1779,6 +2056,25 @@ definitions:
         type: "integer"
         format: "int64"
         description: "Version of object"
+  RequestAccessLineStatusDto:
+    type: "object"
+    properties:
+      accessLineStatus:
+        type: "string"
+        enum:
+        - "INACTIVE"
+        - "WALLED_GARDEN"
+        - "ASSIGNED"
+      subscriberNeProfileState:
+        type: "string"
+        enum:
+        - "INACTIVE"
+        - "ACTIVE"
+      subscriberNetworkLineProfileState:
+        type: "string"
+        enum:
+        - "INACTIVE"
+        - "ACTIVE"
   RequestAccessLineViewDto:
     type: "object"
     properties:
@@ -1795,21 +2091,7 @@ definitions:
         type: "array"
         uniqueItems: true
         items:
-          type: "string"
-          enum:
-          - "INACTIVE"
-          - "WALLED_GARDEN"
-          - "ASSIGNED"
-      subscriberNeProfileState:
-        type: "string"
-        enum:
-        - "INACTIVE"
-        - "ACTIVE"
-      subscriberNetworkLineProfileState:
-        type: "string"
-        enum:
-        - "INACTIVE"
-        - "ACTIVE"
+          $ref: "#/definitions/RequestAccessLineStatusDto"
       slotNumber:
         type: "string"
       portNumber:
