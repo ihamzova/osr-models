@@ -4232,9 +4232,6 @@ definitions:
         - "DELETE_IP_RANGE_ASSIGNMENT"
       additionalInfo:
         type: "string"
-      lastActivity:
-        type: "string"
-        format: "date-time"
       port:
         $ref: "#/definitions/Port"
   AllocatedIPAddresses:
@@ -4302,9 +4299,6 @@ definitions:
         - "DELETE_IP_RANGE_ASSIGNMENT"
       additionalInfo:
         type: "string"
-      lastActivity:
-        type: "string"
-        format: "date-time"
       slotNumber:
         type: "string"
       portNumber:
@@ -4990,9 +4984,6 @@ definitions:
         type: "string"
       descriptionUrl:
         type: "string"
-      lastDiscovery:
-        type: "string"
-        format: "date-time"
       id:
         type: "integer"
         format: "int64"
@@ -5044,9 +5035,6 @@ definitions:
         type: "string"
       descriptionUrl:
         type: "string"
-      lastDiscovery:
-        type: "string"
-        format: "date-time"
       id:
         type: "integer"
         format: "int64"
@@ -5090,9 +5078,6 @@ definitions:
         - "OLT"
         - "BNG"
         - "DPU"
-      importDate:
-        type: "string"
-        format: "date-time"
       equipmentHolders:
         type: "array"
         items:
@@ -5276,9 +5261,6 @@ definitions:
         type: "string"
       descriptionUrl:
         type: "string"
-      lastDiscovery:
-        type: "string"
-        format: "date-time"
       id:
         type: "integer"
         format: "int64"
@@ -5425,9 +5407,6 @@ definitions:
         type: "string"
       descriptionUrl:
         type: "string"
-      lastDiscovery:
-        type: "string"
-        format: "date-time"
       id:
         type: "integer"
         format: "int64"
