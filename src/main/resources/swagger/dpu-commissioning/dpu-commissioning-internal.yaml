@@ -1,19 +1,20 @@
 ---
 swagger: "2.0"
 info:
-  description: "DPU Commissioning\n\tStarting with DIGIHUB-48635"
-  version: "0.0.1"
-  title: "dpu-commissioning"
+  description: "A Service which is responsible for Commissioning Process for a DPU\
+    \ Device."
+  version: "1.0.0"
+  title: "DPU Commissioning API"
 host: "localhost:8080"
 tags:
-- name: "DPU-Commissioning"
+- name: "DPU Commissioning"
 schemes:
 - "http"
 paths:
-  /api/dpucommissioning/v1/dpu:
+  /api/dpucommissioning/v1/dpu/commissioning:
     post:
       tags:
-      - "DPU-Commissioning"
+      - "DPU Commissioning"
       summary: "Starts DPU commissioning process"
       description: "Starts commissioning process for DPU device"
       operationId: "startDpuDeviceCommissioning"
@@ -46,7 +47,7 @@ paths:
       - name: "X-B3-ParentSpanId"
         in: "header"
         description: "https://gard.telekom.de/gardwiki/display/DGHB/X-B3-ParentSpanId"
-        required: true
+        required: false
         type: "string"
       responses:
         201:
@@ -57,58 +58,39 @@ paths:
             X-Business-Context:
               type: "string"
               description: "https://gard.telekom.de/gardwiki/display/DGHB/X-Business-Context"
-            X-B3-SpanId:
-              type: "string"
-              description: "https://gard.telekom.de/gardwiki/display/DGHB/X-B3-SpanId"
-            X-B3-ParentSpanId:
-              type: "string"
-              description: "https://gard.telekom.de/gardwiki/display/DGHB/X-B3-ParentSpanId"
-            X-B3-TraceId:
-              type: "string"
-              description: "https://gard.telekom.de/gardwiki/display/DGHB/X-B3-TraceId"
         400:
           description: "Bad request"
           headers:
             X-Business-Context:
               type: "string"
               description: "https://gard.telekom.de/gardwiki/display/DGHB/X-Business-Context"
-            X-B3-SpanId:
-              type: "string"
-              description: "https://gard.telekom.de/gardwiki/display/DGHB/X-B3-SpanId"
-            X-B3-ParentSpanId:
-              type: "string"
-              description: "https://gard.telekom.de/gardwiki/display/DGHB/X-B3-ParentSpanId"
-            X-B3-TraceId:
-              type: "string"
-              description: "https://gard.telekom.de/gardwiki/display/DGHB/X-B3-TraceId"
         500:
           description: "Can't perform operation"
           headers:
             X-Business-Context:
               type: "string"
               description: "https://gard.telekom.de/gardwiki/display/DGHB/X-Business-Context"
-            X-B3-SpanId:
-              type: "string"
-              description: "https://gard.telekom.de/gardwiki/display/DGHB/X-B3-SpanId"
-            X-B3-ParentSpanId:
-              type: "string"
-              description: "https://gard.telekom.de/gardwiki/display/DGHB/X-B3-ParentSpanId"
-            X-B3-TraceId:
-              type: "string"
-              description: "https://gard.telekom.de/gardwiki/display/DGHB/X-B3-TraceId"
 definitions:
   DpuCommissioningResponse:
     type: "object"
     properties:
-      processId:
+      id:
         type: "string"
+        example: "2c77cc8b-53a8-4afd-9d7a-e6557941bb11"
         description: "Process ID"
-      status:
+      source:
         type: "string"
-        description: "Status"
-      comment:
+        example: "dpu-commissioning"
+        description: "Source"
+      businessKey:
         type: "string"
-        description: "Comment"
+        example: "/dpu-commissioning/2c77cc8b-53a8-4afd-9d7a-e6557941bb11"
+        description: "ETCD businessKey"
+      index:
+        type: "integer"
+        format: "int32"
+        example: 123
+        description: "ETCD index"
     description: "DpuCommissioningResponse"
   StartDpuCommissioningRequest:
     type: "object"
@@ -117,6 +99,6 @@ definitions:
     properties:
       endSZ:
         type: "string"
-        example: "49/8571/0/71GA"
+        example: "49/8571/0/74GA"
         description: "Endstellenschluesselzahl"
         pattern: "[0-9]{1,6}\\/[0-9]{1,6}\\/[0-9]{1,6}\\/[a-zA-Z0-9]{2,4}"
