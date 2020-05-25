@@ -2,7 +2,7 @@ swagger: '2.0'
 info:
   title: a4-resource-inventory
   description: This interface allows you to do CRUD-operations on the a4-resource-inventory
-  version: 1.2.0
+  version: 1.2.7
   contact:
     email: DL_Berlinium@telekom.de
 schemes:
@@ -496,7 +496,7 @@ paths:
             items:
               $ref: '#/definitions/NetworkElementTypeDto'
         '400':
-          description: get to networkElementTypes - Bad Request
+          description: get to networkElementTypes- Bad Request
           schema:
             $ref: '#/definitions/Error'
         '403':
@@ -657,6 +657,56 @@ paths:
             $ref: '#/definitions/Error'
         '500':
           description: put to portSpecs/{uuid} - Internal Error
+          schema:
+            $ref: '#/definitions/Error'
+  /resource-order-resource-inventory/v1/matNumberPortMappings:
+    get:
+      description: This operation intended for search a physicalLabel or a logicalLabel of MatNumberPortMappings.
+      tags:
+        - MatNumberPortMappings
+      summary: Retrieve a physicalLabel or a logicalLabel of MatNumberPortMappings
+      operationId: findLogicalLabelOrPhysicalLabel
+      parameters:
+        - name: logicalLabel
+          in: query
+          description: Logical Label for getting Physical Label
+          type: string
+          required: false
+        - name: physicalLabel
+          in: query
+          description: Physical Label for getting Logical Label
+          type: string
+          required: false
+        - name: networkElementTypeName
+          in: query
+          type: string
+          description: Network Element Type Name for search a physicalLabel or a logicalLabel
+          required: true
+        - name: matNumber
+          in: query
+          type: string
+          description: matNumberPortMappings for search a physicalLabel or a logicalLabel.
+          required: true
+      responses:
+        '200':
+          description: get a physicalLabel or a logicalLabel of MatNumberPortMapping - OK
+          schema:
+            type: string
+            description: a physicalLabel or a logicalLabel of MatNumberPortMapping
+        '400':
+          description: get a physicalLabel or a logicalLabel of MatNumberPortMapping - Bad Request
+          schema:
+            $ref: '#/definitions/Error'
+        '403':
+          description: get a physicalLabel or a logicalLabel of MatNumberPortMapping - Forbidden
+          schema:
+            $ref: '#/definitions/Error'
+        '404':
+          description: get a physicalLabel or a logicalLabel of MatNumberPortMapping - Not Found
+          schema:
+            $ref: '#/definitions/Error'
+        '500':
+          description: get a physicalLabel or a logicalLabel of MatNumberPortMapping - Internal Server Error
           schema:
             $ref: '#/definitions/Error'
   /resource-order-resource-inventory/v1/matNumberPortMappings/{uuid}:
@@ -1019,6 +1069,153 @@ paths:
           description: get to TerminationPoint - Internal Server Error
           schema:
             $ref: '#/definitions/Error'
+  /resource-order-resource-inventory/v1/networkElementLinks:
+    get:
+      description: This operation intended for searching a NetworkElementLink by NetworkElementPortUuid, lbz or ueWegId.
+      tags:
+        - NetworkElementLinks
+      summary: Get a list of NetworkElementLinks based on provided NetworkElementPortUuid, lbz or ueWegeId
+      operationId: listNetworkElementLinks
+      parameters:
+        - name: networkElementPortUuid
+          in: query
+          description: networkElementPortUuid for filtering the NetworkElementLinks that are connected to a port. It can be the Port of A-side or B-side.
+          required: false
+          type: string
+        - name: lbz
+          in: query
+          description: Leitungsbezeichnung of NetworkElementLinks
+          required: false
+          type: string
+        - name: ueWegId
+          in: query
+          description: ueWegeId of NetworkElementLinks
+          required: false
+          type: string
+      responses:
+        '200':
+          description: get to NetworkElementLinks - OK
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/NetworkElementLinkDto'
+        '400':
+          description: get to NetworkElementLinks - Bad Request
+          schema:
+            $ref: '#/definitions/Error'
+        '403':
+          description: get to NetworkElementLinks - Forbidden
+          schema:
+            $ref: '#/definitions/Error'
+        '500':
+          description: get to NetworkElementLinks - Internal Error
+          schema:
+            $ref: '#/definitions/Error'
+      deprecated: false
+  /resource-order-resource-inventory/v1/networkElementLinks/{uuid}:
+    get:
+      description: This operation intended for searching a NetworkElementLink by UUID.
+      tags:
+        - NetworkElementLinks
+      summary: Retrieve a Network Element item based on provided UUID
+      operationId: findNetworkElementLink
+      parameters:
+        - name: uuid
+          in: path
+          description: UUID of NetworkElementLink to be retrieved
+          required: true
+          type: string
+      responses:
+        '200':
+          description: get to NetworkElementLinks/{uuid} - OK
+          schema:
+            $ref: '#/definitions/NetworkElementLinkDto'
+        '400':
+          description: get to NetworkElementLinks/{uuid} - Bad Request
+          schema:
+            $ref: '#/definitions/Error'
+        '403':
+          description: get to NetworkElementLinks/{uuid} - Forbidden
+          schema:
+            $ref: '#/definitions/Error'
+        '404':
+          description: get to NetworkElementLinks/{uuid} - Not Found
+          schema:
+            $ref: '#/definitions/Error'
+        '500':
+          description: get to NetworkElementLinks/{uuid} - Internal Error
+          schema:
+            $ref: '#/definitions/Error'
+    put:
+      description: This operation intended for creating or updating a NetworkElementLink.
+      tags:
+        - NetworkElementLinks
+      summary: Create or update a NetworkElementLink based on provided UUID
+      operationId: createOrUpdateNetworkElementLink
+      parameters:
+        - name: uuid
+          in: path
+          description: UUID of NetworkElementLink to be created or updated
+          required: true
+          type: string
+        - name: NetworkElementLinkDto
+          in: body
+          description: attributes for NetworkElementLink to be created or updated
+          required: true
+          schema:
+            $ref: '#/definitions/NetworkElementLinkDto'
+      responses:
+        '200':
+          description: put to NetworkElementLinks/{uuid} - OK
+          schema:
+            $ref: '#/definitions/NetworkElementLinkDto'
+        '400':
+          description: put to NetworkElementLinks/{uuid} - Bad Request
+          schema:
+            $ref: '#/definitions/Error'
+        '403':
+          description: put to NetworkElementLinks/{uuid} - Forbidden
+          schema:
+            $ref: '#/definitions/Error'
+        '404':
+          description: put to NetworkElementLinks/{uuid} - Not Found
+          schema:
+            $ref: '#/definitions/Error'
+        '500':
+          description: put to NetworkElementLinks/{uuid} - Internal Error
+          schema:
+            $ref: '#/definitions/Error'
+    delete:
+      description: This operation intended for deleting a NetworkElementLink by UUID.
+      tags:
+        - NetworkElementLinks
+      summary: Delete a NetworkElementLink based on provided UUID
+      operationId: deleteNetworkElementLink
+      parameters:
+        - name: uuid
+          in: path
+          description: UUID of NetworkElementLink to be deleted
+          required: true
+          type: string
+      responses:
+        '204':
+          description: delete to NetworkElementLinks/{uuid} - No Content
+        '400':
+          description: delete to NetworkElementLinks/{uuid} - Bad Request
+          schema:
+            $ref: '#/definitions/Error'
+        '403':
+          description: delete to NetworkElementLinks/{uuid} - Forbidden
+          schema:
+            $ref: '#/definitions/Error'
+        '404':
+          description: delete to NetworkElementLinks/{uuid} - Not Found
+          schema:
+            $ref: '#/definitions/Error'
+        '500':
+          description: delete to NetworkElementLinks/{uuid} - Internal Error
+          schema:
+            $ref: '#/definitions/Error'
 definitions:
   GenericResourceDto:
     type: object
@@ -1072,6 +1269,9 @@ definitions:
       operationalState:
         type: string
         description: Operational State of this Network Element item. Must contain one valid state value
+      plannedMatNumber:
+        type: string
+        description: planned material number of this Network Element item
       plannedRackId:
         type: string
         description: Planned Rack ID of this Network Element item
@@ -1338,6 +1538,12 @@ definitions:
       parentUuid:
         type: string
         description: UUID of NetworkElementGroup or NetworkElementPort that is related to this TerminationPoint
+      supportedDiagnosesName:
+        type: string
+        description: comma-separated list of names of the kind of diagnoses
+      supportedDiagnosesSpecificationVersion:
+        type: string
+        description: comma-separated list of specification version of diagnoses
       href:
         type: string
         description: References parent element
@@ -1351,6 +1557,55 @@ definitions:
       value:
         type: string
         description: attributes of this AdditionalAttribute
+  NetworkElementLinkDto:
+    type: object
+    title: NetworkElementLinkDto
+    description: Network Element Links are one of several element types of A4 resources. Needed for communication between A4 resource inventory and resource inventory service.
+    properties:
+      uuid:
+        type: string
+        description: UUID of this NetworkElementLink
+      creationTime:
+        format: date-time
+        type: string
+        description: Timestamp in UTC when this NetworkElementLink was created. Automatically filled when creating a new NetworkElementLink
+      description:
+        type: string
+        description: additional information of this NetworkElementLink
+      lastUpdateTime:
+        type: string
+        format: date-time
+        description: Timestamp in UTC when this NetworkElementLink was last updated. Automatically updated when updating a NetworkElementLink
+      specificationVersion:
+        type: string
+        description: specificationVersion of a NetworkElementLink
+      lsz:
+        type: string
+        description: Leitungsschlüsselzahl of the NetworkElementLink
+      lbz:
+        type: string
+        description: Leitungsbezeichnung of the NetworkElementLink. Is a unique value
+      orderNumber:
+        type: string
+        description: orderNumber of NetworkElementLink
+      lifecycleState:
+        type: string
+        description: Lifecycle State of NetworkElementLink. Must contain one valid state value
+      operationalState:
+        type: string
+        description: Operational State of NetworkElementLink. Must contain one valid state value
+      ueWegId:
+        type: string
+        description: Uebertragungsweg-ID of NetworkElementLink. This is a unique value
+      pluralId:
+        type: string
+        description: pluralId of this NetworkElementLink
+      networkElementPortAUuid:
+        type: string
+        description: UUID of NetworkElementPort on A-side to which this NetworkElementLink is connected. Must contain UUID of an existing NetworkElementPort
+      networkElementPortBUuid:
+        type: string
+        description: UUID of NetworkElementPort on B-side to which this NetworkElementLink is connected. Must contain UUID of an existing NetworkElementPort
   Error:
     description: Error model from the TMF OpenAPI
     type: object
