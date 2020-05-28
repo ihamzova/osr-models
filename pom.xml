@@ -71,7 +71,7 @@
         <plugins>
             <plugin>
                 <groupId>com.tsystems.tm.t3a.plugins</groupId>
-                <artifactId>t3a-swagger-plugin</artifactId>
+                <artifactId>t3a-swagger-maven-plugin</artifactId>
                 <version>8.4</version>
                 <configuration>
                     <language>java</language>
