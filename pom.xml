@@ -70,9 +70,9 @@
         </resources>
         <plugins>
             <plugin>
-                <groupId>com.tsystems.tm.acc.tests</groupId>
-                <artifactId>acc-swagger-cache-plugin</artifactId>
-                <version>${framework.version}</version>
+                <groupId>com.tsystems.tm.t3a.plugins</groupId>
+                <artifactId>t3a-swagger-plugin</artifactId>
+                <version>8.4</version>
                 <configuration>
                     <language>java</language>
                     <generateApiTests>false</generateApiTests>
