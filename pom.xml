@@ -10,7 +10,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>osr-models</artifactId>
-    <version>0.0.23</version>
+    <version>0.0.24</version>
 
     <properties>
         <framework.version>${project.parent.version}</framework.version>
@@ -193,6 +193,12 @@
                                         <name>wg.a4.provisioning.external.client</name>
                                         <inputSpec>
                                             ${project.basedir}/src/main/resources/swagger/wg-a4-provisioning/wg-a4-provisioning-external-v1.yaml
+                                        </inputSpec>
+                                    </item>
+                                    <item>
+                                        <name>rebell.client</name>
+                                        <inputSpec>
+                                            ${project.basedir}/src/main/resources/swagger/rebell/digiOss_0_95.yaml
                                         </inputSpec>
                                     </item>
                                 </items>
