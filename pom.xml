@@ -10,7 +10,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>osr-models</artifactId>
-    <version>0.0.26</version>
+    <version>0.0.27</version>
 
     <properties>
         <framework.version>${project.parent.version}</framework.version>
@@ -268,6 +268,45 @@
                     </execution>
                 </executions>
             </plugin>
+
+            <plugin>
+                <groupId>com.tsystems.tm.t3a.plugins</groupId>
+                <artifactId>t3a-openapi-maven-plugin</artifactId>
+                <version>8.4</version>
+                <configuration>
+                    <language>java</language>
+                    <generateApiTests>false</generateApiTests>
+                    <generateModelTests>false</generateModelTests>
+                    <library>rest-assured</library>
+                    <configOptions>
+                        <dateLibrary>java8</dateLibrary>
+                    </configOptions>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>generate-clients</id>
+                        <phase>generate-sources</phase>
+                        <goals>
+                            <goal>generate</goal>
+                        </goals>
+                        <configuration>
+                            <bulk>
+                                <basePackage>${project.groupId}.osr</basePackage>
+                                <items>
+                                    <item>
+                                        <name>a4.resource.inventory.service.v4.client</name>
+                                        <inputSpec>
+                                            ${project.basedir}/src/main/resources/swagger/a4-resource-inventory-service/TMF639-Access4.0RI-v4.0.0.swagger.json
+                                        </inputSpec>
+                                    </item>
+                                </items>
+                            </bulk>
+                            <language/>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+
         </plugins>
     </build>
 </project>
