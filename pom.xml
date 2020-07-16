@@ -10,7 +10,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>osr-models</artifactId>
-    <version>0.0.26</version>
+    <version>0.0.27</version>
 
     <properties>
         <framework.version>${project.parent.version}</framework.version>
@@ -169,6 +169,12 @@
                                         <name>a4.resource.inventory.service.client</name>
                                         <inputSpec>
                                             ${project.basedir}/src/main/resources/swagger/a4-resource-inventory-service/Resource_Inventory.customized.json
+                                        </inputSpec>
+                                    </item>
+                                    <item>
+                                        <name>a4.resource.inventory.service.v4.client</name>
+                                        <inputSpec>
+                                            ${project.basedir}/src/main/resources/swagger/a4-resource-inventory-service/TMF639-Access4.0RI-v4.0.0.swagger.json
                                         </inputSpec>
                                     </item>
                                     <item>
