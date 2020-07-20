@@ -2,7 +2,7 @@
       info:
         title: a4-resource-inventory
         description: This interface allows you to do CRUD-operations on the a4-resource-inventory
-        version: 1.2.7
+        version: 1.2.8
         contact:
           email: DL_Berlinium@telekom.de
       basePath: /resource-order-resource-inventory/v1/
@@ -209,7 +209,7 @@
             parameters:
               - name: name
                 in: query
-                required: true
+                required: false
                 description: name to get a list of NetworkElementGroups
                 type: string
             responses:
