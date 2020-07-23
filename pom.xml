@@ -296,7 +296,7 @@
                                     <item>
                                         <name>a4.resource.inventory.service.v4.client</name>
                                         <inputSpec>
-                                            ${project.basedir}/src/main/resources/swagger/a4-resource-inventory-service/TMF639-Access4.0RI-v4.0.0.swagger.json
+                                            ${project.basedir}/src/main/resources/swagger/a4-resource-inventory-service/TMF639-Access4.0RI-v4.swagger.json
                                         </inputSpec>
                                     </item>
                                 </items>
