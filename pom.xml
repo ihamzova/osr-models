@@ -196,6 +196,18 @@
                                         </inputSpec>
                                     </item>
                                     <item>
+                                        <name>ont.olt.orchestrator.internal.client</name>
+                                        <inputSpec>
+                                            ${project.basedir}/src/main/resources/swagger/ont-olt-orchestrator/ont-olt-orchestrator-internal-v2.yaml
+                                        </inputSpec>
+                                    </item>
+                                    <item>
+                                        <name>ont.olt.orchestrator.external.client</name>
+                                        <inputSpec>
+                                            ${project.basedir}/src/main/resources/swagger/ont-olt-orchestrator/ont-olt-orchestrator-external-v2.yaml
+                                        </inputSpec>
+                                    </item>
+                                    <item>
                                         <name>rebell.client</name>
                                         <inputSpec>
                                             ${project.basedir}/src/main/resources/swagger/rebell/digiOss_0_95.yaml
