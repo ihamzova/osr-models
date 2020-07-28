@@ -3,18 +3,18 @@ swagger: "2.0"
 info:
   description: "A Service which is responsible for Commissioning Process for a DPU\
     \ Device."
-  version: "1.0.0"
+  version: "1.1.0"
   title: "DPU Commissioning API"
 host: "localhost:8080"
 tags:
-- name: "DPU Commissioning"
+- name: "DPU Commissioning External"
 schemes:
 - "http"
 paths:
-  /api/dpucommissioning/v1/dpu/commissioning:
+  /resource-order-resource-inventory/v1/dpuCommissioningConfigurationTask:
     post:
       tags:
-      - "DPU Commissioning"
+      - "DPU Commissioning External"
       summary: "Starts DPU commissioning process"
       description: "Starts commissioning process for DPU device"
       operationId: "startDpuDeviceCommissioning"
@@ -29,6 +29,65 @@ paths:
         required: true
         schema:
           $ref: "#/definitions/StartDpuCommissioningRequest"
+      - name: "X-Business-Context"
+        in: "header"
+        description: "https://gard.telekom.de/gardwiki/display/DGHB/X-Business-Context"
+        required: false
+        type: "string"
+      - name: "X-B3-TraceId"
+        in: "header"
+        description: "https://gard.telekom.de/gardwiki/display/DGHB/X-B3-TraceId"
+        required: true
+        type: "string"
+      - name: "X-B3-SpanId"
+        in: "header"
+        description: "https://gard.telekom.de/gardwiki/display/DGHB/X-B3-SpanId"
+        required: true
+        type: "string"
+      - name: "X-B3-ParentSpanId"
+        in: "header"
+        description: "https://gard.telekom.de/gardwiki/display/DGHB/X-B3-ParentSpanId"
+        required: false
+        type: "string"
+      responses:
+        201:
+          description: "Process started"
+          schema:
+            $ref: "#/definitions/DpuCommissioningResponse"
+          headers:
+            X-Business-Context:
+              type: "string"
+              description: "https://gard.telekom.de/gardwiki/display/DGHB/X-Business-Context"
+        400:
+          description: "Bad request"
+          headers:
+            X-Business-Context:
+              type: "string"
+              description: "https://gard.telekom.de/gardwiki/display/DGHB/X-Business-Context"
+        500:
+          description: "Can't perform operation"
+          headers:
+            X-Business-Context:
+              type: "string"
+              description: "https://gard.telekom.de/gardwiki/display/DGHB/X-Business-Context"
+  /resource-order-resource-inventory/v1/dpuDecommissioningConfigurationTask:
+    post:
+      tags:
+      - "DPU Commissioning External"
+      summary: "Starts DPU decommissioning process"
+      description: "Starts decommissioning process for DPU device"
+      operationId: "startDpuDeviceDecommissioning"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "startDpuCommissioningRequest"
+        description: "StartDpuCommissioningRequest"
+        required: true
+        schema:
+          $ref: "#/definitions/StartDpuDecommissioningRequest"
       - name: "X-Business-Context"
         in: "header"
         description: "https://gard.telekom.de/gardwiki/display/DGHB/X-Business-Context"
@@ -93,6 +152,16 @@ definitions:
         description: "ETCD index"
     description: "DpuCommissioningResponse"
   StartDpuCommissioningRequest:
+    type: "object"
+    required:
+    - "endSZ"
+    properties:
+      endSZ:
+        type: "string"
+        example: "49/8571/0/74GA"
+        description: "Endstellenschluesselzahl"
+        pattern: "[0-9]{1,6}\\/[0-9]{1,6}\\/[0-9]{1,6}\\/[a-zA-Z0-9]{2,4}"
+  StartDpuDecommissioningRequest:
     type: "object"
     required:
     - "endSZ"
