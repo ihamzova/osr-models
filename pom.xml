@@ -285,18 +285,6 @@
                                             ${project.basedir}/src/main/resources/swagger/access-line-resource-inventory/access-line-resource-inventory-external.yaml
                                         </inputSpec>
                                     </item>
-                                    <item>
-                                        <name>access.line.management.internal.client</name>
-                                        <inputSpec>
-                                            ${project.basedir}/src/main/resources/swagger/access-line-management/access-line-management-internal.1.2.0.yaml
-                                        </inputSpec>
-                                    </item>
-                                    <item>
-                                        <name>access.line.management.external.client</name>
-                                        <inputSpec>
-                                            ${project.basedir}/src/main/resources/swagger/access-line-management/access-line-management-external.1.2.0.yaml
-                                        </inputSpec>
-                                    </item>
                                 </items>
                             </bulk>
                             <language/>
@@ -333,6 +321,18 @@
                                         <name>a4.resource.inventory.service.v4.client</name>
                                         <inputSpec>
                                             ${project.basedir}/src/main/resources/swagger/a4-resource-inventory-service/TMF639-Access4.0RI-v4.swagger.json
+                                        </inputSpec>
+                                    </item>
+                                    <item>
+                                        <name>access.line.management.internal.client</name>
+                                        <inputSpec>
+                                            ${project.basedir}/src/main/resources/swagger/access-line-management/access-line-management-internal.1.2.0.yaml
+                                        </inputSpec>
+                                    </item>
+                                    <item>
+                                        <name>access.line.management.external.client</name>
+                                        <inputSpec>
+                                            ${project.basedir}/src/main/resources/swagger/access-line-management/access-line-management-external.1.2.0.yaml
                                         </inputSpec>
                                     </item>
                                 </items>
