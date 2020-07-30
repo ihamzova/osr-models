@@ -1440,13 +1440,6 @@ paths:
           description: "Bad Request"
         404:
           description: "Process instance not found"
-  /swagger-ui.html:
-    get:
-      operationId: "getSwagger"
-      parameters: []
-      responses:
-        default:
-          description: "successful operation"
   /task/{taskId}/restore:
     post:
       tags:
