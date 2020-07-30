@@ -10,7 +10,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>osr-models</artifactId>
-    <version>0.0.33</version>
+    <version>0.0.34</version>
 
     <properties>
         <framework.version>${project.parent.version}</framework.version>
@@ -205,6 +205,12 @@
                                         <name>ont.olt.orchestrator.external.client</name>
                                         <inputSpec>
                                             ${project.basedir}/src/main/resources/swagger/ont-olt-orchestrator/ont-olt-orchestrator-external-v2.yaml
+                                        </inputSpec>
+                                    </item>
+                                    <item>
+                                        <name>resource.inventory.adapter.external.client</name>
+                                        <inputSpec>
+                                            ${project.basedir}/src/main/resources/swagger/resource-inventory-adapter/resource-inventory-adapter-external-swagger.2.4.0.yaml
                                         </inputSpec>
                                     </item>
                                     <item>
