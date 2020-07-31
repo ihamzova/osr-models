@@ -1,0 +1,410 @@
+---
+swagger: "2.0"
+info:
+  description: "ANCP-Configuration API"
+  version: "2.1.0"
+  title: "ANCP-Configuration"
+host: "localhost:8099"
+tags:
+- name: "AncpConfigurationCallbackExternalController"
+- name: "AncpConfigurationExternalControllerV2"
+schemes:
+- "http"
+paths:
+  /resource-order-resource-inventory/v2/ancp/configuration:
+    post:
+      tags:
+      - "AncpConfigurationExternalControllerV2"
+      summary: "Create ancp configuration"
+      description: ""
+      operationId: "createAncpConfigurationV2"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "X-Callback-Id"
+        in: "header"
+        description: "Callback Id"
+        required: false
+        type: "string"
+      - name: "X-Callback-Correlation-Id"
+        in: "header"
+        description: "Callback Correlation Id"
+        required: false
+        type: "string"
+        format: "uuid"
+      - name: "X-Callback-Url"
+        in: "header"
+        description: "Callback url"
+        required: false
+        type: "string"
+      - name: "X-Callback-Error-Url"
+        in: "header"
+        description: "Error callback url"
+        required: false
+        type: "string"
+      - name: "X-Callback-Method"
+        in: "header"
+        description: "Callback http method"
+        required: false
+        type: "string"
+      - name: "uplinkId"
+        in: "query"
+        description: "Id of ethernet link on which the ancp session should be configured"
+        required: true
+        type: "integer"
+        format: "int64"
+      - name: "endSz"
+        in: "query"
+        description: "EndSz of device for which ancp session should be configured"
+        required: true
+        type: "string"
+        pattern: "[0-9]{1,6}\\/[0-9]{1,6}\\/[0-9]{1,6}\\/[a-zA-Z0-9]{2,4}"
+      - name: "sessionType"
+        in: "query"
+        description: "Type of ancp session"
+        required: true
+        type: "string"
+        enum:
+        - "OLT"
+        - "DPU"
+      responses:
+        200:
+          description: "Request to сreate ancp configuration is accepted"
+          schema:
+            $ref: "#/definitions/Response"
+        400:
+          description: "Bad Request (Sync Response on POST Request)"
+          schema:
+            $ref: "#/definitions/ProblemDetails"
+        500:
+          description: "Internal error"
+          schema:
+            $ref: "#/definitions/ProblemDetails"
+      x-async-responses:
+        callback: "callbackCreateAncpConfiguration"
+        error-callback: "callbackErrorCreateAncpConfiguration"
+  /resource-order-resource-inventory/v2/ancp/configuration/{ancpSessionId}:
+    get:
+      tags:
+      - "AncpConfigurationExternalControllerV2"
+      summary: "Get Operation State of the ANCP-session"
+      description: ""
+      operationId: "sessionStatusTestV2"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "X-Callback-Id"
+        in: "header"
+        description: "Callback Id"
+        required: false
+        type: "string"
+      - name: "X-Callback-Correlation-Id"
+        in: "header"
+        description: "Correlation Id"
+        required: false
+        type: "string"
+        format: "uuid"
+      - name: "X-Callback-Url"
+        in: "header"
+        description: "Callback url"
+        required: false
+        type: "string"
+      - name: "X-Callback-Error-Url"
+        in: "header"
+        description: "Error callback url"
+        required: false
+        type: "string"
+      - name: "X-Callback-Method"
+        in: "header"
+        description: "Callback http method"
+        required: false
+        type: "string"
+      - name: "ancpSessionId"
+        in: "path"
+        description: "Id of ancp session for which operation state should be determined"
+        required: true
+        type: "integer"
+        format: "int64"
+      responses:
+        200:
+          description: "Request to get ancp configuration is accepted"
+          schema:
+            $ref: "#/definitions/Response"
+        400:
+          description: "Bad Request (Sync Response on POST Request)"
+          schema:
+            $ref: "#/definitions/ProblemDetails"
+        404:
+          description: "ANCP-Session not found"
+          schema:
+            $ref: "#/definitions/ProblemDetails"
+        500:
+          description: "Internal error"
+          schema:
+            $ref: "#/definitions/ProblemDetails"
+      x-async-responses:
+        callback: "callbackGetAncpConfiguration"
+        error-callback: "callbackErrorGetAncpConfiguration"
+    delete:
+      tags:
+      - "AncpConfigurationExternalControllerV2"
+      summary: "Delete ancp configuration"
+      description: ""
+      operationId: "startDeconfigurationV2"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "X-Callback-Id"
+        in: "header"
+        description: "Callback Id"
+        required: false
+        type: "string"
+      - name: "X-Callback-Correlation-Id"
+        in: "header"
+        description: "Correlation Id"
+        required: false
+        type: "string"
+        format: "uuid"
+      - name: "X-Callback-Url"
+        in: "header"
+        description: "Callback url"
+        required: false
+        type: "string"
+      - name: "X-Callback-Error-Url"
+        in: "header"
+        description: "Error callback url"
+        required: false
+        type: "string"
+      - name: "X-Callback-Method"
+        in: "header"
+        description: "Callback http method"
+        required: false
+        type: "string"
+      - name: "ancpSessionId"
+        in: "path"
+        description: "Id of ancp session which should be deconfigured"
+        required: true
+        type: "integer"
+        format: "int64"
+      responses:
+        200:
+          description: "Request to delete ancp configuration is accepted"
+          schema:
+            $ref: "#/definitions/Response"
+        400:
+          description: "Bad Request (Sync Response on POST Request)"
+          schema:
+            $ref: "#/definitions/ProblemDetails"
+        404:
+          description: "ANCP-Session not found"
+          schema:
+            $ref: "#/definitions/ProblemDetails"
+        500:
+          description: "Internal error"
+          schema:
+            $ref: "#/definitions/ProblemDetails"
+      x-async-responses:
+        callback: "callbackDeleteAncpConfiguration"
+        error-callback: "callbackErrorDeleteAncpConfiguration"
+  /callback/configuration/createAncpConfiguration:
+    post:
+      tags:
+      - "AncpConfigurationCallbackExternalController"
+      summary: "Create Ancp Configuration"
+      description: ""
+      operationId: "callbackCreateAncpConfiguration"
+      parameters:
+      - name: "X-Callback-Correlation-Id"
+        in: "header"
+        description: "Value for identifying a single transaction across multiple services\
+          \ up to the backend. Usually set by the originating consumer"
+        required: true
+        type: "string"
+        format: "uuid"
+      - in: "body"
+        name: "body"
+        description: "Result of configuration ethernet link"
+        required: true
+        schema:
+          $ref: "#/definitions/ConfigurationUplinkDTOResult"
+      responses:
+        200:
+          description: "Ancp Configuration created"
+        500:
+          description: "Internal error"
+      x-async-responses:
+        reference-operation-id: "createAncpConfiguration"
+  /callback/configuration/deleteAncpConfiguration:
+    post:
+      tags:
+      - "AncpConfigurationCallbackExternalController"
+      summary: "Delete Ancp Configuration"
+      description: ""
+      operationId: "callbackDeleteAncpConfiguration"
+      parameters:
+      - name: "X-Callback-Correlation-Id"
+        in: "header"
+        description: "Value for identifying a single transaction across multiple services\
+          \ up to the backend. Usually set by the originating consumer"
+        required: true
+        type: "string"
+        format: "uuid"
+      - in: "body"
+        name: "body"
+        description: "Result of delete configuration ethernet link"
+        required: true
+        schema:
+          $ref: "#/definitions/DeconfigurationUplinkDTOResult"
+      responses:
+        200:
+          description: "Ancp Configuration deleted"
+        500:
+          description: "Internal error"
+      x-async-responses:
+        reference-operation-id: "deleteAncpConfiguration"
+  /callback/configuration/getAncpConfiguration:
+    post:
+      tags:
+      - "AncpConfigurationCallbackExternalController"
+      summary: "Get Ancp Configuration Status"
+      description: ""
+      operationId: "callbackGetAncpConfiguration"
+      parameters:
+      - name: "X-Callback-Correlation-Id"
+        in: "header"
+        description: "Correlation Id"
+        required: true
+        type: "string"
+        format: "uuid"
+      - in: "body"
+        name: "body"
+        description: "Result of  status check ancp configuration"
+        required: true
+        schema:
+          $ref: "#/definitions/GetConfigurationUplinkDTOResult"
+      responses:
+        200:
+          description: "Ancp Configuration received"
+        500:
+          description: "Internal error"
+      x-async-responses:
+        reference-operation-id: "getAncpConfiguration"
+definitions:
+  CallbackResponseDto:
+    type: "object"
+  ConfigurationUplinkDTOResult:
+    type: "object"
+    properties:
+      error:
+        description: "Result of fail operation."
+        $ref: "#/definitions/ErrorResponse"
+      response:
+        description: "Result of successful operation."
+        $ref: "#/definitions/CallbackResponseDto"
+      success:
+        type: "boolean"
+    description: "result of configuration ethernet link"
+  DeconfigurationUplinkDTOResult:
+    type: "object"
+    properties:
+      error:
+        description: "Result of fail operation."
+        $ref: "#/definitions/ErrorResponse"
+      response:
+        description: "Result of successful operation."
+        $ref: "#/definitions/CallbackResponseDto"
+      success:
+        type: "boolean"
+    description: "result of delete configuration ethernet link"
+  ErrorResponse:
+    type: "object"
+    properties:
+      errorCode:
+        type: "string"
+        description: "Error code"
+      message:
+        type: "string"
+        description: "Message"
+    description: "Error response of 4xx and 5xx http statuses"
+  GetConfigurationUplinkDTOResult:
+    type: "object"
+    properties:
+      error:
+        description: "Result of fail operation."
+        $ref: "#/definitions/ErrorResponse"
+      response:
+        type: "string"
+        description: "Result of successful operation."
+      success:
+        type: "boolean"
+    description: "result of get ancp configuration ethernet link"
+  ProblemDetails:
+    type: "object"
+    required:
+    - "title"
+    - "type"
+    properties:
+      type:
+        type: "string"
+        format: "uri"
+        description: "type"
+      title:
+        type: "string"
+        description: "title"
+      status:
+        type: "integer"
+        format: "int32"
+        description: "status"
+      detail:
+        type: "string"
+        description: "detail"
+      instance:
+        type: "string"
+        description: "instance"
+      embedded:
+        description: "embedded"
+        $ref: "#/definitions/SpecificProblemDetails"
+    description: "Error response of 4xx and 5xx http statuses."
+  Response:
+    type: "object"
+    required:
+    - "modifiedIndex"
+    - "status"
+    properties:
+      correlationId:
+        type: "string"
+      modifiedIndex:
+        type: "integer"
+        format: "int32"
+      status:
+        type: "string"
+        enum:
+        - "RMK_ENDPOINT_START"
+        - "RMK_ENDPOINT_DONE"
+        - "SEAL_PROCESS_START"
+        - "SEAL_PROCESS_DONE"
+        - "DONE"
+        - "ERROR"
+        - "START"
+      message:
+        type: "string"
+  SpecificProblemDetails:
+    type: "object"
+    required:
+    - "code"
+    - "reason"
+    properties:
+      code:
+        type: "string"
+        description: "code"
+      reason:
+        type: "string"
+        description: "reason"
+      message:
+        type: "string"
+        description: "message"
+      status:
+        type: "integer"
+        format: "int32"
+        description: "status"
+    description: "Specific problem details(including fehlerbuildnummer code)."

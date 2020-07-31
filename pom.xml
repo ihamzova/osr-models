@@ -10,7 +10,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>osr-models</artifactId>
-    <version>0.0.34</version>
+    <version>0.0.35</version>
 
     <properties>
         <framework.version>${project.parent.version}</framework.version>
@@ -136,6 +136,18 @@
                                         </inputSpec>
                                     </item>
                                     <item>
+                                        <name>wg.access.provisioning.external.v1_1_1_0.client</name>
+                                        <inputSpec>
+                                            ${project.basedir}/src/main/resources/swagger/wg-access-provisioning/wg-access-provisioning-external-v1.1.1.0.yaml
+                                        </inputSpec>
+                                    </item>
+                                    <item>
+                                        <name>wg.fttb.access.provisioning.external.v1_1_0_0.client</name>
+                                        <inputSpec>
+                                            ${project.basedir}/src/main/resources/swagger/wg-fttb-access-provisioning/wg-fttb-access-provisioning-external-v1.1.0.0.yaml
+                                        </inputSpec>
+                                    </item>
+                                    <item>
                                         <name>psl.adapter.client</name>
                                         <inputSpec>
                                             ${project.basedir}/src/main/resources/swagger/psl/psl.yaml
@@ -211,6 +223,12 @@
                                         <name>resource.inventory.adapter.external.client</name>
                                         <inputSpec>
                                             ${project.basedir}/src/main/resources/swagger/resource-inventory-adapter/resource-inventory-adapter-external-swagger.2.4.0.yaml
+                                        </inputSpec>
+                                    </item>
+                                    <item>
+                                        <name>ancp.configuration.external.v2_1_0.client</name>
+                                        <inputSpec>
+                                            ${project.basedir}/src/main/resources/swagger/ancp-configuration/ancp-configuration-external.2.1.0.yaml
                                         </inputSpec>
                                     </item>
                                     <item>
