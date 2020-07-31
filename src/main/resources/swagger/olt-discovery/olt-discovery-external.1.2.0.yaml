@@ -1,0 +1,1172 @@
+---
+swagger: "2.0"
+info:
+  description: "OLT-Discovery API"
+  version: "1.2.0"
+  title: "OLT-Discovery"
+host: "localhost:8120"
+tags:
+- name: "DiscoveryController"
+- name: "DiscrepancyController"
+- name: "NetworkInventoryController"
+- name: "OltDiscoveryCallbackController"
+- name: "OltDiscoveryController"
+schemes:
+- "http"
+paths:
+  /api/discovery/v1/cancel:
+    put:
+      tags:
+      - "DiscoveryController"
+      summary: "cancels a running discovery process"
+      description: ""
+      operationId: "cancel"
+      parameters:
+      - name: "discoveryId"
+        in: "query"
+        description: "Id of discovery process from start discovery"
+        required: true
+        type: "string"
+      responses:
+        200:
+          description: "Process canceled"
+        400:
+          description: "Bad Request"
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+        404:
+          description: "Entity not found"
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+  /api/discovery/v1/getstatus:
+    get:
+      tags:
+      - "DiscoveryController"
+      summary: "delivers status of existing discovery processes"
+      description: ""
+      operationId: "getStatus"
+      parameters:
+      - name: "endsz"
+        in: "query"
+        description: "EndSz of OLT"
+        required: false
+        type: "string"
+        pattern: "[0-9]{1,6}\\/[0-9]{1,6}\\/[0-9]{1,6}\\/[a-zA-Z0-9]{2,4}"
+        x-example: "*49/8571/0/76HA; 49/8571/0/76H5; 49/8571/0/76H1; 49/8571/0/76H2*"
+      - name: "discoveryId"
+        in: "query"
+        description: "Id of discovery process from start discovery"
+        required: false
+        type: "string"
+      responses:
+        200:
+          description: "Status delivered"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/DiscoveryStatus"
+        400:
+          description: "Bad Request"
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+  /api/discovery/v1/start:
+    post:
+      tags:
+      - "DiscoveryController"
+      summary: "Start Discovery Process"
+      description: ""
+      operationId: "start"
+      parameters:
+      - name: "endsz"
+        in: "query"
+        description: "EndSz of OLT"
+        required: true
+        type: "string"
+        pattern: "[0-9]{1,6}\\/[0-9]{1,6}\\/[0-9]{1,6}\\/[a-zA-Z0-9]{2,4}"
+        x-example: "*49/8571/0/76HA; 49/8571/0/76H5; 49/8571/0/76H1; 49/8571/0/76H2*"
+      - name: "X-Callback-Id"
+        in: "header"
+        description: "Callback Id"
+        required: false
+        type: "string"
+      - name: "X-Callback-Correlation-Id"
+        in: "header"
+        description: "Correlation Id"
+        required: false
+        type: "string"
+        format: "uuid"
+      - name: "X-Callback-Url"
+        in: "header"
+        description: "Callback url"
+        required: false
+        type: "string"
+      - name: "X-Callback-Error-Url"
+        in: "header"
+        description: "Error callback url"
+        required: false
+        type: "string"
+      - name: "X-Callback-Method"
+        in: "header"
+        description: "Callback http method"
+        required: false
+        type: "string"
+      - name: "type"
+        in: "query"
+        description: "Discovery-Type"
+        required: false
+        type: "string"
+        default: "SEAL"
+        enum:
+        - "SEAL"
+        - "SEAL_PSL"
+      - name: "mode"
+        in: "query"
+        description: "Discovery-Mode (MANUAL: Compare of Inventory from SEAL/PSL with\
+          \ Resource Inventory and apply of modifications to Resource Inventory must\
+          \ be done manually; AUTOMATIC: Compare and apply of modifications to RI\
+          \ will be done automatically)"
+        required: false
+        type: "string"
+        default: "MANUAL"
+        enum:
+        - "MANUAL"
+        - "AUTOMATIC"
+      responses:
+        200:
+          description: "Request to discovery is accepted"
+          schema:
+            $ref: "#/definitions/DiscoveryResponse"
+        400:
+          description: "Bad Request (Sync Response on POST Request)"
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+      x-async-responses:
+        callback: "discoveryCallback"
+        error-callback: "discoveryErrorCallback"
+  /api/discovery/v1/timeout:
+    put:
+      tags:
+      - "DiscoveryController"
+      summary: "check discovery timeout and cancel when expired"
+      description: ""
+      operationId: "checkTimeout"
+      parameters: []
+      responses:
+        202:
+          description: "Check discovery timeout successful"
+        400:
+          description: "Bad Request"
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+  /api/discrepancy/v1/apply:
+    put:
+      tags:
+      - "DiscrepancyController"
+      summary: "applies changes from network inventory into resource inventory"
+      description: ""
+      operationId: "applyChangesToResourceInventory"
+      parameters:
+      - name: "discoveryId"
+        in: "query"
+        description: "Id of discovery process from start discovery"
+        required: true
+        type: "string"
+      - in: "body"
+        name: "body"
+        description: "result of compare network inventory with resource inventory\
+          \ including decisions"
+        required: true
+        schema:
+          $ref: "#/definitions/InventoryCompareResult"
+      responses:
+        200:
+          description: "Changes successfully applied"
+        400:
+          description: "Bad Request"
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+        404:
+          description: "Entity not found"
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+  /api/discrepancy/v1/compare:
+    get:
+      tags:
+      - "DiscrepancyController"
+      summary: "delivers discrepancy data"
+      description: ""
+      operationId: "compareWithResourceInventory"
+      parameters:
+      - name: "discoveryId"
+        in: "query"
+        description: "Id of discovery process from start discovery"
+        required: true
+        type: "string"
+      responses:
+        200:
+          description: "Discrepancies successfully determined"
+          schema:
+            $ref: "#/definitions/InventoryCompareResult"
+        400:
+          description: "Bad Request"
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+        404:
+          description: "Entity not found"
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+  /api/networkInventory/v1/add:
+    post:
+      tags:
+      - "NetworkInventoryController"
+      summary: "adds new entry to network inventory"
+      description: ""
+      operationId: "addToNetworkInventory"
+      parameters:
+      - name: "Endsz"
+        in: "query"
+        description: "Endsz of device"
+        required: true
+        type: "string"
+        pattern: "[0-9]{1,6}\\/[0-9]{1,6}\\/[0-9]{1,6}\\/[a-zA-Z0-9]{2,4}"
+      - name: "pslSessionId"
+        in: "query"
+        description: "SessionId of corresponding PSL Session in PSL Adapter (only\
+          \ in case of SEAL-PSL Discovery)"
+        required: false
+        type: "string"
+      - in: "body"
+        name: "body"
+        description: "Network Inventory data"
+        required: true
+        schema:
+          $ref: "#/definitions/CallbackgetaccessnodeinventoryrequestPayload"
+      responses:
+        200:
+          description: "Successfully created"
+          schema:
+            $ref: "#/definitions/NetworkInventoryDto"
+        400:
+          description: "Can't perform operation"
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+        409:
+          description: "Entry already exists"
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+  /api/networkInventory/v1/cleanup:
+    delete:
+      tags:
+      - "NetworkInventoryController"
+      summary: "Removes outdated data from network inventory"
+      description: ""
+      operationId: "cleanupOutdatedInventoryData"
+      parameters: []
+      responses:
+        200:
+          description: "Outdated data successfully deleted"
+        400:
+          description: "Can't perform operation"
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+  /api/networkInventory/v1/get:
+    get:
+      tags:
+      - "NetworkInventoryController"
+      summary: "delivers discovered data"
+      description: ""
+      operationId: "getNetworkInventory"
+      parameters:
+      - name: "discoveryId"
+        in: "query"
+        description: "Id of discovery process from start discovery"
+        required: true
+        type: "string"
+      responses:
+        200:
+          description: "Network Inventory data successful delivered"
+          schema:
+            $ref: "#/definitions/CallbackgetaccessnodeinventoryrequestPayload"
+        400:
+          description: "Bad Request"
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+        404:
+          description: "Entity not found"
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+  /api/oltDiscovery/v1/discovery:
+    post:
+      tags:
+      - "OltDiscoveryController"
+      summary: "Discovery Processn"
+      description: ""
+      operationId: "discoveryProcessStart"
+      parameters:
+      - name: "X-Callback-Id"
+        in: "header"
+        description: "Callback Id"
+        required: false
+        type: "string"
+      - name: "X-Callback-Correlation-Id"
+        in: "header"
+        description: "Correlation Id"
+        required: false
+        type: "string"
+        format: "uuid"
+      - name: "X-Callback-Url"
+        in: "header"
+        description: "Callback url"
+        required: false
+        type: "string"
+      - name: "X-Callback-Error-Url"
+        in: "header"
+        description: "Error callback url"
+        required: false
+        type: "string"
+      - name: "X-Callback-Method"
+        in: "header"
+        description: "Callback http method"
+        required: false
+        type: "string"
+      - name: "oltEndsz"
+        in: "query"
+        description: "ends of OLT"
+        required: true
+        type: "string"
+        pattern: "[0-9]{1,6}\\/[0-9]{1,6}\\/[0-9]{1,6}\\/[a-zA-Z0-9]{2,4}"
+        x-example: "*49/8571/0/76HA; 49/8571/0/76H5; 49/8571/0/76H1; 49/8571/0/76H2*"
+      - name: "X-Business-Context"
+        in: "header"
+        description: "The business context is a general classification for a larger\
+          \ number of requests (types) usually set by the originating consumer. Any\
+          \ service receiving this header parameter MUST forward it unmodified to\
+          \ other services it invokes. Non-REST technologies (e.g. SOABP) might use\
+          \ a different identifier for this attribute."
+        required: false
+        type: "string"
+      - name: "X-Correlation-ID"
+        in: "header"
+        description: "Value for identifying a single transaction across multiple services\
+          \ up to the backend. Usually set by the originating consumer.Any service\
+          \ receiving this header parameter MUST forward it unmodified to other services\
+          \ it invokes. Non-REST technologies (e.g. SOABP) might use a different identifier\
+          \ for this attribute. If this ID is not available (not supplied, empty or\
+          \ at origin), the service MUST create it as a UUID. The maximum length of\
+          \ 256 characters MUST NOT be exceeded (a standard UUID has 36 characters).\
+          \ The creator MAY prefix the UUID with an application and/or instance defined\
+          \ string."
+        required: false
+        type: "string"
+      - name: "X-Request-ID"
+        in: "header"
+        description: "Value to identify an individual request across consuming application,\
+          \ middleware and service provider. This ID is to be generated for every\
+          \ single request and not to be passed down (as X-Correlation-ID) to sub-services.\
+          \ Every consuming application MUST create this value as UUID. The maximum\
+          \ length of 256 characters MUST NOT be exceeded (a standard UUID has 36\
+          \ characters). The creator MAY prefix the UUID with an application and/or\
+          \ instance defined string."
+        required: false
+        type: "string"
+      responses:
+        200:
+          description: "Request to discovery is accepted"
+          schema:
+            $ref: "#/definitions/DiscoveryResponse"
+        400:
+          description: "Bad Request (Sync Response on POST Request)"
+      deprecated: true
+      x-async-responses:
+        callback: "discoveryCallback"
+        error-callback: "discoveryErrorCallback"
+  /callback/discovery:
+    post:
+      tags:
+      - "OltDiscoveryCallbackController"
+      summary: "Discovery success callback"
+      description: ""
+      operationId: "discoveryCallback"
+      parameters:
+      - name: "X-Callback-Correlation-Id"
+        in: "header"
+        description: "Value for identifying a single transaction across multiple services\
+          \ up to the backend. Usually set by the originating consumer"
+        required: true
+        type: "string"
+        format: "uuid"
+      - in: "body"
+        name: "body"
+        description: "Result of discovery device"
+        required: true
+        schema:
+          $ref: "#/definitions/DiscoveryResponseHolder"
+      responses:
+        200:
+          description: "Discovery process done"
+      x-async-responses:
+        reference-operation-id: "discoveryProcessStart"
+definitions:
+  CallbackError:
+    type: "object"
+    properties:
+      message:
+        type: "string"
+      status:
+        type: "integer"
+        format: "int32"
+      code:
+        type: "string"
+  CallbackgetaccessnodeinventoryrequestPayload:
+    type: "object"
+    properties:
+      managedElement:
+        $ref: "#/definitions/CallbackgetaccessnodeinventoryrequestPayloadManagedElement"
+      modules:
+        type: "array"
+        items:
+          $ref: "#/definitions/CallbackgetaccessnodeinventoryrequestPayloadModules"
+      ports:
+        type: "array"
+        items:
+          $ref: "#/definitions/CallbackgetaccessnodeinventoryrequestPayloadPorts"
+      connections:
+        type: "array"
+        items:
+          $ref: "#/definitions/CallbackgetaccessnodeinventoryrequestPayloadConnections"
+      onts:
+        type: "array"
+        items:
+          $ref: "#/definitions/CallbackgetaccessnodeinventoryrequestPayloadOnts"
+      ancpConfigurations:
+        type: "array"
+        items:
+          $ref: "#/definitions/CallbackgetaccessnodeinventoryrequestPayloadAncpConfigurations"
+  CallbackgetaccessnodeinventoryrequestPayloadAncpConfigurations:
+    type: "object"
+    properties:
+      ancpInterfaceAccessNodeIp:
+        type: "string"
+        example: "10.30.120.1"
+        description: "IP-Address of the access node"
+      vlanId:
+        type: "number"
+        example: 16.0
+        description: "SVLAN of the ANCP-interface"
+        minimum: 0
+        maximum: 4096
+        exclusiveMinimum: false
+        exclusiveMaximum: false
+      ancpInterfaceId:
+        type: "number"
+        example: 3.0
+        description: "Number of the ANCP-interface"
+        minimum: 1
+        maximum: 8
+        exclusiveMinimum: false
+        exclusiveMaximum: false
+      ancpPartitionId:
+        type: "number"
+        example: 4.0
+        description: "Number of the ANCP-partition"
+        minimum: 0
+        maximum: 255
+        exclusiveMinimum: false
+        exclusiveMaximum: false
+      ancpInterfaceControllerNodeIp:
+        type: "string"
+        example: "10.30.120.2"
+        description: "IP-Address of the port on the controller node (BNG)"
+      uplinkSlot:
+        type: "string"
+        description: "Number of the slot"
+      uplinkPort:
+        type: "string"
+        description: "Number of the uplinkPort"
+      shelf:
+        type: "string"
+        description: "Number of the shelf"
+  CallbackgetaccessnodeinventoryrequestPayloadConnections:
+    type: "object"
+    properties:
+      vlanId:
+        type: "number"
+        example: 2010.0
+        description: "SVLAN of the ANCP-interface"
+        minimum: 0
+        maximum: 4095
+        exclusiveMinimum: false
+        exclusiveMaximum: false
+      ancpPartitionId:
+        type: "number"
+        example: 4.0
+        description: "Number of the ANCP-partition"
+        minimum: 0
+        maximum: 255
+        exclusiveMinimum: false
+        exclusiveMaximum: false
+      shelf:
+        type: "string"
+        description: "Number of the shelf"
+      slot:
+        type: "string"
+        description: "Number of the slot"
+      port:
+        type: "string"
+        description: "Number of the port"
+  CallbackgetaccessnodeinventoryrequestPayloadManagedElement:
+    type: "object"
+    properties:
+      name:
+        type: "string"
+        example: "49_231_50_71M1"
+        description: "Endpoint key number which uniquely identifies a Manged element\
+          \ in the DTAG network"
+      ipAddress:
+        type: "string"
+        example: "10.182.69.11"
+        description: "ZDCN IP Address of ME"
+      productName:
+        type: "string"
+        example: "MA5600T"
+        description: "Name of the device type"
+      manufacturer:
+        type: "string"
+        example: "HUAWEI"
+        description: "Unique ID that identifies the vendor of the ME"
+      softwareVersion:
+        type: "string"
+        example: "MA5600V800R008C02"
+        description: "Firmware version of the access node"
+      resourceState:
+        type: "string"
+        example: "WORKING"
+        description: "Current planning status of the managed element"
+        enum:
+        - "WORKING"
+        - "NON_WORKING"
+      communicationState:
+        type: "string"
+        example: "CS_AVAILABLE"
+        description: "Shows whether Managed Element in the DTAG network can be managed\
+          \ by the EMS or not"
+        enum:
+        - "AVAILABLE"
+        - "UNAVAILABLE"
+  CallbackgetaccessnodeinventoryrequestPayloadModules:
+    type: "object"
+    properties:
+      slot:
+        type: "string"
+        example: "2"
+        description: "Number of the slot"
+      installedEquipmentObjectType:
+        type: "string"
+        example: "H802GPBD"
+        description: "Manufacturer's identification number of the module"
+      installedSerialNumber:
+        type: "string"
+        example: "020PFN6TBA603435"
+        description: "Manufacturer specific serial number of the module"
+      manufacturer:
+        type: "string"
+        example: "HUAWEI"
+        description: "Unique identifier that identifies the vendor of the module"
+      installedVersion:
+        type: "string"
+        example: "MA5600V800R017C10"
+        description: "Firmware version of the module"
+      resourceState:
+        type: "string"
+        example: "INSTALLING_INSTALLED"
+        description: "Current planning status of the module"
+        enum:
+        - "INSTALLING_INSTALLED"
+        - "INSTALLING_INTEGRATED"
+        - "INSTALLING_REJECTED"
+        - "UNKNOWN"
+      resourceFulfillmentState:
+        type: "string"
+        example: "IN_SERVICE"
+        description: "Current service status of the module"
+        enum:
+        - "IN_SERVICE"
+        - "OUT_OF_SERVICE"
+        - "OUT_OF_SERVICE_BY_MAINTENANCE"
+        - "SERV_NA"
+      shelf:
+        type: "string"
+        description: "Number of the shelf"
+  CallbackgetaccessnodeinventoryrequestPayloadOnts:
+    type: "object"
+    properties:
+      vlanId:
+        type: "number"
+        example: 2010.0
+        description: "VLAN ID per port for unique port identification"
+        minimum: 0
+        maximum: 4095
+        exclusiveMinimum: false
+        exclusiveMaximum: false
+      serialNumber:
+        type: "string"
+        example: "48575443F3F84003"
+        description: "ID for registration at the ONT"
+      installedSerialNumber:
+        type: "string"
+        example: "FFFFFFFF0500F8EA"
+        description: "Manufacturer specific serial number of the ONT"
+      lineId:
+        type: "string"
+        example: "DEU.DTAG.2010"
+        description: "Unique identification number of the port/connector"
+      manufacturer:
+        type: "string"
+        example: "HWTC"
+        description: "Unique ID that identifies the vendor of the ONT"
+      installedEquipmentObjectType:
+        type: "string"
+        example: "ONT"
+        description: "Manufacturer's identification number of the ONT"
+      softwareVersion:
+        type: "string"
+        example: "MA5600V800R017C10"
+        description: "Firmware version of the ONT"
+      lineProfile:
+        type: "string"
+        example: "FTTH-generic_500M-up_1G-down"
+        description: "Line Profile of the ONT"
+      serviceProfile:
+        type: "string"
+        example: "FTTH-generic"
+        description: "Service Profile of the ONT"
+      ontId:
+        type: "integer"
+        format: "int32"
+        description: "ID of the ONT in the PON"
+      shelf:
+        type: "string"
+        description: "Number of the shelf"
+      slot:
+        type: "string"
+        description: "Number of the slot"
+      port:
+        type: "string"
+        description: "Number of the port"
+  CallbackgetaccessnodeinventoryrequestPayloadPorts:
+    type: "object"
+    properties:
+      portType:
+        type: "string"
+        example: "ETHERNET"
+        description: "Technical type of the port"
+        enum:
+        - "SIP"
+        - "ADSL"
+        - "VDSL"
+        - "VVDSL"
+        - "SVVDSL"
+        - "SHDSL"
+        - "ETHERNET"
+        - "PON"
+      installedPartNumberSFP:
+        type: "string"
+        example: "OpticVendorSpecific:53 50 53 2D 34 33 2D 34 38 48 2D 48 50 2D 43\
+          \ 44 45 23 35 20 20 20 20 20 20 20 FF FF FF FF FF FF"
+        description: "Part number of the SFP module which is connected to an Ethernet/PON\
+          \ port"
+      installedMatNumberSFP:
+        type: "string"
+        example: "OpticUserEeprom:"
+        description: "Material number of the SFP module which is connected to an Ethernet/PON\
+          \ port"
+      shelf:
+        type: "string"
+        description: "Number of the shelf"
+      slot:
+        type: "string"
+        description: "Number of the slot"
+      port:
+        type: "string"
+        description: "Number of the port"
+  Card:
+    type: "object"
+    properties:
+      shortName:
+        type: "string"
+      materialNumber:
+        type: "string"
+      emsNbiName:
+        type: "string"
+      tkz1:
+        type: "string"
+      tkz2:
+        type: "string"
+      descriptionUrl:
+        type: "string"
+      lastDiscovery:
+        type: "string"
+        format: "date-time"
+      id:
+        type: "integer"
+        format: "int64"
+      resourceId:
+        type: "string"
+      name:
+        type: "string"
+      description:
+        type: "string"
+      serialNumber:
+        type: "string"
+      serviceState:
+        type: "string"
+      resourceState:
+        type: "string"
+      firmwareVersion:
+        type: "string"
+      cardType:
+        type: "string"
+        enum:
+        - "GPON"
+        - "UPLINK_CARD"
+        - "MANAGEMENT_CARD"
+        - "SUPPORT_MODULE"
+        - "PROCESSING_BOARD"
+      equipmentNumber:
+        type: "string"
+      manufacturer:
+        type: "string"
+      ports:
+        type: "array"
+        items:
+          $ref: "#/definitions/Port"
+      compositePartyId:
+        type: "integer"
+        format: "int64"
+  ComparableCard:
+    type: "object"
+    properties:
+      emsNbiName:
+        type: "string"
+      materialNumber:
+        type: "string"
+      serialNumber:
+        type: "string"
+      firmwareVersion:
+        type: "string"
+      resourceState:
+        type: "string"
+      equipmentNr:
+        type: "string"
+  ComparableDevice:
+    type: "object"
+    properties:
+      emsNbiName:
+        type: "string"
+      materialNumber:
+        type: "string"
+      ipAddress:
+        type: "string"
+      resourceState:
+        type: "string"
+      communicationState:
+        type: "string"
+      firmwareVersion:
+        type: "string"
+      klsId:
+        type: "integer"
+        format: "int64"
+      asb:
+        type: "integer"
+        format: "int64"
+      technischerPlatz:
+        type: "string"
+      equipmentNr:
+        type: "string"
+  ComponentCompareResult:
+    type: "object"
+    properties:
+      id:
+        type: "string"
+      changeStatus:
+        type: "string"
+        enum:
+        - "NONE"
+        - "ADDED"
+        - "REMOVED"
+        - "MODIFIED"
+        - "REPLACED"
+      networkInventory:
+        type: "object"
+      resourceInventory:
+        type: "object"
+      pslInventory:
+        type: "object"
+      action:
+        type: "string"
+        enum:
+        - "NONE"
+        - "IGNORE"
+        - "UPDATE"
+        - "USER_INTERVENTION"
+      allowedActions:
+        type: "array"
+        items:
+          type: "string"
+          enum:
+          - "NONE"
+          - "IGNORE"
+          - "UPDATE"
+          - "USER_INTERVENTION"
+      additionalInfo:
+        type: "string"
+        enum:
+        - "INCONSISTENCY_IN_PSL"
+        - "CARD_IS_PLANNED"
+        - "SCENARIO_NOT_SUPPORTED"
+  ComponentCompareResultComparableCard:
+    type: "object"
+    properties:
+      id:
+        type: "string"
+      changeStatus:
+        type: "string"
+        enum:
+        - "NONE"
+        - "ADDED"
+        - "REMOVED"
+        - "MODIFIED"
+        - "REPLACED"
+      networkInventory:
+        $ref: "#/definitions/ComparableCard"
+      resourceInventory:
+        $ref: "#/definitions/ComparableCard"
+      pslInventory:
+        $ref: "#/definitions/ComparableCard"
+      action:
+        type: "string"
+        enum:
+        - "NONE"
+        - "IGNORE"
+        - "UPDATE"
+        - "USER_INTERVENTION"
+      allowedActions:
+        type: "array"
+        items:
+          type: "string"
+          enum:
+          - "NONE"
+          - "IGNORE"
+          - "UPDATE"
+          - "USER_INTERVENTION"
+      additionalInfo:
+        type: "string"
+        enum:
+        - "INCONSISTENCY_IN_PSL"
+        - "CARD_IS_PLANNED"
+        - "SCENARIO_NOT_SUPPORTED"
+  ComponentCompareResultComparableDevice:
+    type: "object"
+    properties:
+      id:
+        type: "string"
+      changeStatus:
+        type: "string"
+        enum:
+        - "NONE"
+        - "ADDED"
+        - "REMOVED"
+        - "MODIFIED"
+        - "REPLACED"
+      networkInventory:
+        $ref: "#/definitions/ComparableDevice"
+      resourceInventory:
+        $ref: "#/definitions/ComparableDevice"
+      pslInventory:
+        $ref: "#/definitions/ComparableDevice"
+      action:
+        type: "string"
+        enum:
+        - "NONE"
+        - "IGNORE"
+        - "UPDATE"
+        - "USER_INTERVENTION"
+      allowedActions:
+        type: "array"
+        items:
+          type: "string"
+          enum:
+          - "NONE"
+          - "IGNORE"
+          - "UPDATE"
+          - "USER_INTERVENTION"
+      additionalInfo:
+        type: "string"
+        enum:
+        - "INCONSISTENCY_IN_PSL"
+        - "CARD_IS_PLANNED"
+        - "SCENARIO_NOT_SUPPORTED"
+  Device:
+    type: "object"
+    properties:
+      shortName:
+        type: "string"
+      materialNumber:
+        type: "string"
+      emsNbiName:
+        type: "string"
+      tkz1:
+        type: "string"
+      tkz2:
+        type: "string"
+      descriptionUrl:
+        type: "string"
+      lastDiscovery:
+        type: "string"
+        format: "date-time"
+      id:
+        type: "integer"
+        format: "int64"
+      resourceId:
+        type: "string"
+      deviceName:
+        type: "string"
+      endSz:
+        type: "string"
+      fachSz:
+        type: "string"
+      klsId:
+        type: "integer"
+        format: "int64"
+      ipAddress:
+        type: "string"
+      firmwareVersion:
+        type: "string"
+      resourceState:
+        type: "string"
+        enum:
+        - "NON_WORKING"
+        - "WORKING"
+      communicationState:
+        type: "string"
+        enum:
+        - "AVAILABLE"
+        - "UNAVAILABLE"
+      serialNumber:
+        type: "string"
+      importState:
+        type: "string"
+        enum:
+        - "PLANNED"
+        - "DISCOVERED"
+      type:
+        type: "string"
+        enum:
+        - "OLT"
+        - "BNG"
+        - "DPU"
+      importDate:
+        type: "string"
+        format: "date-time"
+      equipmentHolders:
+        type: "array"
+        items:
+          $ref: "#/definitions/EquipmentHolder"
+      description:
+        type: "string"
+      asb:
+        type: "integer"
+        format: "int64"
+      technicalLocation:
+        type: "string"
+      equipmentNumber:
+        type: "string"
+      manufacturer:
+        type: "string"
+      distributionPointId:
+        type: "string"
+      lifeCycleState:
+        type: "string"
+        enum:
+        - "NOT_OPERATING"
+        - "INSTALLING"
+        - "OPERATING"
+        - "RETIRING"
+        - "PLANNING"
+      ports:
+        type: "array"
+        items:
+          $ref: "#/definitions/Port"
+      compositePartyId:
+        type: "integer"
+        format: "int64"
+  DiscoveryResponseHolder:
+    type: "object"
+    properties:
+      error:
+        description: "Result of fail operation."
+        $ref: "#/definitions/CallbackError"
+      response:
+        description: "Result of successful operation."
+        $ref: "#/definitions/Device"
+      success:
+        type: "boolean"
+    description: "result of discovery device"
+  DiscoveryStatus:
+    type: "object"
+    properties:
+      discoveryId:
+        type: "string"
+      endsz:
+        type: "string"
+      startDateTime:
+        type: "string"
+        format: "date-time"
+      endDateTime:
+        type: "string"
+        format: "date-time"
+      status:
+        type: "string"
+        enum:
+        - "DISCOVERY_START"
+        - "SEAL_PROCESS_START"
+        - "SEAL_PROCESS_DONE"
+        - "DONE"
+        - "CANCEL"
+        - "ERROR"
+        - "TIMEOUT"
+        - "SEAL_AND_PSL_PROCESS_START"
+        - "PSL_PROCESS_DONE"
+        - "SEAL_AND_PSL_PROCESS_DONE"
+      messageText:
+        type: "string"
+      type:
+        type: "string"
+        enum:
+        - "SEAL"
+        - "SEAL_PSL"
+      pslCallbackCorrelationId:
+        type: "string"
+      pslSessionId:
+        type: "string"
+      mode:
+        type: "string"
+        enum:
+        - "MANUAL"
+        - "AUTOMATIC"
+  EquipmentHolder:
+    type: "object"
+    properties:
+      id:
+        type: "integer"
+        format: "int64"
+      slotNumber:
+        type: "string"
+      card:
+        $ref: "#/definitions/Card"
+  ErrorResponse:
+    type: "object"
+    properties:
+      errorCode:
+        type: "string"
+        description: "Error code"
+      message:
+        type: "string"
+        description: "Message"
+    description: "Error response of 4xx and 5xx http statuses"
+  InventoryCompareResult:
+    type: "object"
+    properties:
+      device:
+        $ref: "#/definitions/ComponentCompareResultComparableDevice"
+      slots:
+        type: "array"
+        items:
+          $ref: "#/definitions/ComponentCompareResultComparableCard"
+  NetworkInventoryDto:
+    type: "object"
+    properties:
+      id:
+        type: "string"
+      discoveryStart:
+        type: "string"
+        format: "date-time"
+      discoveryEnd:
+        type: "string"
+        format: "date-time"
+      endsz:
+        type: "string"
+        pattern: "[0-9]{1,6}\\/[0-9]{1,6}\\/[0-9]{1,6}\\/[a-zA-Z0-9]{2,4}"
+      inventoryData:
+        $ref: "#/definitions/CallbackgetaccessnodeinventoryrequestPayload"
+  OpticalModule:
+    type: "object"
+    properties:
+      shortName:
+        type: "string"
+      materialNumber:
+        type: "string"
+      emsNbiName:
+        type: "string"
+      tkz1:
+        type: "string"
+      tkz2:
+        type: "string"
+      descriptionUrl:
+        type: "string"
+      lastDiscovery:
+        type: "string"
+        format: "date-time"
+      id:
+        type: "integer"
+        format: "int64"
+      resourceId:
+        type: "string"
+      name:
+        type: "string"
+      description:
+        type: "string"
+      manufacturer:
+        type: "string"
+      compositePartyId:
+        type: "integer"
+        format: "int64"
+  Port:
+    type: "object"
+    properties:
+      id:
+        type: "integer"
+        format: "int64"
+      resourceId:
+        type: "string"
+      lifeCycleState:
+        type: "string"
+        enum:
+        - "NOT_OPERATING"
+        - "INSTALLING"
+        - "OPERATING"
+        - "RETIRING"
+        - "PLANNING"
+      portType:
+        type: "string"
+        enum:
+        - "PON"
+        - "ETHERNET"
+        - "GFAST"
+      portNumber:
+        type: "string"
+      opticalModule:
+        $ref: "#/definitions/OpticalModule"
+      compositePartyId:
+        type: "integer"
+        format: "int64"
+  DiscoveryResponse:
+    type: "object"
+    properties:
+      correlationId:
+        type: "string"
+      modifiedIndex:
+        type: "integer"
+        format: "int32"
+      message:
+        type: "string"
