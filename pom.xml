@@ -10,7 +10,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>osr-models</artifactId>
-    <version>0.0.35</version>
+    <version>0.0.36</version>
 
     <properties>
         <framework.version>${project.parent.version}</framework.version>
@@ -313,6 +313,12 @@
                                         <name>access.line.resource.inventory.external.v4_4_11_0.client</name>
                                         <inputSpec>
                                             ${project.basedir}/src/main/resources/swagger/access-line-resource-inventory/access-line-resource-inventory-external-v4.4.11.0.yaml
+                                        </inputSpec>
+                                    </item>
+                                    <item>
+                                        <name>olt.discovery.external.v1_2_0.client</name>
+                                        <inputSpec>
+                                            ${project.basedir}/src/main/resources/swagger/olt-discovery/olt-discovery-external.1.2.0.yaml
                                         </inputSpec>
                                     </item>
                                 </items>

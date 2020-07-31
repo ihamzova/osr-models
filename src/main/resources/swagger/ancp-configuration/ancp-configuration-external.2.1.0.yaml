@@ -71,7 +71,7 @@ paths:
         200:
           description: "Request to сreate ancp configuration is accepted"
           schema:
-            $ref: "#/definitions/Response"
+            $ref: "#/definitions/ANCPResponse"
         400:
           description: "Bad Request (Sync Response on POST Request)"
           schema:
@@ -129,7 +129,7 @@ paths:
         200:
           description: "Request to get ancp configuration is accepted"
           schema:
-            $ref: "#/definitions/Response"
+            $ref: "#/definitions/ANCPResponse"
         400:
           description: "Bad Request (Sync Response on POST Request)"
           schema:
@@ -190,7 +190,7 @@ paths:
         200:
           description: "Request to delete ancp configuration is accepted"
           schema:
-            $ref: "#/definitions/Response"
+            $ref: "#/definitions/ANCPResponse"
         400:
           description: "Bad Request (Sync Response on POST Request)"
           schema:
@@ -365,7 +365,7 @@ definitions:
         description: "embedded"
         $ref: "#/definitions/SpecificProblemDetails"
     description: "Error response of 4xx and 5xx http statuses."
-  Response:
+  ANCPResponse:
     type: "object"
     required:
     - "modifiedIndex"
