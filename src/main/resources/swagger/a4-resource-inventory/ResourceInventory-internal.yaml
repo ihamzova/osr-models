@@ -49,10 +49,10 @@ paths:
             $ref: '#/definitions/Error'
   /networkElements:
     get:
-      description: This operation intended for search a NetworkElements by EndSz (VPSZ & FSZ) or NE-Type.
+      description: This operation intended for search a NetworkElements by EndSz (VPSZ & FSZ),NE-Type or NetworkElementGroup-UUID.
       tags:
         - NetworkElements
-      summary: Get a list of Network Element items based on provided VPSZ, FSZ, TYPE
+      summary: Get a list of Network Element items based on provided VPSZ, FSZ, TYPE, NEG-UUID
       operationId: listNetworkElements
       parameters:
         - name: vpsz
@@ -73,6 +73,11 @@ paths:
         - name: category
           in: query
           description: NE-Category for filtering the NetworkElements
+          required: false
+          type: string
+        - name: networkElementGroupUuid
+          in: query
+          description: NEG-UUID for filtering the NetworkElements
           required: false
           type: string
       responses:
@@ -340,7 +345,7 @@ paths:
       description: This operation intended for search a NetworkElementPorts.
       tags:
         - NetworkElementPorts
-      summary: Get a list of Network Element Ports based on provided logicalLabel & NetworkElementDto UUID.
+      summary: Get a list of Network Element Ports based on provided logicalLabel & endSz or role & endSz or endSz or networkElementUuid or networkElementUuid & logicalLabel
       operationId: findNetworkElementPorts
       parameters:
         - in: query
@@ -352,7 +357,17 @@ paths:
           name: networkElementUuid
           type: string
           description: This is the uuid of the NetworkElementDto.
-          required: true
+          required: false
+        - in: query
+          name: role
+          type: string
+          description: This attribute is the type of NetworkElementPort.
+          required: false
+        - in: query
+          name: endSz
+          type: string
+          description: This attribute is to search by endSz of the NetworkElement
+          required: false
       responses:
         '200':
           description: get to NetworkElementPorts - OK
@@ -1103,6 +1118,16 @@ paths:
           description: ueWegeId of NetworkElementLinks
           required: false
           type: string
+        - name: endszA
+          in: query
+          description: endszA of networkElementPort for filtering the NetworkElementLinks that are connected to a port
+          required: false
+          type: string
+        - name: endszB
+          in: query
+          description: endszB of networkElementPort for filtering the NetworkElementLinks that are connected to b port
+          required: false
+          type: string
       responses:
         '200':
           description: get to NetworkElementLinks - OK
@@ -1617,6 +1642,12 @@ definitions:
       networkElementPortBUuid:
         type: string
         description: UUID of NetworkElementPort on B-side to which this NetworkElementLink is connected. Must contain UUID of an existing NetworkElementPort
+      endszA:
+        type: string
+        description: EndSz of NetworkElementPort on A-side to which this NetworkElementLink is connected.
+      endszB:
+        type: string
+        description: EndSz of NetworkElementPort on B-side to which this NetworkElementLink is connected.
   Error:
     description: Error model from the TMF OpenAPI
     type: object
