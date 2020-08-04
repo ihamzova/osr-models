@@ -5336,17 +5336,6 @@ definitions:
       totalPages:
         type: "integer"
         format: "int32"
-      sort:
-        $ref: "#/definitions/Sort"
-      first:
-        type: "boolean"
-      numberOfElements:
-        type: "integer"
-        format: "int32"
-      last:
-        type: "boolean"
-      pageable:
-        $ref: "#/definitions/Pageable"
       size:
         type: "integer"
         format: "int32"
@@ -5355,6 +5344,17 @@ definitions:
         items:
           type: "object"
       number:
+        type: "integer"
+        format: "int32"
+      sort:
+        $ref: "#/definitions/Sort"
+      pageable:
+        $ref: "#/definitions/Pageable"
+      last:
+        type: "boolean"
+      first:
+        type: "boolean"
+      numberOfElements:
         type: "integer"
         format: "int32"
       empty:
@@ -5368,17 +5368,6 @@ definitions:
       totalPages:
         type: "integer"
         format: "int32"
-      sort:
-        $ref: "#/definitions/Sort"
-      first:
-        type: "boolean"
-      numberOfElements:
-        type: "integer"
-        format: "int32"
-      last:
-        type: "boolean"
-      pageable:
-        $ref: "#/definitions/Pageable"
       size:
         type: "integer"
         format: "int32"
@@ -5387,6 +5376,17 @@ definitions:
         items:
           $ref: "#/definitions/AssuranceCardDtoV4"
       number:
+        type: "integer"
+        format: "int32"
+      sort:
+        $ref: "#/definitions/Sort"
+      pageable:
+        $ref: "#/definitions/Pageable"
+      last:
+        type: "boolean"
+      first:
+        type: "boolean"
+      numberOfElements:
         type: "integer"
         format: "int32"
       empty:
@@ -5400,17 +5400,6 @@ definitions:
       totalPages:
         type: "integer"
         format: "int32"
-      sort:
-        $ref: "#/definitions/Sort"
-      first:
-        type: "boolean"
-      numberOfElements:
-        type: "integer"
-        format: "int32"
-      last:
-        type: "boolean"
-      pageable:
-        $ref: "#/definitions/Pageable"
       size:
         type: "integer"
         format: "int32"
@@ -5419,6 +5408,17 @@ definitions:
         items:
           $ref: "#/definitions/AssuranceDeviceDtoV4"
       number:
+        type: "integer"
+        format: "int32"
+      sort:
+        $ref: "#/definitions/Sort"
+      pageable:
+        $ref: "#/definitions/Pageable"
+      last:
+        type: "boolean"
+      first:
+        type: "boolean"
+      numberOfElements:
         type: "integer"
         format: "int32"
       empty:
@@ -5432,17 +5432,6 @@ definitions:
       totalPages:
         type: "integer"
         format: "int32"
-      sort:
-        $ref: "#/definitions/Sort"
-      first:
-        type: "boolean"
-      numberOfElements:
-        type: "integer"
-        format: "int32"
-      last:
-        type: "boolean"
-      pageable:
-        $ref: "#/definitions/Pageable"
       size:
         type: "integer"
         format: "int32"
@@ -5451,6 +5440,17 @@ definitions:
         items:
           $ref: "#/definitions/AssuranceEthernetLinkDtoV4"
       number:
+        type: "integer"
+        format: "int32"
+      sort:
+        $ref: "#/definitions/Sort"
+      pageable:
+        $ref: "#/definitions/Pageable"
+      last:
+        type: "boolean"
+      first:
+        type: "boolean"
+      numberOfElements:
         type: "integer"
         format: "int32"
       empty:
@@ -5464,17 +5464,6 @@ definitions:
       totalPages:
         type: "integer"
         format: "int32"
-      sort:
-        $ref: "#/definitions/Sort"
-      first:
-        type: "boolean"
-      numberOfElements:
-        type: "integer"
-        format: "int32"
-      last:
-        type: "boolean"
-      pageable:
-        $ref: "#/definitions/Pageable"
       size:
         type: "integer"
         format: "int32"
@@ -5485,11 +5474,25 @@ definitions:
       number:
         type: "integer"
         format: "int32"
+      sort:
+        $ref: "#/definitions/Sort"
+      pageable:
+        $ref: "#/definitions/Pageable"
+      last:
+        type: "boolean"
+      first:
+        type: "boolean"
+      numberOfElements:
+        type: "integer"
+        format: "int32"
       empty:
         type: "boolean"
   Pageable:
     type: "object"
     properties:
+      offset:
+        type: "integer"
+        format: "int64"
       sort:
         $ref: "#/definitions/Sort"
       pageSize:
@@ -5497,14 +5500,11 @@ definitions:
         format: "int32"
       paged:
         type: "boolean"
-      unpaged:
-        type: "boolean"
       pageNumber:
         type: "integer"
         format: "int32"
-      offset:
-        type: "integer"
-        format: "int64"
+      unpaged:
+        type: "boolean"
   Port:
     type: "object"
     properties:
