@@ -2,7 +2,7 @@ swagger: '2.0'
 info:
   title: a4-resource-inventory
   description: This interface allows you to do CRUD-operations on the a4-resource-inventory
-  version: 1.2.10
+  version: 1.2.11
   contact:
     email: DL_Berlinium@telekom.de
 basePath: /resource-order-resource-inventory/v1/
@@ -1398,6 +1398,9 @@ definitions:
       networkElementUuid:
         type: string
         description: UUID of Network Element item to which this Network Element Port item belongs. Must contain UUID of an existing Network Element
+      networkElementEndsz:
+        type: string
+        description: Endsz of Network Element item to which this Network Element Port item belongs.
       href:
         type: string
         description: References NetworkElement
