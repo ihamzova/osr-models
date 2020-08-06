@@ -10,7 +10,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>osr-models</artifactId>
-    <version>0.0.37</version>
+    <version>0.0.38</version>
 
     <properties>
         <framework.version>${project.parent.version}</framework.version>
@@ -142,9 +142,15 @@
                                         </inputSpec>
                                     </item>
                                     <item>
-                                        <name>wg.fttb.access.provisioning.external.v1_1_0_0.client</name>
+                                        <name>wg.fttb.access.provisioning.external.v1.client</name>
                                         <inputSpec>
-                                            ${project.basedir}/src/main/resources/swagger/wg-fttb-access-provisioning/wg-fttb-access-provisioning-external-v1.1.0.0.yaml
+                                            ${project.basedir}/src/main/resources/swagger/wg-fttb-access-provisioning/wg-fttb-access-provisioning-external-v1.yaml
+                                        </inputSpec>
+                                    </item>
+                                    <item>
+                                        <name>wg.fttb.access.provisioning.internal.v1.client</name>
+                                        <inputSpec>
+                                            ${project.basedir}/src/main/resources/swagger/wg-fttb-access-provisioning/wg-fttb-access-provisioning-internal-v1.yaml
                                         </inputSpec>
                                     </item>
                                     <item>
