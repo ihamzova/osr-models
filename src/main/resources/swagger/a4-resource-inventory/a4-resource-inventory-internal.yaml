@@ -2,9 +2,10 @@ swagger: '2.0'
 info:
   title: a4-resource-inventory
   description: This interface allows you to do CRUD-operations on the a4-resource-inventory
-  version: 1.2.11
+  version: 1.3.0
   contact:
     email: DL_Berlinium@telekom.de
+basePath: /resource-order-resource-inventory/v1/
 schemes:
   - https
 produces:
@@ -12,7 +13,7 @@ produces:
 consumes:
   - application/json
 paths:
-  /resource-order-resource-inventory/v1/genericResources/{uuid}:
+  /genericResources/{uuid}:
     get:
       description: This operation intended for search a Generic Resource by UUID.
       tags:
@@ -46,7 +47,7 @@ paths:
           description: get to GenericResources/{uuid} - Internal Server Error
           schema:
             $ref: '#/definitions/Error'
-  /resource-order-resource-inventory/v1/networkElements:
+  /networkElements:
     get:
       description: This operation intended for search a NetworkElements by EndSz (VPSZ & FSZ),NE-Type or NetworkElementGroup-UUID.
       tags:
@@ -99,7 +100,7 @@ paths:
           schema:
             $ref: '#/definitions/Error'
       deprecated: false
-  /resource-order-resource-inventory/v1/networkElements/{uuid}:
+  /networkElements/{uuid}:
     get:
       description: This operation intended for search a NetworkElement by the UUID.
       tags:
@@ -203,7 +204,7 @@ paths:
           description: delete to NetworkElements/{uuid} - Internal Error
           schema:
             $ref: '#/definitions/Error'
-  /resource-order-resource-inventory/v1/networkElementGroups:
+  /networkElementGroups:
     get:
       description: This operation intended for search a NetworkElementGroup by the name.
       tags:
@@ -235,7 +236,7 @@ paths:
           description: get to NetworkElementGroups - Internal Server Error
           schema:
             $ref: '#/definitions/Error'
-  /resource-order-resource-inventory/v1/networkElementGroups/{uuid}:
+  /networkElementGroups/{uuid}:
     get:
       description: This operation intended for search a NetworkElementGroup by the UUID
       tags:
@@ -339,7 +340,7 @@ paths:
           description: delete to NetworkElementGroups/{uuid} - Internal Server Error
           schema:
             $ref: '#/definitions/Error'
-  /resource-order-resource-inventory/v1/networkElementPorts:
+  /networkElementPorts:
     get:
       description: This operation intended for search a NetworkElementPorts.
       tags:
@@ -367,6 +368,11 @@ paths:
           type: string
           description: This attribute is to search by endSz of the NetworkElement
           required: false
+        - in: query
+          name: portNumber
+          type: string
+          description: This attribute is to search by combination portType + portNumber + endSz of the NetworkElementPort
+          required: false
       responses:
         '200':
           description: get to NetworkElementPorts - OK
@@ -386,7 +392,7 @@ paths:
           description: get to NetworkElementPorts - Internal Server Error
           schema:
             $ref: '#/definitions/Error'
-  /resource-order-resource-inventory/v1/networkElementPorts/{uuid}:
+  /networkElementPorts/{uuid}:
     get:
       description: This operation intended for search a NetworkElementPort by UUID
       tags:
@@ -490,7 +496,7 @@ paths:
           description: delete to NetworkElementPorts/{uuid} - Server Error
           schema:
             $ref: '#/definitions/Error'
-  /resource-order-resource-inventory/v1/networkElementTypes:
+  /networkElementTypes:
     get:
       description: This operation intended for search a Network Element Type by FSZ.
       tags:
@@ -526,7 +532,7 @@ paths:
           description: get to networkElementTypes - Internal Server Error
           schema:
             $ref: '#/definitions/Error'
-  /resource-order-resource-inventory/v1/networkElementTypes/{uuid}:
+  /networkElementTypes/{uuid}:
     get:
       description: This operation intended for search a Network Element Type by UUID.
       tags:
@@ -599,7 +605,7 @@ paths:
           description: put to networkElementTypes/{uuid} - Internal Error
           schema:
             $ref: '#/definitions/Error'
-  /resource-order-resource-inventory/v1/portSpecs/{uuid}:
+  /portSpecs/{uuid}:
     get:
       description: This operation intended for portSpec search by UUID of NetworkElementType.
       tags:
@@ -674,7 +680,7 @@ paths:
           description: put to portSpecs/{uuid} - Internal Error
           schema:
             $ref: '#/definitions/Error'
-  /resource-order-resource-inventory/v1/matNumberPortMappings:
+  /matNumberPortMappings:
     get:
       description: This operation intended for search a physicalLabel or a logicalLabel of MatNumberPortMappings.
       tags:
@@ -724,7 +730,7 @@ paths:
           description: get a physicalLabel or a logicalLabel of MatNumberPortMapping - Internal Server Error
           schema:
             $ref: '#/definitions/Error'
-  /resource-order-resource-inventory/v1/matNumberPortMappings/{uuid}:
+  /matNumberPortMappings/{uuid}:
     get:
       description: This operation intended for search by uuid .
       tags:
@@ -799,7 +805,7 @@ paths:
           description: put to portSpecs/{uuid} - Internal Error
           schema:
             $ref: '#/definitions/Error'
-  /resource-order-resource-inventory/v1/networkServiceProfilesFtthAccess/{uuid}:
+  /networkServiceProfilesFtthAccess/{uuid}:
     get:
       description: This operation intended for search by uuid .
       tags:
@@ -903,7 +909,7 @@ paths:
           description: delete to NetworkServiceProfileFtthAccess/{uuid} - Server Error
           schema:
             $ref: '#/definitions/Error'
-  /resource-order-resource-inventory/v1/networkServiceProfilesFtthAccess:
+  /networkServiceProfilesFtthAccess:
     get:
       description: This operation intended for search by uuid of terminationPoint
       tags:
@@ -949,7 +955,7 @@ paths:
           description: get to NetworkServiceProfileFtthAccess/ - Internal Server Error
           schema:
             $ref: '#/definitions/Error'
-  /resource-order-resource-inventory/v1/terminationPoints/{uuid}:
+  /terminationPoints/{uuid}:
     get:
       description: This operation intended for search by uuid .
       tags:
@@ -1053,7 +1059,7 @@ paths:
           description: delete to TerminationPoint/{uuid} - Server Error
           schema:
             $ref: '#/definitions/Error'
-  /resource-order-resource-inventory/v1/terminationPoints:
+  /terminationPoints:
     get:
       description: This operation intended for search by parentUuid or lineId .
       tags:
@@ -1089,7 +1095,7 @@ paths:
           description: get to TerminationPoint - Internal Server Error
           schema:
             $ref: '#/definitions/Error'
-  /resource-order-resource-inventory/v1/networkElementLinks:
+  /networkElementLinks:
     get:
       description: This operation intended for searching a NetworkElementLink by NetworkElementPortUuid, lbz or ueWegId.
       tags:
@@ -1147,7 +1153,7 @@ paths:
           schema:
             $ref: '#/definitions/Error'
       deprecated: false
-  /resource-order-resource-inventory/v1/networkElementLinks/{uuid}:
+  /networkElementLinks/{uuid}:
     get:
       description: This operation intended for searching a NetworkElementLink by UUID.
       tags:
@@ -1381,6 +1387,9 @@ definitions:
         type: string
       role:
         type: string
+      portNumber:
+        type: string
+        description: portNumber of NetworkElementPort
       uuid:
         type: string
       creationTime:
