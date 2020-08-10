@@ -2,7 +2,7 @@ swagger: '2.0'
 info:
   title: a4-resource-inventory
   description: This interface allows you to do CRUD-operations on the a4-resource-inventory
-  version: 1.3.0
+  version: 2.0.0
   contact:
     email: DL_Berlinium@telekom.de
 basePath: /resource-order-resource-inventory/v1/
@@ -345,7 +345,7 @@ paths:
       description: This operation intended for search a NetworkElementPorts.
       tags:
         - NetworkElementPorts
-      summary: Get a list of Network Element Ports based on provided logicalLabel & endSz or role & endSz or endSz or networkElementUuid or networkElementUuid & logicalLabel
+      summary: Get a list of Network Element Ports based on provided logicalLabel & endSz or type & endSz or endSz or networkElementUuid or networkElementUuid & logicalLabel
       operationId: findNetworkElementPorts
       parameters:
         - in: query
@@ -359,7 +359,7 @@ paths:
           description: This is the uuid of the NetworkElementDto.
           required: false
         - in: query
-          name: role
+          name: type
           type: string
           description: This attribute is the type of NetworkElementPort.
           required: false
@@ -1354,7 +1354,7 @@ definitions:
         type: string
       type:
         type: string
-      lifeCycleState:
+      lifecycleState:
         type: string
       operationalState:
         type: string
@@ -1385,7 +1385,7 @@ definitions:
         type: string
       accessNetworkOperator:
         type: string
-      role:
+      type:
         type: string
       portNumber:
         type: string
