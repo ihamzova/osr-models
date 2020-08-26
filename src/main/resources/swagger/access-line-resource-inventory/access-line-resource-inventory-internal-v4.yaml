@@ -3,25 +3,31 @@ swagger: "2.0"
 info:
   description: "## Access Line Resource Inventory API\n\nMicroservice contains and\
     \ processes information about access lines, network and line profiles."
-  version: "4.11.0"
+  version: "4.26.0"
   title: "Access Line Resource Inventory"
 host: "localhost:8060"
 tags:
-  - name: "AccessLineExternalController"
-  - name: "AccessLineManagementExternalController"
-  - name: "AssuranceExternalController"
-  - name: "AssuranceExternalControllerV4"
-  - name: "BackHaulIdExternalController"
-  - name: "BackHaulManagementExternalController"
-  - name: "HomeIdExternalController"
-  - name: "HomeIdManagementExternalController"
+  - name: "AccessLineInternalController"
+  - name: "AccessLineManagementInternalController"
+  - name: "AllocatedAnpTag Controller"
+  - name: "AllocatedOnuIdController"
+  - name: "AssuranceInternalController"
+  - name: "AssuranceInternalControllerV4"
+  - name: "BackHaulManagementInternalController"
+  - name: "Backhaul Id Controller"
+  - name: "BackhaulIdGenerator"
+  - name: "FillDatabase"
+  - name: "HomeIdInternalController"
+  - name: "HomeIdManagementInternalController"
+  - name: "LineIdController"
+  - name: "PhysicalResourceReferenceInternalController"
 schemes:
   - "http"
 paths:
-  /resource-order-resource-inventory/v4/assurance/accessLine:
+  /api/accessLineResourceInventory/v4/assurance/accessLine:
     get:
       tags:
-        - "AssuranceExternalControllerV4"
+        - "AssuranceInternalControllerV4"
       summary: "Finds access lines by criteria"
       description: ""
       operationId: "findAccessLinesByCriteriaV4"
@@ -120,10 +126,10 @@ paths:
           description: "Internal error"
           schema:
             $ref: "#/definitions/ProblemDetails"
-  /resource-order-resource-inventory/v4/assurance/accessLine/{id}:
+  /api/accessLineResourceInventory/v4/assurance/accessLine/{id}:
     get:
       tags:
-        - "AssuranceExternalControllerV4"
+        - "AssuranceInternalControllerV4"
       summary: "Finds access line by id"
       description: ""
       operationId: "findAccessLineByIdV4"
@@ -152,10 +158,174 @@ paths:
           description: "Internal error"
           schema:
             $ref: "#/definitions/ProblemDetails"
-  /resource-order-resource-inventory/v3/accessLine:
+  /api/accessLineResourceInventory/v1/allocatedOnuId:
     post:
       tags:
-        - "AccessLineExternalController"
+        - "AllocatedOnuIdController"
+      summary: "Creates an allocated onuId"
+      description: ""
+      operationId: "createAllocatedOnuId"
+      consumes:
+        - "application/json"
+      produces:
+        - "application/json"
+      parameters:
+        - in: "body"
+          name: "body"
+          description: "Allocated OnuId Dto"
+          required: false
+          schema:
+            $ref: "#/definitions/AllocatedOnuIdDto"
+      responses:
+        201:
+          description: "Successfully created"
+          schema:
+            $ref: "#/definitions/AllocatedOnuIdDto"
+        400:
+          description: "Can't perform operation"
+          schema:
+            $ref: "#/definitions/ProblemDetails"
+        404:
+          description: "Port is not present in database"
+          schema:
+            $ref: "#/definitions/ProblemDetails"
+        500:
+          description: "Internal error"
+          schema:
+            $ref: "#/definitions/ProblemDetails"
+    put:
+      tags:
+        - "AllocatedOnuIdController"
+      summary: "Updates an allocated onuId"
+      description: ""
+      operationId: "updateAllocatedOnuId"
+      consumes:
+        - "application/json"
+      produces:
+        - "application/json"
+      parameters:
+        - in: "body"
+          name: "body"
+          description: "Allocated OnuId Dto"
+          required: false
+          schema:
+            $ref: "#/definitions/AllocatedOnuIdDto"
+      responses:
+        200:
+          description: "Successfully updated"
+          schema:
+            $ref: "#/definitions/AllocatedOnuIdDto"
+        400:
+          description: "Can't perform operation"
+          schema:
+            $ref: "#/definitions/ProblemDetails"
+        404:
+          description: "Not present in database"
+          schema:
+            $ref: "#/definitions/ProblemDetails"
+        409:
+          description: "Access line already updated"
+          schema:
+            $ref: "#/definitions/ProblemDetails"
+        500:
+          description: "Internal error"
+          schema:
+            $ref: "#/definitions/ProblemDetails"
+    delete:
+      tags:
+        - "AllocatedOnuIdController"
+      summary: "Deletes allocated onuId by Id"
+      description: ""
+      operationId: "deleteAllocatedOnuId"
+      parameters:
+        - name: "id"
+          in: "query"
+          description: "id"
+          required: true
+          type: "integer"
+          format: "int64"
+      responses:
+        200:
+          description: "Successfully deleted"
+        400:
+          description: "Can't perform operation"
+          schema:
+            $ref: "#/definitions/ProblemDetails"
+        500:
+          description: "Internal error"
+          schema:
+            $ref: "#/definitions/ProblemDetails"
+  /api/accessLineResourceInventory/v1/allocatedOnuId/findFirstAllocatedOnuId:
+    post:
+      tags:
+        - "AllocatedOnuIdController"
+      summary: "Finds first allocated onuId or first in the list depends on criteria"
+      description: ""
+      operationId: "findFirstAllocatedOnuId"
+      consumes:
+        - "application/json"
+      produces:
+        - "application/json"
+      parameters:
+        - in: "body"
+          name: "body"
+          description: "findFirstAllocatedOnuId"
+          required: true
+          schema:
+            $ref: "#/definitions/SearchAllocatedOnuIdDto"
+      responses:
+        200:
+          description: "Successfully get"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/AllocatedOnuIdDto"
+        400:
+          description: "Can't perform operation"
+          schema:
+            $ref: "#/definitions/ProblemDetails"
+        500:
+          description: "Internal error"
+          schema:
+            $ref: "#/definitions/ProblemDetails"
+  /api/accessLineResourceInventory/v1/allocatedOnuId/search:
+    post:
+      tags:
+        - "AllocatedOnuIdController"
+      summary: "Searches list of allocated onuId by criteria"
+      description: ""
+      operationId: "searchAllocatedOnuId"
+      consumes:
+        - "application/json"
+      produces:
+        - "application/json"
+      parameters:
+        - in: "body"
+          name: "body"
+          description: "searchAllocatedOnuIdDto"
+          required: true
+          schema:
+            $ref: "#/definitions/SearchAllocatedOnuIdDto"
+      responses:
+        200:
+          description: "Successfully get"
+          schema:
+            type: "array"
+            items:
+              type: "integer"
+              format: "int32"
+        400:
+          description: "Can't perform operation"
+          schema:
+            $ref: "#/definitions/ProblemDetails"
+        500:
+          description: "Internal error"
+          schema:
+            $ref: "#/definitions/ProblemDetails"
+  /api/accessLineResourceInventory/v3/accessLine:
+    post:
+      tags:
+        - "AccessLineInternalController"
       summary: "Creates an access line"
       description: ""
       operationId: "create"
@@ -185,7 +355,7 @@ paths:
             $ref: "#/definitions/ProblemDetails"
     put:
       tags:
-        - "AccessLineExternalController"
+        - "AccessLineInternalController"
       summary: "Updates an access line"
       description: ""
       operationId: "update"
@@ -223,7 +393,7 @@ paths:
             $ref: "#/definitions/ProblemDetails"
     delete:
       tags:
-        - "AccessLineExternalController"
+        - "AccessLineInternalController"
       summary: "Deletes AccessLine by lineId"
       description: ""
       operationId: "delete"
@@ -245,10 +415,43 @@ paths:
           description: "Internal error"
           schema:
             $ref: "#/definitions/ProblemDetails"
-  /resource-order-resource-inventory/v3/accessLine/search:
+  /api/accessLineResourceInventory/v3/accessLine/accessLineCountTask:
     post:
       tags:
-        - "AccessLineExternalController"
+        - "AccessLineInternalController"
+      summary: "Counts Access Lines by criteria"
+      description: "Counts Access Lines by criteria."
+      operationId: "accessLineCountTask"
+      consumes:
+        - "application/json"
+      produces:
+        - "application/json"
+      parameters:
+        - in: "body"
+          name: "body"
+          description: "Port Reference Dto "
+          required: false
+          schema:
+            $ref: "#/definitions/SearchAccessLineStatisticDto"
+      responses:
+        200:
+          description: "Successfully get"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/AccessLineStatisticDto"
+        400:
+          description: "Can't perform operation"
+          schema:
+            $ref: "#/definitions/ProblemDetails"
+        500:
+          description: "Internal error"
+          schema:
+            $ref: "#/definitions/ProblemDetails"
+  /api/accessLineResourceInventory/v3/accessLine/search:
+    post:
+      tags:
+        - "AccessLineInternalController"
       summary: "Searches Access Lines by criteria"
       description: ""
       operationId: "searchAccessLines"
@@ -278,10 +481,43 @@ paths:
           description: "Internal error"
           schema:
             $ref: "#/definitions/ProblemDetails"
-  /resource-order-resource-inventory/v3/assurance/accessLine:
+  /api/accessLineResourceInventory/v3/anpTagPool/search:
+    post:
+      tags:
+        - "AllocatedAnpTag Controller"
+      summary: "Searches AllocatedAnpTags by criteria"
+      description: ""
+      operationId: "searchAllocatedAnpTags"
+      consumes:
+        - "application/json"
+      produces:
+        - "application/json"
+      parameters:
+        - in: "body"
+          name: "body"
+          description: "SearchAnpTagDto"
+          required: true
+          schema:
+            $ref: "#/definitions/SearchAllocatedAnpTagDto"
+      responses:
+        200:
+          description: "Successfully get"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/AllocatedAnpTagDto"
+        400:
+          description: "Can't perform operation"
+          schema:
+            $ref: "#/definitions/ProblemDetails"
+        500:
+          description: "Internal error"
+          schema:
+            $ref: "#/definitions/ProblemDetails"
+  /api/accessLineResourceInventory/v3/assurance/accessLine:
     get:
       tags:
-        - "AssuranceExternalController"
+        - "AssuranceInternalController"
       summary: "Finds access lines by criteria"
       description: ""
       operationId: "findAccessLinesByCriteria"
@@ -332,10 +568,10 @@ paths:
           schema:
             $ref: "#/definitions/ProblemDetails"
       deprecated: true
-  /resource-order-resource-inventory/v3/assurance/accessLine/{id}:
+  /api/accessLineResourceInventory/v3/assurance/accessLine/{id}:
     get:
       tags:
-        - "AssuranceExternalController"
+        - "AssuranceInternalController"
       summary: "Finds access line by id"
       description: ""
       operationId: "findAccessLineById"
@@ -365,10 +601,10 @@ paths:
           schema:
             $ref: "#/definitions/ProblemDetails"
       deprecated: true
-  /resource-order-resource-inventory/v3/assurance/accessLineByEndSzSlotPort:
+  /api/accessLineResourceInventory/v3/assurance/accessLineByEndSzSlotPort:
     get:
       tags:
-        - "AssuranceExternalController"
+        - "AssuranceInternalController"
       summary: "Finds access lines by EndSz, Slot, Port"
       description: ""
       operationId: "findAccessLinesByEndSzSlotPort"
@@ -406,10 +642,10 @@ paths:
           schema:
             $ref: "#/definitions/ProblemDetails"
       deprecated: true
-  /resource-order-resource-inventory/v3/backhaulId:
+  /api/accessLineResourceInventory/v3/backhaulId:
     put:
       tags:
-        - "BackHaulIdExternalController"
+        - "Backhaul Id Controller"
       summary: "Creates or updates particular backhaul id"
       description: ""
       operationId: "createOrUpdateBackhaulId"
@@ -443,7 +679,7 @@ paths:
             $ref: "#/definitions/ProblemDetails"
     delete:
       tags:
-        - "BackHaulIdExternalController"
+        - "Backhaul Id Controller"
       summary: "Deletes backhaul id for port"
       description: ""
       operationId: "deleteBackhaulId"
@@ -475,10 +711,10 @@ paths:
           description: "Internal error"
           schema:
             $ref: "#/definitions/ProblemDetails"
-  /resource-order-resource-inventory/v3/backhaulId/search:
+  /api/accessLineResourceInventory/v3/backhaulId/search:
     post:
       tags:
-        - "BackHaulIdExternalController"
+        - "Backhaul Id Controller"
       summary: "Searches backhaul Ids by criteria"
       description: ""
       operationId: "searchBackhaulIds"
@@ -508,10 +744,10 @@ paths:
           description: "Internal error"
           schema:
             $ref: "#/definitions/ProblemDetails"
-  /resource-order-resource-inventory/v3/homeIdPool:
+  /api/accessLineResourceInventory/v3/homeIdPool:
     post:
       tags:
-        - "HomeIdExternalController"
+        - "HomeIdInternalController"
       summary: "Appends homeIDs by endSZ, slotNumber and portNumber."
       description: ""
       operationId: "addHomeIds"
@@ -539,7 +775,7 @@ paths:
             $ref: "#/definitions/ProblemDetails"
     delete:
       tags:
-        - "HomeIdExternalController"
+        - "HomeIdInternalController"
       summary: "Deletes homeIDs for port"
       description: ""
       operationId: "deleteHomeIDs"
@@ -571,10 +807,10 @@ paths:
           description: "Internal error"
           schema:
             $ref: "#/definitions/ProblemDetails"
-  /resource-order-resource-inventory/v3/homeIdPool/homeId:
+  /api/accessLineResourceInventory/v3/homeIdPool/homeId:
     put:
       tags:
-        - "HomeIdExternalController"
+        - "HomeIdInternalController"
       summary: "Updates particular home id in pool"
       description: ""
       operationId: "updateHomeId"
@@ -606,10 +842,10 @@ paths:
           description: "Internal error"
           schema:
             $ref: "#/definitions/ProblemDetails"
-  /resource-order-resource-inventory/v3/homeIdPool/search/homeId:
+  /api/accessLineResourceInventory/v3/homeIdPool/search/homeId:
     post:
       tags:
-        - "HomeIdExternalController"
+        - "HomeIdInternalController"
       summary: "Searches homeIDs in pool by criteria"
       description: ""
       operationId: "searchHomeIds"
@@ -639,10 +875,137 @@ paths:
           description: "Internal error"
           schema:
             $ref: "#/definitions/ProblemDetails"
-  /resource-order-resource-inventory/v3/managementAccessLine/info:
+  /api/accessLineResourceInventory/v3/lineIdPool:
     post:
       tags:
-        - "AccessLineManagementExternalController"
+        - "LineIdController"
+      summary: "Appends LineIds pool"
+      description: ""
+      operationId: "addLineIds"
+      consumes:
+        - "application/json"
+      parameters:
+        - in: "body"
+          name: "body"
+          description: "List of LineIdDto"
+          required: true
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/LineIdDto"
+      responses:
+        201:
+          description: "LineIds were added to LineIdPool"
+        400:
+          description: "Bad request"
+          schema:
+            $ref: "#/definitions/ProblemDetails"
+        500:
+          description: "Internal error"
+          schema:
+            $ref: "#/definitions/ProblemDetails"
+    delete:
+      tags:
+        - "LineIdController"
+      summary: "Deletes line id pool for port"
+      description: ""
+      operationId: "deleteLineIds"
+      parameters:
+        - name: "endSz"
+          in: "query"
+          description: "Device endSz"
+          required: true
+          type: "string"
+          pattern: "[0-9]{1,6}\\/[0-9]{1,6}\\/[0-9]{1,6}\\/[a-zA-Z0-9]{2,4}"
+        - name: "slotNumber"
+          in: "query"
+          description: "Slot number"
+          required: true
+          type: "string"
+        - name: "portNumber"
+          in: "query"
+          description: "Port number"
+          required: true
+          type: "string"
+      responses:
+        200:
+          description: "Successfully deleted"
+        400:
+          description: "Can't perform operation"
+          schema:
+            $ref: "#/definitions/ProblemDetails"
+        500:
+          description: "Internal error"
+          schema:
+            $ref: "#/definitions/ProblemDetails"
+  /api/accessLineResourceInventory/v3/lineIdPool/lineId:
+    put:
+      tags:
+        - "LineIdController"
+      summary: "Updates particular line id in pool"
+      description: ""
+      operationId: "updateLineId"
+      consumes:
+        - "application/json"
+      parameters:
+        - in: "body"
+          name: "body"
+          description: "LineIdDto"
+          required: true
+          schema:
+            $ref: "#/definitions/LineIdDto"
+      responses:
+        200:
+          description: "LineId was updated"
+        400:
+          description: "Bad request"
+          schema:
+            $ref: "#/definitions/ProblemDetails"
+        404:
+          description: "Reference to physical resource did not find"
+          schema:
+            $ref: "#/definitions/ProblemDetails"
+        500:
+          description: "Internal error"
+          schema:
+            $ref: "#/definitions/ProblemDetails"
+  /api/accessLineResourceInventory/v3/lineIdPool/lineId/search:
+    post:
+      tags:
+        - "LineIdController"
+      summary: "Searches Line Ids in pool by criteria"
+      description: ""
+      operationId: "searchLineIds"
+      consumes:
+        - "application/json"
+      produces:
+        - "application/json"
+      parameters:
+        - in: "body"
+          name: "body"
+          description: "SearchLineIdDto"
+          required: true
+          schema:
+            $ref: "#/definitions/SearchLineIdDto"
+      responses:
+        200:
+          description: "Successfully get"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/LineIdDto"
+        400:
+          description: "Can't perform operation"
+          schema:
+            $ref: "#/definitions/ProblemDetails"
+        500:
+          description: "Internal error"
+          schema:
+            $ref: "#/definitions/ProblemDetails"
+  /api/accessLineResourceInventory/v3/managementAccessLine/info:
+    post:
+      tags:
+        - "AccessLineManagementInternalController"
       summary: "Finds or gets an access line by Line Id"
       description: ""
       operationId: "getLineInfo"
@@ -664,7 +1027,7 @@ paths:
             $ref: "#/definitions/GetAccessLineDto"
       responses:
         200:
-          description: "Successfully sent"
+          description: "Successfully get"
           schema:
             $ref: "#/definitions/AccessLineDto"
         400:
@@ -687,10 +1050,58 @@ paths:
           description: "Internal error"
           schema:
             $ref: "#/definitions/ProblemDetails"
-  /resource-order-resource-inventory/v3/managementAccessLine/search:
+  /api/accessLineResourceInventory/v3/managementAccessLine/onuId:
     post:
       tags:
-        - "AccessLineManagementExternalController"
+        - "AccessLineManagementInternalController"
+      summary: "Finds or gets an onu id by Line Id"
+      description: ""
+      operationId: "getOnuId"
+      consumes:
+        - "application/json"
+      produces:
+        - "application/json"
+      parameters:
+        - name: "apm-principal-token"
+          in: "header"
+          description: "APM Token"
+          required: false
+          type: "string"
+        - in: "body"
+          name: "body"
+          description: "Allocated OnuId Dto"
+          required: false
+          schema:
+            $ref: "#/definitions/GetAllocatedOnuIdDto"
+      responses:
+        200:
+          description: "Successfully get"
+          schema:
+            $ref: "#/definitions/AllocatedOnuIdDto"
+        400:
+          description: "Can't perform operation"
+          schema:
+            $ref: "#/definitions/ProblemDetails"
+        401:
+          description: "Unauthorized"
+          schema:
+            $ref: "#/definitions/ProblemDetails"
+        403:
+          description: "Forbidden"
+          schema:
+            $ref: "#/definitions/ProblemDetails"
+        404:
+          description: "Not present in database"
+          schema:
+            $ref: "#/definitions/ProblemDetails"
+        500:
+          description: "Internal error"
+          schema:
+            $ref: "#/definitions/ProblemDetails"
+  /api/accessLineResourceInventory/v3/managementAccessLine/search:
+    post:
+      tags:
+        - "AccessLineManagementInternalController"
       summary: "Gets AccessLines by search criteria"
       description: "Gets AccessLines by input parameters for search and with additional\
         \ sort parameters."
@@ -744,11 +1155,6 @@ paths:
             - "HOME_ID"
             - "PRODUCTION_PLATFORM"
             - "ACCESS_LINE_STATUS"
-            - "SUBSCRIBER_NE_PROFILE_STATE"
-            - "SUBSCRIBER_NETWORK_LINE_PROFILE_STATE"
-            - "PARTY_ID"
-            - "ONT_SERIAL_NUMBER"
-            - "KLS_ID"
       responses:
         200:
           description: "Successfully received"
@@ -770,10 +1176,10 @@ paths:
           description: "Internal error"
           schema:
             $ref: "#/definitions/ProblemDetails"
-  /resource-order-resource-inventory/v3/managementBackHaul/info:
+  /api/accessLineResourceInventory/v3/managementBackHaul/info:
     post:
       tags:
-        - "BackHaulManagementExternalController"
+        - "BackHaulManagementInternalController"
       summary: "Finds or gets an access lines by backHaulId"
       description: ""
       operationId: "getLinesInfo"
@@ -818,10 +1224,10 @@ paths:
           description: "Internal error"
           schema:
             $ref: "#/definitions/ProblemDetails"
-  /resource-order-resource-inventory/v3/managementBackHaul/search:
+  /api/accessLineResourceInventory/v3/managementBackHaul/search:
     post:
       tags:
-        - "BackHaulManagementExternalController"
+        - "BackHaulManagementInternalController"
       summary: "Gets BackHauls by search criteria"
       description: "Gets BackHauls by input parameters for search and with additional\
         \ sort parameters."
@@ -895,10 +1301,10 @@ paths:
           description: "Internal error"
           schema:
             $ref: "#/definitions/ProblemDetails"
-  /resource-order-resource-inventory/v3/managementHomeId/search:
+  /api/accessLineResourceInventory/v3/managementHomeId/search:
     post:
       tags:
-        - "HomeIdManagementExternalController"
+        - "HomeIdManagementInternalController"
       summary: "Gets HomeIdView by search criteria"
       description: "Gets HomeIdView by input parameters for search and with additional\
         \ sort parameters."
@@ -973,6 +1379,233 @@ paths:
           description: "Internal error"
           schema:
             $ref: "#/definitions/ProblemDetails"
+  /api/accessLineResourceInventory/v3/physicalResourceReference:
+    delete:
+      tags:
+        - "PhysicalResourceReferenceInternalController"
+      summary: "Deletes physical resource reference"
+      description: ""
+      operationId: "deletePhysicalResourceReference"
+      parameters:
+        - name: "endSz"
+          in: "query"
+          description: "Device endSz"
+          required: true
+          type: "string"
+          pattern: "[0-9]{1,6}\\/[0-9]{1,6}\\/[0-9]{1,6}\\/[a-zA-Z0-9]{2,4}"
+        - name: "slotNumber"
+          in: "query"
+          description: "Slot number"
+          required: true
+          type: "string"
+        - name: "portNumber"
+          in: "query"
+          description: "Port number"
+          required: true
+          type: "string"
+      responses:
+        200:
+          description: "Successfully deleted"
+        400:
+          description: "Can't perform operation"
+          schema:
+            $ref: "#/definitions/ProblemDetails"
+        409:
+          description: "Reference can't be deleted"
+          schema:
+            $ref: "#/definitions/ProblemDetails"
+        500:
+          description: "Internal error"
+          schema:
+            $ref: "#/definitions/ProblemDetails"
+  /api/accessLineResourceInventory/v3/physicalResourceReference/search:
+    post:
+      tags:
+        - "PhysicalResourceReferenceInternalController"
+      summary: "Searches physical resource reference by criteria"
+      description: ""
+      operationId: "searchPhysicalResourceReference"
+      consumes:
+        - "application/json"
+      produces:
+        - "application/json"
+      parameters:
+        - in: "body"
+          name: "body"
+          description: "Search physical resource reference criteria"
+          required: true
+          schema:
+            $ref: "#/definitions/SearchPhysicalResourceReferenceDto"
+      responses:
+        200:
+          description: "Successfully get"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/ReferenceDto"
+        400:
+          description: "Can't perform operation"
+          schema:
+            $ref: "#/definitions/ProblemDetails"
+        500:
+          description: "Internal error"
+          schema:
+            $ref: "#/definitions/ProblemDetails"
+  /api/backhaulId/v3/generator:
+    post:
+      tags:
+        - "BackhaulIdGenerator"
+      summary: "Generates new BackhaulId"
+      description: "Generates new BackhaulId."
+      operationId: "generateBackhaulId"
+      produces:
+        - "application/json"
+      parameters: []
+      responses:
+        201:
+          description: "New BackhaulId generated"
+          schema:
+            $ref: "#/definitions/SingleBackhaulId"
+        400:
+          description: "Bad request"
+          schema:
+            $ref: "#/definitions/ProblemDetails"
+        500:
+          description: "Internal error during generating of BackhaulId"
+          schema:
+            $ref: "#/definitions/ProblemDetails"
+  /api/test/v3/fill-access-line-database:
+    delete:
+      tags:
+        - "FillDatabase"
+      summary: "Clears database tables content. "
+      description: "Launches a script that clears all tables. "
+      operationId: "deleteDatabase"
+      parameters: []
+      responses:
+        200:
+          description: "Database successfully cleared"
+  /api/test/v3/fill-access-line-database/add-fttb-lines:
+    get:
+      tags:
+        - "FillDatabase"
+      summary: "Adds FTTB access lines to olt device. !!SHOULD BE CALLED AFTER OLT-COMMISSIONING\
+        \ EMULATION METHOD!!"
+      description: "Launches a script that fills access lines resource inventory database\
+        \ as a part of OLT commissioning process emulation. Script creates physical\
+        \ resource reference to on given OLT device port, where DPU device should\
+        \ be, line ID pool for this port and 4 FTTB access lines: 2 WALLED GARDEN,\
+        \ 1 INACTIVE without default_network_line_profile and fttb_ne_profile 1 without\
+        \ fttb_ne_profile but with active default_network_line_profile"
+      operationId: "addFttbLinesToOltDevice"
+      parameters:
+        - name: "OLT_END_SZ"
+          in: "query"
+          description: "EndSz of OLT device, default values is 49/30/179/76H1"
+          required: false
+          type: "string"
+          pattern: "[0-9]{1,6}\\/[0-9]{1,6}\\/[0-9]{1,6}\\/[a-zA-Z0-9]{2,4}"
+        - name: "OLT_SLOT_WITH_DPU"
+          in: "query"
+          description: "Number of slot on OLT Device where DPU Device is, default values\
+          \ is 5"
+          required: false
+          type: "string"
+        - name: "OLT_PORT_WITH_DPU"
+          in: "query"
+          description: "Number of port on OLT Device where DPU Device is, default values\
+          \ is 0"
+          required: false
+          type: "string"
+        - name: "DPU_END_SZ"
+          in: "query"
+          description: "EndSz of DPU device, default values is 49/30/179/71G0"
+          required: false
+          type: "string"
+          pattern: "[0-9]{1,6}\\/[0-9]{1,6}\\/[0-9]{1,6}\\/[a-zA-Z0-9]{2,4}"
+      responses:
+        200:
+          description: "Database successfully initialized"
+  /api/test/v3/fill-access-line-database/dpu-preprovisioning:
+    get:
+      tags:
+        - "FillDatabase"
+      summary: "Fills access line resource inventory database as a part of DPU commissioning\
+        \ process emulation."
+      description: "Launches a script that prepares access lines resource inventory\
+        \ database for DPU preprovisioning process. Script creates physical resource\
+        \ reference of OLT device for port with PDU device, allocated_onu_id for this\
+        \ reference and lineId poll with 32 line Ids"
+      operationId: "fillDatabaseForDpuPreprovisioning"
+      parameters:
+        - name: "OLT_END_SZ"
+          in: "query"
+          description: "EndSz of OLT device, default values is 49/89/8000/76H2"
+          required: false
+          type: "string"
+          pattern: "[0-9]{1,6}\\/[0-9]{1,6}\\/[0-9]{1,6}\\/[a-zA-Z0-9]{2,4}"
+        - name: "OLT_SLOT_WITH_DPU"
+          in: "query"
+          description: "Number of slot on OLT Device where DPU Device is, default values\
+          \ is 1"
+          required: false
+          type: "string"
+        - name: "OLT_PORT_WITH_DPU"
+          in: "query"
+          description: "Number of port on OLT Device where DPU Device is, default values\
+          \ is 0"
+          required: false
+          type: "string"
+        - name: "DPU_END_SZ"
+          in: "query"
+          description: "EndSz of DPU device, default values is 49/30/179/71G0"
+          required: false
+          type: "string"
+          pattern: "[0-9]{1,6}\\/[0-9]{1,6}\\/[0-9]{1,6}\\/[a-zA-Z0-9]{2,4}"
+      responses:
+        200:
+          description: "Database successfully initialized"
+  /api/test/v3/fill-access-line-database/olt-commissioning:
+    get:
+      tags:
+        - "FillDatabase"
+      summary: "Fills access line resource inventory database as a part of OLT commissioning\
+        \ process emulation."
+      description: "Launches a script that fills access lines resource inventory database\
+        \ as a part of OLT commissioning process emulation. The first three ports\
+        \ have 32 access lines. Each card has 8 ports for OLT device. "
+      operationId: "fillDatabaseForOltCommissioning"
+      parameters:
+        - name: "KLS_ID"
+          in: "query"
+          description: "Id of the location of device, default values is 14653"
+          required: false
+          type: "string"
+          pattern: "[0-9]{1,12}"
+        - name: "END_SZ"
+          in: "query"
+          description: "EndSz of OLT device, default values is 49/30/179/76H1"
+          required: false
+          type: "string"
+          pattern: "[0-9]{1,6}\\/[0-9]{1,6}\\/[0-9]{1,6}\\/[a-zA-Z0-9]{2,4}"
+        - name: "SLOT_NUMBER1"
+          in: "query"
+          description: "SlotNumber of Device where this card is, default values is 3"
+          required: false
+          type: "string"
+        - name: "SLOT_NUMBER2"
+          in: "query"
+          description: "SlotNumber of Device where this card is, default values is 4"
+          required: false
+          type: "string"
+        - name: "SLOT_NUMBER3"
+          in: "query"
+          description: "SlotNumber of Device where this card is, default values is 5"
+          required: false
+          type: "string"
+      responses:
+        200:
+          description: "Database successfully initialized"
 definitions:
   AccessLineDto:
     type: "object"
@@ -1004,9 +1637,9 @@ definitions:
       defaultNeProfile:
         description: "Default Ne profile of Access Line"
         $ref: "#/definitions/DefaultNeProfileDto"
-      defaultFttbNeProfile:
-        description: "Default FTTB Ne profile of Access Line"
-        $ref: "#/definitions/DefaultFttbNeProfileDto"
+      fttbNeProfile:
+        description: "FTTB Ne profile of Access Line"
+        $ref: "#/definitions/FttbNeProfileDto"
       defaultNetworkLineProfile:
         description: "Default network line profile of Access Line"
         $ref: "#/definitions/DefaultNetworkLineProfileDto"
@@ -1041,7 +1674,7 @@ definitions:
           - "WHOLEBUY"
       anpTag:
         description: "AnpTag reference"
-        $ref: "#/definitions/AnpTagDto"
+        $ref: "#/definitions/AllocatedAnpTagDto"
   AccessLineInfoDto:
     type: "object"
     properties:
@@ -1055,6 +1688,31 @@ definitions:
           - "INACTIVE"
           - "WALLED_GARDEN"
           - "ASSIGNED"
+  AccessLineStatisticDto:
+    type: "object"
+    required:
+      - "endSz"
+    properties:
+      endSz:
+        type: "string"
+        description: "EndSz"
+      slotNumber:
+        type: "string"
+        description: "Slot number"
+      portNumber:
+        type: "string"
+        description: "Port number"
+      status:
+        type: "string"
+        description: "Status of Access Line (inactive, walled Garden or assigned)"
+        enum:
+          - "INACTIVE"
+          - "WALLED_GARDEN"
+          - "ASSIGNED"
+      accessLineCount:
+        type: "integer"
+        format: "int64"
+        description: "Count of Access Line status (inactive, walled Garden or assigned)"
   AccessLineViewDto:
     type: "object"
     properties:
@@ -1099,6 +1757,9 @@ definitions:
           - "OLT_BNG"
           - "A4"
           - "WHOLEBUY"
+      outOfSync:
+        type: "string"
+        description: "Out of sync statuses"
   AccessLinesDto:
     type: "object"
     properties:
@@ -1107,17 +1768,51 @@ definitions:
         description: "Access line Ids and statuses"
         items:
           $ref: "#/definitions/AccessLineInfoDto"
-  AnpTagDto:
+  AllocatedAnpTagDto:
     type: "object"
+    required:
+      - "reference"
     properties:
       id:
         type: "integer"
         format: "int64"
-        description: "Internal (from database) id of AnpTag entity"
+        description: "Internal (from database) id of AllocatedAnpTag entity"
       anpTag:
         type: "integer"
         format: "int32"
         description: "Anptag"
+      reference:
+        description: "Reference to physical resource"
+        $ref: "#/definitions/ReferenceDto"
+  AllocatedOnuIdDto:
+    type: "object"
+    required:
+      - "onuId"
+    properties:
+      id:
+        type: "integer"
+        format: "int64"
+        description: "Internal (from database) id of onu id entity"
+      dpuEndSZ:
+        type: "string"
+        description: "EndSz of dpu device with this onuId"
+        pattern: "[0-9]{1,6}\\/[0-9]{1,6}\\/[0-9]{1,6}\\/[a-zA-Z0-9]{2,4}"
+      onuId:
+        type: "integer"
+        format: "int32"
+        description: "OnuId of access line or lines"
+        minimum: 0
+        maximum: 127
+      accessLine:
+        description: "Access line"
+        $ref: "#/definitions/AccessLineDto"
+      reference:
+        description: "Reference to physical resource"
+        $ref: "#/definitions/ReferenceDto"
+      version:
+        type: "integer"
+        format: "int64"
+        description: "Version of object"
   AssuranceAccessLineDto:
     type: "object"
     properties:
@@ -1478,39 +2173,6 @@ definitions:
       resourceAssociation:
         description: "Resource Association"
         $ref: "#/definitions/ResourceAssociationDto"
-  DefaultFttbNeProfileDto:
-    type: "object"
-    properties:
-      id:
-        type: "integer"
-        format: "int64"
-        description: "Internal (from database) id of DefaultFttbNeProfile entity"
-      gfastInterfaceProfile:
-        type: "string"
-        description: "GfastInterface of profile"
-      state:
-        type: "string"
-        description: "State of DefaultFttbNeProfile (inactive, active)"
-        enum:
-          - "INACTIVE"
-          - "ACTIVE"
-      dpuLineSpectrumProfile:
-        type: "string"
-        description: "Dpu line spectrum profile"
-      numberOfGemPorts:
-        type: "integer"
-        format: "int32"
-        description: "Number of Gem ports"
-      bandwidthProfile:
-        type: "string"
-        description: "Bandwidth of profile"
-      onuAccessId:
-        description: "Onu access id"
-        $ref: "#/definitions/OnuAccessId"
-      version:
-        type: "integer"
-        format: "int64"
-        description: "Version of object"
   DefaultNeProfileDto:
     type: "object"
     properties:
@@ -1631,6 +2293,45 @@ definitions:
           - "OUT_OF_SYNC"
           - "SYNC_IN_PROGRESS"
           - "SYNC_FAILED"
+  FttbNeProfileDto:
+    type: "object"
+    properties:
+      id:
+        type: "integer"
+        format: "int64"
+        description: "Internal (from database) id of FttbNeProfile entity"
+      gfastInterfaceProfile:
+        type: "string"
+        description: "GfastInterface of profile"
+      state_olt:
+        type: "string"
+        description: "State of FttbNeProfile (inactive, active) for OLT"
+        enum:
+          - "INACTIVE"
+          - "ACTIVE"
+      state_mosaic:
+        type: "string"
+        description: "State of FttbNeProfile (inactive, active) for MOSAIC"
+        enum:
+          - "INACTIVE"
+          - "ACTIVE"
+      dpuLineSpectrumProfile:
+        type: "string"
+        description: "Dpu line spectrum profile"
+      numberOfGemPorts:
+        type: "integer"
+        format: "int32"
+        description: "Number of Gem ports"
+      bandwidthProfile:
+        type: "string"
+        description: "Bandwidth of profile"
+      onuAccessId:
+        description: "Onu access id"
+        $ref: "#/definitions/OnuAccessId"
+      version:
+        type: "integer"
+        format: "int64"
+        description: "Version of object"
   GetAccessLineDto:
     type: "object"
     required:
@@ -1649,6 +2350,15 @@ definitions:
         type: "string"
         description: "Criteria for search Access Lines by backHaul id"
         pattern: "#bhid-[a-z0-9]{2,10}"
+  GetAllocatedOnuIdDto:
+    type: "object"
+    required:
+      - "lineId"
+    properties:
+      lineId:
+        type: "string"
+        description: "Line Id"
+        pattern: "[A-Z0-9]{3}\\.[A-Z0-9]{1,6}\\.[A-Z0-9]{1,10}"
   HomeIdDto:
     type: "object"
     required:
@@ -1674,6 +2384,9 @@ definitions:
       port:
         description: "Reference to physical resource"
         $ref: "#/definitions/ReferenceDto"
+      resourceAssociation:
+        description: "Resource Association"
+        $ref: "#/definitions/ResourceAssociationDto"
       version:
         type: "integer"
         format: "int64"
@@ -1704,6 +2417,32 @@ definitions:
         type: "integer"
         format: "int64"
         description: "Number of access lines with home Id"
+  LineIdDto:
+    type: "object"
+    required:
+      - "lineId"
+    properties:
+      id:
+        type: "integer"
+        format: "int64"
+        description: "Internal (from database) id of line id entity"
+      lineId:
+        type: "string"
+        description: "LineId from pool for access line"
+        pattern: "[A-Z0-9]{3}\\.[A-Z0-9]{1,6}\\.[A-Z0-9]{1,10}"
+      status:
+        type: "string"
+        description: "Status of line id (free or used)"
+        enum:
+          - "FREE"
+          - "USED"
+      port:
+        description: "Reference to physical resource"
+        $ref: "#/definitions/ReferenceDto"
+      version:
+        type: "integer"
+        format: "int64"
+        description: "Version of object"
   NetworkServiceProfileReferenceDto:
     type: "object"
     properties:
@@ -1748,7 +2487,7 @@ definitions:
       version:
         type: "integer"
         format: "int64"
-      onu_access_id:
+      onuAccessId:
         type: "integer"
         format: "int32"
         minimum: 1
@@ -1774,11 +2513,11 @@ definitions:
         format: "int32"
       sort:
         $ref: "#/definitions/Sort"
-      first:
-        type: "boolean"
       numberOfElements:
         type: "integer"
         format: "int32"
+      first:
+        type: "boolean"
       last:
         type: "boolean"
       pageable:
@@ -1806,11 +2545,11 @@ definitions:
         format: "int32"
       sort:
         $ref: "#/definitions/Sort"
-      first:
-        type: "boolean"
       numberOfElements:
         type: "integer"
         format: "int32"
+      first:
+        type: "boolean"
       last:
         type: "boolean"
       pageable:
@@ -1838,11 +2577,11 @@ definitions:
         format: "int32"
       sort:
         $ref: "#/definitions/Sort"
-      first:
-        type: "boolean"
       numberOfElements:
         type: "integer"
         format: "int32"
+      first:
+        type: "boolean"
       last:
         type: "boolean"
       pageable:
@@ -1870,11 +2609,11 @@ definitions:
         format: "int32"
       sort:
         $ref: "#/definitions/Sort"
-      first:
-        type: "boolean"
       numberOfElements:
         type: "integer"
         format: "int32"
+      first:
+        type: "boolean"
       last:
         type: "boolean"
       pageable:
@@ -1902,11 +2641,11 @@ definitions:
         format: "int32"
       sort:
         $ref: "#/definitions/Sort"
-      first:
-        type: "boolean"
       numberOfElements:
         type: "integer"
         format: "int32"
+      first:
+        type: "boolean"
       last:
         type: "boolean"
       pageable:
@@ -1921,9 +2660,6 @@ definitions:
         format: "int64"
       sort:
         $ref: "#/definitions/Sort"
-      pageSize:
-        type: "integer"
-        format: "int32"
       paged:
         type: "boolean"
       pageNumber:
@@ -1931,6 +2667,9 @@ definitions:
         format: "int32"
       unpaged:
         type: "boolean"
+      pageSize:
+        type: "integer"
+        format: "int32"
   ProblemDetails:
     type: "object"
     required:
@@ -1962,7 +2701,7 @@ definitions:
     required:
       - "endSz"
       - "portNumber"
-      - "slotNumber"
+      - "portType"
     properties:
       id:
         type: "integer"
@@ -2044,6 +2783,15 @@ definitions:
       klsId:
         type: "integer"
         format: "int64"
+      profileSyncStatus:
+        type: "array"
+        uniqueItems: true
+        items:
+          type: "string"
+          enum:
+            - "OUT_OF_SYNC"
+            - "SYNC_IN_PROGRESS"
+            - "SYNC_FAILED"
   RequestBackHaulViewDto:
     type: "object"
     properties:
@@ -2121,6 +2869,13 @@ definitions:
         type: "string"
         description: "Criteria for search Access Line by endsz"
         pattern: "[0-9]{1,6}\\/[0-9]{1,6}\\/[0-9]{1,6}\\/[a-zA-Z0-9]{2,4}"
+      referenceType:
+        type: "string"
+        description: "Type of reference when searching by endSz"
+        enum:
+          - "OLT"
+          - "DPU"
+          - "UPLINK"
       slotNumber:
         type: "string"
         description: "Criteria for search Access Line by slot number"
@@ -2169,6 +2924,58 @@ definitions:
         type: "integer"
         format: "int32"
         description: "Creteria for search Access Line by onuId"
+  SearchAccessLineStatisticDto:
+    type: "object"
+    required:
+      - "endSz"
+    properties:
+      endSz:
+        type: "string"
+        description: "Criteria for search access lines statistics by EndSz"
+        pattern: "[0-9]{1,6}\\/[0-9]{1,6}\\/[0-9]{1,6}\\/[a-zA-Z0-9]{2,4}"
+      slotNumber:
+        type: "string"
+        description: "Criteria for search access lines statistics by Slot number"
+      portNumber:
+        type: "string"
+        description: "criteria for search access lines statistics by Port number"
+  SearchAllocatedAnpTagDto:
+    type: "object"
+    required:
+      - "endSz"
+    properties:
+      endSz:
+        type: "string"
+        description: "Criteria for search AllocatedAnpTags by endsz"
+        pattern: "[0-9]{1,6}\\/[0-9]{1,6}\\/[0-9]{1,6}\\/[a-zA-Z0-9]{2,4}"
+  SearchAllocatedOnuIdDto:
+    type: "object"
+    required:
+      - "oltEndSz"
+      - "portNumber"
+    properties:
+      oltEndSz:
+        type: "string"
+        description: "Criteria for search onu id by endsz of olt device"
+        pattern: "[0-9]{1,6}\\/[0-9]{1,6}\\/[0-9]{1,6}\\/[a-zA-Z0-9]{2,4}"
+      slotNumber:
+        type: "string"
+        description: "Criteria for search onu id by slot number of olt device"
+      portNumber:
+        type: "string"
+        description: "Criteria for search onu id by port number of olt device"
+      dpuEndSz:
+        type: "string"
+        description: "Criteria for search onu id by endsz of dpu device"
+        pattern: "[0-9]{1,6}\\/[0-9]{1,6}\\/[0-9]{1,6}\\/[a-zA-Z0-9]{2,4}"
+      onuId:
+        type: "integer"
+        format: "int32"
+        description: "Criteria for search onu id by onu Id"
+      lineId:
+        type: "string"
+        description: "Criteria for search onu id by line id of assigned access line"
+        pattern: "[A-Z0-9]{3}\\.[A-Z0-9]{1,6}\\.[A-Z0-9]{1,10}"
   SearchBackhaulIdDto:
     type: "object"
     properties:
@@ -2224,12 +3031,69 @@ definitions:
           - "FREE"
           - "RESERVED"
           - "ASSIGNED"
+  SearchLineIdDto:
+    type: "object"
+    properties:
+      endSz:
+        type: "string"
+        description: "Criteria for search line id by endsz"
+        pattern: "[0-9]{1,6}\\/[0-9]{1,6}\\/[0-9]{1,6}\\/[a-zA-Z0-9]{2,4}"
+      slotNumber:
+        type: "string"
+        description: "Criteria for search line id by slot number"
+      portNumber:
+        type: "string"
+        description: "Criteria for search line id by port number"
+      id:
+        type: "integer"
+        format: "int64"
+        description: "Criteria for search line id by internal id"
+      lineId:
+        type: "string"
+        description: "Criteria for search line id by lineId"
+        pattern: "[A-Z0-9]{3}\\.[A-Z0-9]{1,6}\\.[A-Z0-9]{1,10}"
+      status:
+        type: "string"
+        description: "Criteria for search line id by status"
+        enum:
+          - "FREE"
+          - "USED"
+  SearchPhysicalResourceReferenceDto:
+    type: "object"
+    required:
+      - "endSz"
+    properties:
+      endSz:
+        type: "string"
+        description: "Criteria for search physical resource references by endsz"
+        pattern: "[0-9]{1,6}\\/[0-9]{1,6}\\/[0-9]{1,6}\\/[a-zA-Z0-9]{2,4}"
+      slotNumber:
+        type: "string"
+        description: "Criteria for search physical resource references by slot number"
+      portNumber:
+        type: "string"
+        description: "Criteria for search physical resource references by port number"
+      portType:
+        type: "string"
+        description: "Type of port"
+        enum:
+          - "PON"
+          - "GFAST"
+          - "ETHERNET"
+          - "GPON"
+  SingleBackhaulId:
+    type: "object"
+    properties:
+      backhaulId:
+        type: "string"
+        description: "Generated new BackhaulId"
+    description: "Generated BackhaulId"
   Sort:
     type: "object"
     properties:
-      sorted:
-        type: "boolean"
       unsorted:
+        type: "boolean"
+      sorted:
         type: "boolean"
       empty:
         type: "boolean"
@@ -2272,7 +3136,7 @@ definitions:
       ontSerialNumber:
         type: "string"
         description: "ONT serial number of DefaultNeProfile"
-        pattern: "^[A-F0-9]{16}$"
+        pattern: "^[A-F0-9]{16}$|^DEFAULT$"
       version:
         type: "integer"
         format: "int64"
