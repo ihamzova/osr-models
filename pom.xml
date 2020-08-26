@@ -10,7 +10,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>osr-models</artifactId>
-    <version>0.0.45</version>
+    <version>0.0.46</version>
 
     <properties>
         <framework.version>${project.parent.version}</framework.version>
@@ -318,19 +318,13 @@
                                     <item>
                                         <name>access.line.resource.inventory.internal.client</name>
                                         <inputSpec>
-                                            ${project.basedir}/src/main/resources/swagger/access-line-resource-inventory/access-line-resource-inventory-internal.yaml
+                                            ${project.basedir}/src/main/resources/swagger/access-line-resource-inventory/access-line-resource-inventory-internal-v4.yaml
                                         </inputSpec>
                                     </item>
                                     <item>
                                         <name>access.line.resource.inventory.external.client</name>
                                         <inputSpec>
-                                            ${project.basedir}/src/main/resources/swagger/access-line-resource-inventory/access-line-resource-inventory-external.yaml
-                                        </inputSpec>
-                                    </item>
-                                    <item>
-                                        <name>access.line.resource.inventory.external.v4_4_11_0.client</name>
-                                        <inputSpec>
-                                            ${project.basedir}/src/main/resources/swagger/access-line-resource-inventory/access-line-resource-inventory-external-v4.4.11.0.yaml
+                                            ${project.basedir}/src/main/resources/swagger/access-line-resource-inventory/access-line-resource-inventory-external-v4.yaml
                                         </inputSpec>
                                     </item>
                                     <item>
