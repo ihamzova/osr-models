@@ -1,1051 +1,2578 @@
-<!DOCTYPE html>
-<html class="" lang="en">
-<head prefix="og: http://ogp.me/ns#">
-<meta charset="utf-8">
-<meta content="IE=edge" http-equiv="X-UA-Compatible">
-
-<meta content="object" property="og:type">
-<meta content="GitLab" property="og:site_name">
-<meta content="conf/swagger/access-line-resource-inventory-external-v4.yaml · develop · t-magic / olt / access-line-resource-inventory" property="og:title">
-<meta content="GitLab Enterprise Edition" property="og:description">
-<meta content="https://digihub-wbench.psst.t-online.corp/gitlab/assets/gitlab_logo-7ae504fe4f68fdebb3c2034e36621930cd36ea87924c11ff65dbcb8ed50dca58.png" property="og:image">
-<meta content="64" property="og:image:width">
-<meta content="64" property="og:image:height">
-<meta content="https://digihub-wbench.psst.t-online.corp/gitlab/t-magic/olt/access-line-resource-inventory/-/blob/develop/conf/swagger/access-line-resource-inventory-external-v4.yaml" property="og:url">
-<meta content="summary" property="twitter:card">
-<meta content="conf/swagger/access-line-resource-inventory-external-v4.yaml · develop · t-magic / olt / access-line-resource-inventory" property="twitter:title">
-<meta content="GitLab Enterprise Edition" property="twitter:description">
-<meta content="https://digihub-wbench.psst.t-online.corp/gitlab/assets/gitlab_logo-7ae504fe4f68fdebb3c2034e36621930cd36ea87924c11ff65dbcb8ed50dca58.png" property="twitter:image">
-
-<title>conf/swagger/access-line-resource-inventory-external-v4.yaml · develop · t-magic / olt / access-line-resource-inventory · GitLab</title>
-<meta content="GitLab Enterprise Edition" name="description">
-<link rel="shortcut icon" type="image/png" href="/gitlab/assets/favicon-7901bd695fb93edb07975966062049829afb56cf11511236e61bcf425070e36e.png" id="favicon" data-original-href="/gitlab/assets/favicon-7901bd695fb93edb07975966062049829afb56cf11511236e61bcf425070e36e.png" />
-<link rel="stylesheet" media="all" href="/gitlab/assets/application-81c5f2c7b2c0b0abaeb59585f36904031c21b1702c24349404df52834fbd7ad3.css" />
-
-
-<link rel="stylesheet" media="all" href="/gitlab/assets/highlight/themes/monokai-0fee24835df8a283fecc2d18bb7c5084c8e88ed88c7751fd67c5c7a06b1ff565.css" />
-<script>
-//<![CDATA[
-window.gon={};gon.api_version="v4";gon.default_avatar_url="/gitlab/assets/no_avatar-849f9c04a3a0d0cea2424ae97b27447dc64a7dbfae83c036c45b403392f0e8ba.png";gon.max_file_size=100000;gon.asset_host=null;gon.webpack_public_path="/gitlab/assets/webpack/";gon.relative_url_root="/gitlab";gon.shortcuts_path="/gitlab/help/shortcuts";gon.user_color_scheme="monokai";gon.gitlab_url="/gitlab";gon.revision="640e2695514";gon.gitlab_logo="/gitlab/assets/gitlab_logo-7ae504fe4f68fdebb3c2034e36621930cd36ea87924c11ff65dbcb8ed50dca58.png";gon.sprite_icons="/gitlab/assets/icons-ec7938f444d9d661d3229540fb7eb27a11097485f6b2b8424e0b588d2f3369ae.svg";gon.sprite_file_icons="/gitlab/assets/file_icons-7262fc6897e02f1ceaf8de43dc33afa5e4f9a2067f4f68ef77dcc87946575e9e.svg";gon.emoji_sprites_css_path="/gitlab/assets/emoji_sprites-289eccffb1183c188b630297431be837765d9ff4aed6130cf738586fb307c170.css";gon.test_env=false;gon.disable_animations=null;gon.suggested_label_colors={"#0033CC":"UA blue","#428BCA":"Moderate blue","#44AD8E":"Lime green","#A8D695":"Feijoa","#5CB85C":"Slightly desaturated green","#69D100":"Bright green","#004E00":"Very dark lime green","#34495E":"Very dark desaturated blue","#7F8C8D":"Dark grayish cyan","#A295D6":"Slightly desaturated blue","#5843AD":"Dark moderate blue","#8E44AD":"Dark moderate violet","#FFECDB":"Very pale orange","#AD4363":"Dark moderate pink","#D10069":"Strong pink","#CC0033":"Strong red","#FF0000":"Pure red","#D9534F":"Soft red","#D1D100":"Strong yellow","#F0AD4E":"Soft orange","#AD8D43":"Dark moderate orange"};gon.first_day_of_week=0;gon.ee=true;gon.current_user_id=42;gon.current_username="elena.rymar";gon.current_user_fullname="Elena Rymar";gon.current_user_avatar_url="/gitlab/uploads/-/system/user/avatar/42/avatar.png";gon.features={"snippetsVue":true,"monacoBlobs":false,"monacoCi":false,"snippetsEditVue":false,"webperfExperiment":false,"codeNavigation":true};
-//]]>
-</script>
-
-
-<script src="/gitlab/assets/webpack/runtime.4e3d0800.bundle.js" defer="defer"></script>
-<script src="/gitlab/assets/webpack/main.80f52ba0.chunk.js" defer="defer"></script>
-<script src="/gitlab/assets/webpack/commons~pages.admin.application_settings~pages.admin.application_settings.ci_cd~pages.admin.applicat~2241330d.b11bcf1a.chunk.js" defer="defer"></script>
-<script src="/gitlab/assets/webpack/commons~pages.groups.epics.index~pages.groups.epics.new~pages.groups.epics.show~pages.groups.iterati~3eea0571.dd24ba6b.chunk.js" defer="defer"></script>
-<script src="/gitlab/assets/webpack/commons~pages.projects.blame.show~pages.projects.blob.edit~pages.projects.blob.new~pages.projects.bl~046fef08.bd037764.chunk.js" defer="defer"></script>
-<script src="/gitlab/assets/webpack/pages.projects.blob.show.2c5e03a8.chunk.js" defer="defer"></script>
-<script>
-//<![CDATA[
-window.uploads_path = "/gitlab/t-magic/olt/access-line-resource-inventory/uploads";
-
-
-
-//]]>
-</script>
-<meta name="csrf-param" content="authenticity_token" />
-<meta name="csrf-token" content="R6acfH5TGW09p4fauwwGBC+5e4omUutZiMW+y78lw7PIQPaRNcQJOWbMeqUUQmRlijH1oHxdEsJ/N8m8Q5B12g==" />
-<meta name="csp-nonce" />
-<meta name="action-cable-url" content="/gitlab/-/cable" />
-<meta content="origin-when-cross-origin" name="referrer">
-<meta content="width=device-width, initial-scale=1, maximum-scale=1" name="viewport">
-<meta content="#474D57" name="theme-color">
-<link rel="apple-touch-icon" type="image/x-icon" href="/gitlab/assets/touch-icon-iphone-5a9cee0e8a51212e70b90c87c12f382c428870c0ff67d1eb034d884b78d2dae7.png" />
-<link rel="apple-touch-icon" type="image/x-icon" href="/gitlab/assets/touch-icon-ipad-a6eec6aeb9da138e507593b464fdac213047e49d3093fc30e90d9a995df83ba3.png" sizes="76x76" />
-<link rel="apple-touch-icon" type="image/x-icon" href="/gitlab/assets/touch-icon-iphone-retina-72e2aadf86513a56e050e7f0f2355deaa19cc17ed97bbe5147847f2748e5a3e3.png" sizes="120x120" />
-<link rel="apple-touch-icon" type="image/x-icon" href="/gitlab/assets/touch-icon-ipad-retina-8ebe416f5313483d9c1bc772b5bbe03ecad52a54eba443e5215a22caed2a16a2.png" sizes="152x152" />
-<link color="rgb(226, 67, 41)" href="/gitlab/assets/logo-d36b5212042cebc89b96df4bf6ac24e43db316143e89926c0db839ff694d2de4.svg" rel="mask-icon">
-<meta content="/gitlab/assets/msapplication-tile-1196ec67452f618d39cdd85e2e3a542f76574c071051ae7effbfde01710eb17d.png" name="msapplication-TileImage">
-<meta content="#30353E" name="msapplication-TileColor">
-
-
-
-
-
-<link rel="stylesheet" href="/portalres/css/menu_button_left.css" type="text/css" media="screen" charset="utf-8"/>
-<link rel="stylesheet" href="/portalres/css/gitlab/gitlab.css" type="text/css" media="screen" charset="utf-8"/>
-<link rel="stylesheet" href="/portalres/css/portalbar.css" type="text/css" media="screen" charset="utf-8"/>
-<link rel="stylesheet" href="/portalres/css/menu_page.css" type="text/css" media="screen" charset="utf-8"/>
-<script src="/portalres/js/menu.js"></script>
-</head>
-
-<body class="ui-blue tab-width-8  gl-browser-chrome gl-platform-windows" data-find-file="/gitlab/t-magic/olt/access-line-resource-inventory/-/find_file/develop" data-group="olt" data-namespace-id="442" data-page="projects:blob:show" data-page-type-id="develop/conf/swagger/access-line-resource-inventory-external-v4.yaml" data-project="access-line-resource-inventory" data-project-id="1126">
-<workbench-navigation id="workbench_navigation">
-<workbench_header>
-   <header class="workbench_header">
-      <table class="workbench_header">
-         <tbody class="workbench_header">
-         <tr class="workbench_header">
-            <td class="workbench_header">
-               <div class="header_logo">
-                  <a class="header_logo" href="https://yam.telekom.de/groups/workbench/">
-                     <img class="workbench_header_telekom_logo"
-                          src="/portalres/images/tele_logo.png"
-                          alt="workbench"/>
-                  </a>
-               </div>
-            </td>
-            <td class="workbench_header"> </td>
-            <td class="workbench_header"> </td>
-            <td class="workbench_header_logo_text">Telekom Workbench</td>
-         </tr>
-
-         <tr class="workbench_header">
-            <td class="workbench_header">
-               <a href="javascript:hideWorkbenchNavigator()">
-                  <img class="workbench_header_menu_selector_close" src="/portalres/images/menu_close.png" alt="workbench"/>Menu</a>
-            </td>
-            <td class="workbench_header"> </td>
-            <td class="workbench_header"> </td>
-            <td class="workbench_header_login">
-               <div class="user_menu_dropdown">
-                  <button class="user_menu">
-                     <img class="menu_img"
-                          src="/portalres/images/user2.png"
-                          alt="workbench"/>elena.rymar</button>
-                  <div class="user_menu_dropdown_content">
-                     <a class="user_menu" href="/portal/j_spring_security_logout">Logout</a>
-                  </div>
-               </div>
-            </td>
-         </tr>
-         </tbody>
-      </table>
-   </header>
-</workbench_header>   <div class="workbench_dictionary">
-      <table class="workbench_dictionary">
-         <tbody class="workbench_dictionary">
-         <tr class="workbench_dictionary">
-               <td class="workbench_category">
-                  <p class="workbench_category">Services</p>
-                  <ul class="workbench_category">
-                                 <li class="workbench_theme">
-                                    <a class="workbench_theme"
-                                       href="/ci/"
-                                       target="_top"
-                                       onclick="window.location = '/ci/'">Jenkins</a>
-                                 </li>
-                                 <li class="workbench_theme">
-                                    <a class="workbench_theme"
-                                       href="/sonar/#"
-                                       target="_top"
-                                       onclick="window.location = '/sonar/#'">Sonar</a>
-                                 </li>
-                                 <li class="workbench_theme">
-                                    <a class="workbench_theme"
-                                       href="/gitlab/"
-                                       target="_top"
-                                       onclick="window.location = '/gitlab/'">Gitlab</a>
-                                 </li>
-                                 <li class="workbench_theme">
-                                    <a class="workbench_theme_not_allowed">Gitlab-Pages</a>
-                                 </li>
-                                 <li class="workbench_theme">
-                                    <a class="workbench_theme"
-                                       href="/nexus/index.html"
-                                       target="_top"
-                                       onclick="window.location = '/nexus/index.html'">Nexus</a>
-                                 </li>
-                                 <li class="workbench_theme">
-                                    <a class="workbench_theme_not_allowed">Nexus3</a>
-                                 </li>
-                                 <li class="workbench_theme">
-                                    <a class="workbench_theme"
-                                       href="/mattermost/"
-                                       target="_top"
-                                       onclick="window.location = '/mattermost/'">Mattermost</a>
-                                 </li>
-                                 <li class="workbench_theme">
-                                    <a class="workbench_theme_not_allowed">Download</a>
-                                 </li>
-                  </ul>
-               </td>
-               <td class="workbench_category">
-                  <p class="workbench_category">Account management</p>
-                  <ul class="workbench_category">
-                     <li class="workbench_theme">
-                        <a class="workbench_theme"
-                           href="/portal/secure/user/config/account/view"
-                           target="_top"
-                           onclick="window.location = '/portal/secure/user/config/account/view'">
-                           Account</a>
-                     </li>
-                     <li class="workbench_theme">
-                        <a class="workbench_theme"
-                           href="/portal/secure/user/config/service/view"
-                           target="_top"
-                           onclick="window.location = '/portal/secure/user/config/service/view'">
-                           Service settings</a>
-                     </li>
-                     <li class="workbench_theme">
-                        <a class="workbench_theme"
-                           href="/portal/secure/user/config/portal/view"
-                           target="_top"
-                           onclick="window.location = '/portal/secure/user/config/portal/view'">
-                           Portal settings</a>
-                     </li>
-                  </ul>
-               </td>
-
-            <td class="workbench_category">
-               <p class="workbench_category">Documentation</p>
-               <ul class="workbench_category">
-
-                     <li class="workbench_theme">
-                        <a class="workbench_theme"
-                           href="/documentation/production/public/index.html"
-                           target="_top"
-                           onclick="return loadWorkbenchDocumentation('/documentation/production/public/index.html');">
-                           Help&More</a>
-                     </li>
-                     <li class="workbench_theme">
-                        <a class="workbench_theme"
-                           href="/documentation/production/public/faq.html"
-                           target="_top"
-                           onclick="return loadWorkbenchDocumentation('/documentation/production/public/faq.html');">
-                           FAQ</a>
-                     </li>
-                     <li class="workbench_theme">
-                        <a class="workbench_theme"
-                           href="/documentation/production/public/aboutus.html"
-                           target="_top"
-                           onclick="return loadWorkbenchDocumentation('/documentation/production/public/aboutus.html');">
-                           About us</a>
-                     </li>
-                  <li class="workbench_theme">
-                     <a class="workbench_theme"
-                        href="/portal/secure/announcement/view"
-                        target="_top"
-                        onclick="window.location = '/portal/secure/announcement/view'">
-News/Messages                            (2)
-                     </a>
-                  </li>
-
-                  <li class="workbench_theme">
-                     <a class="workbench_theme"
-                        href="/home"
-                        target="_top"
-                        onclick="window.open('/home', '_top')">
-                        Home</a>
-                  </li>
-               </ul>
-            </td>
-         </tr>
-         </tbody>
-      </table>
-   </div>
-</workbench-navigation>
-
-
-<script>
-//<![CDATA[
-gl = window.gl || {};
-gl.client = {"isChrome":true,"isWindows":true};
-
-
-//]]>
-</script>
-
-
-<header class="navbar navbar-gitlab navbar-expand-sm js-navbar" data-qa-selector="navbar">
-<a class="sr-only gl-accessibility" href="#content-body" tabindex="1">Skip to content</a>
-<div class="container-fluid">
-<div class="header-content">
-<div class="title-container">
-<h1 class="title">
-<span class="gl-sr-only">GitLab</span>
-<a title="Dashboard" id="logo" href="/gitlab/"><svg width="24" height="24" class="tanuki-logo" viewBox="0 0 36 36">
-  <path class="tanuki-shape tanuki-left-ear" fill="#e24329" d="M2 14l9.38 9v-9l-4-12.28c-.205-.632-1.176-.632-1.38 0z"/>
-  <path class="tanuki-shape tanuki-right-ear" fill="#e24329" d="M34 14l-9.38 9v-9l4-12.28c.205-.632 1.176-.632 1.38 0z"/>
-  <path class="tanuki-shape tanuki-nose" fill="#e24329" d="M18,34.38 3,14 33,14 Z"/>
-  <path class="tanuki-shape tanuki-left-eye" fill="#fc6d26" d="M18,34.38 11.38,14 2,14 6,25Z"/>
-  <path class="tanuki-shape tanuki-right-eye" fill="#fc6d26" d="M18,34.38 24.62,14 34,14 30,25Z"/>
-  <path class="tanuki-shape tanuki-left-cheek" fill="#fca326" d="M2 14L.1 20.16c-.18.565 0 1.2.5 1.56l17.42 12.66z"/>
-  <path class="tanuki-shape tanuki-right-cheek" fill="#fca326" d="M34 14l1.9 6.16c.18.565 0 1.2-.5 1.56L18 34.38z"/>
-</svg>
-
-<span class="logo-text d-none d-lg-block gl-ml-3">
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 617 169"><path d="M315.26 2.97h-21.8l.1 162.5h88.3v-20.1h-66.5l-.1-142.4M465.89 136.95c-5.5 5.7-14.6 11.4-27 11.4-16.6 0-23.3-8.2-23.3-18.9 0-16.1 11.2-23.8 35-23.8 4.5 0 11.7.5 15.4 1.2v30.1h-.1m-22.6-98.5c-17.6 0-33.8 6.2-46.4 16.7l7.7 13.4c8.9-5.2 19.8-10.4 35.5-10.4 17.9 0 25.8 9.2 25.8 24.6v7.9c-3.5-.7-10.7-1.2-15.1-1.2-38.2 0-57.6 13.4-57.6 41.4 0 25.1 15.4 37.7 38.7 37.7 15.7 0 30.8-7.2 36-18.9l4 15.9h15.4v-83.2c-.1-26.3-11.5-43.9-44-43.9M557.63 149.1c-8.2 0-15.4-1-20.8-3.5V70.5c7.4-6.2 16.6-10.7 28.3-10.7 21.1 0 29.2 14.9 29.2 39 0 34.2-13.1 50.3-36.7 50.3m9.2-110.6c-19.5 0-30 13.3-30 13.3v-21l-.1-27.8h-21.3l.1 158.5c10.7 4.5 25.3 6.9 41.2 6.9 40.7 0 60.3-26 60.3-70.9-.1-35.5-18.2-59-50.2-59M77.9 20.6c19.3 0 31.8 6.4 39.9 12.9l9.4-16.3C114.5 6 97.3 0 78.9 0 32.5 0 0 28.3 0 85.4c0 59.8 35.1 83.1 75.2 83.1 20.1 0 37.2-4.7 48.4-9.4l-.5-63.9V75.1H63.6v20.1h38l.5 48.5c-5 2.5-13.6 4.5-25.3 4.5-32.2 0-53.8-20.3-53.8-63-.1-43.5 22.2-64.6 54.9-64.6M231.43 2.95h-21.3l.1 27.3v94.3c0 26.3 11.4 43.9 43.9 43.9 4.5 0 8.9-.4 13.1-1.2v-19.1c-3.1.5-6.4.7-9.9.7-17.9 0-25.8-9.2-25.8-24.6v-65h35.7v-17.8h-35.7l-.1-38.5M155.96 165.47h21.3v-124h-21.3v124M155.96 24.37h21.3V3.07h-21.3v21.3"/></svg>
-
-</span>
-</a></h1>
-<ul class="list-unstyled navbar-sub-nav">
-<li id="nav-projects-dropdown" class="home dropdown header-projects qa-projects-dropdown" data-track-label="projects_dropdown" data-track-event="click_dropdown" data-track-value=""><button class="btn" data-toggle="dropdown" type="button">
-Projects
-<svg class="caret-down"><use xlink:href="/gitlab/assets/icons-ec7938f444d9d661d3229540fb7eb27a11097485f6b2b8424e0b588d2f3369ae.svg#angle-down"></use></svg>
-</button>
-<div class="dropdown-menu frequent-items-dropdown-menu">
-<div class="frequent-items-dropdown-container">
-<div class="frequent-items-dropdown-sidebar qa-projects-dropdown-sidebar">
-<ul>
-<li class=""><a class="qa-your-projects-link" href="/gitlab/dashboard/projects">Your projects
-</a></li><li class=""><a href="/gitlab/dashboard/projects/starred">Starred projects
-</a></li><li class=""><a href="/gitlab/explore">Explore projects
-</a></li></ul>
-</div>
-<div class="frequent-items-dropdown-content">
-<div data-project-id="1126" data-project-name="access-line-resource-inventory" data-project-namespace="t-magic / olt / access-line-resource-inventory" data-project-web-url="/gitlab/t-magic/olt/access-line-resource-inventory" data-user-name="elena.rymar" id="js-projects-dropdown"></div>
-</div>
-</div>
-
-</div>
-</li><li id="nav-groups-dropdown" class="d-none d-md-block home dropdown header-groups qa-groups-dropdown" data-track-label="groups_dropdown" data-track-event="click_dropdown" data-track-value=""><button class="btn" data-toggle="dropdown" type="button">
-Groups
-<svg class="caret-down"><use xlink:href="/gitlab/assets/icons-ec7938f444d9d661d3229540fb7eb27a11097485f6b2b8424e0b588d2f3369ae.svg#angle-down"></use></svg>
-</button>
-<div class="dropdown-menu frequent-items-dropdown-menu">
-<div class="frequent-items-dropdown-container">
-<div class="frequent-items-dropdown-sidebar qa-groups-dropdown-sidebar">
-<ul>
-<li class=""><a class="qa-your-groups-link" href="/gitlab/dashboard/groups">Your groups
-</a></li><li class=""><a href="/gitlab/explore/groups">Explore groups
-</a></li></ul>
-</div>
-<div class="frequent-items-dropdown-content">
-<div data-user-name="elena.rymar" id="js-groups-dropdown"></div>
-</div>
-</div>
-
-</div>
-</li><li class="header-more dropdown">
-<a data-qa-selector="more_dropdown" data-toggle="dropdown" href="#">
-More
-<svg class="caret-down"><use xlink:href="/gitlab/assets/icons-ec7938f444d9d661d3229540fb7eb27a11097485f6b2b8424e0b588d2f3369ae.svg#angle-down"></use></svg>
-</a>
-<div class="dropdown-menu">
-<ul>
-<li class="d-md-none">
-<a class="dashboard-shortcuts-groups" data-qa-selector="groups_link" href="/gitlab/dashboard/groups">Groups
-</a></li>
-<li class=""><a class="dashboard-shortcuts-activity" data-qa-selector="activity_link" href="/gitlab/dashboard/activity">Activity
-</a></li><li class=""><a class="dashboard-shortcuts-milestones" data-qa-selector="milestones_link" href="/gitlab/dashboard/milestones">Milestones
-</a></li><li class=""><a class="dashboard-shortcuts-snippets" data-qa-selector="snippets_link" href="/gitlab/dashboard/snippets">Snippets
-</a></li><li class=""><a class="d-xl-none" href="/gitlab/-/analytics">Analytics
-</a></li>
-<li class="dropdown">
-
-</li>
-</ul>
-</div>
-</li>
-<li class="d-none d-xl-block"><a class="chart-icon" title="Analytics" aria-label="Analytics" data-toggle="tooltip" data-placement="bottom" data-container="body" href="/gitlab/-/instance_statistics"><svg class="s18"><use xlink:href="/gitlab/assets/icons-ec7938f444d9d661d3229540fb7eb27a11097485f6b2b8424e0b588d2f3369ae.svg#chart"></use></svg>
-</a></li>
-<li class="hidden">
-<a class="dashboard-shortcuts-projects" href="/gitlab/dashboard/projects">Projects
-</a></li>
-
-</ul>
-
-</div>
-<div class="navbar-collapse collapse">
-<ul class="nav navbar-nav">
-<li class="header-new dropdown" data-track-event="click_dropdown" data-track-label="new_dropdown" data-track-value="">
-<a class="header-new-dropdown-toggle has-tooltip qa-new-menu-toggle" id="js-onboarding-new-project-link" title="New..." ref="tooltip" aria-label="New..." data-toggle="dropdown" data-placement="bottom" data-container="body" data-display="static" href="/gitlab/projects/new"><svg class="s16"><use xlink:href="/gitlab/assets/icons-ec7938f444d9d661d3229540fb7eb27a11097485f6b2b8424e0b588d2f3369ae.svg#plus-square"></use></svg>
-<svg class="caret-down"><use xlink:href="/gitlab/assets/icons-ec7938f444d9d661d3229540fb7eb27a11097485f6b2b8424e0b588d2f3369ae.svg#angle-down"></use></svg>
-</a><div class="dropdown-menu dropdown-menu-right">
-<ul>
-<li class="dropdown-bold-header">
-This project
-</li>
-<li><a href="/gitlab/t-magic/olt/access-line-resource-inventory/-/issues/new">New issue</a></li>
-<li><a href="/gitlab/t-magic/olt/access-line-resource-inventory/-/merge_requests/new">New merge request</a></li>
-<li><a href="/gitlab/t-magic/olt/access-line-resource-inventory/snippets/new">New snippet</a></li>
-<li class="divider"></li>
-<li class="dropdown-bold-header">GitLab</li>
-<li><a class="qa-global-new-snippet-link" href="/gitlab/snippets/new">New snippet</a></li>
-</ul>
-</div>
-</li>
-
-<li class="nav-item d-none d-lg-block m-auto">
-<div class="search search-form" data-track-event="activate_form_input" data-track-label="navbar_search" data-track-value="">
-<form class="form-inline" action="/gitlab/search" accept-charset="UTF-8" method="get"><input name="utf8" type="hidden" value="&#x2713;" /><div class="search-input-container">
-<div class="search-input-wrap">
-<div class="dropdown" data-url="/gitlab/search/autocomplete">
-<input type="search" name="search" id="search" placeholder="Search or jump to…" class="search-input dropdown-menu-toggle no-outline js-search-dashboard-options" spellcheck="false" tabindex="1" autocomplete="off" data-issues-path="/gitlab/dashboard/issues" data-mr-path="/gitlab/dashboard/merge_requests" data-qa-selector="search_term_field" aria-label="Search or jump to…" />
-<button class="hidden js-dropdown-search-toggle" data-toggle="dropdown" type="button"></button>
-<div class="dropdown-menu dropdown-select js-dashboard-search-options">
-<div class="dropdown-content"><ul>
-<li class="dropdown-menu-empty-item">
-<a>
-Loading...
-</a>
-</li>
-</ul>
-</div><div class="dropdown-loading"><i aria-hidden="true" data-hidden="true" class="fa fa-spinner fa-spin"></i></div>
-</div>
-<svg class="s16 search-icon"><use xlink:href="/gitlab/assets/icons-ec7938f444d9d661d3229540fb7eb27a11097485f6b2b8424e0b588d2f3369ae.svg#search"></use></svg>
-<svg class="s16 clear-icon js-clear-input"><use xlink:href="/gitlab/assets/icons-ec7938f444d9d661d3229540fb7eb27a11097485f6b2b8424e0b588d2f3369ae.svg#close"></use></svg>
-</div>
-</div>
-</div>
-<input type="hidden" name="group_id" id="group_id" value="442" class="js-search-group-options" data-group-path="olt" data-name="olt" data-issues-path="/gitlab/groups/t-magic/olt/-/issues" data-mr-path="/gitlab/groups/t-magic/olt/-/merge_requests" />
-<input type="hidden" name="project_id" id="search_project_id" value="1126" class="js-search-project-options" data-project-path="access-line-resource-inventory" data-name="access-line-resource-inventory" data-issues-path="/gitlab/t-magic/olt/access-line-resource-inventory/-/issues" data-mr-path="/gitlab/t-magic/olt/access-line-resource-inventory/-/merge_requests" data-issues-disabled="false" />
-<input type="hidden" name="scope" id="scope" />
-<input type="hidden" name="search_code" id="search_code" value="true" />
-<input type="hidden" name="snippets" id="snippets" value="false" />
-<input type="hidden" name="repository_ref" id="repository_ref" value="develop" />
-<input type="hidden" name="nav_source" id="nav_source" value="navbar" />
-<div class="search-autocomplete-opts hide" data-autocomplete-path="/gitlab/search/autocomplete" data-autocomplete-project-id="1126" data-autocomplete-project-ref="develop"></div>
-</form></div>
-
-</li>
-<li class="nav-item d-inline-block d-lg-none">
-<a title="Search" aria-label="Search" data-toggle="tooltip" data-placement="bottom" data-container="body" href="/gitlab/search?project_id=1126"><svg class="s16"><use xlink:href="/gitlab/assets/icons-ec7938f444d9d661d3229540fb7eb27a11097485f6b2b8424e0b588d2f3369ae.svg#search"></use></svg>
-</a></li>
-<li class="user-counter"><a title="Issues" class="dashboard-shortcuts-issues" aria-label="Issues" data-toggle="tooltip" data-placement="bottom" data-container="body" href="/gitlab/dashboard/issues?assignee_username=elena.rymar"><svg class="s16"><use xlink:href="/gitlab/assets/icons-ec7938f444d9d661d3229540fb7eb27a11097485f6b2b8424e0b588d2f3369ae.svg#issues"></use></svg>
-<span class="badge badge-pill green-badge hidden issues-count">
-0
-</span>
-</a></li><li class="user-counter"><a title="Merge requests" class="dashboard-shortcuts-merge_requests" aria-label="Merge requests" data-toggle="tooltip" data-placement="bottom" data-container="body" href="/gitlab/dashboard/merge_requests?assignee_username=elena.rymar"><svg class="s16"><use xlink:href="/gitlab/assets/icons-ec7938f444d9d661d3229540fb7eb27a11097485f6b2b8424e0b588d2f3369ae.svg#git-merge"></use></svg>
-<span class="badge badge-pill hidden merge-requests-count">
-0
-</span>
-</a></li><li class="user-counter"><a title="To-Do List" aria-label="To-Do List" class="shortcuts-todos" data-toggle="tooltip" data-placement="bottom" data-container="body" href="/gitlab/dashboard/todos"><svg class="s16"><use xlink:href="/gitlab/assets/icons-ec7938f444d9d661d3229540fb7eb27a11097485f6b2b8424e0b588d2f3369ae.svg#todo-done"></use></svg>
-<span class="badge badge-pill hidden todos-count">
-0
-</span>
-</a></li><li class="nav-item header-help dropdown d-none d-md-block">
-<a class="header-help-dropdown-toggle" data-toggle="dropdown" href="/gitlab/help"><span class="gl-sr-only">
-Help
-</span>
-<svg class="s16"><use xlink:href="/gitlab/assets/icons-ec7938f444d9d661d3229540fb7eb27a11097485f6b2b8424e0b588d2f3369ae.svg#question"></use></svg>
-<svg class="caret-down"><use xlink:href="/gitlab/assets/icons-ec7938f444d9d661d3229540fb7eb27a11097485f6b2b8424e0b588d2f3369ae.svg#angle-down"></use></svg>
-</a><div class="dropdown-menu dropdown-menu-right">
-<ul>
-
-<li>
-<a href="/gitlab/help">Help</a>
-</li>
-<li>
-<a href="https://about.gitlab.com/getting-help/">Support</a>
-</li>
-<li>
-<button class="js-shortcuts-modal-trigger" type="button">
-Keyboard shortcuts
-<span aria-hidden class="text-secondary float-right">?</span>
-</button>
-</li>
-<li class="divider"></li>
-<li>
-<a href="https://about.gitlab.com/submit-feedback">Submit feedback</a>
-</li>
-<li>
-
-</li>
-
-</ul>
-
-</div>
-</li>
-<li class="dropdown header-user js-nav-user-dropdown nav-item" data-qa-selector="user_menu" data-track-event="click_dropdown" data-track-label="profile_dropdown" data-track-value="">
-<a class="header-user-dropdown-toggle" data-toggle="dropdown" href="/gitlab/elena.rymar"><img width="23" height="23" class="header-user-avatar qa-user-avatar lazy" alt="Elena Rymar" data-src="/gitlab/uploads/-/system/user/avatar/42/avatar.png?width=23" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" />
-
-<svg class="caret-down"><use xlink:href="/gitlab/assets/icons-ec7938f444d9d661d3229540fb7eb27a11097485f6b2b8424e0b588d2f3369ae.svg#angle-down"></use></svg>
-</a><div class="dropdown-menu dropdown-menu-right">
-<ul>
-<li class="current-user">
-<div class="user-name bold">
-Elena Rymar
-</div>
-@elena.rymar
-</li>
-<li class="divider"></li>
-<li>
-<div class="js-set-status-modal-trigger" data-has-status="false"></div>
-</li>
-<li>
-<a class="profile-link" data-user="elena.rymar" href="/gitlab/elena.rymar">Profile</a>
-</li>
-<li>
-<a data-qa-selector="settings_link" href="/gitlab/profile">Settings</a>
-</li>
-
-
-<li class="divider d-md-none"></li>
-<li class="d-md-none">
-<a href="/gitlab/help">Help</a>
-</li>
-<li class="d-md-none">
-<a href="https://about.gitlab.com/getting-help/">Support</a>
-</li>
-<li class="d-md-none">
-<a href="https://about.gitlab.com/submit-feedback">Submit feedback</a>
-</li>
-<li class="d-md-none">
-
-</li>
-
-<li class="divider"></li>
-<li>
-<a class="sign-out-link" data-qa-selector="sign_out_link" rel="nofollow" data-method="post" href="/gitlab/users/sign_out">Sign out</a>
-</li>
-</ul>
-
-</div>
-</li>
-</ul>
-</div>
-<button class="navbar-toggler d-block d-sm-none" type="button">
-<span class="sr-only">Toggle navigation</span>
-<svg class="s12 more-icon js-navbar-toggle-right"><use xlink:href="/gitlab/assets/icons-ec7938f444d9d661d3229540fb7eb27a11097485f6b2b8424e0b588d2f3369ae.svg#ellipsis_h"></use></svg>
-<svg class="s12 close-icon js-navbar-toggle-left"><use xlink:href="/gitlab/assets/icons-ec7938f444d9d661d3229540fb7eb27a11097485f6b2b8424e0b588d2f3369ae.svg#close"></use></svg>
-</button>
-</div>
-</div>
-</header>
-<div class="js-set-status-modal-wrapper" data-current-emoji="" data-current-message=""></div>
-
-<div class="layout-page page-with-contextual-sidebar page-with-icon-sidebar">
-<div class="nav-sidebar sidebar-collapsed-desktop">
-<div class="nav-sidebar-inner-scroll">
-<div class="context-header">
-<a title="access-line-resource-inventory" href="/gitlab/t-magic/olt/access-line-resource-inventory"><div class="avatar-container rect-avatar s40 project-avatar">
-<div class="avatar s40 avatar-tile identicon bg7">A</div>
-</div>
-<div class="sidebar-context-title">
-access-line-resource-inventory
-</div>
-</a></div>
-<ul class="sidebar-top-level-items qa-project-sidebar">
-<li class="home"><a class="shortcuts-project rspec-project-link" data-qa-selector="project_link" href="/gitlab/t-magic/olt/access-line-resource-inventory"><div class="nav-icon-container">
-<svg><use xlink:href="/gitlab/assets/icons-ec7938f444d9d661d3229540fb7eb27a11097485f6b2b8424e0b588d2f3369ae.svg#home"></use></svg>
-</div>
-<span class="nav-item-name">
-Project overview
-</span>
-</a><ul class="sidebar-sub-level-items">
-<li class="fly-out-top-item"><a href="/gitlab/t-magic/olt/access-line-resource-inventory"><strong class="fly-out-top-item-name">
-Project overview
-</strong>
-</a></li><li class="divider fly-out-top-item"></li>
-<li class=""><a title="Project details" class="shortcuts-project" href="/gitlab/t-magic/olt/access-line-resource-inventory"><span>Details</span>
-</a></li><li class=""><a title="Activity" class="shortcuts-project-activity" data-qa-selector="activity_link" href="/gitlab/t-magic/olt/access-line-resource-inventory/activity"><span>Activity</span>
-</a></li><li class=""><a title="Releases" class="shortcuts-project-releases" href="/gitlab/t-magic/olt/access-line-resource-inventory/-/releases"><span>Releases</span>
-</a></li></ul>
-</li><li class="active"><a class="shortcuts-tree" data-qa-selector="repository_link" href="/gitlab/t-magic/olt/access-line-resource-inventory/-/tree/develop"><div class="nav-icon-container">
-<svg><use xlink:href="/gitlab/assets/icons-ec7938f444d9d661d3229540fb7eb27a11097485f6b2b8424e0b588d2f3369ae.svg#doc-text"></use></svg>
-</div>
-<span class="nav-item-name" id="js-onboarding-repo-link">
-Repository
-</span>
-</a><ul class="sidebar-sub-level-items">
-<li class="fly-out-top-item active"><a href="/gitlab/t-magic/olt/access-line-resource-inventory/-/tree/develop"><strong class="fly-out-top-item-name">
-Repository
-</strong>
-</a></li><li class="divider fly-out-top-item"></li>
-<li class="active"><a href="/gitlab/t-magic/olt/access-line-resource-inventory/-/tree/develop">Files
-</a></li><li class=""><a id="js-onboarding-commits-link" href="/gitlab/t-magic/olt/access-line-resource-inventory/-/commits/develop">Commits
-</a></li><li class=""><a data-qa-selector="branches_link" id="js-onboarding-branches-link" href="/gitlab/t-magic/olt/access-line-resource-inventory/-/branches">Branches
-</a></li><li class=""><a data-qa-selector="tags_link" href="/gitlab/t-magic/olt/access-line-resource-inventory/-/tags">Tags
-</a></li><li class=""><a href="/gitlab/t-magic/olt/access-line-resource-inventory/-/graphs/develop">Contributors
-</a></li><li class=""><a href="/gitlab/t-magic/olt/access-line-resource-inventory/-/network/develop">Graph
-</a></li><li class=""><a href="/gitlab/t-magic/olt/access-line-resource-inventory/-/compare?from=develop&amp;to=develop">Compare
-</a></li>
-</ul>
-</li><li class=""><a class="shortcuts-issues qa-issues-item" href="/gitlab/t-magic/olt/access-line-resource-inventory/-/issues"><div class="nav-icon-container">
-<svg><use xlink:href="/gitlab/assets/icons-ec7938f444d9d661d3229540fb7eb27a11097485f6b2b8424e0b588d2f3369ae.svg#issues"></use></svg>
-</div>
-<span class="nav-item-name" id="js-onboarding-issues-link">
-Issues
-</span>
-<span class="badge badge-pill count issue_counter">
-0
-</span>
-</a><ul class="sidebar-sub-level-items">
-<li class="fly-out-top-item"><a href="/gitlab/t-magic/olt/access-line-resource-inventory/-/issues"><strong class="fly-out-top-item-name">
-Issues
-</strong>
-<span class="badge badge-pill count issue_counter fly-out-badge">
-0
-</span>
-</a></li><li class="divider fly-out-top-item"></li>
-<li class=""><a title="Issues" href="/gitlab/t-magic/olt/access-line-resource-inventory/-/issues"><span>
-List
-</span>
-</a></li><li class=""><a title="Boards" data-qa-selector="issue_boards_link" href="/gitlab/t-magic/olt/access-line-resource-inventory/-/boards"><span>
-Boards
-</span>
-</a></li><li class=""><a title="Labels" class="qa-labels-link" href="/gitlab/t-magic/olt/access-line-resource-inventory/-/labels"><span>
-Labels
-</span>
-</a></li><li class=""><a title="Service Desk" href="/gitlab/t-magic/olt/access-line-resource-inventory/-/issues/service_desk">Service Desk
-</a></li>
-<li class=""><a title="Milestones" class="qa-milestones-link" href="/gitlab/t-magic/olt/access-line-resource-inventory/-/milestones"><span>
-Milestones
-</span>
-</a></li></ul>
-</li><li class=""><a target="_blank" rel="noopener noreferrer" class="shortcuts-external_tracker" href="https://gard.telekom.de/gard"><div class="nav-icon-container">
-<svg><use xlink:href="/gitlab/assets/icons-ec7938f444d9d661d3229540fb7eb27a11097485f6b2b8424e0b588d2f3369ae.svg#external-link"></use></svg>
-</div>
-<span class="nav-item-name">
-Jira
-</span>
-</a><ul class="sidebar-sub-level-items is-fly-out-only">
-<li class="fly-out-top-item"><a target="_blank" rel="noopener noreferrer" href="https://gard.telekom.de/gard"><strong class="fly-out-top-item-name">
-Jira
-</strong>
-</a></li></ul>
-</li><li class=""><a class="shortcuts-merge_requests" data-qa-selector="merge_requests_link" href="/gitlab/t-magic/olt/access-line-resource-inventory/-/merge_requests"><div class="nav-icon-container">
-<svg><use xlink:href="/gitlab/assets/icons-ec7938f444d9d661d3229540fb7eb27a11097485f6b2b8424e0b588d2f3369ae.svg#git-merge"></use></svg>
-</div>
-<span class="nav-item-name" id="js-onboarding-mr-link">
-Merge Requests
-</span>
-<span class="badge badge-pill count merge_counter js-merge-counter">
-0
-</span>
-</a><ul class="sidebar-sub-level-items is-fly-out-only">
-<li class="fly-out-top-item"><a href="/gitlab/t-magic/olt/access-line-resource-inventory/-/merge_requests"><strong class="fly-out-top-item-name">
-Merge Requests
-</strong>
-<span class="badge badge-pill count merge_counter js-merge-counter fly-out-badge">
-0
-</span>
-</a></li></ul>
-</li>
-<li class=""><a class="shortcuts-pipelines qa-link-pipelines rspec-link-pipelines" data-qa-selector="ci_cd_link" href="/gitlab/t-magic/olt/access-line-resource-inventory/-/pipelines"><div class="nav-icon-container">
-<svg><use xlink:href="/gitlab/assets/icons-ec7938f444d9d661d3229540fb7eb27a11097485f6b2b8424e0b588d2f3369ae.svg#rocket"></use></svg>
-</div>
-<span class="nav-item-name" id="js-onboarding-pipelines-link">
-CI / CD
-</span>
-</a><ul class="sidebar-sub-level-items">
-<li class="fly-out-top-item"><a href="/gitlab/t-magic/olt/access-line-resource-inventory/-/pipelines"><strong class="fly-out-top-item-name">
-CI / CD
-</strong>
-</a></li><li class="divider fly-out-top-item"></li>
-<li class=""><a title="Pipelines" class="shortcuts-pipelines" href="/gitlab/t-magic/olt/access-line-resource-inventory/-/pipelines"><span>
-Pipelines
-</span>
-</a></li><li class=""><a title="Jobs" class="shortcuts-builds" href="/gitlab/t-magic/olt/access-line-resource-inventory/-/jobs"><span>
-Jobs
-</span>
-</a></li><li class=""><a title="Schedules" class="shortcuts-builds" href="/gitlab/t-magic/olt/access-line-resource-inventory/-/pipeline_schedules"><span>
-Schedules
-</span>
-</a></li></ul>
-</li>
-<li class=""><a class="shortcuts-operations" data-qa-selector="operations_link" href="/gitlab/t-magic/olt/access-line-resource-inventory/-/environments/metrics"><div class="nav-icon-container">
-<svg><use xlink:href="/gitlab/assets/icons-ec7938f444d9d661d3229540fb7eb27a11097485f6b2b8424e0b588d2f3369ae.svg#cloud-gear"></use></svg>
-</div>
-<span class="nav-item-name">
-Operations
-</span>
-</a><ul class="sidebar-sub-level-items">
-<li class="fly-out-top-item"><a href="/gitlab/t-magic/olt/access-line-resource-inventory/-/environments/metrics"><strong class="fly-out-top-item-name">
-Operations
-</strong>
-</a></li><li class="divider fly-out-top-item"></li>
-<li class=""><a title="Metrics" class="shortcuts-metrics" data-qa-selector="operations_metrics_link" href="/gitlab/t-magic/olt/access-line-resource-inventory/-/environments/metrics"><span>
-Metrics
-</span>
-</a></li><li class=""><a title="Alerts" class="shortcuts-tracking qa-operations-tracking-link" href="/gitlab/t-magic/olt/access-line-resource-inventory/-/alert_management"><span>
-Alerts
-</span>
-</a></li>
-<li class=""><a title="Environments" class="shortcuts-environments qa-operations-environments-link" href="/gitlab/t-magic/olt/access-line-resource-inventory/-/environments"><span>
-Environments
-</span>
-</a></li><li class=""><a title="Error Tracking" class="shortcuts-tracking qa-operations-tracking-link" href="/gitlab/t-magic/olt/access-line-resource-inventory/-/error_tracking"><span>
-Error Tracking
-</span>
-</a></li>
-</ul>
-</li>
-<li class=""><a data-qa-selector="analytics_anchor" href="/gitlab/t-magic/olt/access-line-resource-inventory/-/value_stream_analytics"><div class="nav-icon-container">
-<svg><use xlink:href="/gitlab/assets/icons-ec7938f444d9d661d3229540fb7eb27a11097485f6b2b8424e0b588d2f3369ae.svg#chart"></use></svg>
-</div>
-<span class="nav-item-name" data-qa-selector="analytics_link">
-Analytics
-</span>
-</a><ul class="sidebar-sub-level-items" data-qa-selector="analytics_sidebar_submenu">
-<li class="fly-out-top-item"><a href="/gitlab/t-magic/olt/access-line-resource-inventory/-/value_stream_analytics"><strong class="fly-out-top-item-name">
-Analytics
-</strong>
-</a></li><li class="divider fly-out-top-item"></li>
-<li class=""><a title="CI / CD" href="/gitlab/t-magic/olt/access-line-resource-inventory/-/pipelines/charts"><span>CI / CD</span>
-</a></li><li class=""><a title="Code Review" href="/gitlab/t-magic/olt/access-line-resource-inventory/-/analytics/code_reviews"><span>Code Review</span>
-</a></li><li class=""><a class="shortcuts-repository-charts" title="Repository" href="/gitlab/t-magic/olt/access-line-resource-inventory/-/graphs/develop/charts"><span>Repository</span>
-</a></li><li class=""><a class="shortcuts-project-cycle-analytics" title="Value Stream" href="/gitlab/t-magic/olt/access-line-resource-inventory/-/value_stream_analytics"><span>Value Stream</span>
-</a></li></ul>
-</li>
-<li class=""><a class="shortcuts-wiki" data-qa-selector="wiki_link" href="/gitlab/t-magic/olt/access-line-resource-inventory/-/wikis/home"><div class="nav-icon-container">
-<svg><use xlink:href="/gitlab/assets/icons-ec7938f444d9d661d3229540fb7eb27a11097485f6b2b8424e0b588d2f3369ae.svg#book"></use></svg>
-</div>
-<span class="nav-item-name">
-Wiki
-</span>
-</a><ul class="sidebar-sub-level-items is-fly-out-only">
-<li class="fly-out-top-item"><a href="/gitlab/t-magic/olt/access-line-resource-inventory/-/wikis/home"><strong class="fly-out-top-item-name">
-Wiki
-</strong>
-</a></li></ul>
-</li>
-<li class=""><a class="shortcuts-snippets" data-qa-selector="snippets_link" href="/gitlab/t-magic/olt/access-line-resource-inventory/snippets"><div class="nav-icon-container">
-<svg><use xlink:href="/gitlab/assets/icons-ec7938f444d9d661d3229540fb7eb27a11097485f6b2b8424e0b588d2f3369ae.svg#snippet"></use></svg>
-</div>
-<span class="nav-item-name">
-Snippets
-</span>
-</a><ul class="sidebar-sub-level-items is-fly-out-only">
-<li class="fly-out-top-item"><a href="/gitlab/t-magic/olt/access-line-resource-inventory/snippets"><strong class="fly-out-top-item-name">
-Snippets
-</strong>
-</a></li></ul>
-</li><li class=""><a title="Members" class="qa-members-link" id="js-onboarding-members-link" href="/gitlab/t-magic/olt/access-line-resource-inventory/-/project_members"><div class="nav-icon-container">
-<svg><use xlink:href="/gitlab/assets/icons-ec7938f444d9d661d3229540fb7eb27a11097485f6b2b8424e0b588d2f3369ae.svg#users"></use></svg>
-</div>
-<span class="nav-item-name">
-Members
-</span>
-</a><ul class="sidebar-sub-level-items is-fly-out-only">
-<li class="fly-out-top-item"><a href="/gitlab/t-magic/olt/access-line-resource-inventory/-/project_members"><strong class="fly-out-top-item-name">
-Members
-</strong>
-</a></li></ul>
-</li><a class="toggle-sidebar-button js-toggle-sidebar qa-toggle-sidebar rspec-toggle-sidebar" role="button" title="Toggle sidebar" type="button">
-<svg class="icon-chevron-double-lg-left"><use xlink:href="/gitlab/assets/icons-ec7938f444d9d661d3229540fb7eb27a11097485f6b2b8424e0b588d2f3369ae.svg#chevron-double-lg-left"></use></svg>
-<svg class="icon-chevron-double-lg-right"><use xlink:href="/gitlab/assets/icons-ec7938f444d9d661d3229540fb7eb27a11097485f6b2b8424e0b588d2f3369ae.svg#chevron-double-lg-right"></use></svg>
-<span class="collapse-text">Collapse sidebar</span>
-</a>
-<button name="button" type="button" class="close-nav-button"><svg class="s16"><use xlink:href="/gitlab/assets/icons-ec7938f444d9d661d3229540fb7eb27a11097485f6b2b8424e0b588d2f3369ae.svg#close"></use></svg>
-<span class="collapse-text">Close sidebar</span>
-</button>
-<li class="hidden">
-<a title="Activity" class="shortcuts-project-activity" href="/gitlab/t-magic/olt/access-line-resource-inventory/activity"><span>
-Activity
-</span>
-</a></li>
-<li class="hidden">
-<a title="Network" class="shortcuts-network" href="/gitlab/t-magic/olt/access-line-resource-inventory/-/network/develop">Graph
-</a></li>
-<li class="hidden">
-<a class="shortcuts-new-issue" href="/gitlab/t-magic/olt/access-line-resource-inventory/-/issues/new">Create a new issue
-</a></li>
-<li class="hidden">
-<a title="Jobs" class="shortcuts-builds" href="/gitlab/t-magic/olt/access-line-resource-inventory/-/jobs">Jobs
-</a></li>
-<li class="hidden">
-<a title="Commits" class="shortcuts-commits" href="/gitlab/t-magic/olt/access-line-resource-inventory/-/commits/develop">Commits
-</a></li>
-<li class="hidden">
-<a title="Issue Boards" class="shortcuts-issue-boards" href="/gitlab/t-magic/olt/access-line-resource-inventory/-/boards">Issue Boards</a>
-</li>
-</ul>
-</div>
-</div>
-
-<div class="content-wrapper">
-<div class="mobile-overlay"></div>
-<div class="alert-wrapper">
-
-
-
-
-
-
-
-
-
-
-
-
-<nav class="breadcrumbs container-fluid container-limited" role="navigation">
-<div class="breadcrumbs-container">
-<button name="button" type="button" class="toggle-mobile-nav"><span class="sr-only">Open sidebar</span>
-<i aria-hidden="true" data-hidden="true" class="fa fa-bars"></i>
-</button><div class="breadcrumbs-links js-title-container" data-qa-selector="breadcrumb_links_content">
-<ul class="list-unstyled breadcrumbs-list js-breadcrumbs-list">
-<li><a class="group-path breadcrumb-item-text js-breadcrumb-item-text " href="/gitlab/t-magic"><img class="avatar-tile lazy" width="15" height="15" data-src="/gitlab/uploads/-/system/group/avatar/16/tmagicXmas.png" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" />t-magic</a><svg class="s8 breadcrumbs-list-angle"><use xlink:href="/gitlab/assets/icons-ec7938f444d9d661d3229540fb7eb27a11097485f6b2b8424e0b588d2f3369ae.svg#angle-right"></use></svg></li><li><a class="group-path breadcrumb-item-text js-breadcrumb-item-text " href="/gitlab/t-magic/olt"><img class="avatar-tile lazy" width="15" height="15" data-src="/gitlab/uploads/-/system/group/avatar/442/photo_2019-04-10_15-54-18.jpg" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" />olt</a><svg class="s8 breadcrumbs-list-angle"><use xlink:href="/gitlab/assets/icons-ec7938f444d9d661d3229540fb7eb27a11097485f6b2b8424e0b588d2f3369ae.svg#angle-right"></use></svg></li> <li><a href="/gitlab/t-magic/olt/access-line-resource-inventory"><span class="breadcrumb-item-text js-breadcrumb-item-text">access-line-resource-inventory</span></a><svg class="s8 breadcrumbs-list-angle"><use xlink:href="/gitlab/assets/icons-ec7938f444d9d661d3229540fb7eb27a11097485f6b2b8424e0b588d2f3369ae.svg#angle-right"></use></svg></li>
-
-<li>
-<h2 class="breadcrumbs-sub-title"><a href="/gitlab/t-magic/olt/access-line-resource-inventory/-/blob/develop/conf/swagger/access-line-resource-inventory-external-v4.yaml">Repository</a></h2>
-</li>
-</ul>
-</div>
-
-</div>
-</nav>
-
-<div class="d-flex"></div>
-</div>
-<div class="container-fluid container-limited ">
-<div class="content" id="content-body">
-<div class="flash-container flash-container-page sticky">
-</div>
-
-<div class="js-signature-container" data-signatures-path="/gitlab/t-magic/olt/access-line-resource-inventory/-/commits/cd1d7e30032eb58c14f507cfb1293d9f1e479feb/signatures?limit=1"></div>
-
-<div class="tree-holder" id="tree-holder">
-<div class="nav-block">
-<div class="tree-ref-container">
-<div class="tree-ref-holder">
-<form class="project-refs-form" action="/gitlab/t-magic/olt/access-line-resource-inventory/-/refs/switch" accept-charset="UTF-8" method="get"><input name="utf8" type="hidden" value="&#x2713;" /><input type="hidden" name="destination" id="destination" value="blob" />
-<input type="hidden" name="path" id="path" value="conf/swagger/access-line-resource-inventory-external-v4.yaml" />
-<div class="dropdown">
-<button class="dropdown-menu-toggle js-project-refs-dropdown qa-branches-select" type="button" data-toggle="dropdown" data-selected="develop" data-ref="develop" data-refs-url="/gitlab/t-magic/olt/access-line-resource-inventory/refs?sort=updated_desc" data-field-name="ref" data-submit-form-on-click="true" data-visit="true"><span class="dropdown-toggle-text ">develop</span><i aria-hidden="true" data-hidden="true" class="fa fa-chevron-down"></i></button>
-<div class="dropdown-menu dropdown-menu-paging dropdown-menu-selectable git-revision-dropdown qa-branches-dropdown">
-<div class="dropdown-page-one">
-<div class="dropdown-title"><span>Switch branch/tag</span><button class="dropdown-title-button dropdown-menu-close" aria-label="Close" type="button"><i aria-hidden="true" data-hidden="true" class="fa fa-times dropdown-menu-close-icon"></i></button></div>
-<div class="dropdown-input"><input type="search" id="" class="dropdown-input-field qa-dropdown-input-field" placeholder="Search branches and tags" autocomplete="off" /><i aria-hidden="true" data-hidden="true" class="fa fa-search dropdown-input-search"></i><i aria-hidden="true" data-hidden="true" role="button" class="fa fa-times dropdown-input-clear js-dropdown-input-clear"></i></div>
-<div class="dropdown-content"></div>
-<div class="dropdown-loading"><i aria-hidden="true" data-hidden="true" class="fa fa-spinner fa-spin"></i></div>
-</div>
-</div>
-</div>
-</form>
-</div>
-<ul class="breadcrumb repo-breadcrumb">
-<li class="breadcrumb-item">
-<a href="/gitlab/t-magic/olt/access-line-resource-inventory/-/tree/develop">access-line-resource-inventory
-</a></li>
-<li class="breadcrumb-item">
-<a href="/gitlab/t-magic/olt/access-line-resource-inventory/-/tree/develop/conf">conf</a>
-</li>
-<li class="breadcrumb-item">
-<a href="/gitlab/t-magic/olt/access-line-resource-inventory/-/tree/develop/conf/swagger">swagger</a>
-</li>
-<li class="breadcrumb-item">
-<a href="/gitlab/t-magic/olt/access-line-resource-inventory/-/blob/develop/conf/swagger/access-line-resource-inventory-external-v4.yaml"><strong>access-line-resource-inventory-extern...</strong>
-</a></li>
-</ul>
-</div>
-<div class="tree-controls gl-children-ml-sm-3"><a class="btn shortcuts-find-file" rel="nofollow" href="/gitlab/t-magic/olt/access-line-resource-inventory/-/find_file/develop">Find file
-</a><a class="btn js-blob-blame-link" href="/gitlab/t-magic/olt/access-line-resource-inventory/-/blame/develop/conf/swagger/access-line-resource-inventory-external-v4.yaml">Blame</a><a class="btn" href="/gitlab/t-magic/olt/access-line-resource-inventory/-/commits/develop/conf/swagger/access-line-resource-inventory-external-v4.yaml">History</a><a class="btn js-data-file-blob-permalink-url" href="/gitlab/t-magic/olt/access-line-resource-inventory/-/blob/9c96c5ea8786fff8e9aeab4c4c83e55ac39ca610/conf/swagger/access-line-resource-inventory-external-v4.yaml">Permalink</a></div>
-</div>
-
-<div class="info-well d-none d-sm-block">
-<div class="well-segment">
-<ul class="blob-commit-info">
-<li class="commit flex-row js-toggle-container" id="commit-cd1d7e30">
-<div class="avatar-cell d-none d-sm-block">
-<a href="/gitlab/aleksandr.simon"><img alt="Aleksandr Simon&#39;s avatar" src="/gitlab/uploads/-/system/user/avatar/58/avatar.png?width=40" class="avatar s40 d-none d-sm-inline-block" title="Aleksandr Simon" /></a>
-</div>
-<div class="commit-detail flex-list">
-<div class="commit-content qa-commit-content">
-<a href="https://gard.telekom.de/gard/browse/DIGIHUB-58009" data-project="1126" data-external-issue="DIGIHUB-58009" data-reference-type="external_issue" data-container="body" data-placement="top" title="Issue in Jira" class="gfm gfm-issue has-tooltip commit-row-message item-title js-onboarding-commit-item">DIGIHUB-58009</a><a class="commit-row-message item-title js-onboarding-commit-item " href="/gitlab/t-magic/olt/access-line-resource-inventory/-/commit/cd1d7e30032eb58c14f507cfb1293d9f1e479feb"> [BE] Search out-of-sync Access Lines in AM UI</a>
-<span class="commit-row-message d-inline d-sm-none">
-&middot;
-cd1d7e30
-</span>
-<button class="text-expander js-toggle-button">
-<svg class="s12"><use xlink:href="/gitlab/assets/icons-ec7938f444d9d661d3229540fb7eb27a11097485f6b2b8424e0b588d2f3369ae.svg#ellipsis_h"></use></svg>
-</button>
-<div class="committer">
-<a class="commit-author-link js-user-link" data-user-id="58" href="/gitlab/aleksandr.simon">Aleksandr Simon</a> authored <time class="js-timeago" title="Aug 26, 2020 6:01am" datetime="2020-08-26T06:01:49Z" data-toggle="tooltip" data-placement="bottom" data-container="body">Aug 26, 2020</time>
-</div>
-
-<pre class="commit-row-description js-toggle-content gl-mb-3">- merge with develop</pre>
-</div>
-<div class="commit-actions flex-row">
-
-<div class="js-commit-pipeline-status" data-endpoint="/gitlab/t-magic/olt/access-line-resource-inventory/-/commit/cd1d7e30032eb58c14f507cfb1293d9f1e479feb/pipelines?ref=develop"></div>
-<div class="commit-sha-group d-none d-sm-flex">
-<div class="label label-monospace monospace">
-cd1d7e30
-</div>
-<button class="btn btn btn-default" data-toggle="tooltip" data-placement="bottom" data-container="body" data-title="Copy commit SHA" data-class="btn btn-default" data-clipboard-text="cd1d7e30032eb58c14f507cfb1293d9f1e479feb" type="button" title="Copy commit SHA" aria-label="Copy commit SHA"><svg><use xlink:href="/gitlab/assets/icons-ec7938f444d9d661d3229540fb7eb27a11097485f6b2b8424e0b588d2f3369ae.svg#copy-to-clipboard"></use></svg></button>
-
-</div>
-</div>
-</div>
-</li>
-
-</ul>
-</div>
-
-
-</div>
-<div class="blob-content-holder" id="blob-content-holder">
-<article class="file-holder">
-<div class="js-file-title file-title-flex-parent">
-<div class="file-header-content">
-<i aria-hidden="true" data-hidden="true" class="fa fa-file-text-o fa-fw"></i>
-<strong class="file-title-name">
-access-line-resource-inventory-external-v4.yaml
-</strong>
-<button class="btn btn-clipboard btn-transparent" data-toggle="tooltip" data-placement="bottom" data-container="body" data-class="btn-clipboard btn-transparent" data-title="Copy file path" data-clipboard-text="{&quot;text&quot;:&quot;conf/swagger/access-line-resource-inventory-external-v4.yaml&quot;,&quot;gfm&quot;:&quot;`conf/swagger/access-line-resource-inventory-external-v4.yaml`&quot;}" type="button" title="Copy file path" aria-label="Copy file path"><svg><use xlink:href="/gitlab/assets/icons-ec7938f444d9d661d3229540fb7eb27a11097485f6b2b8424e0b588d2f3369ae.svg#copy-to-clipboard"></use></svg></button>
-<small class="mr-1">
-71.7 KB
-</small>
-</div>
-
-<div class="file-actions"><a class="btn btn-primary js-edit-blob ml-2  btn-sm" href="/gitlab/t-magic/olt/access-line-resource-inventory/-/edit/develop/conf/swagger/access-line-resource-inventory-external-v4.yaml">Edit</a><a class="btn btn-inverted btn-primary ide-edit-button ml-2 btn-sm" href="/gitlab/-/ide/project/t-magic/olt/access-line-resource-inventory/edit/develop/-/conf/swagger/access-line-resource-inventory-external-v4.yaml">Web IDE</a><div class="btn-group ml-2" role="group">
-
-
-<button name="button" type="submit" class="btn btn-default" data-target="#modal-upload-blob" data-toggle="modal">Replace</button>
-<button name="button" type="submit" class="btn btn-default" data-target="#modal-remove-blob" data-toggle="modal">Delete</button>
-</div><div class="btn-group ml-2" role="group">
-<button class="btn btn btn-sm js-copy-blob-source-btn" data-toggle="tooltip" data-placement="bottom" data-container="body" data-class="btn btn-sm js-copy-blob-source-btn" data-title="Copy file contents" data-clipboard-target=".blob-content[data-blob-id=&#39;ed340fda50370c1716d0158bc2e1bb46d13c1536&#39;]" type="button" title="Copy file contents" aria-label="Copy file contents"><svg><use xlink:href="/gitlab/assets/icons-ec7938f444d9d661d3229540fb7eb27a11097485f6b2b8424e0b588d2f3369ae.svg#copy-to-clipboard"></use></svg></button>
-<a class="btn btn-sm has-tooltip" target="_blank" rel="noopener noreferrer" aria-label="Open raw" title="Open raw" data-container="body" href="/gitlab/t-magic/olt/access-line-resource-inventory/-/raw/develop/conf/swagger/access-line-resource-inventory-external-v4.yaml"><svg><use xlink:href="/gitlab/assets/icons-ec7938f444d9d661d3229540fb7eb27a11097485f6b2b8424e0b588d2f3369ae.svg#doc-code"></use></svg></a>
-<a download="conf/swagger/access-line-resource-inventory-external-v4.yaml" class="btn btn-sm has-tooltip" target="_blank" rel="noopener noreferrer" aria-label="Download" title="Download" data-container="body" href="/gitlab/t-magic/olt/access-line-resource-inventory/-/raw/develop/conf/swagger/access-line-resource-inventory-external-v4.yaml?inline=false"><svg><use xlink:href="/gitlab/assets/icons-ec7938f444d9d661d3229540fb7eb27a11097485f6b2b8424e0b588d2f3369ae.svg#download"></use></svg></a>
-
-</div></div>
-</div>
-<div class="js-file-fork-suggestion-section file-fork-suggestion hidden">
-<span class="file-fork-suggestion-note">
-You're not allowed to
-<span class="js-file-fork-suggestion-section-action">
-edit
-</span>
-files in this project directly. Please fork this project,
-make your changes there, and submit a merge request.
-</span>
-<a class="js-fork-suggestion-button btn btn-grouped btn-inverted btn-success" rel="nofollow" data-method="post" href="/gitlab/t-magic/olt/access-line-resource-inventory/-/blob/develop/conf/swagger/access-line-resource-inventory-external-v4.yaml">Fork</a>
-<button class="js-cancel-fork-suggestion-button btn btn-grouped" type="button">
-Cancel
-</button>
-</div>
-
-
-
-<div class="blob-viewer" data-path="conf/swagger/access-line-resource-inventory-external-v4.yaml" data-type="simple" data-url="/gitlab/t-magic/olt/access-line-resource-inventory/-/blob/develop/conf/swagger/access-line-resource-inventory-external-v4.yaml?format=json&amp;viewer=simple">
-<div class="text-center gl-mt-3 gl-mb-3">
-<i aria-hidden="true" aria-label="Loading content…" class="fa fa-spinner fa-spin fa-2x qa-spinner"></i>
-</div>
-
-</div>
-
-
-</article>
-</div>
-
-<div class="modal" id="modal-remove-blob">
-<div class="modal-dialog">
-<div class="modal-content">
-<div class="modal-header">
-<h3 class="page-title">Delete access-line-resource-inventory-external-v4.yaml</h3>
-<button aria-label="Close" class="close" data-dismiss="modal" type="button">
-<span aria-hidden>&times;</span>
-</button>
-</div>
-<div class="modal-body">
-<form class="js-delete-blob-form js-quick-submit js-requires-input" action="/gitlab/t-magic/olt/access-line-resource-inventory/-/blob/develop/conf/swagger/access-line-resource-inventory-external-v4.yaml" accept-charset="UTF-8" method="post"><input name="utf8" type="hidden" value="&#x2713;" /><input type="hidden" name="_method" value="delete" /><input type="hidden" name="authenticity_token" value="0tChxjKhb9nWyh0wouSFoW57U8nW28v3ee/A68PJBkVdNssreTZ/jY2h4E8NqufAy/Pd44zUMmyOHbecP3ywLA==" /><div class="form-group row commit_message-group">
-<label class="col-form-label col-sm-2" for="commit_message-6e33339f213e7e0a875cf392f95dd91c">Commit message
-</label><div class="col-sm-10">
-<div class="commit-message-container">
-<div class="max-width-marker"></div>
-<textarea name="commit_message" id="commit_message-6e33339f213e7e0a875cf392f95dd91c" class="form-control js-commit-message" placeholder="Delete access-line-resource-inventory-external-v4.yaml" required="required" rows="3">
-Delete access-line-resource-inventory-external-v4.yaml</textarea>
-</div>
-</div>
-</div>
-
-<div class="form-group row branch">
-<label class="col-form-label col-sm-2" for="branch_name">Target Branch</label>
-<div class="col-sm-10">
-<input type="text" name="branch_name" id="branch_name" value="patch-1" required="required" class="form-control js-branch-name ref-name" />
-<div class="js-create-merge-request-container">
-<div class="form-check gl-mt-3">
-<input type="checkbox" name="create_merge_request" id="create_merge_request-3e98b384f51631ac86fa0f3d60a00fbe" value="1" class="js-create-merge-request form-check-input" checked="checked" />
-<label class="form-check-label" for="create_merge_request-3e98b384f51631ac86fa0f3d60a00fbe">Start a <strong>new merge request</strong> with these changes
-</label></div>
-
-</div>
-</div>
-</div>
-<input type="hidden" name="original_branch" id="original_branch" value="develop" class="js-original-branch" />
-
-<div class="form-group row">
-<div class="offset-sm-2 col-sm-10">
-<button name="button" type="submit" class="btn btn-remove btn-remove-file">Delete file</button>
-<a class="btn btn-cancel" data-dismiss="modal" href="#">Cancel</a>
-</div>
-</div>
-</form></div>
-</div>
-</div>
-</div>
-
-<div class="modal" id="modal-upload-blob">
-<div class="modal-dialog modal-lg">
-<div class="modal-content">
-<div class="modal-header">
-<h3 class="page-title">Replace access-line-resource-inventory-external-v4.yaml</h3>
-<button aria-label="Close" class="close" data-dismiss="modal" type="button">
-<span aria-hidden>&times;</span>
-</button>
-</div>
-<div class="modal-body">
-<form class="js-quick-submit js-upload-blob-form" data-method="put" action="/gitlab/t-magic/olt/access-line-resource-inventory/-/update/develop/conf/swagger/access-line-resource-inventory-external-v4.yaml" accept-charset="UTF-8" method="post"><input name="utf8" type="hidden" value="&#x2713;" /><input type="hidden" name="_method" value="put" /><input type="hidden" name="authenticity_token" value="l77uSAlETS7q3qtsxlhKR0AYZgdjcSxGxtGbnWuIFV4YWISlQtNderG1VhNpFigm5ZDoLTl+1d0xI+zqlz2jNw==" /><div class="dropzone">
-<div class="dropzone-previews blob-upload-dropzone-previews">
-<p class="dz-message light">
-Attach a file by drag &amp; drop or <a class="markdown-selector" href="#">click to upload</a>
-</p>
-</div>
-</div>
-<br>
-<div class="dropzone-alerts alert alert-danger data" style="display:none"></div>
-<div class="form-group row commit_message-group">
-<label class="col-form-label col-sm-2" for="commit_message-e160f8eecd976ffa36bc1a304cd6ff7a">Commit message
-</label><div class="col-sm-10">
-<div class="commit-message-container">
-<div class="max-width-marker"></div>
-<textarea name="commit_message" id="commit_message-e160f8eecd976ffa36bc1a304cd6ff7a" class="form-control js-commit-message" placeholder="Replace access-line-resource-inventory-external-v4.yaml" required="required" rows="3">
-Replace access-line-resource-inventory-external-v4.yaml</textarea>
-</div>
-</div>
-</div>
-
-<div class="form-group row branch">
-<label class="col-form-label col-sm-2" for="branch_name">Target Branch</label>
-<div class="col-sm-10">
-<input type="text" name="branch_name" id="branch_name" value="patch-1" required="required" class="form-control js-branch-name ref-name" />
-<div class="js-create-merge-request-container">
-<div class="form-check gl-mt-3">
-<input type="checkbox" name="create_merge_request" id="create_merge_request-40aec6b2713a7385592a9c039464430b" value="1" class="js-create-merge-request form-check-input" checked="checked" />
-<label class="form-check-label" for="create_merge_request-40aec6b2713a7385592a9c039464430b">Start a <strong>new merge request</strong> with these changes
-</label></div>
-
-</div>
-</div>
-</div>
-<input type="hidden" name="original_branch" id="original_branch" value="develop" class="js-original-branch" />
-
-<div class="form-actions">
-<button name="button" type="button" class="btn btn-success btn-upload-file" id="submit-all"><i aria-hidden="true" data-hidden="true" class="fa fa-spin fa-spinner js-loading-icon hidden"></i>
-Replace file
-</button><a class="btn btn-cancel" data-dismiss="modal" href="#">Cancel</a>
-
-</div>
-</form></div>
-</div>
-</div>
-</div>
-
-</div>
-
-
-</div>
-</div>
-</div>
-</div>
-
-
-<script>
-//<![CDATA[
-if ('loading' in HTMLImageElement.prototype) {
-  document.querySelectorAll('img.lazy').forEach(img => {
-    img.loading = 'lazy';
-    let imgUrl = img.dataset.src;
-    // Only adding width + height for avatars for now
-    if (imgUrl.indexOf('/avatar/') > -1 && imgUrl.indexOf('?') === -1) {
-      const targetWidth = img.getAttribute('width') || img.width;
-      imgUrl += `?width=${targetWidth}`;
-    }
-    img.src = imgUrl;
-    img.removeAttribute('data-src');
-    img.classList.remove('lazy');
-    img.classList.add('js-lazy-loaded', 'qa-js-lazy-loaded');
-  });
-}
-
-//]]>
-</script>
-
-</body>
-</html>
-
+---
+swagger: "2.0"
+info:
+  description: "## Access Line Resource Inventory API\n\nMicroservice contains and\
+    \ processes information about access lines, network and line profiles."
+  version: "4.26.0"
+  title: "Access Line Resource Inventory"
+host: "localhost:8060"
+tags:
+  - name: "AccessLineExternalController"
+  - name: "AccessLineManagementExternalController"
+  - name: "AssuranceExternalController"
+  - name: "AssuranceExternalControllerV4"
+  - name: "BackHaulIdExternalController"
+  - name: "BackHaulManagementExternalController"
+  - name: "HomeIdExternalController"
+  - name: "HomeIdManagementExternalController"
+schemes:
+  - "http"
+paths:
+  /resource-order-resource-inventory/v4/assurance/accessLine:
+    get:
+      tags:
+        - "AssuranceExternalControllerV4"
+      summary: "Finds access lines by criteria"
+      description: ""
+      operationId: "findAccessLinesByCriteriaV4"
+      produces:
+        - "application/json"
+      parameters:
+        - name: "endSz"
+          in: "query"
+          description: ""
+          required: false
+          type: "string"
+        - name: "lineId"
+          in: "query"
+          description: ""
+          required: false
+          type: "string"
+        - name: "ontId"
+          in: "query"
+          description: ""
+          required: false
+          type: "integer"
+          format: "int32"
+        - name: "ontSerialNumber"
+          in: "query"
+          description: ""
+          required: false
+          type: "string"
+        - name: "portNumber"
+          in: "query"
+          description: ""
+          required: false
+          type: "string"
+        - name: "slotNumber"
+          in: "query"
+          description: ""
+          required: false
+          type: "string"
+        - name: "status"
+          in: "query"
+          description: ""
+          required: false
+          type: "string"
+          enum:
+            - "INACTIVE"
+            - "WALLED_GARDEN"
+            - "ASSIGNED"
+        - name: "technology"
+          in: "query"
+          description: ""
+          required: false
+          type: "string"
+          enum:
+            - "GFAST"
+            - "GPON"
+        - name: "direction"
+          in: "query"
+          description: "direction"
+          required: false
+          type: "string"
+          enum:
+            - "ASC"
+            - "DESC"
+        - name: "page"
+          in: "query"
+          description: "page"
+          required: false
+          type: "integer"
+          format: "int32"
+        - name: "pageSize"
+          in: "query"
+          description: "pageSize"
+          required: false
+          type: "integer"
+          format: "int32"
+        - name: "sortField"
+          in: "query"
+          description: "sortField"
+          required: false
+          type: "string"
+          enum:
+            - "ID"
+      responses:
+        200:
+          description: "Successfully found"
+          schema:
+            $ref: "#/definitions/PageAssuranceAccessLineDtoV4"
+        400:
+          description: "Can't perform operation"
+          schema:
+            $ref: "#/definitions/ProblemDetails"
+        404:
+          description: "Not present in database"
+          schema:
+            $ref: "#/definitions/ProblemDetails"
+        500:
+          description: "Internal error"
+          schema:
+            $ref: "#/definitions/ProblemDetails"
+  /resource-order-resource-inventory/v4/assurance/accessLine/{id}:
+    get:
+      tags:
+        - "AssuranceExternalControllerV4"
+      summary: "Finds access line by id"
+      description: ""
+      operationId: "findAccessLineByIdV4"
+      produces:
+        - "application/json"
+      parameters:
+        - name: "id"
+          in: "path"
+          required: true
+          type: "integer"
+          format: "int64"
+      responses:
+        200:
+          description: "Successfully found"
+          schema:
+            $ref: "#/definitions/AssuranceAccessLineDtoV4"
+        400:
+          description: "Can't perform operation"
+          schema:
+            $ref: "#/definitions/ProblemDetails"
+        404:
+          description: "Not present in database"
+          schema:
+            $ref: "#/definitions/ProblemDetails"
+        500:
+          description: "Internal error"
+          schema:
+            $ref: "#/definitions/ProblemDetails"
+  /resource-order-resource-inventory/v3/accessLine:
+    post:
+      tags:
+        - "AccessLineExternalController"
+      summary: "Creates an access line"
+      description: ""
+      operationId: "create"
+      consumes:
+        - "application/json"
+      produces:
+        - "application/json"
+      parameters:
+        - in: "body"
+          name: "body"
+          description: "Access Line Dto"
+          required: false
+          schema:
+            $ref: "#/definitions/AccessLineDto"
+      responses:
+        201:
+          description: "Successfully created"
+          schema:
+            $ref: "#/definitions/AccessLineDto"
+        400:
+          description: "Can't perform operation"
+          schema:
+            $ref: "#/definitions/ProblemDetails"
+        500:
+          description: "Internal error"
+          schema:
+            $ref: "#/definitions/ProblemDetails"
+    put:
+      tags:
+        - "AccessLineExternalController"
+      summary: "Updates an access line"
+      description: ""
+      operationId: "update"
+      consumes:
+        - "application/json"
+      produces:
+        - "application/json"
+      parameters:
+        - in: "body"
+          name: "body"
+          description: "Access Line Dto"
+          required: false
+          schema:
+            $ref: "#/definitions/AccessLineDto"
+      responses:
+        200:
+          description: "Successfully updated"
+          schema:
+            $ref: "#/definitions/AccessLineDto"
+        400:
+          description: "Can't perform operation"
+          schema:
+            $ref: "#/definitions/ProblemDetails"
+        404:
+          description: "Not present in database"
+          schema:
+            $ref: "#/definitions/ProblemDetails"
+        409:
+          description: "Access line already updated"
+          schema:
+            $ref: "#/definitions/ProblemDetails"
+        500:
+          description: "Internal error"
+          schema:
+            $ref: "#/definitions/ProblemDetails"
+    delete:
+      tags:
+        - "AccessLineExternalController"
+      summary: "Deletes AccessLine by lineId"
+      description: ""
+      operationId: "delete"
+      parameters:
+        - name: "lineId"
+          in: "query"
+          description: "lineId"
+          required: true
+          type: "string"
+          pattern: "[A-Z0-9]{3}\\.[A-Z0-9]{1,6}\\.[A-Z0-9]{1,10}"
+      responses:
+        200:
+          description: "Successfully deleted"
+        400:
+          description: "Can't perform operation"
+          schema:
+            $ref: "#/definitions/ProblemDetails"
+        500:
+          description: "Internal error"
+          schema:
+            $ref: "#/definitions/ProblemDetails"
+  /resource-order-resource-inventory/v3/accessLine/accessLineCountTask:
+    post:
+      tags:
+        - "AccessLineExternalController"
+      summary: "Counts Access Lines by criteria"
+      description: "Counts Access Lines by criteria."
+      operationId: "accessLineCountTask"
+      consumes:
+        - "application/json"
+      produces:
+        - "application/json"
+      parameters:
+        - in: "body"
+          name: "body"
+          description: "Port Reference Dto "
+          required: false
+          schema:
+            $ref: "#/definitions/SearchAccessLineStatisticDto"
+      responses:
+        200:
+          description: "Successfully get"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/AccessLineStatisticDto"
+        400:
+          description: "Can't perform operation"
+          schema:
+            $ref: "#/definitions/ProblemDetails"
+        500:
+          description: "Internal error"
+          schema:
+            $ref: "#/definitions/ProblemDetails"
+  /resource-order-resource-inventory/v3/accessLine/search:
+    post:
+      tags:
+        - "AccessLineExternalController"
+      summary: "Searches Access Lines by criteria"
+      description: ""
+      operationId: "searchAccessLines"
+      consumes:
+        - "application/json"
+      produces:
+        - "application/json"
+      parameters:
+        - in: "body"
+          name: "body"
+          description: "SearchAccessLineDto"
+          required: true
+          schema:
+            $ref: "#/definitions/SearchAccessLineDto"
+      responses:
+        200:
+          description: "Successfully get"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/AccessLineDto"
+        400:
+          description: "Can't perform operation"
+          schema:
+            $ref: "#/definitions/ProblemDetails"
+        500:
+          description: "Internal error"
+          schema:
+            $ref: "#/definitions/ProblemDetails"
+  /resource-order-resource-inventory/v3/assurance/accessLine:
+    get:
+      tags:
+        - "AssuranceExternalController"
+      summary: "Finds access lines by criteria"
+      description: ""
+      operationId: "findAccessLinesByCriteria"
+      produces:
+        - "application/xml"
+      parameters:
+        - name: "lineId"
+          in: "query"
+          description: ""
+          required: false
+          type: "string"
+        - name: "ontId"
+          in: "query"
+          description: ""
+          required: false
+          type: "integer"
+          format: "int32"
+        - name: "ontSerialNumber"
+          in: "query"
+          description: ""
+          required: false
+          type: "string"
+        - name: "technology"
+          in: "query"
+          description: ""
+          required: false
+          type: "string"
+          enum:
+            - "GFAST"
+            - "GPON"
+      responses:
+        200:
+          description: "Successfully found"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/AssuranceAccessLineDto"
+        400:
+          description: "Can't perform operation"
+          schema:
+            $ref: "#/definitions/ProblemDetails"
+        404:
+          description: "Not present in database"
+          schema:
+            $ref: "#/definitions/ProblemDetails"
+        500:
+          description: "Internal error"
+          schema:
+            $ref: "#/definitions/ProblemDetails"
+      deprecated: true
+  /resource-order-resource-inventory/v3/assurance/accessLine/{id}:
+    get:
+      tags:
+        - "AssuranceExternalController"
+      summary: "Finds access line by id"
+      description: ""
+      operationId: "findAccessLineById"
+      produces:
+        - "application/xml"
+      parameters:
+        - name: "id"
+          in: "path"
+          required: true
+          type: "integer"
+          format: "int64"
+      responses:
+        200:
+          description: "Successfully found"
+          schema:
+            $ref: "#/definitions/AssuranceAccessLineDto"
+        400:
+          description: "Can't perform operation"
+          schema:
+            $ref: "#/definitions/ProblemDetails"
+        404:
+          description: "Not present in database"
+          schema:
+            $ref: "#/definitions/ProblemDetails"
+        500:
+          description: "Internal error"
+          schema:
+            $ref: "#/definitions/ProblemDetails"
+      deprecated: true
+  /resource-order-resource-inventory/v3/assurance/accessLineByEndSzSlotPort:
+    get:
+      tags:
+        - "AssuranceExternalController"
+      summary: "Finds access lines by EndSz, Slot, Port"
+      description: ""
+      operationId: "findAccessLinesByEndSzSlotPort"
+      produces:
+        - "application/xml"
+      parameters:
+        - name: "endSz"
+          in: "query"
+          description: ""
+          required: false
+          type: "string"
+        - name: "portNumber"
+          in: "query"
+          description: ""
+          required: false
+          type: "string"
+        - name: "slotNumber"
+          in: "query"
+          description: ""
+          required: false
+          type: "string"
+      responses:
+        200:
+          description: "Successfully found"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/AssuranceAccessLineDto"
+        400:
+          description: "Can't perform operation"
+          schema:
+            $ref: "#/definitions/ProblemDetails"
+        500:
+          description: "Internal error"
+          schema:
+            $ref: "#/definitions/ProblemDetails"
+      deprecated: true
+  /resource-order-resource-inventory/v3/backhaulId:
+    put:
+      tags:
+        - "BackHaulIdExternalController"
+      summary: "Creates or updates particular backhaul id"
+      description: ""
+      operationId: "createOrUpdateBackhaulId"
+      consumes:
+        - "application/json"
+      produces:
+        - "application/json"
+      parameters:
+        - in: "body"
+          name: "body"
+          description: "BackhaulIdDto"
+          required: true
+          schema:
+            $ref: "#/definitions/BackhaulIdDto"
+      responses:
+        200:
+          description: "BackhaulId was created/updated"
+          schema:
+            $ref: "#/definitions/BackhaulIdDto"
+        400:
+          description: "Bad request"
+          schema:
+            $ref: "#/definitions/ProblemDetails"
+        404:
+          description: "Reference to physical resource did not find"
+          schema:
+            $ref: "#/definitions/ProblemDetails"
+        500:
+          description: "Internal error"
+          schema:
+            $ref: "#/definitions/ProblemDetails"
+    delete:
+      tags:
+        - "BackHaulIdExternalController"
+      summary: "Deletes backhaul id for port"
+      description: ""
+      operationId: "deleteBackhaulId"
+      parameters:
+        - name: "endSz"
+          in: "query"
+          description: "Device endSz"
+          required: true
+          type: "string"
+          pattern: "[0-9]{1,6}\\/[0-9]{1,6}\\/[0-9]{1,6}\\/[a-zA-Z0-9]{2,4}"
+        - name: "slotNumber"
+          in: "query"
+          description: "Slot number"
+          required: true
+          type: "string"
+        - name: "portNumber"
+          in: "query"
+          description: "Port number"
+          required: true
+          type: "string"
+      responses:
+        200:
+          description: "Successfully deleted"
+        400:
+          description: "Can't perform operation"
+          schema:
+            $ref: "#/definitions/ProblemDetails"
+        500:
+          description: "Internal error"
+          schema:
+            $ref: "#/definitions/ProblemDetails"
+  /resource-order-resource-inventory/v3/backhaulId/search:
+    post:
+      tags:
+        - "BackHaulIdExternalController"
+      summary: "Searches backhaul Ids by criteria"
+      description: ""
+      operationId: "searchBackhaulIds"
+      consumes:
+        - "application/json"
+      produces:
+        - "application/json"
+      parameters:
+        - in: "body"
+          name: "body"
+          description: "SearchBackhaulIdDto"
+          required: true
+          schema:
+            $ref: "#/definitions/SearchBackhaulIdDto"
+      responses:
+        200:
+          description: "Successfully get"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/BackhaulIdDto"
+        400:
+          description: "Can't perform operation"
+          schema:
+            $ref: "#/definitions/ProblemDetails"
+        500:
+          description: "Internal error"
+          schema:
+            $ref: "#/definitions/ProblemDetails"
+  /resource-order-resource-inventory/v3/homeIdPool:
+    post:
+      tags:
+        - "HomeIdExternalController"
+      summary: "Appends homeIDs by endSZ, slotNumber and portNumber."
+      description: ""
+      operationId: "addHomeIds"
+      consumes:
+        - "application/json"
+      parameters:
+        - in: "body"
+          name: "body"
+          description: "HomeIDs list"
+          required: true
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/HomeIdDto"
+      responses:
+        201:
+          description: "HomeIDs were added"
+        400:
+          description: "Bad request"
+          schema:
+            $ref: "#/definitions/ProblemDetails"
+        500:
+          description: "Internal error"
+          schema:
+            $ref: "#/definitions/ProblemDetails"
+    delete:
+      tags:
+        - "HomeIdExternalController"
+      summary: "Deletes homeIDs for port"
+      description: ""
+      operationId: "deleteHomeIDs"
+      parameters:
+        - name: "endSz"
+          in: "query"
+          description: "Device endSz"
+          required: true
+          type: "string"
+          pattern: "[0-9]{1,6}\\/[0-9]{1,6}\\/[0-9]{1,6}\\/[a-zA-Z0-9]{2,4}"
+        - name: "slotNumber"
+          in: "query"
+          description: "Slot number"
+          required: true
+          type: "string"
+        - name: "portNumber"
+          in: "query"
+          description: "Port number"
+          required: true
+          type: "string"
+      responses:
+        200:
+          description: "Successfully deleted"
+        400:
+          description: "Can't perform operation"
+          schema:
+            $ref: "#/definitions/ProblemDetails"
+        500:
+          description: "Internal error"
+          schema:
+            $ref: "#/definitions/ProblemDetails"
+  /resource-order-resource-inventory/v3/homeIdPool/homeId:
+    put:
+      tags:
+        - "HomeIdExternalController"
+      summary: "Updates particular home id in pool"
+      description: ""
+      operationId: "updateHomeId"
+      consumes:
+        - "application/json"
+      parameters:
+        - in: "body"
+          name: "body"
+          description: "HomeIdDto"
+          required: true
+          schema:
+            $ref: "#/definitions/HomeIdDto"
+      responses:
+        200:
+          description: "HomeId was updated"
+        400:
+          description: "Bad request"
+          schema:
+            $ref: "#/definitions/ProblemDetails"
+        404:
+          description: "Reference to physical resource not found"
+          schema:
+            $ref: "#/definitions/ProblemDetails"
+        409:
+          description: "HomeId already updated"
+          schema:
+            $ref: "#/definitions/ProblemDetails"
+        500:
+          description: "Internal error"
+          schema:
+            $ref: "#/definitions/ProblemDetails"
+  /resource-order-resource-inventory/v3/homeIdPool/search/homeId:
+    post:
+      tags:
+        - "HomeIdExternalController"
+      summary: "Searches homeIDs in pool by criteria"
+      description: ""
+      operationId: "searchHomeIds"
+      consumes:
+        - "application/json"
+      produces:
+        - "application/json"
+      parameters:
+        - in: "body"
+          name: "body"
+          description: "Search homeID criteria"
+          required: true
+          schema:
+            $ref: "#/definitions/SearchHomeIdDto"
+      responses:
+        200:
+          description: "Successfully get"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/HomeIdDto"
+        400:
+          description: "Can't perform operation"
+          schema:
+            $ref: "#/definitions/ProblemDetails"
+        500:
+          description: "Internal error"
+          schema:
+            $ref: "#/definitions/ProblemDetails"
+  /resource-order-resource-inventory/v3/managementAccessLine/info:
+    post:
+      tags:
+        - "AccessLineManagementExternalController"
+      summary: "Finds or gets an access line by Line Id"
+      description: ""
+      operationId: "getLineInfo"
+      consumes:
+        - "application/json"
+      produces:
+        - "application/json"
+      parameters:
+        - name: "apm-principal-token"
+          in: "header"
+          description: "APM Token"
+          required: false
+          type: "string"
+        - in: "body"
+          name: "body"
+          description: "lineId"
+          required: true
+          schema:
+            $ref: "#/definitions/GetAccessLineDto"
+      responses:
+        200:
+          description: "Successfully get"
+          schema:
+            $ref: "#/definitions/AccessLineDto"
+        400:
+          description: "Can't perform operation"
+          schema:
+            $ref: "#/definitions/ProblemDetails"
+        401:
+          description: "Unauthorized"
+          schema:
+            $ref: "#/definitions/ProblemDetails"
+        403:
+          description: "Forbidden"
+          schema:
+            $ref: "#/definitions/ProblemDetails"
+        404:
+          description: "Not present in database"
+          schema:
+            $ref: "#/definitions/ProblemDetails"
+        500:
+          description: "Internal error"
+          schema:
+            $ref: "#/definitions/ProblemDetails"
+  /resource-order-resource-inventory/v3/managementAccessLine/onuId:
+    post:
+      tags:
+        - "AccessLineManagementExternalController"
+      summary: "Finds or gets an onu id by Line Id"
+      description: ""
+      operationId: "getOnuId"
+      consumes:
+        - "application/json"
+      produces:
+        - "application/json"
+      parameters:
+        - name: "apm-principal-token"
+          in: "header"
+          description: "APM Token"
+          required: false
+          type: "string"
+        - in: "body"
+          name: "body"
+          description: "Allocated OnuId Dto"
+          required: false
+          schema:
+            $ref: "#/definitions/GetAllocatedOnuIdDto"
+      responses:
+        200:
+          description: "Successfully get"
+          schema:
+            $ref: "#/definitions/AllocatedOnuIdDto"
+        400:
+          description: "Can't perform operation"
+          schema:
+            $ref: "#/definitions/ProblemDetails"
+        401:
+          description: "Unauthorized"
+          schema:
+            $ref: "#/definitions/ProblemDetails"
+        403:
+          description: "Forbidden"
+          schema:
+            $ref: "#/definitions/ProblemDetails"
+        404:
+          description: "Not present in database"
+          schema:
+            $ref: "#/definitions/ProblemDetails"
+        500:
+          description: "Internal error"
+          schema:
+            $ref: "#/definitions/ProblemDetails"
+  /resource-order-resource-inventory/v3/managementAccessLine/search:
+    post:
+      tags:
+        - "AccessLineManagementExternalController"
+      summary: "Gets AccessLines by search criteria"
+      description: "Gets AccessLines by input parameters for search and with additional\
+        \ sort parameters."
+      operationId: "search"
+      consumes:
+        - "application/json"
+      produces:
+        - "application/json"
+      parameters:
+        - name: "apm-principal-token"
+          in: "header"
+          description: "APM Token"
+          required: false
+          type: "string"
+        - in: "body"
+          name: "body"
+          description: "Request AccessLineViewDto"
+          required: false
+          schema:
+            $ref: "#/definitions/RequestAccessLineViewDto"
+        - name: "direction"
+          in: "query"
+          description: "direction"
+          required: false
+          type: "string"
+          enum:
+            - "ASC"
+            - "DESC"
+        - name: "page"
+          in: "query"
+          description: "page"
+          required: false
+          type: "integer"
+          format: "int32"
+        - name: "pageSize"
+          in: "query"
+          description: "pageSize"
+          required: false
+          type: "integer"
+          format: "int32"
+        - name: "sortField"
+          in: "query"
+          description: "sortField"
+          required: false
+          type: "string"
+          enum:
+            - "END_SZ"
+            - "SLOT_NUMBER"
+            - "PORT_NUMBER"
+            - "LINE_ID"
+            - "HOME_ID"
+            - "PRODUCTION_PLATFORM"
+            - "ACCESS_LINE_STATUS"
+      responses:
+        200:
+          description: "Successfully received"
+          schema:
+            $ref: "#/definitions/PageAccessLineViewDto"
+        400:
+          description: "Can't perform operation"
+          schema:
+            $ref: "#/definitions/ProblemDetails"
+        401:
+          description: "Unauthorized"
+          schema:
+            $ref: "#/definitions/ProblemDetails"
+        403:
+          description: "Forbidden"
+          schema:
+            $ref: "#/definitions/ProblemDetails"
+        500:
+          description: "Internal error"
+          schema:
+            $ref: "#/definitions/ProblemDetails"
+  /resource-order-resource-inventory/v3/managementBackHaul/info:
+    post:
+      tags:
+        - "BackHaulManagementExternalController"
+      summary: "Finds or gets an access lines by backHaulId"
+      description: ""
+      operationId: "getLinesInfo"
+      consumes:
+        - "application/json"
+      produces:
+        - "application/json"
+      parameters:
+        - name: "apm-principal-token"
+          in: "header"
+          description: "APM Token"
+          required: false
+          type: "string"
+        - in: "body"
+          name: "body"
+          description: "backHaulId"
+          required: true
+          schema:
+            $ref: "#/definitions/GetAccessLinesDto"
+      responses:
+        200:
+          description: "Successfully sent"
+          schema:
+            $ref: "#/definitions/AccessLinesDto"
+        400:
+          description: "Can't perform operation"
+          schema:
+            $ref: "#/definitions/ProblemDetails"
+        401:
+          description: "Unauthorized"
+          schema:
+            $ref: "#/definitions/ProblemDetails"
+        403:
+          description: "Forbidden"
+          schema:
+            $ref: "#/definitions/ProblemDetails"
+        404:
+          description: "Not present in database"
+          schema:
+            $ref: "#/definitions/ProblemDetails"
+        500:
+          description: "Internal error"
+          schema:
+            $ref: "#/definitions/ProblemDetails"
+  /resource-order-resource-inventory/v3/managementBackHaul/search:
+    post:
+      tags:
+        - "BackHaulManagementExternalController"
+      summary: "Gets BackHauls by search criteria"
+      description: "Gets BackHauls by input parameters for search and with additional\
+        \ sort parameters."
+      operationId: "searchBackHauls"
+      consumes:
+        - "application/json"
+      produces:
+        - "application/json"
+      parameters:
+        - name: "apm-principal-token"
+          in: "header"
+          description: "APM Token"
+          required: false
+          type: "string"
+        - in: "body"
+          name: "body"
+          description: "Request BackHaulViewDto"
+          required: false
+          schema:
+            $ref: "#/definitions/RequestBackHaulViewDto"
+        - name: "direction"
+          in: "query"
+          description: "direction"
+          required: false
+          type: "string"
+          enum:
+            - "ASC"
+            - "DESC"
+        - name: "page"
+          in: "query"
+          description: "page"
+          required: false
+          type: "integer"
+          format: "int32"
+        - name: "pageSize"
+          in: "query"
+          description: "pageSize"
+          required: false
+          type: "integer"
+          format: "int32"
+        - name: "sortField"
+          in: "query"
+          description: "sortField"
+          required: false
+          type: "string"
+          enum:
+            - "END_SZ"
+            - "SLOT_NUMBER"
+            - "PORT_NUMBER"
+            - "BACK_HAUL_ID"
+            - "PARTY_ID"
+            - "BACK_HAUL_STATUS"
+      responses:
+        200:
+          description: "Successfully received"
+          schema:
+            $ref: "#/definitions/PageBackHaulViewDto"
+        400:
+          description: "Can't perform operation"
+          schema:
+            $ref: "#/definitions/ProblemDetails"
+        401:
+          description: "Unauthorized"
+          schema:
+            $ref: "#/definitions/ProblemDetails"
+        403:
+          description: "Forbidden"
+          schema:
+            $ref: "#/definitions/ProblemDetails"
+        500:
+          description: "Internal error"
+          schema:
+            $ref: "#/definitions/ProblemDetails"
+  /resource-order-resource-inventory/v3/managementHomeId/search:
+    post:
+      tags:
+        - "HomeIdManagementExternalController"
+      summary: "Gets HomeIdView by search criteria"
+      description: "Gets HomeIdView by input parameters for search and with additional\
+        \ sort parameters."
+      operationId: "searchHomeId"
+      consumes:
+        - "application/json"
+      produces:
+        - "application/json"
+      parameters:
+        - name: "apm-principal-token"
+          in: "header"
+          description: "APM Token"
+          required: false
+          type: "string"
+        - in: "body"
+          name: "body"
+          description: "Request HomeIdViewDto"
+          required: false
+          schema:
+            $ref: "#/definitions/RequestHomeIdViewDto"
+        - name: "direction"
+          in: "query"
+          description: "direction"
+          required: false
+          type: "string"
+          enum:
+            - "ASC"
+            - "DESC"
+        - name: "page"
+          in: "query"
+          description: "page"
+          required: false
+          type: "integer"
+          format: "int32"
+        - name: "pageSize"
+          in: "query"
+          description: "pageSize"
+          required: false
+          type: "integer"
+          format: "int32"
+        - name: "sortField"
+          in: "query"
+          description: "sortField"
+          required: false
+          type: "string"
+          enum:
+            - "END_SZ"
+            - "SLOT_NUMBER"
+            - "PORT_NUMBER"
+            - "HOME_ID"
+            - "PARTY_ID"
+            - "STATUS"
+            - "ACCESS_LINE_COUNT"
+      responses:
+        200:
+          description: "Successfully received"
+          schema:
+            $ref: "#/definitions/PageHomeIdViewDto"
+        400:
+          description: "Can't perform operation"
+          schema:
+            $ref: "#/definitions/ProblemDetails"
+        401:
+          description: "Unauthorized"
+          schema:
+            $ref: "#/definitions/ProblemDetails"
+        403:
+          description: "Forbidden"
+          schema:
+            $ref: "#/definitions/ProblemDetails"
+        500:
+          description: "Internal error"
+          schema:
+            $ref: "#/definitions/ProblemDetails"
+definitions:
+  AccessLineDto:
+    type: "object"
+    properties:
+      id:
+        type: "integer"
+        format: "int64"
+        description: "Internal (from database) id of Access Line entity"
+      technology:
+        type: "string"
+        description: "Technology of Access Line entity"
+        enum:
+          - "GFAST"
+          - "GPON"
+      status:
+        type: "string"
+        description: "Status of Access Line (inactive, walled Garden or assigned)"
+        enum:
+          - "INACTIVE"
+          - "WALLED_GARDEN"
+          - "ASSIGNED"
+      lineId:
+        type: "string"
+        description: "Line Id"
+      homeId:
+        type: "string"
+        description: "Home Id"
+        pattern: "^[A-Z0-9]{7}$"
+      defaultNeProfile:
+        description: "Default Ne profile of Access Line"
+        $ref: "#/definitions/DefaultNeProfileDto"
+      fttbNeProfile:
+        description: "FTTB Ne profile of Access Line"
+        $ref: "#/definitions/FttbNeProfileDto"
+      defaultNetworkLineProfile:
+        description: "Default network line profile of Access Line"
+        $ref: "#/definitions/DefaultNetworkLineProfileDto"
+      subscriberNetworkLineProfile:
+        description: "Subscriber network line profile of Access Line"
+        $ref: "#/definitions/SubscriberNetworkLineProfileDto"
+      reference:
+        description: "Reference to physical resource"
+        $ref: "#/definitions/ReferenceDto"
+      uplinkReference:
+        description: "Reference to uplink physical resource"
+        $ref: "#/definitions/ReferenceDto"
+      dpuReference:
+        description: "Reference to DPU physical resource"
+        $ref: "#/definitions/ReferenceDto"
+      resourceAssociation:
+        description: "Resource Association"
+        $ref: "#/definitions/ResourceAssociationDto"
+      networkServiceProfileReference:
+        description: "Network service profile reference of A4 Access Line"
+        $ref: "#/definitions/NetworkServiceProfileReferenceDto"
+      version:
+        type: "integer"
+        format: "int64"
+        description: "Version of object"
+      productionPlatform:
+        type: "string"
+        description: "Production platform"
+        enum:
+          - "OLT_BNG"
+          - "A4"
+          - "WHOLEBUY"
+      anpTag:
+        description: "AnpTag reference"
+        $ref: "#/definitions/AllocatedAnpTagDto"
+  AccessLineInfoDto:
+    type: "object"
+    properties:
+      lineId:
+        type: "string"
+        description: "Line Id"
+      status:
+        type: "string"
+        description: "Status of Access Line (inactive, walled Garden or assigned)"
+        enum:
+          - "INACTIVE"
+          - "WALLED_GARDEN"
+          - "ASSIGNED"
+  AccessLineStatisticDto:
+    type: "object"
+    required:
+      - "endSz"
+    properties:
+      endSz:
+        type: "string"
+        description: "EndSz"
+      slotNumber:
+        type: "string"
+        description: "Slot number"
+      portNumber:
+        type: "string"
+        description: "Port number"
+      status:
+        type: "string"
+        description: "Status of Access Line (inactive, walled Garden or assigned)"
+        enum:
+          - "INACTIVE"
+          - "WALLED_GARDEN"
+          - "ASSIGNED"
+      accessLineCount:
+        type: "integer"
+        format: "int64"
+        description: "Count of Access Line status (inactive, walled Garden or assigned)"
+  AccessLineViewDto:
+    type: "object"
+    properties:
+      lineId:
+        type: "string"
+        description: "Line Id"
+      homeId:
+        type: "string"
+        description: "Home Id"
+      endSz:
+        type: "string"
+        description: "EndSz"
+      slotNumber:
+        type: "string"
+        description: "Slot number"
+      portNumber:
+        type: "string"
+        description: "Port number"
+      status:
+        type: "string"
+        description: "Status of Access Line (inactive, walled Garden or assigned)"
+        enum:
+          - "INACTIVE"
+          - "WALLED_GARDEN"
+          - "ASSIGNED"
+      subscriberNeProfileState:
+        type: "string"
+        description: "State of SubscriberNeProfile (inactive, active)"
+        enum:
+          - "INACTIVE"
+          - "ACTIVE"
+      subscriberNetworkLineProfileState:
+        type: "string"
+        description: "State of SubscriberNetworkLineProfile (inactive, active)"
+        enum:
+          - "INACTIVE"
+          - "ACTIVE"
+      productionPlatform:
+        type: "string"
+        description: "Production platform"
+        enum:
+          - "OLT_BNG"
+          - "A4"
+          - "WHOLEBUY"
+      outOfSync:
+        type: "string"
+        description: "Out of sync statuses"
+  AccessLinesDto:
+    type: "object"
+    properties:
+      lineIds:
+        type: "array"
+        description: "Access line Ids and statuses"
+        items:
+          $ref: "#/definitions/AccessLineInfoDto"
+  AllocatedAnpTagDto:
+    type: "object"
+    required:
+      - "reference"
+    properties:
+      id:
+        type: "integer"
+        format: "int64"
+        description: "Internal (from database) id of AllocatedAnpTag entity"
+      anpTag:
+        type: "integer"
+        format: "int32"
+        description: "Anptag"
+      reference:
+        description: "Reference to physical resource"
+        $ref: "#/definitions/ReferenceDto"
+  AllocatedOnuIdDto:
+    type: "object"
+    required:
+      - "onuId"
+    properties:
+      id:
+        type: "integer"
+        format: "int64"
+        description: "Internal (from database) id of onu id entity"
+      dpuEndSZ:
+        type: "string"
+        description: "EndSz of dpu device with this onuId"
+        pattern: "[0-9]{1,6}\\/[0-9]{1,6}\\/[0-9]{1,6}\\/[a-zA-Z0-9]{2,4}"
+      onuId:
+        type: "integer"
+        format: "int32"
+        description: "OnuId of access line or lines"
+        minimum: 0
+        maximum: 127
+      accessLine:
+        description: "Access line"
+        $ref: "#/definitions/AccessLineDto"
+      reference:
+        description: "Reference to physical resource"
+        $ref: "#/definitions/ReferenceDto"
+      version:
+        type: "integer"
+        format: "int64"
+        description: "Version of object"
+  AssuranceAccessLineDto:
+    type: "object"
+    properties:
+      defaultNeProfile:
+        description: "Default Ne profile reference"
+        $ref: "#/definitions/AssuranceDefaultNeProfileDto"
+      defaultNetworkLineProfile:
+        description: "SubscriberNeProfile reference"
+        $ref: "#/definitions/AssuranceDefaultNetworkLineProfileDto"
+      resourceId:
+        type: "string"
+        description: "Unique ID of a resource"
+      id:
+        type: "integer"
+        format: "int64"
+        description: "Internal (from database) id of Access Line entity"
+      lineId:
+        type: "string"
+        description: "Line Id"
+      portId:
+        type: "integer"
+        format: "int64"
+        description: "Port Id"
+      partyId:
+        type: "integer"
+        format: "int32"
+        description: "Party id of Access Line"
+      status:
+        type: "string"
+        description: "Status of Access Line (inactive, walled Garden or assigned)"
+      subscriberNeProfile:
+        description: "Default Network Line profile reference"
+        $ref: "#/definitions/AssuranceSubscriberNeProfileDto"
+      subscriberNetworkLineProfile:
+        description: "SubscriberNetworkLineProfile reference"
+        $ref: "#/definitions/AssuranceSubscriberNetworkLineProfileDto"
+      technology:
+        type: "string"
+        description: "Technology of Access Line"
+  AssuranceAccessLineDtoV4:
+    type: "object"
+    properties:
+      defaultNeProfile:
+        description: "Default Ne profile reference"
+        $ref: "#/definitions/AssuranceDefaultNeProfileDto"
+      defaultNetworkLineProfile:
+        description: "SubscriberNeProfile reference"
+        $ref: "#/definitions/AssuranceDefaultNetworkLineProfileDto"
+      endSZ:
+        type: "string"
+        description: "EndSz of physical resource"
+      homeId:
+        type: "string"
+        description: "Home Id"
+      id:
+        type: "integer"
+        format: "int64"
+        description: "Internal (from database) id of Access Line entity"
+      lineId:
+        type: "string"
+        description: "Line Id"
+      nspRef:
+        description: "Network service profile reference of A4 Access Line"
+        $ref: "#/definitions/AssuranceNspRefDtoV4"
+      partyId:
+        type: "integer"
+        format: "int32"
+        description: "Party id of Access Line"
+      portNumber:
+        type: "string"
+        description: "Port number of physical resource"
+      productionPlatform:
+        type: "string"
+        description: "Production platform"
+      resourceId:
+        type: "string"
+        description: "Unique ID of a resource"
+      slotNumber:
+        type: "string"
+        description: "Slot number of physical resource"
+      status:
+        type: "string"
+        description: "Status of Access Line (inactive, walled Garden or assigned)"
+      subscriberNeProfile:
+        description: "Default Network Line profile reference"
+        $ref: "#/definitions/AssuranceSubscriberNeProfileDtoV4"
+      subscriberNetworkLineProfile:
+        description: "SubscriberNetworkLineProfile reference"
+        $ref: "#/definitions/AssuranceSubscriberNetworkLineProfileDtoV4"
+      technology:
+        type: "string"
+        description: "Technology of Access Line"
+  AssuranceDefaultNeProfileDto:
+    type: "object"
+    properties:
+      ancpPartitionId:
+        type: "integer"
+        format: "int32"
+        description: "Id of ANCP partition"
+      anpTag:
+        type: "integer"
+        format: "int32"
+        description: "Anptag"
+      ontId:
+        type: "integer"
+        format: "int32"
+        description: "Id of ont"
+      ontSerialNumber:
+        type: "string"
+        description: "ONT serial number of DefaultNeProfile"
+      profileName:
+        type: "string"
+        description: "Name of profile"
+      state:
+        type: "string"
+        description: "State of DefaultNeProfile (inactive, active)"
+  AssuranceDefaultNetworkLineProfileDto:
+    type: "object"
+    properties:
+      accessNetworkType:
+        type: "string"
+        description: "Access network type of DefaultNetworkLineProfile"
+      accessType:
+        type: "string"
+        description: "Access type of DefaultNetworkLineProfile"
+      authMethod:
+        type: "integer"
+        format: "int32"
+        description: "Authentication method of DefaultNetworkLineProfile"
+      guaranteedDownBandwidth:
+        type: "integer"
+        format: "int32"
+        description: "Guaranteed down bandwidth of DefaultNetworkLineProfile"
+      guaranteedUpBandwidth:
+        type: "integer"
+        format: "int32"
+        description: "Guaranteed up bandwidth of DefaultNetworkLineProfile"
+      klsId:
+        type: "integer"
+        format: "int64"
+        description: "KlsId of DefaultNetworkLineProfile"
+      maxDownBandwidth:
+        type: "integer"
+        format: "int32"
+        description: "Maximum down bandwidth of DefaultNetworkLineProfile"
+      maxUpBandwidth:
+        type: "integer"
+        format: "int32"
+        description: "Maximum up bandwidth of DefaultNetworkLineProfile"
+      minDownBandwidth:
+        type: "integer"
+        format: "int32"
+        description: "Minimum down bandwidth of DefaultNetworkLineProfile"
+      minUpBandwidth:
+        type: "integer"
+        format: "int32"
+        description: "Minimum up bandwidth of DefaultNetworkLineProfile"
+      state:
+        type: "string"
+        description: "State of DefaultNeProfile (inactive, active)"
+  AssuranceNspRefDtoV4:
+    type: "object"
+    properties:
+      creationDate:
+        type: "string"
+        format: "date-time"
+        description: "Date of network service profile creation"
+      tpRef:
+        type: "string"
+        description: "tp reference of network service profile reference entity"
+      uuid:
+        type: "string"
+        description: "UUID of network service profile reference entity"
+  AssuranceSubscriberNeProfileDto:
+    type: "object"
+    properties:
+      ontSerialNumber:
+        type: "string"
+        description: "ONT serial number of DefaultNeProfile"
+      profileName:
+        type: "string"
+        description: "Name of profile"
+  AssuranceSubscriberNeProfileDtoV4:
+    type: "object"
+    properties:
+      ontSerialNumber:
+        type: "string"
+        description: "ONT serial number of SubscriberNeProfile"
+      ontState:
+        type: "string"
+        description: "State of ONT"
+      profileName:
+        type: "string"
+        description: "Name of profile"
+      state:
+        type: "string"
+        description: "State of SubscriberNeProfile"
+  AssuranceSubscriberNetworkLineProfileDto:
+    type: "object"
+    properties:
+      authMethod:
+        type: "integer"
+        format: "int32"
+        description: "Authentication method of SubscriberNetworkLineProfile"
+      downBandwidth:
+        type: "integer"
+        format: "int32"
+        description: "Down band width of SubscriberNetworkLineProfile"
+      federationPartner:
+        type: "string"
+        description: "Federation Partner of SubscriberNetworkLineProfile"
+      guaranteedDownBandwidth:
+        type: "integer"
+        format: "int32"
+        description: "Guaranteed down band width of SubscriberNetworkLineProfile"
+      guaranteedUpBandwidth:
+        type: "integer"
+        format: "int32"
+        description: "Guaranteed up band width of SubscriberNetworkLineProfile"
+      klsId:
+        type: "integer"
+        format: "int64"
+        description: "KlsId of SubscriberNetworkLineProfile"
+      l2ccid:
+        type: "string"
+        description: "12 ccid of SubscriberNetworkLineProfile"
+      maxDownBandwidth:
+        type: "integer"
+        format: "int32"
+        description: "Maximum down bandwidth of SubscriberNetworkLineProfile"
+      maxUpBandwidth:
+        type: "integer"
+        format: "int32"
+        description: "Maximum up bandwidth of SubscriberNetworkLineProfile"
+      minDownBandwidth:
+        type: "integer"
+        format: "int32"
+        description: "Minimum down bandwidth of SubscriberNetworkLineProfile"
+      minUpBandwidth:
+        type: "integer"
+        format: "int32"
+        description: "Minimum up bandwidth of SubscriberNetworkLineProfile"
+      providerId:
+        type: "string"
+        description: "Minimum up bandwidth of SubscriberNetworkLineProfile"
+      substitutionDomain:
+        type: "string"
+        description: "Substitution Domain of SubscriberNetworkLineProfile"
+      upBandwidth:
+        type: "integer"
+        format: "int32"
+        description: "Up band width of SubscriberNetworkLineProfile"
+  AssuranceSubscriberNetworkLineProfileDtoV4:
+    type: "object"
+    properties:
+      authMethod:
+        type: "integer"
+        format: "int32"
+        description: "Authentication method of SubscriberNetworkLineProfile"
+      downBandwidth:
+        type: "integer"
+        format: "int32"
+        description: "Down band width of SubscriberNetworkLineProfile"
+      federationPartner:
+        type: "string"
+        description: "Federation Partner of SubscriberNetworkLineProfile"
+      guaranteedDownBandwidth:
+        type: "integer"
+        format: "int32"
+        description: "Guaranteed down band width of SubscriberNetworkLineProfile"
+      guaranteedUpBandwidth:
+        type: "integer"
+        format: "int32"
+        description: "Guaranteed up band width of SubscriberNetworkLineProfile"
+      klsId:
+        type: "integer"
+        format: "int64"
+        description: "KlsId of SubscriberNetworkLineProfile"
+      l2ccid:
+        type: "string"
+        description: "12 ccid of SubscriberNetworkLineProfile"
+      maxDownBandwidth:
+        type: "integer"
+        format: "int32"
+        description: "Maximum down bandwidth of SubscriberNetworkLineProfile"
+      maxUpBandwidth:
+        type: "integer"
+        format: "int32"
+        description: "Maximum up bandwidth of SubscriberNetworkLineProfile"
+      minDownBandwidth:
+        type: "integer"
+        format: "int32"
+        description: "Minimum down bandwidth of SubscriberNetworkLineProfile"
+      minUpBandwidth:
+        type: "integer"
+        format: "int32"
+        description: "Minimum up bandwidth of SubscriberNetworkLineProfile"
+      providerId:
+        type: "string"
+        description: "Minimum up bandwidth of SubscriberNetworkLineProfile"
+      substitutionDomain:
+        type: "string"
+        description: "Substitution Domain of SubscriberNetworkLineProfile"
+      state:
+        type: "string"
+        description: "State of SubscriberNetworkLineProfile"
+      upBandwidth:
+        type: "integer"
+        format: "int32"
+        description: "Up band width of SubscriberNetworkLineProfile"
+  BackHaulViewDto:
+    type: "object"
+    properties:
+      backHaulId:
+        type: "string"
+        description: "BackHaul Id"
+      endSz:
+        type: "string"
+        description: "EndSz"
+      slotNumber:
+        type: "string"
+        description: "Slot number"
+      portNumber:
+        type: "string"
+        description: "Port number"
+      status:
+        type: "string"
+        description: "Status of BackHaul (configured or not configured)"
+        enum:
+          - "CONFIGURED"
+          - "NOT_CONFIGURED"
+  BackhaulIdDto:
+    type: "object"
+    required:
+      - "backhaulId"
+    properties:
+      id:
+        type: "integer"
+        format: "int64"
+        description: "Internal (from database) id of backhaul id entity"
+      backhaulId:
+        type: "string"
+        description: "Backhaul id"
+        pattern: "#bhid-[a-z0-9]{2,10}"
+      status:
+        type: "string"
+        description: "Status of backhaul id (not configured or configured)"
+        enum:
+          - "CONFIGURED"
+          - "NOT_CONFIGURED"
+      port:
+        description: "Reference to physical resource"
+        $ref: "#/definitions/ReferenceDto"
+      version:
+        type: "integer"
+        format: "int64"
+        description: "Version of object"
+      resourceAssociation:
+        description: "Resource Association"
+        $ref: "#/definitions/ResourceAssociationDto"
+  DefaultNeProfileDto:
+    type: "object"
+    properties:
+      id:
+        type: "integer"
+        format: "int64"
+        description: "Internal (from database) id of DefaultNeProfile entity"
+      profileName:
+        type: "string"
+        description: "Name of profile"
+      ontSerialNumber:
+        type: "string"
+        description: "ONT serial number of DefaultNeProfile"
+      state:
+        type: "string"
+        description: "State of DefaultNeProfile (inactive, active)"
+        enum:
+          - "INACTIVE"
+          - "ACTIVE"
+      ancpPartitionId:
+        type: "integer"
+        format: "int32"
+        description: "Id of ANCP partition"
+        minimum: 0
+        maximum: 255
+      subscriberNeProfile:
+        description: "SubscriberNeProfile reference"
+        $ref: "#/definitions/SubscriberNeProfileDto"
+      version:
+        type: "integer"
+        format: "int64"
+        description: "Version of object"
+      syncStatus:
+        type: "string"
+        description: "Profile sync status"
+        enum:
+          - "OUT_OF_SYNC"
+          - "SYNC_IN_PROGRESS"
+          - "SYNC_FAILED"
+  DefaultNetworkLineProfileDto:
+    type: "object"
+    properties:
+      id:
+        type: "integer"
+        format: "int64"
+        description: "Internal (from database) id of DefaultNetworkLineProfile entity"
+      authMethod:
+        type: "integer"
+        format: "int32"
+        description: "Authentication method of DefaultNetworkLineProfile"
+        minimum: 0
+        maximum: 1
+      klsId:
+        type: "integer"
+        format: "int64"
+        description: "KlsId of DefaultNetworkLineProfile"
+        minimum: 0
+        maximum: 999999999999
+      minDownBandwidth:
+        type: "integer"
+        format: "int32"
+        description: "Minimum down bandwidth of DefaultNetworkLineProfile"
+        minimum: 0
+      minUpBandwidth:
+        type: "integer"
+        format: "int32"
+        description: "Minimum up bandwidth of DefaultNetworkLineProfile"
+        minimum: 0
+      guaranteedDownBandwidth:
+        type: "integer"
+        format: "int32"
+        description: "Guaranteed down bandwidth of DefaultNetworkLineProfile"
+        minimum: 0
+      guaranteedUpBandwidth:
+        type: "integer"
+        format: "int32"
+        description: "Guaranteed up bandwidth of DefaultNetworkLineProfile"
+        minimum: 0
+      maxDownBandwidth:
+        type: "integer"
+        format: "int32"
+        description: "Maximum down bandwidth of DefaultNetworkLineProfile"
+        minimum: 0
+      maxUpBandwidth:
+        type: "integer"
+        format: "int32"
+        description: "Maximum up bandwidth of DefaultNetworkLineProfile"
+        minimum: 0
+      state:
+        type: "string"
+        description: "State of DefaultNeProfile (inactive, active)"
+        enum:
+          - "INACTIVE"
+          - "ACTIVE"
+      federationPartner:
+        type: "string"
+        description: "Federation partner of DefaultNetworkLineProfile"
+        minLength: 0
+        maxLength: 32
+      accessNetworkType:
+        type: "string"
+        description: "Access network type of DefaultNetworkLineProfile"
+        minLength: 0
+        maxLength: 16
+      accessType:
+        type: "string"
+        description: "Access type of DefaultNetworkLineProfile"
+        minLength: 0
+        maxLength: 16
+      version:
+        type: "integer"
+        format: "int64"
+        description: "Version of object"
+      syncStatus:
+        type: "string"
+        description: "Profile sync status"
+        enum:
+          - "OUT_OF_SYNC"
+          - "SYNC_IN_PROGRESS"
+          - "SYNC_FAILED"
+  FttbNeProfileDto:
+    type: "object"
+    properties:
+      id:
+        type: "integer"
+        format: "int64"
+        description: "Internal (from database) id of FttbNeProfile entity"
+      gfastInterfaceProfile:
+        type: "string"
+        description: "GfastInterface of profile"
+      state_olt:
+        type: "string"
+        description: "State of FttbNeProfile (inactive, active) for OLT"
+        enum:
+          - "INACTIVE"
+          - "ACTIVE"
+      state_mosaic:
+        type: "string"
+        description: "State of FttbNeProfile (inactive, active) for MOSAIC"
+        enum:
+          - "INACTIVE"
+          - "ACTIVE"
+      dpuLineSpectrumProfile:
+        type: "string"
+        description: "Dpu line spectrum profile"
+      numberOfGemPorts:
+        type: "integer"
+        format: "int32"
+        description: "Number of Gem ports"
+      bandwidthProfile:
+        type: "string"
+        description: "Bandwidth of profile"
+      onuAccessId:
+        description: "Onu access id"
+        $ref: "#/definitions/OnuAccessId"
+      version:
+        type: "integer"
+        format: "int64"
+        description: "Version of object"
+  GetAccessLineDto:
+    type: "object"
+    required:
+      - "lineId"
+    properties:
+      lineId:
+        type: "string"
+        description: "Criteria for search Access Line by line id"
+        pattern: "[A-Z0-9]{3}\\.[A-Z0-9]{1,6}\\.[A-Z0-9]{1,10}"
+  GetAccessLinesDto:
+    type: "object"
+    required:
+      - "backHaulId"
+    properties:
+      backHaulId:
+        type: "string"
+        description: "Criteria for search Access Lines by backHaul id"
+        pattern: "#bhid-[a-z0-9]{2,10}"
+  GetAllocatedOnuIdDto:
+    type: "object"
+    required:
+      - "lineId"
+    properties:
+      lineId:
+        type: "string"
+        description: "Line Id"
+        pattern: "[A-Z0-9]{3}\\.[A-Z0-9]{1,6}\\.[A-Z0-9]{1,10}"
+  HomeIdDto:
+    type: "object"
+    required:
+      - "homeId"
+      - "port"
+      - "status"
+    properties:
+      id:
+        type: "integer"
+        format: "int64"
+        description: "Internal (from database) id of home id entity"
+      homeId:
+        type: "string"
+        description: "HomeId from pool for access line"
+        pattern: "^[A-Z0-9]{7}$"
+      status:
+        type: "string"
+        description: "Status of home id"
+        enum:
+          - "FREE"
+          - "RESERVED"
+          - "ASSIGNED"
+      port:
+        description: "Reference to physical resource"
+        $ref: "#/definitions/ReferenceDto"
+      resourceAssociation:
+        description: "Resource Association"
+        $ref: "#/definitions/ResourceAssociationDto"
+      version:
+        type: "integer"
+        format: "int64"
+        description: "HomeId version"
+  HomeIdViewDto:
+    type: "object"
+    properties:
+      endSz:
+        type: "string"
+        description: "EndSz"
+      slotNumber:
+        type: "string"
+        description: "Slot number"
+      portNumber:
+        type: "string"
+        description: "Port number"
+      homeId:
+        type: "string"
+        description: "Home Id"
+      status:
+        type: "string"
+        description: "Physical status of HomeId (FREE, ASSIGNED, RESERVED)"
+        enum:
+          - "FREE"
+          - "RESERVED"
+          - "ASSIGNED"
+      accessLineCount:
+        type: "integer"
+        format: "int64"
+        description: "Number of access lines with home Id"
+  NetworkServiceProfileReferenceDto:
+    type: "object"
+    properties:
+      id:
+        type: "integer"
+        format: "int64"
+        description: "Internal (from database) id of network service profile reference\
+          \ entity"
+      uuid:
+        type: "string"
+        description: "UUID of network service profile reference entity"
+      tpRef:
+        type: "string"
+        description: "tp reference of network service profile reference entity"
+        pattern: "^[0-9A-Fa-f]{8}\\-[0-9A-Fa-f]{4}\\-[0-9A-Fa-f]{4}\\-[0-9A-Fa-f]{4}\\\
+          -[0-9A-Fa-f]{12}$"
+      creationDate:
+        type: "string"
+        format: "date-time"
+        description: "Date of network service profile creation"
+      nspOntSerialNumber:
+        type: "string"
+        description: "NSP ONT serial number"
+        pattern: "^[A-F0-9]{16}$"
+      version:
+        type: "integer"
+        format: "int64"
+        description: "Version of object"
+      syncStatus:
+        type: "string"
+        description: "Profile sync status"
+        enum:
+          - "OUT_OF_SYNC"
+          - "SYNC_IN_PROGRESS"
+          - "SYNC_FAILED"
+  OnuAccessId:
+    type: "object"
+    properties:
+      id:
+        type: "integer"
+        format: "int64"
+      version:
+        type: "integer"
+        format: "int64"
+      onuAccessId:
+        type: "integer"
+        format: "int32"
+        minimum: 1
+        maximum: 127
+  Page:
+    type: "object"
+    properties:
+      totalElements:
+        type: "integer"
+        format: "int64"
+      totalPages:
+        type: "integer"
+        format: "int32"
+      size:
+        type: "integer"
+        format: "int32"
+      content:
+        type: "array"
+        items:
+          type: "object"
+      number:
+        type: "integer"
+        format: "int32"
+      sort:
+        $ref: "#/definitions/Sort"
+      numberOfElements:
+        type: "integer"
+        format: "int32"
+      first:
+        type: "boolean"
+      last:
+        type: "boolean"
+      pageable:
+        $ref: "#/definitions/Pageable"
+      empty:
+        type: "boolean"
+  PageAccessLineViewDto:
+    type: "object"
+    properties:
+      totalElements:
+        type: "integer"
+        format: "int64"
+      totalPages:
+        type: "integer"
+        format: "int32"
+      size:
+        type: "integer"
+        format: "int32"
+      content:
+        type: "array"
+        items:
+          $ref: "#/definitions/AccessLineViewDto"
+      number:
+        type: "integer"
+        format: "int32"
+      sort:
+        $ref: "#/definitions/Sort"
+      numberOfElements:
+        type: "integer"
+        format: "int32"
+      first:
+        type: "boolean"
+      last:
+        type: "boolean"
+      pageable:
+        $ref: "#/definitions/Pageable"
+      empty:
+        type: "boolean"
+  PageAssuranceAccessLineDtoV4:
+    type: "object"
+    properties:
+      totalElements:
+        type: "integer"
+        format: "int64"
+      totalPages:
+        type: "integer"
+        format: "int32"
+      size:
+        type: "integer"
+        format: "int32"
+      content:
+        type: "array"
+        items:
+          $ref: "#/definitions/AssuranceAccessLineDtoV4"
+      number:
+        type: "integer"
+        format: "int32"
+      sort:
+        $ref: "#/definitions/Sort"
+      numberOfElements:
+        type: "integer"
+        format: "int32"
+      first:
+        type: "boolean"
+      last:
+        type: "boolean"
+      pageable:
+        $ref: "#/definitions/Pageable"
+      empty:
+        type: "boolean"
+  PageBackHaulViewDto:
+    type: "object"
+    properties:
+      totalElements:
+        type: "integer"
+        format: "int64"
+      totalPages:
+        type: "integer"
+        format: "int32"
+      size:
+        type: "integer"
+        format: "int32"
+      content:
+        type: "array"
+        items:
+          $ref: "#/definitions/BackHaulViewDto"
+      number:
+        type: "integer"
+        format: "int32"
+      sort:
+        $ref: "#/definitions/Sort"
+      numberOfElements:
+        type: "integer"
+        format: "int32"
+      first:
+        type: "boolean"
+      last:
+        type: "boolean"
+      pageable:
+        $ref: "#/definitions/Pageable"
+      empty:
+        type: "boolean"
+  PageHomeIdViewDto:
+    type: "object"
+    properties:
+      totalElements:
+        type: "integer"
+        format: "int64"
+      totalPages:
+        type: "integer"
+        format: "int32"
+      size:
+        type: "integer"
+        format: "int32"
+      content:
+        type: "array"
+        items:
+          $ref: "#/definitions/HomeIdViewDto"
+      number:
+        type: "integer"
+        format: "int32"
+      sort:
+        $ref: "#/definitions/Sort"
+      numberOfElements:
+        type: "integer"
+        format: "int32"
+      first:
+        type: "boolean"
+      last:
+        type: "boolean"
+      pageable:
+        $ref: "#/definitions/Pageable"
+      empty:
+        type: "boolean"
+  Pageable:
+    type: "object"
+    properties:
+      offset:
+        type: "integer"
+        format: "int64"
+      sort:
+        $ref: "#/definitions/Sort"
+      paged:
+        type: "boolean"
+      pageNumber:
+        type: "integer"
+        format: "int32"
+      unpaged:
+        type: "boolean"
+      pageSize:
+        type: "integer"
+        format: "int32"
+  ProblemDetails:
+    type: "object"
+    required:
+      - "title"
+      - "type"
+    properties:
+      type:
+        type: "string"
+        description: "type"
+      title:
+        type: "string"
+        description: "title"
+      status:
+        type: "integer"
+        format: "int32"
+        description: "status"
+      detail:
+        type: "string"
+        description: "detail"
+      instance:
+        type: "string"
+        description: "instance"
+      embedded:
+        description: "embedded"
+        $ref: "#/definitions/SpecificProblemDetails"
+    description: "Error response of 4xx and 5xx http statuses."
+  ReferenceDto:
+    type: "object"
+    required:
+      - "endSz"
+      - "portNumber"
+      - "portType"
+    properties:
+      id:
+        type: "integer"
+        format: "int64"
+        description: "Internal (from database) id of Reference entity"
+      endSz:
+        type: "string"
+        description: "Endsz of physical resource"
+        pattern: "[0-9]{1,6}\\/[0-9]{1,6}\\/[0-9]{1,6}\\/[a-zA-Z0-9]{2,4}"
+      slotNumber:
+        type: "string"
+        description: "Slot number of physical resource"
+      portNumber:
+        type: "string"
+        description: "Port number of physical resource"
+      version:
+        type: "integer"
+        format: "int64"
+        description: "Version of object"
+      portType:
+        type: "string"
+        description: "Type of port"
+        enum:
+          - "PON"
+          - "GFAST"
+          - "ETHERNET"
+          - "GPON"
+  RequestAccessLineStatusDto:
+    type: "object"
+    properties:
+      accessLineStatus:
+        type: "string"
+        enum:
+          - "INACTIVE"
+          - "WALLED_GARDEN"
+          - "ASSIGNED"
+      subscriberNeProfileState:
+        type: "string"
+        enum:
+          - "INACTIVE"
+          - "ACTIVE"
+      subscriberNetworkLineProfileState:
+        type: "string"
+        enum:
+          - "INACTIVE"
+          - "ACTIVE"
+  RequestAccessLineViewDto:
+    type: "object"
+    properties:
+      lineId:
+        type: "string"
+        pattern: "[A-Z0-9]{3}\\.[A-Z0-9]{1,6}\\.[A-Z0-9]{1,10}"
+      homeId:
+        type: "string"
+        pattern: "^[A-Z0-9]{7}$"
+      endSz:
+        type: "string"
+        pattern: "[0-9]{1,6}\\/[0-9]{1,6}\\/[0-9]{1,6}\\/[a-zA-Z0-9]{2,4}"
+      statuses:
+        type: "array"
+        uniqueItems: true
+        items:
+          $ref: "#/definitions/RequestAccessLineStatusDto"
+      slotNumber:
+        type: "string"
+      portNumber:
+        type: "string"
+      productionPlatforms:
+        type: "array"
+        uniqueItems: true
+        items:
+          type: "string"
+          enum:
+            - "OLT_BNG"
+            - "A4"
+            - "WHOLEBUY"
+      ontSerialNumber:
+        type: "string"
+      klsId:
+        type: "integer"
+        format: "int64"
+      profileSyncStatus:
+        type: "array"
+        uniqueItems: true
+        items:
+          type: "string"
+          enum:
+            - "OUT_OF_SYNC"
+            - "SYNC_IN_PROGRESS"
+            - "SYNC_FAILED"
+  RequestBackHaulViewDto:
+    type: "object"
+    properties:
+      backHaulId:
+        type: "string"
+        pattern: "#bhid-[a-z0-9]{2,10}"
+      endSz:
+        type: "string"
+        pattern: "[0-9]{1,6}\\/[0-9]{1,6}\\/[0-9]{1,6}\\/[a-zA-Z0-9]{2,4}"
+      slotNumber:
+        type: "string"
+      portNumber:
+        type: "string"
+      statuses:
+        type: "array"
+        uniqueItems: true
+        items:
+          type: "string"
+          enum:
+            - "CONFIGURED"
+            - "NOT_CONFIGURED"
+  RequestHomeIdViewDto:
+    type: "object"
+    properties:
+      homeId:
+        type: "string"
+        pattern: "^[A-Z0-9]{7}$"
+      endSz:
+        type: "string"
+        pattern: "[0-9]{1,6}\\/[0-9]{1,6}\\/[0-9]{1,6}\\/[a-zA-Z0-9]{2,4}"
+      slotNumber:
+        type: "string"
+      portNumber:
+        type: "string"
+      statuses:
+        type: "array"
+        uniqueItems: true
+        items:
+          type: "string"
+          enum:
+            - "FREE"
+            - "RESERVED"
+            - "ASSIGNED"
+      logicalStatus:
+        type: "string"
+        enum:
+          - "FREE"
+          - "OCCUPIED"
+  ResourceAssociationDto:
+    type: "object"
+    properties:
+      id:
+        type: "integer"
+        format: "int64"
+        description: "Internal (from database) id of ResourceAssociation entity"
+      version:
+        type: "integer"
+        format: "int64"
+        description: "Version of object"
+      partyId:
+        type: "integer"
+        format: "int64"
+        description: "Party Id value"
+      resourceId:
+        type: "string"
+        description: "Unique resource ID (GUID)"
+  SearchAccessLineDto:
+    type: "object"
+    properties:
+      id:
+        type: "integer"
+        format: "int64"
+        description: "Criteria for search Access Line by internal id"
+      endSz:
+        type: "string"
+        description: "Criteria for search Access Line by endsz"
+        pattern: "[0-9]{1,6}\\/[0-9]{1,6}\\/[0-9]{1,6}\\/[a-zA-Z0-9]{2,4}"
+      referenceType:
+        type: "string"
+        description: "Type of reference when searching by endSz"
+        enum:
+          - "OLT"
+          - "DPU"
+          - "UPLINK"
+      slotNumber:
+        type: "string"
+        description: "Criteria for search Access Line by slot number"
+      portNumber:
+        type: "string"
+        description: "Criteria for search Access Line by port number"
+      lineId:
+        type: "string"
+        description: "Criteria for search Access Line by line id"
+      homeId:
+        type: "string"
+        description: "Criteria for search Access Line by home id"
+      status:
+        type: "string"
+        description: "Criteria for search Access Line by status"
+        enum:
+          - "INACTIVE"
+          - "WALLED_GARDEN"
+          - "ASSIGNED"
+      technology:
+        type: "string"
+        description: "Criteria for search Access Line by technology"
+        enum:
+          - "GFAST"
+          - "GPON"
+      ontSerialNumber:
+        type: "string"
+        description: "Criteria for search Access Line by ont serial number"
+      productionPlatform:
+        type: "string"
+        description: "Criteria for search Access Line by production platform"
+        enum:
+          - "OLT_BNG"
+          - "A4"
+          - "WHOLEBUY"
+      subscriberNeStates:
+        type: "array"
+        description: "Criteria for search Access Line by subscriber NE profile state"
+        uniqueItems: true
+        items:
+          type: "string"
+          enum:
+            - "INACTIVE"
+            - "ACTIVE"
+      onuId:
+        type: "integer"
+        format: "int32"
+        description: "Creteria for search Access Line by onuId"
+  SearchAccessLineStatisticDto:
+    type: "object"
+    required:
+      - "endSz"
+    properties:
+      endSz:
+        type: "string"
+        description: "Criteria for search access lines statistics by EndSz"
+        pattern: "[0-9]{1,6}\\/[0-9]{1,6}\\/[0-9]{1,6}\\/[a-zA-Z0-9]{2,4}"
+      slotNumber:
+        type: "string"
+        description: "Criteria for search access lines statistics by Slot number"
+      portNumber:
+        type: "string"
+        description: "criteria for search access lines statistics by Port number"
+  SearchBackhaulIdDto:
+    type: "object"
+    properties:
+      endSz:
+        type: "string"
+        description: "Criteria for search backhaul id by endsz"
+        pattern: "[0-9]{1,6}\\/[0-9]{1,6}\\/[0-9]{1,6}\\/[a-zA-Z0-9]{2,4}"
+      slotNumber:
+        type: "string"
+        description: "Criteria for search backhaul id by slot number"
+      portNumber:
+        type: "string"
+        description: "Criteria for search backhaul id by port number"
+      status:
+        type: "string"
+        description: "Criteria for search backhaul id by status"
+        enum:
+          - "CONFIGURED"
+          - "NOT_CONFIGURED"
+      id:
+        type: "integer"
+        format: "int64"
+        description: "Criteria for search backhaul id by internal id"
+      backhaulId:
+        type: "string"
+        description: "Criteria for search backhaul id by backhaulId"
+        pattern: "#bhid-[a-z0-9]{2,10}"
+  SearchHomeIdDto:
+    type: "object"
+    properties:
+      endSz:
+        type: "string"
+        description: "Criteria for search home id by endsz"
+        pattern: "[0-9]{1,6}\\/[0-9]{1,6}\\/[0-9]{1,6}\\/[a-zA-Z0-9]{2,4}"
+      slotNumber:
+        type: "string"
+        description: "Criteria for search home id by slot number"
+      portNumber:
+        type: "string"
+        description: "Criteria for search home id by port number"
+      id:
+        type: "integer"
+        format: "int64"
+        description: "Criteria for search home id by internal id"
+      homeId:
+        type: "string"
+        description: "Criteria for search home id by homeId"
+        pattern: "^[A-Z0-9]{7}$"
+      status:
+        type: "string"
+        description: "Criteria for search home id by status"
+        enum:
+          - "FREE"
+          - "RESERVED"
+          - "ASSIGNED"
+  Sort:
+    type: "object"
+    properties:
+      unsorted:
+        type: "boolean"
+      sorted:
+        type: "boolean"
+      empty:
+        type: "boolean"
+  SpecificProblemDetails:
+    type: "object"
+    required:
+      - "code"
+      - "reason"
+    properties:
+      code:
+        type: "string"
+        description: "code"
+      reason:
+        type: "string"
+        description: "reason"
+      message:
+        type: "string"
+        description: "message"
+      status:
+        type: "integer"
+        format: "int32"
+        description: "status"
+    description: "Specific problem details(including fehlerbuildnummer code)."
+  SubscriberNeProfileDto:
+    type: "object"
+    properties:
+      id:
+        type: "integer"
+        format: "int64"
+        description: "Internal (from database) id of SubscriberNeProfile entity"
+      profileName:
+        type: "string"
+        description: "Name of profile"
+      state:
+        type: "string"
+        description: "State of DefaultNeProfile (inactive, active)"
+        enum:
+          - "INACTIVE"
+          - "ACTIVE"
+      ontSerialNumber:
+        type: "string"
+        description: "ONT serial number of DefaultNeProfile"
+        pattern: "^[A-F0-9]{16}$|^DEFAULT$"
+      version:
+        type: "integer"
+        format: "int64"
+        description: "Version of object"
+      ontState:
+        type: "string"
+        description: "State of ONT (offline, online, unknown)"
+        enum:
+          - "OFFLINE"
+          - "ONLINE"
+          - "UNKNOWN"
+      syncStatus:
+        type: "string"
+        description: "Profile sync status"
+        enum:
+          - "OUT_OF_SYNC"
+          - "SYNC_IN_PROGRESS"
+          - "SYNC_FAILED"
+  SubscriberNetworkLineProfileDto:
+    type: "object"
+    properties:
+      id:
+        type: "integer"
+        format: "int64"
+        description: "Internal (from database) id of SubscriberNetworkLineProfile\
+          \ entity"
+      authMethod:
+        type: "integer"
+        format: "int32"
+        description: "Authentication method of SubscriberNetworkLineProfile"
+        minimum: 0
+        maximum: 1
+      klsId:
+        type: "integer"
+        format: "int64"
+        description: "KlsId of SubscriberNetworkLineProfile"
+        minimum: 0
+        maximum: 999999999999
+      minDownBandwidth:
+        type: "integer"
+        format: "int32"
+        description: "Minimum down bandwidth of SubscriberNetworkLineProfile"
+        minimum: 0
+      minUpBandwidth:
+        type: "integer"
+        format: "int32"
+        description: "Minimum up bandwidth of SubscriberNetworkLineProfile"
+        minimum: 0
+      guaranteedDownBandwidth:
+        type: "integer"
+        format: "int32"
+        description: "Guaranteed down bandwidth of SubscriberNetworkLineProfile"
+        minimum: 0
+      guaranteedUpBandwidth:
+        type: "integer"
+        format: "int32"
+        description: "Guaranteed up bandwidth of SubscriberNetworkLineProfile"
+        minimum: 0
+      maxDownBandwidth:
+        type: "integer"
+        format: "int32"
+        description: "Maximum down bandwidth of SubscriberNetworkLineProfile"
+        minimum: 0
+      maxUpBandwidth:
+        type: "integer"
+        format: "int32"
+        description: "Maximum up bandwidth of SubscriberNetworkLineProfile"
+        minimum: 0
+      downBandwidth:
+        type: "integer"
+        format: "int32"
+        description: "Down bandwidth of SubscriberNetworkLineProfile"
+        minimum: 0
+      upBandwidth:
+        type: "integer"
+        format: "int32"
+        description: "Up bandwidth of SubscriberNetworkLineProfile"
+        minimum: 0
+      state:
+        type: "string"
+        description: "State of SubscriberNetworkLineProfile (inactive, active)"
+        enum:
+          - "INACTIVE"
+          - "ACTIVE"
+      federationPartner:
+        type: "string"
+        description: "Federation partner of SubscriberNetworkLineProfile"
+        minLength: 0
+        maxLength: 32
+      providerId:
+        type: "string"
+        description: "provider id of SubscriberNetworkLineProfile"
+        pattern: "^[0-9]{1,4}$"
+      substitutionDomain:
+        type: "string"
+        description: "Substitution domain of SubscriberNetworkLineProfile"
+        minLength: 0
+        maxLength: 32
+        pattern: "^([a-z0-9_\\-.]){1,32}$"
+      l2ccid:
+        type: "string"
+        description: "12 ccid of SubscriberNetworkLineProfile"
+        minLength: 0
+        maxLength: 32
+        pattern: "^([a-z0-9_\\-.]){1,32}$"
+      version:
+        type: "integer"
+        format: "int64"
+        description: "Version of object"
+      syncStatus:
+        type: "string"
+        description: "Profile sync status"
+        enum:
+          - "OUT_OF_SYNC"
+          - "SYNC_IN_PROGRESS"
+          - "SYNC_FAILED"
