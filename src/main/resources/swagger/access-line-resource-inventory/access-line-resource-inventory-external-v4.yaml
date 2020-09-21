@@ -3,7 +3,7 @@ swagger: "2.0"
 info:
   description: "## Access Line Resource Inventory API\n\nMicroservice contains and\
     \ processes information about access lines, network and line profiles."
-  version: "4.26.0"
+  version: "4.30.0"
   title: "Access Line Resource Inventory"
 host: "localhost:8060"
 tags:
@@ -1203,6 +1203,28 @@ definitions:
       outOfSync:
         type: "string"
         description: "Out of sync statuses"
+      defaultNeProfileState:
+        type: "string"
+        description: "State of DefaultNeProfile (inactive, active)"
+        enum:
+          - "INACTIVE"
+          - "ACTIVE"
+      defaultNetworkLineProfileState:
+        type: "string"
+        description: "State of DefaultNetworkLineProfile (inactive, active)"
+        enum:
+          - "INACTIVE"
+          - "ACTIVE"
+      fttbNeProfileState:
+        type: "string"
+        description: "Composite state of FttbNeProfile (inactive, active) (active\
+          \ if both of statuses are active)"
+        enum:
+          - "INACTIVE"
+          - "ACTIVE"
+      ontSerialNumber:
+        type: "string"
+        description: "Ont serial number"
   AccessLinesDto:
     type: "object"
     properties:
@@ -1227,6 +1249,10 @@ definitions:
       reference:
         description: "Reference to physical resource"
         $ref: "#/definitions/ReferenceDto"
+      version:
+        type: "integer"
+        format: "int64"
+        description: "Version of object"
   AllocatedOnuIdDto:
     type: "object"
     required:
@@ -1746,13 +1772,13 @@ definitions:
       gfastInterfaceProfile:
         type: "string"
         description: "GfastInterface of profile"
-      state_olt:
+      stateOlt:
         type: "string"
         description: "State of FttbNeProfile (inactive, active) for OLT"
         enum:
           - "INACTIVE"
           - "ACTIVE"
-      state_mosaic:
+      stateMosaic:
         type: "string"
         description: "State of FttbNeProfile (inactive, active) for MOSAIC"
         enum:
@@ -1775,6 +1801,13 @@ definitions:
         type: "integer"
         format: "int64"
         description: "Version of object"
+      syncStatus:
+        type: "string"
+        description: "Profile sync status"
+        enum:
+          - "OUT_OF_SYNC"
+          - "SYNC_IN_PROGRESS"
+          - "SYNC_FAILED"
   GetAccessLineDto:
     type: "object"
     required:
@@ -1930,15 +1963,15 @@ definitions:
         format: "int32"
       sort:
         $ref: "#/definitions/Sort"
-      numberOfElements:
-        type: "integer"
-        format: "int32"
       first:
         type: "boolean"
       last:
         type: "boolean"
       pageable:
         $ref: "#/definitions/Pageable"
+      numberOfElements:
+        type: "integer"
+        format: "int32"
       empty:
         type: "boolean"
   PageAccessLineViewDto:
@@ -1962,15 +1995,15 @@ definitions:
         format: "int32"
       sort:
         $ref: "#/definitions/Sort"
-      numberOfElements:
-        type: "integer"
-        format: "int32"
       first:
         type: "boolean"
       last:
         type: "boolean"
       pageable:
         $ref: "#/definitions/Pageable"
+      numberOfElements:
+        type: "integer"
+        format: "int32"
       empty:
         type: "boolean"
   PageAssuranceAccessLineDtoV4:
@@ -1994,15 +2027,15 @@ definitions:
         format: "int32"
       sort:
         $ref: "#/definitions/Sort"
-      numberOfElements:
-        type: "integer"
-        format: "int32"
       first:
         type: "boolean"
       last:
         type: "boolean"
       pageable:
         $ref: "#/definitions/Pageable"
+      numberOfElements:
+        type: "integer"
+        format: "int32"
       empty:
         type: "boolean"
   PageBackHaulViewDto:
@@ -2026,15 +2059,15 @@ definitions:
         format: "int32"
       sort:
         $ref: "#/definitions/Sort"
-      numberOfElements:
-        type: "integer"
-        format: "int32"
       first:
         type: "boolean"
       last:
         type: "boolean"
       pageable:
         $ref: "#/definitions/Pageable"
+      numberOfElements:
+        type: "integer"
+        format: "int32"
       empty:
         type: "boolean"
   PageHomeIdViewDto:
@@ -2058,15 +2091,15 @@ definitions:
         format: "int32"
       sort:
         $ref: "#/definitions/Sort"
-      numberOfElements:
-        type: "integer"
-        format: "int32"
       first:
         type: "boolean"
       last:
         type: "boolean"
       pageable:
         $ref: "#/definitions/Pageable"
+      numberOfElements:
+        type: "integer"
+        format: "int32"
       empty:
         type: "boolean"
   Pageable:
@@ -2077,16 +2110,16 @@ definitions:
         format: "int64"
       sort:
         $ref: "#/definitions/Sort"
-      paged:
-        type: "boolean"
-      pageNumber:
+      pageSize:
         type: "integer"
         format: "int32"
       unpaged:
         type: "boolean"
-      pageSize:
+      pageNumber:
         type: "integer"
         format: "int32"
+      paged:
+        type: "boolean"
   ProblemDetails:
     type: "object"
     required:
@@ -2414,9 +2447,9 @@ definitions:
   Sort:
     type: "object"
     properties:
-      unsorted:
-        type: "boolean"
       sorted:
+        type: "boolean"
+      unsorted:
         type: "boolean"
       empty:
         type: "boolean"
