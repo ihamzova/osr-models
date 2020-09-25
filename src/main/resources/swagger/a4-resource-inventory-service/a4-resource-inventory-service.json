@@ -18,7 +18,7 @@
     ],
     "tags": [
         {
-            "name": "networkElements"
+            "name": "networkElement"
         },
         {
             "name": "networkElementGroup"
@@ -39,11 +39,11 @@
     "paths": {
         "/networkElements": {
             "get": {
-                "operationId": "listNetworkElements",
-                "summary": "List or find NetworkElements objects",
-                "description": "This operation list or find NetworkElements entities",
+                "operationId": "listNetworkElement",
+                "summary": "List or find NetworkElement objects",
+                "description": "This operation list or find NetworkElement entities",
                 "tags": [
-                    "networkElements"
+                    "networkElement"
                 ],
                 "parameters": [
                     {
@@ -114,7 +114,7 @@
                         "schema": {
                             "type": "array",
                             "items": {
-                                "$ref": "#/definitions/NetworkElements"
+                                "$ref": "#/definitions/NetworkElement"
                             }
                         }
                     },
@@ -165,16 +165,16 @@
         },
         "/networkElements/{id}": {
             "get": {
-                "operationId": "retrieveNetworkElements",
-                "summary": "Retrieves a NetworkElements by ID",
-                "description": "This operation retrieves a NetworkElements entity. Attribute selection is enabled for all first level attributes.",
+                "operationId": "retrieveNetworkElement",
+                "summary": "Retrieves a NetworkElement by ID",
+                "description": "This operation retrieves a NetworkElement entity. Attribute selection is enabled for all first level attributes.",
                 "tags": [
-                    "networkElements"
+                    "networkElement"
                 ],
                 "parameters": [
                     {
                         "name": "id",
-                        "description": "Identifier of the NetworkElements",
+                        "description": "Identifier of the NetworkElement",
                         "required": true,
                         "type": "string",
                         "in": "path"
@@ -191,7 +191,7 @@
                     "200": {
                         "description": "Success",
                         "schema": {
-                            "$ref": "#/definitions/NetworkElements"
+                            "$ref": "#/definitions/NetworkElement"
                         }
                     },
                     "400": {
@@ -1929,6 +1929,134 @@
                 }
             }
         },
+        "NetworkElement": {
+            "type": "object",
+            "description": "NetworkElement within Access 4.0 project\nSkipped properties: activationFeature,attachment,note,place,resourceSpecification,value,startOperatingDate,endOperatingDate,administrativeState,resourceStatus,usageState,name,resourceVersion,relatedParty",
+            "required": [
+                "href",
+                "id"
+            ],
+            "properties": {
+                "id": {
+                    "type": "string",
+                    "description": "Identifier of an instance of the resource. Required to be unique within the resource type.  Used in URIs as the identifier for specific instances of a type."
+                },
+                "href": {
+                    "format": "uri",
+                    "type": "string",
+                    "description": "The URI for the object itself."
+                },
+                "address": {
+                    "type": "string",
+                    "description": "Human readable string of the address identified by the klsId."
+                },
+                "category": {
+                    "type": "string",
+                    "description": "Category of the concrete resource. e.g Gold, Silver for MSISDN concrete resource"
+                },
+                "creationTime": {
+                    "type": "string",
+                    "description": "This optional attribute identifies the DT material number of a physical entity before it is installed. Set by OSS based on the retrieved material number from the PSL system. This allows the OSS to convert/relate the links retrieved from REBELL to functional network element links (NEL)."
+                },
+                "description": {
+                    "type": "string",
+                    "description": "free-text description of the resource"
+                },
+                "endsz": {
+                    "type": "string",
+                    "description": "combination vpsz/fsz"
+                },
+                "fsz": {
+                    "type": "string",
+                    "description": "This attribute contains the functional key number FSZ (Funktionsschl\u00fcsselzahl). It identifies the class of the device and at the same time provides the identification of the function of the network element."
+                },
+                "klsId": {
+                    "type": "string",
+                    "description": "KLS - Core Information Object (KIO) Locality Server - is a central reference data server for localities and network locations. It is the master system for holding and changing address and location reference data (also network mapping). See also: https://yam.telekom.de/docs/DOC-482263"
+                },
+                "lastUpdateTime": {
+                    "type": "string",
+                    "description": "This optional attribute identifies the DT material number of a physical entity before it is installed. Set by OSS based on the retrieved material number from the PSL system. This allows the OSS to convert/relate the links retrieved from REBELL to functional network element links (NEL)."
+                },
+                "networkElementGroupUuid": {
+                    "type": "string",
+                    "description": "This attribute is for the search by networkElementGroupUuid"
+                },
+                "partyId": {
+                    "type": "string",
+                    "description": "This attribute defines the partyId of the requesting system."
+                },
+                "plannedMatNumber": {
+                    "type": "string",
+                    "description": "This optional attribute identifies the DT material number of a physical entity before it is installed. Set by OSS based on the retrieved material number from the PSL system. This allows the OSS to convert/relate the links retrieved from REBELL to functional network element links (NEL)."
+                },
+                "plannedRackId": {
+                    "type": "string",
+                    "description": "To be provided"
+                },
+                "plannedRackPosition": {
+                    "type": "string",
+                    "description": "To be provided"
+                },
+                "planningDeviceName": {
+                    "type": "string",
+                    "description": "This attribute contains the device name in the planning context."
+                },
+                "specificationVersion": {
+                    "type": "integer",
+                    "description": "This attribute contains the version of the class specification."
+                },
+                "type": {
+                    "type": "string",
+                    "description": "Contains the value of the name attribute of the NE type instance that was used to instantiate the network element."
+                },
+                "vpsz": {
+                    "type": "string",
+                    "description": "This attribute contains the connection node key VPSZ (Verbindungspunktschl\u00fcsselzahl). It logically identifies the site where devices and other connections are terminated."
+                },
+                "ztpIdent": {
+                    "type": "string",
+                    "description": "This optional attribute contains the zero-touch-provisioning identifier set by the installation process (the technician doing the installation of the hardware that is targeted to act as this NetworknElement). The value is used to map the identifier received from a technical identification process (e.g. the client identifier / option 61 field in a DHCP request) to the Network Element instance. It must be unique within the NEMO domain."
+                },
+                "administrativeMode": {
+                    "$ref": "#/definitions/AdministrationModeType",
+                    "description": "This attribute can only be set by the managing system. It is working like a switch and is independent of other states. ENABLED: The underlying resource is allowed to perform its normal duties. DISABLED: The underlying resource isn't allowed to perform any function AND the operationalState is set to NotWorking."
+                },
+                "lifecycleState": {
+                    "$ref": "#/definitions/LifecycleStateType",
+                    "description": "This attribute contains the lifecycle state of the network element."
+                },
+                "operationalState": {
+                    "$ref": "#/definitions/ResourceOperationalStateType",
+                    "description": "Tracks the lifecycle status of the resource, such as planning, installing, opereating, retiring and so on."
+                },
+                "resourceCharacteristic": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/Characteristic"
+                    }
+                },
+                "resourceRelationship": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/ResourceRelationship"
+                    }
+                },
+                "@baseType": {
+                    "type": "string",
+                    "description": "When sub-classing, this defines the super-class"
+                },
+                "@schemaLocation": {
+                    "type": "string",
+                    "format": "uri",
+                    "description": "A URI to a JSON-Schema file that defines additional attributes and relationships"
+                },
+                "@type": {
+                    "type": "string",
+                    "description": "When sub-classing, this defines the sub-class entity name"
+                }
+            }
+        },
         "NetworkElementGroup": {
             "type": "object",
             "description": "NetworkElementGroup within Access 4.0 project\nSkipped properties: activationFeature,attachment,note,place,resourceSpecification,value,startOperatingDate,endOperatingDate,administrativeState,resourceStatus,usageState,category,resourceVersion,relatedParty",
@@ -2169,134 +2297,6 @@
                 "administrativeMode": {
                     "$ref": "#/definitions/AdministrationModeType",
                     "description": "This attribute can only be set by the managing system. It is working like a switch and is independent of other states. ENABLED: The underlying resource is allowed to perform its normal duties. DISABLED: The underlying resource isn't allowed to perform any function AND the operationalState is set to NotWorking."
-                },
-                "operationalState": {
-                    "$ref": "#/definitions/ResourceOperationalStateType",
-                    "description": "Tracks the lifecycle status of the resource, such as planning, installing, opereating, retiring and so on."
-                },
-                "resourceCharacteristic": {
-                    "type": "array",
-                    "items": {
-                        "$ref": "#/definitions/Characteristic"
-                    }
-                },
-                "resourceRelationship": {
-                    "type": "array",
-                    "items": {
-                        "$ref": "#/definitions/ResourceRelationship"
-                    }
-                },
-                "@baseType": {
-                    "type": "string",
-                    "description": "When sub-classing, this defines the super-class"
-                },
-                "@schemaLocation": {
-                    "type": "string",
-                    "format": "uri",
-                    "description": "A URI to a JSON-Schema file that defines additional attributes and relationships"
-                },
-                "@type": {
-                    "type": "string",
-                    "description": "When sub-classing, this defines the sub-class entity name"
-                }
-            }
-        },
-        "NetworkElements": {
-            "type": "object",
-            "description": "NetworkElement within Access 4.0 project\nSkipped properties: activationFeature,attachment,note,place,resourceSpecification,value,startOperatingDate,endOperatingDate,administrativeState,resourceStatus,usageState,name,resourceVersion,relatedParty",
-            "required": [
-                "href",
-                "id"
-            ],
-            "properties": {
-                "id": {
-                    "type": "string",
-                    "description": "Identifier of an instance of the resource. Required to be unique within the resource type.  Used in URIs as the identifier for specific instances of a type."
-                },
-                "href": {
-                    "format": "uri",
-                    "type": "string",
-                    "description": "The URI for the object itself."
-                },
-                "address": {
-                    "type": "string",
-                    "description": "Human readable string of the address identified by the klsId."
-                },
-                "category": {
-                    "type": "string",
-                    "description": "Category of the concrete resource. e.g Gold, Silver for MSISDN concrete resource"
-                },
-                "creationTime": {
-                    "type": "string",
-                    "description": "This optional attribute identifies the DT material number of a physical entity before it is installed. Set by OSS based on the retrieved material number from the PSL system. This allows the OSS to convert/relate the links retrieved from REBELL to functional network element links (NEL)."
-                },
-                "description": {
-                    "type": "string",
-                    "description": "free-text description of the resource"
-                },
-                "endsz": {
-                    "type": "string",
-                    "description": "combination vpsz/fsz"
-                },
-                "fsz": {
-                    "type": "string",
-                    "description": "This attribute contains the functional key number FSZ (Funktionsschl\u00fcsselzahl). It identifies the class of the device and at the same time provides the identification of the function of the network element."
-                },
-                "klsId": {
-                    "type": "string",
-                    "description": "KLS - Core Information Object (KIO) Locality Server - is a central reference data server for localities and network locations. It is the master system for holding and changing address and location reference data (also network mapping). See also: https://yam.telekom.de/docs/DOC-482263"
-                },
-                "lastUpdateTime": {
-                    "type": "string",
-                    "description": "This optional attribute identifies the DT material number of a physical entity before it is installed. Set by OSS based on the retrieved material number from the PSL system. This allows the OSS to convert/relate the links retrieved from REBELL to functional network element links (NEL)."
-                },
-                "networkElementGroupUuid": {
-                    "type": "string",
-                    "description": "This attribute is for the search by networkElementGroupUuid"
-                },
-                "partyId": {
-                    "type": "string",
-                    "description": "This attribute defines the partyId of the requesting system."
-                },
-                "plannedMatNumber": {
-                    "type": "string",
-                    "description": "This optional attribute identifies the DT material number of a physical entity before it is installed. Set by OSS based on the retrieved material number from the PSL system. This allows the OSS to convert/relate the links retrieved from REBELL to functional network element links (NEL)."
-                },
-                "plannedRackId": {
-                    "type": "string",
-                    "description": "To be provided"
-                },
-                "plannedRackPosition": {
-                    "type": "string",
-                    "description": "To be provided"
-                },
-                "planningDeviceName": {
-                    "type": "string",
-                    "description": "This attribute contains the device name in the planning context."
-                },
-                "specificationVersion": {
-                    "type": "integer",
-                    "description": "This attribute contains the version of the class specification."
-                },
-                "type": {
-                    "type": "string",
-                    "description": "Contains the value of the name attribute of the NE type instance that was used to instantiate the network element."
-                },
-                "vpsz": {
-                    "type": "string",
-                    "description": "This attribute contains the connection node key VPSZ (Verbindungspunktschl\u00fcsselzahl). It logically identifies the site where devices and other connections are terminated."
-                },
-                "ztpIdent": {
-                    "type": "string",
-                    "description": "This optional attribute contains the zero-touch-provisioning identifier set by the installation process (the technician doing the installation of the hardware that is targeted to act as this NetworknElement). The value is used to map the identifier received from a technical identification process (e.g. the client identifier / option 61 field in a DHCP request) to the Network Element instance. It must be unique within the NEMO domain."
-                },
-                "administrativeMode": {
-                    "$ref": "#/definitions/AdministrationModeType",
-                    "description": "This attribute can only be set by the managing system. It is working like a switch and is independent of other states. ENABLED: The underlying resource is allowed to perform its normal duties. DISABLED: The underlying resource isn't allowed to perform any function AND the operationalState is set to NotWorking."
-                },
-                "lifecycleState": {
-                    "$ref": "#/definitions/LifecycleStateType",
-                    "description": "This attribute contains the lifecycle state of the network element."
                 },
                 "operationalState": {
                     "$ref": "#/definitions/ResourceOperationalStateType",
