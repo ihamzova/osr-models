@@ -1,0 +1,843 @@
+---
+swagger: "2.0"
+info:
+  description: "## Network Line Profile Management API\n\nAPI complies TMF 652 Resource\
+    \ Order Management\nThe request for the use case \"update NetworkLineProfile only\"\
+    \ the request would need to contains:\n* ResourceOrder\n* One ResourceOrderItem,\
+    \ quantity: 1, action: modify\n* One Resource: type: NetworkLineProfile, id: empty\n\
+    * ResourceCharacteristics: all attributes as name/value pairs, which are in the\
+    \ current interface.\n\nNetwork line profile resource characteristics:\n\n| Name\
+    \ | Type | Explanation | Retail M/O | Wholebuy M/O | Validation pattern |\n| -------\
+    \ | -------- | -------- | -------- | -------- | -------- |\n| Calid | String |\
+    \ Customer Access Line ID to identify the line-ID-based network connection | M\
+    \ | M | [A-Z0-9]{3}.[A-Z0-9]{1,6}.[A-Z0-9]{1,10} |\n| L2CCID | String | Layer\
+    \ 2 Cross-Connection ID | O | O |\n| substitutionDomain | String | Substitution\
+    \ Domain | O | O |\n| authMethod | String | Authentication method. Possible values:\
+    \ 0 - userbased, 1 - linebased | M | M |\n| federationPartner | String | Federation\
+    \ partner for the present line-id port for BNG | O | O |\n| providerID | String\
+    \ | Identification of the provider, which provides the services for the line |\
+    \ O | O |\n| KLSID | String | ID referring to the location in the KIO-location\
+    \ server | M | M | [0-9]{1,12} |\n| PPDownL3 | String | Maximum downstream speed\
+    \ from the preproduct on the ISO / OSI Layer 3 in the unit kbit/s | O | O |\n\
+    | PPUpL3 | String | Maximum upstream speed from the preproduct on the ISO / OSI\
+    \ Layer 3 in the unit Kbit/s | O | O |\n| ramMaxDownL2 | String | Physical maximum\
+    \ downstream speed on ISO / OSI Layer 2 in the unit Kbit/s | O | M |\n| ramMaxUpL2\
+    \ | String | Maximum physical upstream speed on ISO / OSI Layer 2 in the unit\
+    \ Kbit/s | O | M |\n| ramMinDownL2 | String | Minimal physical downstream speed\
+    \ on ISO / OSI Layer 2 in the unit Kbit/s | O | M |\n| ramMinUpL2 | String | Minimal\
+    \ physical upstream speed on ISO / OSI Layer 2 in the unit Kbit/s | O | M |\n\
+    | ramMinKPDownL2 | String | Configurationally / planning guaranteed downstream\
+    \ speed on ISO / OSI Layer 2 in the unit kbit/s | O | M |\n| ramMinKPUpL2 | String\
+    \ | Configurationally / planning guaranteed upstream speed on ISO / OSI Layer\
+    \ 2 in the unit kbit/s | O | M |\n### The following fields need to be set on 'Resource'\
+    \ for Resources of type NetworkLineProfile on POST\nResource.id : GUID\nResource.href:\
+    \ optional, set by service in response\nResource.name: NetworkLineProfile\nResource.type:\
+    \ NetworkLineProfile\nResource.description: optional, set by service in response\n\
+    Resource.state: optional, set by service in response\n\n### The following fieds\
+    \ need to be set on 'ResourceOrder' for Resources of type NetworkLineProfile on\
+    \ POST\nResourceOrder.id: GUID, unique\nResourceOrder.state: optional, set by\
+    \ service in response\nResourceOrder.externalID: optional. set if ID of other\
+    \ domain is to be maintained as back reference\nResourceOrder.description: optional\n\
+    ResourceOrder.name: optional\nResourceOrder.priority: default value 1\nResourceOrder.category:\
+    \ NetworkLineProfileUpdate\nResourceOrder.orderDate: date-time of order, given\
+    \ by requestor\nResourceOrder.requestedStartDate: date given by requestor\nResourceOrder.requestedCompletionDate:\
+    \ date, given by requestor\nResourceOrder.completionDate: date time, returned\
+    \ by service\nResourceOrder.startDate: date of started order, returned by service\n\
+    ResourceOrder.expectedCompletionDate: date of expected completion, returned by\
+    \ service\n\n### The following fields need to be set on 'ResourceOrderItem' for\
+    \ Resources of type NetworkLineProfile on POST\nResourceOrderItem.id: sequence\
+    \ number\nResourceOrderItem.action: modify (in case of the update of Resource\
+    \ NetworkLineProfile)\nResourceOrderItem.status: optional, returned by service"
+  version: "1.3.0"
+  title: "Network Line Profile Management"
+host: "localhost:8111"
+tags:
+  - name: "callback"
+  - name: "networkLineProfile"
+schemes:
+  - "http"
+paths:
+  /api/resourceOrderingManagement/v1/nlProfilesDefaults:
+    get:
+      tags:
+        - "networkLineProfile"
+      summary: "Get default values of NL profiles"
+      description: "Get default values of NL profiles."
+      operationId: "getDefaultProfilesValues"
+      produces:
+        - "application/json"
+      parameters:
+        - name: "technology"
+          in: "query"
+          description: "Technology"
+          required: true
+          type: "string"
+      responses:
+        200:
+          description: "Successfully find"
+          schema:
+            $ref: "#/definitions/DefaultProfilesValuesDto"
+        400:
+          description: "Bad request"
+          schema:
+            $ref: "#/definitions/ProblemDetails"
+        500:
+          description: "Internal error"
+          schema:
+            $ref: "#/definitions/ProblemDetails"
+  /api/resourceOrderingManagement/v1/resourceOrder/:
+    post:
+      tags:
+        - "networkLineProfile"
+      summary: "Update data in RDQ."
+      description: "- with action \"ADD\" creates a WB AccessLine + subscriber-networkline-profile;\n\
+        - with action \"MODIFY\" creates a new subscriber-networkline-profile for\
+        \ a OLT_BNG and A4 AccessLine or updates an existing one for OLT_BNG, A4 and\
+        \ WB AccessLines;\n- with action \"DELETE\" deletes a subscriber-networkline-profile\
+        \ for OLT_BNG and A4 AccessLines and the whole WB AccessLine;\nA Resource\
+        \ Order is a request to provision a set of Resources (logical and physical)\
+        \ triggered by the request to provision a Service through a Service Order."
+      operationId: "updateLineProfile"
+      consumes:
+        - "application/json"
+      parameters:
+        - name: "X-Callback-Correlation-Id"
+          in: "header"
+          description: "UUID V4 generated identifier. Needs to be unique for each request\
+          \ overall all systems. With this the callback URL is identified internally.\
+          \ If not provided in request it will be generated by the integration layer\
+          \ and will be returned in response. The asynchronous callback will provide\
+          \ this ID for correlation of request and callback."
+          required: true
+          type: "string"
+          format: "uuid"
+        - name: "X-Callback-Url"
+          in: "header"
+          description: "The provided Rest Interface from the consumer where the expected\
+          \ callback is sent to."
+          required: true
+          type: "string"
+        - name: "X-Callback-Id"
+          in: "header"
+          description: "Unique consumerID used to identify the request consumer within\
+          \ FUSE and provide support for maintenance."
+          required: false
+          type: "string"
+        - name: "X-Callback-Error-Url"
+          in: "header"
+          description: "On 3Scale or provider errors FUSE will try to deliver an error\
+          \ on Error Callback URL to the Consumer."
+          required: false
+          type: "string"
+        - name: "X-Callback-Method"
+          in: "header"
+          description: "Default method if not specified is POST."
+          required: false
+          type: "string"
+        - in: "body"
+          name: "body"
+          description: "Resource order"
+          required: true
+          schema:
+            $ref: "#/definitions/ResourceOrder"
+      responses:
+        202:
+          description: "Network LineProfile request is accepted"
+        400:
+          description: "Bad Request (Sync Response on POST Request)"
+      x-async-responses:
+        callback: "callbackUpdateLineProfile"
+    delete:
+      tags:
+        - "networkLineProfile"
+      summary: "Delete data in RDQ."
+      description: "- with action \"MODIFY\" deletes a default-networkline-profile;\n\
+        - action \"DELETE\" cannot be provided here;\nA Resource Order is a request\
+        \ to provision a set of Resources (logical and physical) triggered by the\
+        \ request to provision a Service through a Service Order."
+      operationId: "deleteLineProfile"
+      consumes:
+        - "application/json"
+      parameters:
+        - name: "X-Callback-Correlation-Id"
+          in: "header"
+          description: "UUID V4 generated identifier. Needs to be unique for each request\
+          \ overall all systems. With this the callback URL is identified internally.\
+          \ If not provided in request it will be generated by the integration layer\
+          \ and will be returned in response. The asynchronous callback will provide\
+          \ this ID for correlation of request and callback."
+          required: true
+          type: "string"
+          format: "uuid"
+        - name: "X-Callback-Url"
+          in: "header"
+          description: "The provided Rest Interface from the consumer where the expected\
+          \ callback is sent to."
+          required: true
+          type: "string"
+        - name: "X-Callback-Id"
+          in: "header"
+          description: "Unique consumerID used to identify the request consumer within\
+          \ FUSE and provide support for maintenance."
+          required: false
+          type: "string"
+        - name: "X-Callback-Error-Url"
+          in: "header"
+          description: "On 3Scale or provider errors FUSE will try to deliver an error\
+          \ on Error Callback URL to the Consumer."
+          required: false
+          type: "string"
+        - name: "X-Callback-Method"
+          in: "header"
+          description: "Default method if not specified is POST."
+          required: false
+          type: "string"
+        - in: "body"
+          name: "body"
+          description: "Resource order"
+          required: true
+          schema:
+            $ref: "#/definitions/ResourceOrder"
+      responses:
+        202:
+          description: "Network LineProfile request is accepted"
+        400:
+          description: "Bad Request (Sync Response on POST Request)"
+      x-async-responses:
+        callback: "callbackDeleteLineProfile"
+  /api/resourceOrderingManagement/v1/resourceOrder/createDefaultLineProfile/async:
+    post:
+      tags:
+        - "networkLineProfile"
+      summary: "Creates a 'ResourceOrder' for RDQ create default request"
+      description: "A Resource Order is a request to provision a set of Resources\
+        \ (logical and physical) triggered by the request to provision a Service through\
+        \ a Service Order"
+      operationId: "configureDefaultNetworkLineProfile"
+      consumes:
+        - "application/json"
+      parameters:
+        - name: "X-Callback-Correlation-Id"
+          in: "header"
+          description: "UUID V4 generated identifier. Needs to be unique for each request\
+          \ overall all systems. With this the callback URL is identified internally.\
+          \ If not provided in request it will be generated by the integration layer\
+          \ and will be returned in response. The asynchronous callback will provide\
+          \ this ID for correlation of request and callback."
+          required: true
+          type: "string"
+          format: "uuid"
+        - name: "X-Callback-Url"
+          in: "header"
+          description: "The provided Rest Interface from the consumer where the expected\
+          \ callback is sent to."
+          required: true
+          type: "string"
+        - name: "X-Callback-Id"
+          in: "header"
+          description: "Unique consumerID used to identify the request consumer within\
+          \ FUSE and provide support for maintenance."
+          required: false
+          type: "string"
+        - name: "X-Callback-Error-Url"
+          in: "header"
+          description: "On 3Scale or provider errors FUSE will try to deliver an error\
+          \ on Error Callback URL to the Consumer."
+          required: false
+          type: "string"
+        - name: "X-Callback-Method"
+          in: "header"
+          description: "Default method if not specified is POST."
+          required: false
+          type: "string"
+        - in: "body"
+          name: "body"
+          description: "Resource order"
+          required: true
+          schema:
+            $ref: "#/definitions/ResourceOrder"
+      responses:
+        202:
+          description: "Network LineProfile request is accepted"
+        400:
+          description: "Bad Request (Sync Response on POST Request)"
+      x-async-responses:
+        callback: "callbackCreateDefaultLineProfile"
+  /callback/networkLineProfileManagement/createDefaultNetworkLineProfile:
+    post:
+      tags:
+        - "callback"
+      summary: "Callback about default line profile creation"
+      description: "Sends to a consumer a notification with result of default line\
+        \ profile creation."
+      operationId: "callbackCreateDefaultLineProfile"
+      consumes:
+        - "application/json"
+      parameters:
+        - name: "X-Callback-Correlation-Id"
+          in: "header"
+          description: "UUID V4 generated identifier. Needs to be unique for each request\
+          \ overall all systems. With this the callback URL is identified internally.\
+          \ If not provided in request it will be generated by the integration layer\
+          \ and will be returned in response. The asynchronous callback will provide\
+          \ this ID for correlation of request and callback."
+          required: true
+          type: "string"
+          format: "uuid"
+        - in: "body"
+          name: "body"
+          description: "Returns lineId"
+          required: true
+          schema:
+            $ref: "#/definitions/AsyncResponseString"
+      responses:
+        200:
+          description: "Network LineProfile request is processed"
+        400:
+          description: "Bad Request (Sync Response on POST Request)"
+      x-async-responses:
+        reference-operation-id: "createDefaultLineProfile"
+  /callback/networkLineProfileManagement/deleteLineProfile:
+    post:
+      tags:
+        - "callback"
+      summary: "Callback about line profile deletion"
+      description: "Sends to a consumer a notification with result of deleting line\
+        \ profile."
+      operationId: "callbackDeleteLineProfile"
+      consumes:
+        - "application/json"
+      parameters:
+        - name: "X-Callback-Correlation-Id"
+          in: "header"
+          description: "UUID V4 generated identifier. Needs to be unique for each request\
+          \ overall all systems. With this the callback URL is identified internally.\
+          \ If not provided in request it will be generated by the integration layer\
+          \ and will be returned in response. The asynchronous callback will provide\
+          \ this ID for correlation of request and callback."
+          required: true
+          type: "string"
+          format: "uuid"
+        - in: "body"
+          name: "body"
+          description: "Operation Result Event"
+          required: true
+          schema:
+            $ref: "#/definitions/AsyncResponseNotification"
+      responses:
+        200:
+          description: "Network LineProfile request is processed"
+        400:
+          description: "Bad Request (Sync Response on POST Request)"
+      x-async-responses:
+        reference-operation-id: "deleteLineProfile"
+  /callback/networkLineProfileManagement/error:
+    post:
+      tags:
+        - "callback"
+      summary: "Endpoint to receive error from 3scale in case of technical failure"
+      description: "Receives error from 3scale in case of technical failure. The endpoint\
+        \ is used only for unexpected errors which could not be processed by the provider\
+        \ itself. Like HTTP 404 Not Found, HTTP 503 Service Unavailable."
+      operationId: "receiveError"
+      parameters:
+        - name: "X-Callback-Correlation-Id"
+          in: "header"
+          description: "UUID V4 generated identifier. Needs to be unique for each request\
+          \ overall all systems. With this the callback URL is identified internally.\
+          \ If not provided in request it will be generated by the integration layer\
+          \ and will be returned in response. The asynchronous callback will provide\
+          \ this ID for correlation of request and callback."
+          required: true
+          type: "string"
+          format: "uuid"
+        - name: "X-Callback-Request-Id"
+          in: "header"
+          description: "Unique consumerID from request."
+          required: true
+          type: "string"
+          format: "uuid"
+        - name: "X-Callback-Error-Id"
+          in: "header"
+          description: "UUID V4 generated error identifier."
+          required: true
+          type: "string"
+          format: "uuid"
+        - name: "X-Callback-Error-HTTP-Code"
+          in: "header"
+          description: "Http error code such as 404, 503."
+          required: true
+          type: "string"
+        - in: "body"
+          name: "body"
+          required: false
+          schema:
+            type: "object"
+      responses:
+        202:
+          description: "Your callback API implementation should return this HTTP status\
+            \ code if the data was received successfully"
+  /callback/networkLineProfileManagement/updateLineProfile:
+    post:
+      tags:
+        - "callback"
+      summary: "Callback about line profile update"
+      description: "Sends to a consumer a notification with result of line profile\
+        \ update."
+      operationId: "callbackUpdateLineProfile"
+      consumes:
+        - "application/json"
+      parameters:
+        - name: "X-Callback-Correlation-Id"
+          in: "header"
+          description: "UUID V4 generated identifier. Needs to be unique for each request\
+          \ overall all systems. With this the callback URL is identified internally.\
+          \ If not provided in request it will be generated by the integration layer\
+          \ and will be returned in response. The asynchronous callback will provide\
+          \ this ID for correlation of request and callback."
+          required: true
+          type: "string"
+          format: "uuid"
+        - in: "body"
+          name: "body"
+          description: "Operation Result Event"
+          required: true
+          schema:
+            $ref: "#/definitions/AsyncResponseNotification"
+      responses:
+        200:
+          description: "Network LineProfile request is processed"
+        400:
+          description: "Bad Request (Sync Response on POST Request)"
+      x-async-responses:
+        reference-operation-id: "processUpdateRequest"
+definitions:
+  AsyncResponseNotification:
+    type: "object"
+    properties:
+      error:
+        description: "Result of fail operation."
+        $ref: "#/definitions/CallbackError"
+      response:
+        description: "Result of successful operation."
+        $ref: "#/definitions/Notification"
+      success:
+        type: "boolean"
+    description: "AsyncResponseNotification"
+  AsyncResponseString:
+    type: "object"
+    properties:
+      error:
+        description: "Result of fail operation."
+        $ref: "#/definitions/CallbackError"
+      response:
+        type: "string"
+        description: "Result of successful operation."
+      success:
+        type: "boolean"
+    description: "AsyncResponseString"
+  CallbackError:
+    type: "object"
+    properties:
+      message:
+        type: "string"
+      status:
+        type: "integer"
+        format: "int32"
+      code:
+        type: "string"
+  DefaultNetworkLineProfileDto:
+    type: "object"
+    properties:
+      id:
+        type: "integer"
+        format: "int64"
+        description: "Internal (from database) id of DefaultNetworkLineProfile entity"
+      authMethod:
+        type: "integer"
+        format: "int32"
+        description: "Authentication method of DefaultNetworkLineProfile"
+      klsId:
+        type: "integer"
+        format: "int64"
+        description: "KlsId of DefaultNetworkLineProfile"
+      minDownBandwidth:
+        type: "integer"
+        format: "int32"
+        description: "Minimum down bandwidth of DefaultNetworkLineProfile"
+      minUpBandwidth:
+        type: "integer"
+        format: "int32"
+        description: "Minimum up bandwidth of DefaultNetworkLineProfile"
+      guaranteedDownBandwidth:
+        type: "integer"
+        format: "int32"
+        description: "Guaranteed down bandwidth of DefaultNetworkLineProfile"
+      guaranteedUpBandwidth:
+        type: "integer"
+        format: "int32"
+        description: "Guaranteed up bandwidth of DefaultNetworkLineProfile"
+      maxDownBandwidth:
+        type: "integer"
+        format: "int32"
+        description: "Maximum down bandwidth of DefaultNetworkLineProfile"
+      maxUpBandwidth:
+        type: "integer"
+        format: "int32"
+        description: "Maximum up bandwidth of DefaultNetworkLineProfile"
+      state:
+        type: "string"
+        description: "State of DefaultNeProfile (inactive, active)"
+        enum:
+          - "INACTIVE"
+          - "ACTIVE"
+      federationPartner:
+        type: "string"
+        description: "Federation partner of DefaultNetworkLineProfile"
+      accessNetworkType:
+        type: "string"
+        description: "Access network type of DefaultNetworkLineProfile"
+      accessType:
+        type: "string"
+        description: "Access type of DefaultNetworkLineProfile"
+      version:
+        type: "integer"
+        format: "int64"
+        description: "Version of object"
+      syncStatus:
+        type: "string"
+        description: "Profile sync status"
+        enum:
+          - "OUT_OF_SYNC"
+          - "SYNC_IN_PROGRESS"
+          - "SYNC_FAILED"
+  DefaultProfilesValuesDto:
+    type: "object"
+    properties:
+      subscriberNetworkLineProfileDto:
+        description: "Subscriber profile with defaults"
+        $ref: "#/definitions/SubscriberNetworkLineProfileDto"
+      defaultNetworkLineProfileDto:
+        description: "Default profile with defaults"
+        $ref: "#/definitions/DefaultNetworkLineProfileDto"
+  Event:
+    type: "object"
+    properties:
+      resourceOrder:
+        $ref: "#/definitions/ResourceOrder"
+    description: "Event"
+  Notification:
+    type: "object"
+    properties:
+      eventId:
+        type: "string"
+        description: "Notification ID"
+      eventTime:
+        type: "string"
+        format: "date-time"
+        description: "Event date"
+      eventType:
+        type: "string"
+        description: "Event type: Possible values:  ResourceOrderStateChangeNotification,"
+      event:
+        $ref: "#/definitions/Event"
+    description: "Notification"
+  ProblemDetails:
+    type: "object"
+    required:
+      - "title"
+      - "type"
+    properties:
+      type:
+        type: "string"
+        description: "type"
+      title:
+        type: "string"
+        description: "title"
+      status:
+        type: "integer"
+        format: "int32"
+        description: "status"
+      detail:
+        type: "string"
+        description: "detail"
+      instance:
+        type: "string"
+        description: "instance"
+      embedded:
+        description: "embedded"
+        $ref: "#/definitions/SpecificProblemDetails"
+    description: "Error response of 4xx and 5xx http statuses."
+  ResourceCharacteristic:
+    type: "object"
+    properties:
+      name:
+        type: "string"
+        description: "Resource characteristic type"
+        enum:
+          - "CALID"
+          - "L2CCID"
+          - "SUBSTITUTIONDOMAIN"
+          - "AUTHMETHOD"
+          - "FEDERATIONPARTNER"
+          - "PROVIDERID"
+          - "KLSID"
+          - "PPDOWNL3"
+          - "PPUPL3"
+          - "RAMMAXDOWNL2"
+          - "RAMMAXUPL2"
+          - "RAMMINUPL2"
+          - "RAMMINDOWNL2"
+          - "RAMMINKPDOWNL2"
+          - "RAMMINKPUPL2"
+      value:
+        type: "string"
+        description: "Resource characteristic value"
+    description: "Resource characteristic"
+  ResourceInstance:
+    type: "object"
+    properties:
+      id:
+        type: "string"
+        description: "Identifier of a resource instance. Required to be unique."
+      href:
+        type: "string"
+        description: "Reference to the owned resource (useful for delete or modify\
+          \ command)."
+      name:
+        type: "string"
+        description: "Name of the resource.Should be always NetworkLineProfile."
+      description:
+        type: "string"
+        description: "A description of the resource (what it provides)."
+      state:
+        type: "string"
+        description: "State of resources as per TMF. Notication: <lifecycle-state>-<sub-state>\n\
+          \        IF only supports OPERATING_WORKING & OPERATING_NOTWORKING so every\
+          \ other status than OPERATING_WORKING should be mapped to OPERATING_NOTWORKING\""
+        enum:
+          - "PLANNING_PROPOSED"
+          - "PLANNING_FEASIBILITYCHECKED"
+          - "PLANNING_DESIGNED"
+          - "PLANNING_ORDERED"
+          - "PLANNING_ACTIVATED"
+          - "PLANNING_DEACTIVATED"
+          - "INSTALLING_ACTIVATED"
+          - "INSTALLING_DEACTIVATED"
+          - "OPERATING_WORKING"
+          - "OPERATING_ALLSLAS"
+          - "OPERATING_SOMESLAS"
+          - "OPERATING_NOSLAS"
+          - "OPERATING_NOTWORKING"
+          - "RETIRING"
+      type:
+        type: "string"
+        description: "Type of the resource. Should be always NetworkLineProfile."
+      resourceCharacteristics:
+        type: "array"
+        items:
+          $ref: "#/definitions/ResourceCharacteristic"
+    description: "Resource attributes description"
+  ResourceOrder:
+    type: "object"
+    properties:
+      id:
+        type: "string"
+        description: "Identifier of an instance of the Resource Order. Required to\
+          \ be unique within the resource type."
+      href:
+        type: "string"
+        description: "Hyperlink to access the order."
+      state:
+        type: "string"
+        description: "A string used to give a name to the Resource Order. Every other\
+          \ state will be mapped to failed in the IfClientNetworkProfile. State should\
+          \ correlate with state of ResourceOrderItem."
+        enum:
+          - "ACKNOWLEDGED"
+          - "INPROGRESS"
+          - "CANCELLED"
+          - "COMPLETED"
+          - "REJECTED"
+          - "PENDING"
+          - "HELD"
+          - "FAILED"
+          - "PARTIAL"
+      name:
+        type: "string"
+        description: "A string used to give a name to the Resource Order."
+      description:
+        type: "string"
+        description: "A free-text description of the Resource Order."
+      priority:
+        type: "integer"
+        format: "int32"
+        description: "A way that can be used by consumers to prioritize orders in\
+          \ Resource Order Management system (from 0 to 4 : 0 is the highest priority,\
+          \ and 4 the lowest)."
+      category:
+        type: "string"
+        description: "Used to categorize the order from a business perspective that\
+          \ can be useful for the Resource Order Management system."
+      orderDate:
+        type: "string"
+        format: "date-time"
+        description: "Date when the order was created. Format 2018-04-10T04:00:00.000Z"
+      requestedStartDate:
+        type: "string"
+        format: "date"
+        description: "Order start date wished by the requester. Format: yyyy-MM-dd"
+      requestedCompletionDate:
+        type: "string"
+        format: "date"
+        description: "Requested delivery date from the requester perspective. Format:\
+          \ yyyy-MM-dd"
+      completionDate:
+        type: "string"
+        format: "date-time"
+        description: "Date when the order was completed. Format 2018-04-10T04:00:00.000Z"
+      startDate:
+        type: "string"
+        format: "date"
+        description: "Order start date. Format yyyy-MM-dd"
+      expectedCompletionDate:
+        type: "string"
+        format: "date"
+        description: "Expected delivery date amended by the provider. Format: yyyy-MM-dd"
+      resourceOrderItems:
+        type: "array"
+        items:
+          $ref: "#/definitions/ResourceOrderItem"
+    description: "A Resource Order is a request to provision a set of Resources (logical\
+      \ and physical) triggered by the request to provision a Service through a Service\
+      \ Order."
+  ResourceOrderItem:
+    type: "object"
+    properties:
+      id:
+        type: "string"
+        description: "Identifier of the line item (generally it is a sequence number\
+          \ 1, 2, 3,...)."
+      action:
+        type: "string"
+        description: "Resource Order Action types as per TMF"
+        enum:
+          - "ADD"
+          - "MODIFY"
+          - "DELETE"
+          - "NOCHANGE"
+      state:
+        type: "string"
+        description: "State of the order item. Only cancelled, completed & failed\
+          \ are expected. Every other state will be mapped to failed in the IfClientNetworkProfile.\
+          \ State should correlate with state of ResourceOrder."
+        enum:
+          - "ACKNOWLEDGED"
+          - "INPROGRESS"
+          - "CANCELLED"
+          - "COMPLETED"
+          - "REJECTED"
+          - "PENDING"
+          - "HELD"
+          - "FAILED"
+          - "PARTIAL"
+      resource:
+        $ref: "#/definitions/ResourceInstance"
+    description: "An identified part of the order."
+  SpecificProblemDetails:
+    type: "object"
+    required:
+      - "code"
+      - "reason"
+    properties:
+      code:
+        type: "string"
+        description: "code"
+      reason:
+        type: "string"
+        description: "reason"
+      message:
+        type: "string"
+        description: "message"
+      status:
+        type: "integer"
+        format: "int32"
+        description: "status"
+    description: "Specific problem details(including fehlerbuildnummer code)."
+  SubscriberNetworkLineProfileDto:
+    type: "object"
+    properties:
+      id:
+        type: "integer"
+        format: "int64"
+        description: "Internal (from database) id of SubscriberNetworkLineProfile\
+          \ entity"
+      authMethod:
+        type: "integer"
+        format: "int32"
+        description: "Authentication method of SubscriberNetworkLineProfile"
+      klsId:
+        type: "integer"
+        format: "int64"
+        description: "KlsId of SubscriberNetworkLineProfile"
+      minDownBandwidth:
+        type: "integer"
+        format: "int32"
+        description: "Minimum down bandwidth of SubscriberNetworkLineProfile"
+      minUpBandwidth:
+        type: "integer"
+        format: "int32"
+        description: "Minimum up bandwidth of SubscriberNetworkLineProfile"
+      guaranteedDownBandwidth:
+        type: "integer"
+        format: "int32"
+        description: "Guaranteed down bandwidth of SubscriberNetworkLineProfile"
+      guaranteedUpBandwidth:
+        type: "integer"
+        format: "int32"
+        description: "Guaranteed up bandwidth of SubscriberNetworkLineProfile"
+      maxDownBandwidth:
+        type: "integer"
+        format: "int32"
+        description: "Maximum down bandwidth of SubscriberNetworkLineProfile"
+      maxUpBandwidth:
+        type: "integer"
+        format: "int32"
+        description: "Maximum up bandwidth of SubscriberNetworkLineProfile"
+      downBandwidth:
+        type: "integer"
+        format: "int32"
+        description: "Down bandwidth of SubscriberNetworkLineProfile"
+      upBandwidth:
+        type: "integer"
+        format: "int32"
+        description: "Up bandwidth of SubscriberNetworkLineProfile"
+      state:
+        type: "string"
+        description: "State of SubscriberNetworkLineProfile (inactive, active)"
+        enum:
+          - "INACTIVE"
+          - "ACTIVE"
+      federationPartner:
+        type: "string"
+        description: "Federation partner of SubscriberNetworkLineProfile"
+      providerId:
+        type: "string"
+        description: "provider id of SubscriberNetworkLineProfile"
+      substitutionDomain:
+        type: "string"
+        description: "Substitution domain of SubscriberNetworkLineProfile"
+      l2ccid:
+        type: "string"
+        description: "12 ccid of SubscriberNetworkLineProfile"
+      version:
+        type: "integer"
+        format: "int64"
+        description: "Version of object"
+      syncStatus:
+        type: "string"
+        description: "Profile sync status"
+        enum:
+          - "OUT_OF_SYNC"
+          - "SYNC_IN_PROGRESS"
+          - "SYNC_FAILED"

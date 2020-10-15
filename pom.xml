@@ -10,7 +10,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>osr-models</artifactId>
-    <version>0.0.53</version>
+    <version>0.0.54</version>
 
     <properties>
         <framework.version>${project.parent.version}</framework.version>
@@ -229,6 +229,18 @@
                                         <name>ont.olt.orchestrator.external.client</name>
                                         <inputSpec>
                                             ${project.basedir}/src/main/resources/swagger/ont-olt-orchestrator/ont-olt-orchestrator-external-v2.yaml
+                                        </inputSpec>
+                                    </item>
+                                    <item>
+                                        <name>network.line.profile.management.internal.client</name>
+                                        <inputSpec>
+                                            ${project.basedir}/src/main/resources/swagger/network-line-profile-management/network-line-profile-management-internal-v1.yaml
+                                        </inputSpec>
+                                    </item>
+                                    <item>
+                                        <name>network.line.profile.management.external.client</name>
+                                        <inputSpec>
+                                            ${project.basedir}/src/main/resources/swagger/network-line-profile-management/network-line-profile-management-external-v1.yaml
                                         </inputSpec>
                                     </item>
                                     <item>
