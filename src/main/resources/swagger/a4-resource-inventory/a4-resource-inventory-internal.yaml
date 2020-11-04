@@ -2,7 +2,7 @@ swagger: '2.0'
 info:
   title: a4-resource-inventory
   description: This interface allows you to do CRUD-operations on the a4-resource-inventory
-  version: 2.0.0
+  version: 3.0.0
   contact:
     email: DL_Berlinium@telekom.de
 basePath: /resource-order-resource-inventory/v1/
@@ -345,12 +345,12 @@ paths:
       description: This operation intended for search a NetworkElementPorts.
       tags:
         - NetworkElementPorts
-      summary: Get a list of Network Element Ports based on provided logicalLabel & endSz or type & endSz or endSz or networkElementUuid or networkElementUuid & logicalLabel
+      summary: Get a list of Network Element Ports based on provided logicalLabel(Functional Port Label) & endSz or type & endSz or endSz or networkElementUuid or networkElementUuid & logicalLabel(Functional Port Label)
       operationId: findNetworkElementPorts
       parameters:
         - in: query
           name: logicalLabel
-          description: Logical Label for getting NetworkElementPorts
+          description: Logical Label(Functional Port Label) for getting NetworkElementPorts
           type: string
           required: false
         - in: query
@@ -682,52 +682,52 @@ paths:
             $ref: '#/definitions/Error'
   /matNumberPortMappings:
     get:
-      description: This operation intended for search a physicalLabel or a logicalLabel of MatNumberPortMappings.
+      description: This operation intended for search a rebellPortLabel or a logicalLabel(Functional Port Label) of MatNumberPortMappings.
       tags:
         - MatNumberPortMappings
-      summary: Retrieve a physicalLabel or a logicalLabel of MatNumberPortMappings
-      operationId: findLogicalLabelOrPhysicalLabel
+      summary: Retrieve a rebellPortLabel or a logicalLabel(Functional Port Label) of MatNumberPortMappings
+      operationId: findLogicalLabelOrRebellPortLabel
       parameters:
         - name: logicalLabel
           in: query
-          description: Logical Label for getting Physical Label
+          description: Logical Label(Functional Port Label) for getting rebellPortLabel
           type: string
           required: false
-        - name: physicalLabel
+        - name: rebellPortLabel
           in: query
-          description: Physical Label for getting Logical Label
+          description: RebellPortLabel for getting Logical Label(Functional Port Label)
           type: string
           required: false
         - name: networkElementTypeName
           in: query
           type: string
-          description: Network Element Type Name for search a physicalLabel or a logicalLabel
+          description: Network Element Type Name for search a rebellPortLabel or a logicalLabel(Functional Port Label)
           required: true
         - name: matNumber
           in: query
           type: string
-          description: matNumberPortMappings for search a physicalLabel or a logicalLabel.
+          description: matNumberPortMappings for search a rebellPortLabel or a logicalLabel(Functional Port Label).
           required: true
       responses:
         '200':
-          description: get a physicalLabel or a logicalLabel of MatNumberPortMapping - OK
+          description: get a rebellPortLabel or a logicalLabel(Functional Port Label) of MatNumberPortMapping - OK
           schema:
             type: string
-            description: a physicalLabel or a logicalLabel of MatNumberPortMapping
+            description: a rebellPortLabel or a logicalLabel(Functional Port Label) of MatNumberPortMapping
         '400':
-          description: get a physicalLabel or a logicalLabel of MatNumberPortMapping - Bad Request
+          description: get a rebellPortLabel or a logicalLabel(Functional Port Label) of MatNumberPortMapping - Bad Request
           schema:
             $ref: '#/definitions/Error'
         '403':
-          description: get a physicalLabel or a logicalLabel of MatNumberPortMapping - Forbidden
+          description: get a rebellPortLabel or a logicalLabel(Functional Port Label) of MatNumberPortMapping - Forbidden
           schema:
             $ref: '#/definitions/Error'
         '404':
-          description: get a physicalLabel or a logicalLabel of MatNumberPortMapping - Not Found
+          description: get a rebellPortLabel or a logicalLabel(Functional Port Label) of MatNumberPortMapping - Not Found
           schema:
             $ref: '#/definitions/Error'
         '500':
-          description: get a physicalLabel or a logicalLabel of MatNumberPortMapping - Internal Server Error
+          description: get a rebellPortLabel or a logicalLabel(Functional Port Label) of MatNumberPortMapping - Internal Server Error
           schema:
             $ref: '#/definitions/Error'
   /matNumberPortMappings/{uuid}:
@@ -1257,6 +1257,156 @@ paths:
           description: delete to NetworkElementLinks/{uuid} - Internal Error
           schema:
             $ref: '#/definitions/Error'
+  /networkServiceProfilesA10NSP/{uuid}:
+    get:
+      description: This operation intended for search by uuid .
+      tags:
+        - NetworkServiceProfilesA10NSP
+      summary: Retrieve a NetworkServiceProfileA10NSPDto based on provided UUID.
+      operationId: findNetworkServiceProfileA10NSP
+      parameters:
+        - name: uuid
+          in: path
+          description: UUID of NetworkServiceProfileA10NSPDto item.
+          required: true
+          type: string
+      responses:
+        '200':
+          description: get to NetworkServiceProfileA10NSPDto/{uuid} - OK
+          schema:
+            $ref: '#/definitions/NetworkServiceProfileA10NSPDto'
+        '400':
+          description: get to NetworkServiceProfileA10NSPDto/{uuid} - Bad Request
+          schema:
+            $ref: '#/definitions/Error'
+        '403':
+          description: get to NetworkServiceProfileA10NSPDto/{uuid} - Forbidden
+          schema:
+            $ref: '#/definitions/Error'
+        '404':
+          description: get to NetworkServiceProfileA10NSPDto/{uuid} - Not Found
+          schema:
+            $ref: '#/definitions/Error'
+        '500':
+          description: get to NetworkServiceProfileA10NSPDto/{uuid} - Internal Server Error
+          schema:
+            $ref: '#/definitions/Error'
+    put:
+      description: This operation intended for create or update a NetworkServiceProfileA10NSPDto.
+      tags:
+        - NetworkServiceProfilesA10NSP
+      summary: Create or update a NetworkServiceProfileA10NSPDto item based on provided UUID.
+      operationId: createOrUpdateNetworkServiceProfileA10NSP
+      parameters:
+        - name: uuid
+          in: path
+          description: UUID of NetworkServiceProfileA10NSPDto item.
+          required: true
+          type: string
+        - name: NetworkServiceProfileA10NSPDto
+          in: body
+          description: attributes for NetworkServiceProfileA10NSPDto item to be created or updated
+          required: true
+          schema:
+            $ref: '#/definitions/NetworkServiceProfileA10NSPDto'
+      responses:
+        '200':
+          description: put to NetworkServiceProfileA10NSPDto/{uuid} - OK
+          schema:
+            $ref: '#/definitions/NetworkServiceProfileA10NSPDto'
+        '400':
+          description: put to NetworkServiceProfileA10NSPDto/{uuid} - Bad Request
+          schema:
+            $ref: '#/definitions/Error'
+        '403':
+          description: put to NetworkServiceProfileA10NSPDto/{uuid} - Forbidden
+          schema:
+            $ref: '#/definitions/Error'
+        '404':
+          description: put to NetworkServiceProfileA10NSPDto/{uuid} - Not Found
+          schema:
+            $ref: '#/definitions/Error'
+        '500':
+          description: put to NetworkServiceProfileA10NSPDto/{uuid} - Internal Error
+          schema:
+            $ref: '#/definitions/Error'
+    delete:
+      description: This operation intended for delete a NetworkServiceProfileA10NSPDto
+      tags:
+        - NetworkServiceProfilesA10NSP
+      summary: Delete a NetworkServiceProfileA10NSPDto item based on provided UUID
+      operationId: deleteNetworkServiceProfileA10NSP
+      parameters:
+        - name: uuid
+          in: path
+          type: string
+          description: UUID of NetworkServiceProfileA10NSPDto to be deleted
+          required: true
+      responses:
+        '204':
+          description: delete to NetworkServiceProfileA10NSPDto/{uuid} - No Content
+        '400':
+          description: delete to NetworkServiceProfileA10NSPDto/{uuid} - Bad Request
+          schema:
+            $ref: '#/definitions/Error'
+        '403':
+          description: delete to NetworkServiceProfileA10NSPDto/{uuid} - Forbidden
+          schema:
+            $ref: '#/definitions/Error'
+        '404':
+          description: delete to NetworkServiceProfileA10NSPDto/{uuid} - Unknown uuid
+          schema:
+            $ref: '#/definitions/Error'
+        '500':
+          description: delete to NetworkServiceProfileA10NSPDto/{uuid} - Server Error
+          schema:
+            $ref: '#/definitions/Error'
+  /networkServiceProfilesA10NSP:
+    get:
+      description: This operation intended for search by uuid of terminationPoint
+      tags:
+        - NetworkServiceProfilesA10NSP
+      summary: Retrieve NetworkServiceProfileA10NSP based on related TerminationPoint or l2CcId or itAccountingKey.
+      operationId: findNetworkServiceProfilesA10NSP
+      parameters:
+        - name: terminationPointUuid
+          in: query
+          description: UUID of related TerminationPoint item.
+          required: false
+          type: string
+        - name: l2CcId
+          in: query
+          description: Rahmenvertragsnummer of NetworkServiceProfileA10NSP
+          required: false
+          type: string
+        - name: itAccountingKey
+          in: query
+          description: itAccountingKey of NetworkServiceProfileA10NSP
+          required: false
+          type: string
+      responses:
+        '200':
+          description: get to NetworkServiceProfileA10NSPDto/ - OK
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/NetworkServiceProfileA10NSPDto'
+        '400':
+          description: get to NetworkServiceProfileA10NSPDto/ - Bad Request
+          schema:
+            $ref: '#/definitions/Error'
+        '403':
+          description: get to NetworkServiceProfileA10NSPDto/ - Forbidden
+          schema:
+            $ref: '#/definitions/Error'
+        '404':
+          description: get to NetworkServiceProfileA10NSPDto/ - Not Found
+          schema:
+            $ref: '#/definitions/Error'
+        '500':
+          description: get to NetworkServiceProfileA10NSPDto/ - Internal Server Error
+          schema:
+            $ref: '#/definitions/Error'
 definitions:
   GenericResourceDto:
     type: object
@@ -1470,7 +1620,7 @@ definitions:
         description: attributes of this Port Spec item
       logicalLabel:
         type: string
-        description: attributes of this Port Spec item
+        description: attributes of this Port Spec item (Functional Port Label)
       portType:
         type: string
         description: attributes of this Port Spec item
@@ -1492,8 +1642,8 @@ definitions:
         description: attributes of this MatNumber Port Mapping item
       logicalLabel:
         type: string
-        description: attributes of this MatNumber Port Mapping item
-      physicalLabel:
+        description: attributes of this MatNumber Port Mapping item (Functional Port Label)
+      rebellPortLabel:
         type: string
         description: attributes of this MatNumber Port Mapping item
       networkElementTypeUuid:
@@ -1519,9 +1669,6 @@ definitions:
         type: string
         description: attributes of this NetworkServiceProfileFtthAccessDto item
       administrativeMode:
-        type: string
-        description: attributes of this NetworkServiceProfileFtthAccessDto item
-      productionScheme:
         type: string
         description: attributes of this NetworkServiceProfileFtthAccessDto item
       virtualServiceProvider:
@@ -1594,6 +1741,9 @@ definitions:
       href:
         type: string
         description: References parent element
+      l2CcId:
+        type: string
+        description: Rahmenvertragsnummer for L2Bsa termination point
   AdditionalAttributeDto:
     type: object
     description: The AdditionalAttributes list.
@@ -1659,6 +1809,108 @@ definitions:
       endszB:
         type: string
         description: EndSz of NetworkElementPort on B-side to which this NetworkElementLink is connected.
+  NetworkServiceProfileA10NSPDto:
+    type: object
+    description: The NetworkServiceProfileA10NSPDto item itself
+    properties:
+      uuid:
+        type: string
+        description: UUID of this NetworkServiceProfileA10NSPDto
+      lifecycleState:
+        type: string
+        description: attributes of this NetworkServiceProfileA10NSPDto item
+      operationalState:
+        type: string
+        description: attributes of this NetworkServiceProfileA10NSPDto item
+      description:
+        type: string
+        description: attributes of this NetworkServiceProfileA10NSPDto item
+      administrativeMode:
+        type: string
+        description: attributes of this NetworkServiceProfileA10NSPDto item
+      virtualServiceProvider:
+        type: string
+        description: attributes of this NetworkServiceProfileA10NSPDto item
+      specificationVersion:
+        type: string
+        description: attributes of this NetworkServiceProfileA10NSPDto item
+      l2CcId:
+        type: string
+        description: attributes of this NetworkServiceProfileA10NSPDto item
+      lagId:
+        type: string
+        description: attributes of this NetworkServiceProfileA10NSPDto item
+      mtuSize:
+        type: string
+        description: attributes of this NetworkServiceProfileA10NSPDto item
+      etherType:
+        type: string
+        description: attributes of this NetworkServiceProfileA10NSPDto item
+      itAccountingKey:
+        type: string
+        description: attributes of this NetworkServiceProfileA10NSPDto item
+      lacpActive:
+        type: boolean
+        description: attributes of this NetworkServiceProfileA10NSPDto item
+      lacpMode:
+        type: string
+        description: attributes of this NetworkServiceProfileA10NSPDto item
+      minActiveLagLinks:
+        type: string
+        description: attributes of this NetworkServiceProfileA10NSPDto item
+      sVlanRange:
+        type: array
+        items:
+          $ref: '#/definitions/VlanRangeDto'
+        description: VlanRange list for this NetworkServiceProfileA10NSPDto item
+      dataRate:
+        type: string
+        description: attributes of this NetworkServiceProfileA10NSPDto item
+      qosClasses:
+        type: array
+        items:
+          $ref: '#/definitions/A10NspQosDto'
+        description: A10NspQos list for this NetworkServiceProfileA10NSPDto item
+      qosMode:
+        type: string
+        description: attributes of this NetworkServiceProfileA10NSPDto item
+      lastUpdateTime:
+        type: string
+        format: date-time
+        description: Timestamp in UTC when this NetworkServiceProfileA10NSPDto item was last updated. Automatically updated when updating a NetworkServiceProfileA10NSPDto item
+      creationTime:
+        format: date-time
+        type: string
+        description: Timestamp in UTC when this NetworkServiceProfileA10NSPDto item was created. Automatically filled when creating a new NetworkServiceProfileA10NSPDto item
+      terminationPointA10NSPUuid:
+        type: string
+        description: UUID of terminationPointA10NSP item to which this NetworkServiceProfileA10NSPDto item belongs. Must contain UUID of an existing Termination Point
+      href:
+        type: string
+        description: References TerminationPoint
+  VlanRangeDto:
+    type: object
+    description: The VlanRange list.
+    properties:
+      vlanRangeLower:
+        type: string
+        description: attributes of this VlanRange
+      vlanRangeUpper:
+        type: string
+        description: attributes of this VlanRange
+  A10NspQosDto:
+    type: object
+    description: The A10NspQos list.
+    properties:
+      qosClass:
+        type: string
+        description: attributes of this A10NspQos
+      qosBandwidthUp:
+        type: string
+        description: attributes of this A10NspQos
+      qosBandwidthDown:
+        type: string
+        description: attributes of this A10NspQos
   Error:
     description: Error model from the TMF OpenAPI
     type: object

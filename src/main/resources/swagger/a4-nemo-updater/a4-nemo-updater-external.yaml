@@ -1,7 +1,7 @@
 swagger: '2.0'
 info:
   description: This YAML describes a Service to trigger Tasks to update Resources in A4 Resource Inventory to NEMO.
-  version: 1.1.0
+  version: 1.2.1
   title: A4 Trigger Nemo Update Task API
   contact:
     name: Team Berlinium
@@ -49,7 +49,56 @@ paths:
           description: post to NemoUpdateService - Internal Server Error
           schema:
             $ref: '#/definitions/Error'
-
+        '502':
+          description: NEMO or A4-Resource-Inventory returned an error - Bad Gateway
+          schema:
+            $ref: '#/definitions/Error'
+        '503':
+          description: NEMO or A4-Resource-Inventory is not available - Service unavailable
+          schema:
+            $ref: '#/definitions/Error'
+  /resource-order-resource-inventory/v1/asyncUpdateNemoTask:
+    post:
+      tags:
+        - NemoUpdateServiceAsync
+      summary: Triggers a Resource Update to Nemo in asyn modus
+      description: Triggers a Resource Update to Nemo by a list of UUID of the relevant Objects
+      operationId: updateNemoTaskAsync
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: UUIDS
+          in: body
+          required: true
+          description: list of UUIDs of the Logical Resource which has to be updated in NEMO
+          schema:
+            $ref: '#/definitions/UpdateNemoTaskAsync'
+      responses:
+        '201':
+          description: >-
+            trigger request successful created
+        '400':
+          description: post to NemoUpdateService - Bad Request
+          schema:
+            $ref: '#/definitions/Error'
+        '403':
+          description: post to NemoUpdateService - Forbidden
+          schema:
+            $ref: '#/definitions/Error'
+        '500':
+          description: post to NemoUpdateService - Internal Server Error
+          schema:
+            $ref: '#/definitions/Error'
+        '502':
+          description: NEMO or A4-Resource-Inventory returned an error - Bad Gateway
+          schema:
+            $ref: '#/definitions/Error'
+        '503':
+          description: NEMO or A4-Resource-Inventory is not available - Service unavailable
+          schema:
+            $ref: '#/definitions/Error'
 definitions:
   UpdateNemoTask:
     type: object
@@ -60,6 +109,10 @@ definitions:
         description: UUID of the entity (e.g. NetworkElementGroup, NetworkElement...)
     required:
       - EntityUuid
+  UpdateNemoTaskAsync:
+    type: array
+    items:
+      type: string
   Error:
     description: Error model from the TMF OpenAPI
     type: object
