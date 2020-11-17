@@ -309,6 +309,12 @@
                                             ${project.basedir}/src/main/resources/swagger/olt-resource-inventory/olt-resource-inventory-external.4.2.0.yaml
                                         </inputSpec>
                                     </item>
+                                    <item>
+                                        <name>olt.resource.inventory.external.v4_6_0.client</name>
+                                        <inputSpec>
+                                            ${project.basedir}/src/main/resources/swagger/olt-resource-inventory/olt-resource-inventory-external.4.6.0.yaml
+                                        </inputSpec>
+                                    </item>
                                 </items>
                             </bulk>
                             <language/>
