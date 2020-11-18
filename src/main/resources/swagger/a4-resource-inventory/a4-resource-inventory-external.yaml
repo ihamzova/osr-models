@@ -2,7 +2,7 @@ swagger: '2.0'
 info:
   title: a4-resource-inventory
   description: This interface allows you to do CRUD-operations on the a4-resource-inventory
-  version: 3.0.3
+  version: 3.1.1
   contact:
     email: DL_Berlinium@telekom.de
 schemes:
@@ -689,12 +689,12 @@ paths:
       parameters:
         - name: logicalLabel
           in: query
-          description: Logical Label(Functional Port Label) for getting Rebell Port Label
+          description: Logical Label(Functional Port Label) for getting rebellPortLabel
           type: string
           required: false
         - name: rebellPortLabel
           in: query
-          description: Rebell Port Label for getting Logical Label(Functional Port Label)
+          description: RebellPortLabel for getting Logical Label(Functional Port Label)
           type: string
           required: false
         - name: networkElementTypeName
@@ -1256,117 +1256,117 @@ paths:
           description: delete to NetworkElementLinks/{uuid} - Internal Error
           schema:
             $ref: '#/definitions/Error'
-  /resource-order-resource-inventory/v1/a4NetworkServiceProfilesA10NSP/{uuid}:
+  /resource-order-resource-inventory/v1/a4NetworkServiceProfilesA10Nsp/{uuid}:
     get:
       description: This operation intended for search by uuid .
       tags:
-        - NetworkServiceProfilesA10NSP
-      summary: Retrieve a NetworkServiceProfileA10NSPDto based on provided UUID.
-      operationId: findNetworkServiceProfileA10NSP
+        - NetworkServiceProfilesA10Nsp
+      summary: Retrieve a NetworkServiceProfileA10NspDto based on provided UUID.
+      operationId: findNetworkServiceProfileA10Nsp
       parameters:
         - name: uuid
           in: path
-          description: UUID of NetworkServiceProfileA10NSPDto item.
+          description: UUID of NetworkServiceProfileA10NspDto item.
           required: true
           type: string
       responses:
         '200':
-          description: get to NetworkServiceProfileA10NSPDto/{uuid} - OK
+          description: get to NetworkServiceProfileA10NspDto/{uuid} - OK
           schema:
-            $ref: '#/definitions/NetworkServiceProfileA10NSPDto'
+            $ref: '#/definitions/NetworkServiceProfileA10NspDto'
         '400':
-          description: get to NetworkServiceProfileA10NSPDto/{uuid} - Bad Request
+          description: get to NetworkServiceProfileA10NspDto/{uuid} - Bad Request
           schema:
             $ref: '#/definitions/Error'
         '403':
-          description: get to NetworkServiceProfileA10NSPDto/{uuid} - Forbidden
+          description: get to NetworkServiceProfileA10NspDto/{uuid} - Forbidden
           schema:
             $ref: '#/definitions/Error'
         '404':
-          description: get to NetworkServiceProfileA10NSPDto/{uuid} - Not Found
+          description: get to NetworkServiceProfileA10NspDto/{uuid} - Not Found
           schema:
             $ref: '#/definitions/Error'
         '500':
-          description: get to NetworkServiceProfileA10NSPDto/{uuid} - Internal Server Error
+          description: get to NetworkServiceProfileA10NspDto/{uuid} - Internal Server Error
           schema:
             $ref: '#/definitions/Error'
     put:
-      description: This operation intended for create or update a NetworkServiceProfileA10NSPDto.
+      description: This operation intended for create or update a NetworkServiceProfileA10NspDto.
       tags:
-        - NetworkServiceProfilesA10NSP
-      summary: Create or update a NetworkServiceProfileA10NSPDto item based on provided UUID.
-      operationId: createOrUpdateNetworkServiceProfileA10NSP
+        - NetworkServiceProfilesA10Nsp
+      summary: Create or update a NetworkServiceProfileA10NspDto item based on provided UUID.
+      operationId: createOrUpdateNetworkServiceProfileA10Nsp
       parameters:
         - name: uuid
           in: path
-          description: UUID of NetworkServiceProfileA10NSPDto item.
+          description: UUID of NetworkServiceProfileA10NspDto item.
           required: true
           type: string
-        - name: NetworkServiceProfileA10NSPDto
+        - name: NetworkServiceProfileA10NspDto
           in: body
-          description: attributes for NetworkServiceProfileA10NSPDto item to be created or updated
+          description: attributes for NetworkServiceProfileA10NspDto item to be created or updated
           required: true
           schema:
-            $ref: '#/definitions/NetworkServiceProfileA10NSPDto'
+            $ref: '#/definitions/NetworkServiceProfileA10NspDto'
       responses:
         '200':
-          description: put to NetworkServiceProfileA10NSPDto/{uuid} - OK
+          description: put to NetworkServiceProfileA10NspDto/{uuid} - OK
           schema:
-            $ref: '#/definitions/NetworkServiceProfileA10NSPDto'
+            $ref: '#/definitions/NetworkServiceProfileA10NspDto'
         '400':
-          description: put to NetworkServiceProfileA10NSPDto/{uuid} - Bad Request
+          description: put to NetworkServiceProfileA10NspDto/{uuid} - Bad Request
           schema:
             $ref: '#/definitions/Error'
         '403':
-          description: put to NetworkServiceProfileA10NSPDto/{uuid} - Forbidden
+          description: put to NetworkServiceProfileA10NspDto/{uuid} - Forbidden
           schema:
             $ref: '#/definitions/Error'
         '404':
-          description: put to NetworkServiceProfileA10NSPDto/{uuid} - Not Found
+          description: put to NetworkServiceProfileA10NspDto/{uuid} - Not Found
           schema:
             $ref: '#/definitions/Error'
         '500':
-          description: put to NetworkServiceProfileA10NSPDto/{uuid} - Internal Error
+          description: put to NetworkServiceProfileA10NspDto/{uuid} - Internal Error
           schema:
             $ref: '#/definitions/Error'
     delete:
-      description: This operation intended for delete a NetworkServiceProfileA10NSPDto
+      description: This operation intended for delete a NetworkServiceProfileA10NspDto
       tags:
-        - NetworkServiceProfilesA10NSP
-      summary: Delete a NetworkServiceProfileA10NSPDto item based on provided UUID
-      operationId: deleteNetworkServiceProfileA10NSP
+        - NetworkServiceProfilesA10Nsp
+      summary: Delete a NetworkServiceProfileA10NspDto item based on provided UUID
+      operationId: deleteNetworkServiceProfileA10Nsp
       parameters:
         - name: uuid
           in: path
           type: string
-          description: UUID of NetworkServiceProfileA10NSPDto to be deleted
+          description: UUID of NetworkServiceProfileA10NspDto to be deleted
           required: true
       responses:
         '204':
-          description: delete to NetworkServiceProfileA10NSPDto/{uuid} - No Content
+          description: delete to NetworkServiceProfileA10NspDto/{uuid} - No Content
         '400':
-          description: delete to NetworkServiceProfileA10NSPDto/{uuid} - Bad Request
+          description: delete to NetworkServiceProfileA10NspDto/{uuid} - Bad Request
           schema:
             $ref: '#/definitions/Error'
         '403':
-          description: delete to NetworkServiceProfileA10NSPDto/{uuid} - Forbidden
+          description: delete to NetworkServiceProfileA10NspDto/{uuid} - Forbidden
           schema:
             $ref: '#/definitions/Error'
         '404':
-          description: delete to NetworkServiceProfileA10NSPDto/{uuid} - Unknown uuid
+          description: delete to NetworkServiceProfileA10NspDto/{uuid} - Unknown uuid
           schema:
             $ref: '#/definitions/Error'
         '500':
-          description: delete to NetworkServiceProfileA10NSPDto/{uuid} - Server Error
+          description: delete to NetworkServiceProfileA10NspDto/{uuid} - Server Error
           schema:
             $ref: '#/definitions/Error'
-  /resource-order-resource-inventory/v1/a4NetworkServiceProfilesA10NSP:
+  /resource-order-resource-inventory/v1/a4NetworkServiceProfilesA10Nsp:
     get:
       description: This operation intended for search by uuid of terminationPoint
       tags:
-        - NetworkServiceProfilesA10NSP
-      summary: Retrieve NetworkServiceProfileA10NSP based on related TerminationPoint or l2CcId or itAccountingKey.
-      operationId: findNetworkServiceProfilesA10NSP
+        - NetworkServiceProfilesA10Nsp
+      summary: Retrieve NetworkServiceProfileA10Nsp based on related TerminationPoint or l2CcId or itAccountingKey.
+      operationId: findNetworkServiceProfilesA10Nsp
       parameters:
         - name: terminationPointUuid
           in: query
@@ -1375,35 +1375,175 @@ paths:
           type: string
         - name: l2CcId
           in: query
-          description: Rahmenvertragsnummer of NetworkServiceProfileA10NSP
+          description: Rahmenvertragsnummer of NetworkServiceProfileA10Nsp
           required: false
           type: string
         - name: itAccountingKey
           in: query
-          description: itAccountingKey of NetworkServiceProfileA10NSP
+          description: itAccountingKey of NetworkServiceProfileA10Nsp
           required: false
           type: string
       responses:
         '200':
-          description: get to NetworkServiceProfileA10NSPDto/ - OK
+          description: get to NetworkServiceProfileA10NspDto/ - OK
           schema:
             type: array
             items:
-              $ref: '#/definitions/NetworkServiceProfileA10NSPDto'
+              $ref: '#/definitions/NetworkServiceProfileA10NspDto'
         '400':
-          description: get to NetworkServiceProfileA10NSPDto/ - Bad Request
+          description: get to NetworkServiceProfileA10NspDto/ - Bad Request
           schema:
             $ref: '#/definitions/Error'
         '403':
-          description: get to NetworkServiceProfileA10NSPDto/ - Forbidden
+          description: get to NetworkServiceProfileA10NspDto/ - Forbidden
           schema:
             $ref: '#/definitions/Error'
         '404':
-          description: get to NetworkServiceProfileA10NSPDto/ - Not Found
+          description: get to NetworkServiceProfileA10NspDto/ - Not Found
           schema:
             $ref: '#/definitions/Error'
         '500':
-          description: get to NetworkServiceProfileA10NSPDto/ - Internal Server Error
+          description: get to NetworkServiceProfileA10NspDto/ - Internal Server Error
+          schema:
+            $ref: '#/definitions/Error'
+  /resource-order-resource-inventory/v1/a4NetworkServiceProfilesL2Bsa/{uuid}:
+    get:
+      description: This operation intended for search by uuid .
+      tags:
+        - NetworkServiceProfilesL2Bsa
+      summary: Retrieve a NetworkServiceProfileL2BsaDto based on provided UUID.
+      operationId: findNetworkServiceProfileL2Bsa
+      parameters:
+        - name: uuid
+          in: path
+          description: UUID of NetworkServiceProfileL2BsaDto item.
+          required: true
+          type: string
+      responses:
+        '200':
+          description: get to NetworkServiceProfileL2BsaDto/{uuid} - OK
+          schema:
+            $ref: '#/definitions/NetworkServiceProfileL2BsaDto'
+        '400':
+          description: get to NetworkServiceProfileL2BsaDto/{uuid} - Bad Request
+          schema:
+            $ref: '#/definitions/Error'
+        '403':
+          description: get to NetworkServiceProfileL2BsaDto/{uuid} - Forbidden
+          schema:
+            $ref: '#/definitions/Error'
+        '404':
+          description: get to NetworkServiceProfileL2BsaDto/{uuid} - Not Found
+          schema:
+            $ref: '#/definitions/Error'
+        '500':
+          description: get to NetworkServiceProfileL2BsaDto/{uuid} - Internal Server Error
+          schema:
+            $ref: '#/definitions/Error'
+    put:
+      description: This operation intended for create or update a NetworkServiceProfileL2BsaDto.
+      tags:
+        - NetworkServiceProfilesL2Bsa
+      summary: Create or update a NetworkServiceProfileL2BsaDto item based on provided UUID.
+      operationId: createOrUpdateNetworkServiceProfileL2Bsa
+      parameters:
+        - name: uuid
+          in: path
+          description: UUID of NetworkServiceProfileL2BsaDto item.
+          required: true
+          type: string
+        - name: NetworkServiceProfileL2BsaDto
+          in: body
+          description: attributes for NetworkServiceProfileL2BsaDto item to be created or updated
+          required: true
+          schema:
+            $ref: '#/definitions/NetworkServiceProfileL2BsaDto'
+      responses:
+        '200':
+          description: put to NetworkServiceProfileL2BsaDto/{uuid} - OK
+          schema:
+            $ref: '#/definitions/NetworkServiceProfileL2BsaDto'
+        '400':
+          description: put to NetworkServiceProfileL2BsaDto/{uuid} - Bad Request
+          schema:
+            $ref: '#/definitions/Error'
+        '403':
+          description: put to NetworkServiceProfileL2BsaDto/{uuid} - Forbidden
+          schema:
+            $ref: '#/definitions/Error'
+        '404':
+          description: put to NetworkServiceProfileL2BsaDto/{uuid} - Not Found
+          schema:
+            $ref: '#/definitions/Error'
+        '500':
+          description: put to NetworkServiceProfileL2BsaDto/{uuid} - Internal Error
+          schema:
+            $ref: '#/definitions/Error'
+    delete:
+      description: This operation intended for delete a NetworkServiceProfileL2BsaDto
+      tags:
+        - NetworkServiceProfilesL2Bsa
+      summary: Delete a NetworkServiceProfileL2BsaDto item based on provided UUID
+      operationId: deleteNetworkServiceProfileL2Bsa
+      parameters:
+        - name: uuid
+          in: path
+          type: string
+          description: UUID of NetworkServiceProfileL2BsaDto to be deleted
+          required: true
+      responses:
+        '204':
+          description: delete to NetworkServiceProfileL2BsaDto/{uuid} - No Content
+        '400':
+          description: delete to NetworkServiceProfileL2BsaDto/{uuid} - Bad Request
+          schema:
+            $ref: '#/definitions/Error'
+        '403':
+          description: delete to NetworkServiceProfileL2BsaDto/{uuid} - Forbidden
+          schema:
+            $ref: '#/definitions/Error'
+        '404':
+          description: delete to NetworkServiceProfileL2BsaDto/{uuid} - Unknown uuid
+          schema:
+            $ref: '#/definitions/Error'
+        '500':
+          description: delete to NetworkServiceProfileL2BsaDto/{uuid} - Server Error
+          schema:
+            $ref: '#/definitions/Error'
+  /resource-order-resource-inventory/v1/a4NetworkServiceProfilesL2Bsa:
+    get:
+      description: This operation intended for search by uuid of terminationPoint
+      tags:
+        - NetworkServiceProfilesL2Bsa
+      summary: Retrieve NetworkServiceProfileL2Bsa based on related TerminationPoint or l2CcId or itAccountingKey.
+      operationId: findNetworkServiceProfilesL2Bsa
+      parameters:
+        - name: terminationPointUuid
+          in: query
+          description: UUID of related TerminationPoint item.
+          required: false
+          type: string
+      responses:
+        '200':
+          description: get to NetworkServiceProfileL2BsaDto/ - OK
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/NetworkServiceProfileL2BsaDto'
+        '400':
+          description: get to NetworkServiceProfileL2BsaDto/ - Bad Request
+          schema:
+            $ref: '#/definitions/Error'
+        '403':
+          description: get to NetworkServiceProfileL2BsaDto/ - Forbidden
+          schema:
+            $ref: '#/definitions/Error'
+        '404':
+          description: get to NetworkServiceProfileL2BsaDto/ - Not Found
+          schema:
+            $ref: '#/definitions/Error'
+        '500':
+          description: get to NetworkServiceProfileL2BsaDto/ - Internal Server Error
           schema:
             $ref: '#/definitions/Error'
 definitions:
@@ -1808,85 +1948,85 @@ definitions:
       endszB:
         type: string
         description: EndSz of NetworkElementPort on B-side to which this NetworkElementLink is connected.
-  NetworkServiceProfileA10NSPDto:
+  NetworkServiceProfileA10NspDto:
     type: object
-    description: The NetworkServiceProfileA10NSPDto item itself
+    description: The NetworkServiceProfileA10NspDto item itself
     properties:
       uuid:
         type: string
-        description: UUID of this NetworkServiceProfileA10NSPDto
+        description: UUID of this NetworkServiceProfileA10NspDto
       lifecycleState:
         type: string
-        description: attributes of this NetworkServiceProfileA10NSPDto item
+        description: attributes of this NetworkServiceProfileA10NspDto item
       operationalState:
         type: string
-        description: attributes of this NetworkServiceProfileA10NSPDto item
+        description: attributes of this NetworkServiceProfileA10NspDto item
       description:
         type: string
-        description: attributes of this NetworkServiceProfileA10NSPDto item
+        description: attributes of this NetworkServiceProfileA10NspDto item
       administrativeMode:
         type: string
-        description: attributes of this NetworkServiceProfileA10NSPDto item
+        description: attributes of this NetworkServiceProfileA10NspDto item
       virtualServiceProvider:
         type: string
-        description: attributes of this NetworkServiceProfileA10NSPDto item
+        description: attributes of this NetworkServiceProfileA10NspDto item
       specificationVersion:
         type: string
-        description: attributes of this NetworkServiceProfileA10NSPDto item
+        description: attributes of this NetworkServiceProfileA10NspDto item
       l2CcId:
         type: string
-        description: attributes of this NetworkServiceProfileA10NSPDto item
+        description: attributes of this NetworkServiceProfileA10NspDto item
       lagId:
         type: string
-        description: attributes of this NetworkServiceProfileA10NSPDto item
+        description: attributes of this NetworkServiceProfileA10NspDto item
       mtuSize:
         type: string
-        description: attributes of this NetworkServiceProfileA10NSPDto item
+        description: attributes of this NetworkServiceProfileA10NspDto item
       etherType:
         type: string
-        description: attributes of this NetworkServiceProfileA10NSPDto item
+        description: attributes of this NetworkServiceProfileA10NspDto item
       itAccountingKey:
         type: string
-        description: attributes of this NetworkServiceProfileA10NSPDto item
+        description: attributes of this NetworkServiceProfileA10NspDto item
       lacpActive:
         type: boolean
-        description: attributes of this NetworkServiceProfileA10NSPDto item
+        description: attributes of this NetworkServiceProfileA10NspDto item
       lacpMode:
         type: string
-        description: attributes of this NetworkServiceProfileA10NSPDto item
+        description: attributes of this NetworkServiceProfileA10NspDto item
       minActiveLagLinks:
         type: string
-        description: attributes of this NetworkServiceProfileA10NSPDto item
+        description: attributes of this NetworkServiceProfileA10NspDto item
       sVlanRange:
         type: array
         items:
           $ref: '#/definitions/VlanRangeDto'
-        description: VlanRange list for this NetworkServiceProfileA10NSPDto item
+        description: VlanRange list for this NetworkServiceProfileA10NspDto item
       dataRate:
         type: string
-        description: attributes of this NetworkServiceProfileA10NSPDto item
+        description: attributes of this NetworkServiceProfileA10NspDto item
       qosClasses:
         type: array
         items:
           $ref: '#/definitions/A10NspQosDto'
-        description: A10NspQos list for this NetworkServiceProfileA10NSPDto item
+        description: A10NspQos list for this NetworkServiceProfileA10NspDto item
       qosMode:
         type: string
-        description: attributes of this NetworkServiceProfileA10NSPDto item
+        description: attributes of this NetworkServiceProfileA10NspDto item
       lastUpdateTime:
         type: string
         format: date-time
-        description: Timestamp in UTC when this NetworkServiceProfileA10NSPDto item was last updated. Automatically updated when updating a NetworkServiceProfileA10NSPDto item
+        description: Timestamp in UTC when this NetworkServiceProfileA10NspDto item was last updated. Automatically updated when updating a NetworkServiceProfileA10NspDto item
       creationTime:
         format: date-time
         type: string
-        description: Timestamp in UTC when this NetworkServiceProfileA10NSPDto item was created. Automatically filled when creating a new NetworkServiceProfileA10NSPDto item
-      terminationPointA10NSPUuid:
+        description: Timestamp in UTC when this NetworkServiceProfileA10NspDto item was created. Automatically filled when creating a new NetworkServiceProfileA10NspDto item
+      terminationPointA10NspUuid:
         type: string
-        description: UUID of terminationPointA10NSP item to which this NetworkServiceProfileA10NSPDto item belongs. Must contain UUID of an existing Termination Point
+        description: UUID of terminationPointA10Nsp item to which this NetworkServiceProfileA10NspDto item belongs. Must contain UUID of an existing Termination Point
       href:
         type: string
-        description: References NetworkServiceProfileA10NSPDto
+        description: References TerminationPoint
   VlanRangeDto:
     type: object
     description: The VlanRange list.
@@ -1910,6 +2050,81 @@ definitions:
       qosBandwidthDown:
         type: string
         description: attributes of this A10NspQos
+  NetworkServiceProfileL2BsaDto:
+    type: object
+    description: The NetworkServiceProfileL2BsaDto item itself
+    properties:
+      uuid:
+        type: string
+        description: UUID of this NetworkServiceProfileL2BsaDto
+      lifecycleState:
+        type: string
+        description: attributes of this NetworkServiceProfileL2BsaDto item
+      operationalState:
+        type: string
+        description: attributes of this NetworkServiceProfileL2BsaDto item
+      description:
+        type: string
+        description: attributes of this NetworkServiceProfileL2BsaDto item
+      administrativeMode:
+        type: string
+        description: attributes of this NetworkServiceProfileL2BsaDto item
+      serviceBandwidth:
+        type: array
+        items:
+          $ref: '#/definitions/ServiceBandwidthDto'
+        description: ServiceBandwidth for this NetworkServiceProfileL2BsaDto item
+      activeQosClasses:
+        type: array
+        items:
+          $ref: '#/definitions/L2BsaQosDto'
+        description: L2BsaQos list for this NetworkServiceProfileL2BsaDto item
+      virtualServiceProvider:
+        type: string
+        description: attributes of this NetworkServiceProfileL2BsaDto item
+      specificationVersion:
+        type: string
+        description: attributes of this NetworkServiceProfileL2BsaDto item
+      lastUpdateTime:
+        type: string
+        format: date-time
+        description: Timestamp in UTC when this NetworkServiceProfileL2BsaDto item was last updated. Automatically updated when updating a NetworkServiceProfileL2BsaDto item
+      creationTime:
+        format: date-time
+        type: string
+        description: Timestamp in UTC when this NetworkServiceProfileL2BsaDto item was created. Automatically filled when creating a new NetworkServiceProfileL2BsaDto item
+      terminationPointL2BsaUuid:
+        type: string
+        description: UUID of terminationPointL2Bsa item to which this NetworkServiceProfileL2BsaDto item belongs. Must contain UUID of an existing Termination Point
+      nspAccess:
+        type: string
+        description: UUID of NetworkServiceProfile item to which this NetworkServiceProfileL2BsaDto item belongs.
+      href:
+        type: string
+        description: References TerminationPoint
+  L2BsaQosDto:
+    type: object
+    description: The L2BsaQos list.
+    properties:
+      qosPbit:
+        type: string
+        description: attributes of this L2BsaQos
+      qosBandwidthUp:
+        type: string
+        description: attributes of this L2BsaQos
+      qosBandwidthDown:
+        type: string
+        description: attributes of this L2BsaQos
+  ServiceBandwidthDto:
+    type: object
+    description: The ServiceBandwidth.
+    properties:
+      dataRateDown:
+        type: string
+        description: attributes of this ServiceBandwidth
+      dataRateUp:
+        type: string
+        description: attributes of this ServiceBandwidth
   Error:
     description: Error model from the TMF OpenAPI
     type: object
