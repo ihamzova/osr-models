@@ -1,0 +1,153 @@
+---
+swagger: "2.0"
+info:
+  description: "Backend-For-Frontend for Mobile DPU UI"
+  version: "0.0.2"
+  title: "mobile-dpu-bff"
+host: "localhost:8080"
+tags:
+- name: "Mobile DPU BFF External"
+schemes:
+- "http"
+paths:
+  /resource-order-resource-inventory/mobiledpubff/v1/workorder/{woId}:
+    get:
+      tags:
+      - "Mobile DPU BFF External"
+      summary: "Return a WorkorderResponse determined by given Workorder-Id."
+      description: ""
+      operationId: "getWorkorder"
+      parameters:
+      - name: "woId"
+        in: "path"
+        description: "woId"
+        required: true
+        type: "integer"
+        format: "int64"
+      responses:
+        200:
+          description: "Workorder Found."
+          schema:
+            $ref: "#/definitions/WorkorderResponse"
+        404:
+          description: "Workorder NotFound."
+        500:
+          description: "Internal Error."
+  /resource-order-resource-inventory/mobiledpubff/v1/workorder/{woId}/complete:
+    post:
+      tags:
+      - "Mobile DPU BFF External"
+      summary: "Completes a workorder for given Workorder-Id and returns WorkorderResponse."
+      description: ""
+      operationId: "completeWorkorder"
+      parameters:
+      - name: "woId"
+        in: "path"
+        description: "woId"
+        required: true
+        type: "integer"
+        format: "int64"
+      responses:
+        200:
+          description: "Workorder Completed."
+          schema:
+            $ref: "#/definitions/WorkorderResponse"
+        404:
+          description: "Workorder NotFound."
+        500:
+          description: "Internal Error."
+  /resource-order-resource-inventory/mobiledpubff/v1/workorder/{woId}/start:
+    post:
+      tags:
+      - "Mobile DPU BFF External"
+      summary: "Starts a workorder for given Workorder-Id and returns WorkorderResponse."
+      description: ""
+      operationId: "startWorkorder"
+      parameters:
+      - name: "woId"
+        in: "path"
+        description: "woId"
+        required: true
+        type: "integer"
+        format: "int64"
+      responses:
+        200:
+          description: "Workorder Started."
+          schema:
+            $ref: "#/definitions/WorkorderResponse"
+        404:
+          description: "Workorder NotFound."
+        500:
+          description: "Internal Error."
+definitions:
+  WorkorderResponse:
+    type: "object"
+    required:
+    - "id"
+    - "status"
+    - "type"
+    properties:
+      id:
+        type: "integer"
+        format: "int64"
+        example: 10022
+        description: "ID of Workorder."
+      status:
+        type: "string"
+        example: "CREATED"
+        description: "Status of Workorder."
+        enum:
+        - "CREATED"
+        - "IN_PROGRESS"
+        - "COMPLETED"
+        - "CANCELED"
+      folId:
+        type: "integer"
+        format: "int64"
+        example: 1234567890
+        description: "KLS-ID of Workorder, a reference to address where workorder\
+          \ will be done."
+      type:
+        type: "string"
+        example: "DPU_INSTALLATION"
+        description: "Type of Workorder."
+      dueDateTimeBegin:
+        type: "string"
+        format: "date-time"
+        description: "Begin Timestamp of Timeslot, when Workorder is due to be done.\
+          \ Relevant especially for Workorder with Customers when Appointment has\
+          \ be scheduled."
+      dueDateTimeEnd:
+        type: "string"
+        format: "date-time"
+        description: "End Timestamp of Timeslot, when Workorder is due to be done.\
+          \ Relevant especially for Workorder with Customers when Appointment has\
+          \ be scheduled."
+      completionDateTimeEnd:
+        type: "string"
+        format: "date-time"
+        description: "Completion Timestamp when Workorder was completed/cancelled."
+      creationDate:
+        type: "string"
+        format: "date-time"
+        description: "Date/Timestamp when Workorder ws created."
+      taskDescription:
+        type: "string"
+        example: "Gf-AP Installation im Hausanschluss-Raum inkl. Netzschalt-Taetigkeiten\
+          \ im NvT"
+        description: "Description what will be done within this workorder/task."
+      comment:
+        type: "string"
+        example: "Bitte beim Nachbarn klingeln falls nicht anwesend."
+        description: "Notes/Comments for a Workorder."
+      supplierProjectId:
+        type: "integer"
+        format: "int64"
+        example: 10032
+        description: "ProjectId of SupplierReference for this workorder."
+      supplierPartyId:
+        type: "integer"
+        format: "int64"
+        example: 10001
+        description: "Party-ID of supplier assigned to this workorder."
+    description: "WorkorderResponse"

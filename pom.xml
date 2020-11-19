@@ -10,7 +10,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>osr-models</artifactId>
-    <version>0.0.57</version>
+    <version>0.0.58</version>
 
     <properties>
         <framework.version>${project.parent.version}</framework.version>
@@ -93,6 +93,12 @@
                             <bulk>
                                 <basePackage>${project.groupId}.osr</basePackage>
                                 <items>
+                                    <item>
+                                        <name>mobile.dpu.bff</name>
+                                        <inputSpec>
+                                            ${project.basedir}/src/main/resources/swagger/mobile-dpu-bff/mobile-dpu-bff-internal.yaml
+                                        </inputSpec>
+                                    </item>
                                     <item>
                                         <name>dpu.commissioning</name>
                                         <inputSpec>
