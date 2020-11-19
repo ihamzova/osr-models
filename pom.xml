@@ -100,6 +100,12 @@
                                         </inputSpec>
                                     </item>
                                     <item>
+                                        <name>workorder</name>
+                                        <inputSpec>
+                                            ${project.basedir}/src/main/resources/swagger/workorder/workorder-external.yaml
+                                        </inputSpec>
+                                    </item>
+                                    <item>
                                         <name>dpu.commissioning</name>
                                         <inputSpec>
                                             ${project.basedir}/src/main/resources/swagger/dpu-commissioning/dpu-commissioning-internal.yaml
