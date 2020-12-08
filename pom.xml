@@ -10,7 +10,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>osr-models</artifactId>
-    <version>0.0.59</version>
+    <version>0.0.60</version>
 
     <properties>
         <framework.version>${project.parent.version}</framework.version>
@@ -411,6 +411,12 @@
                                         <name>access.line.management.external.client</name>
                                         <inputSpec>
                                             ${project.basedir}/src/main/resources/swagger/access-line-management/access-line-management-external.1.2.0.yaml
+                                        </inputSpec>
+                                    </item>
+                                    <item>
+                                        <name>pon.inventory.client</name>
+                                        <inputSpec>
+                                            ${project.basedir}/src/main/resources/swagger/pon-inventory/pon-inventory-2.6.0.yaml
                                         </inputSpec>
                                     </item>
                                 </items>

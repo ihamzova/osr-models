@@ -1,0 +1,1938 @@
+openapi: 3.0.0
+info:
+  description: PON Inventory API support receiving and modification information about PON
+    network. Main object in PON Inventory is LLC (Logical line connection). LLC
+    object has all necessary information about line from OLT port till GF-TA.
+  version: 2.6.0
+  title: PON Inventory
+tags:
+  - name: NvtAreaTopic
+  - name: GfAp
+  - name: Llc
+  - name: LlcV2
+  - name: PonPlanning
+  - name: PlannedHouseV3
+paths:
+  /resource-order-resource-inventory/v1/PlannedNvt/nvtAreaTopic:
+    post:
+      tags:
+        - NvtAreaTopic
+      summary: Description of event structure for nvtAreaChangedEvent
+      description: ""
+      operationId: publishEvent
+      responses:
+        "200":
+          description: Event message with information about changed/updated NVT
+          content:
+            "application/json":
+              schema:
+                $ref: "#/components/schemas/NvtAreaChangedEvent"
+  /resource-order-resource-inventory/v2/gfAp:
+    put:
+      tags:
+        - GfAp
+      summary: "Update GfAp by parameters "
+      description: ""
+      operationId: updateGfApV2
+      deprecated: true
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/GfApUpdateDtoV2"
+      responses:
+        "200":
+          description: GfAp was updated
+        "400":
+          description: Bad request
+        "412":
+          description: Concurrent change of LLC or nested items
+  /resource-order-resource-inventory/v3/gfAps:
+    delete:
+      tags:
+        - GfAp
+      summary: "Delete GfAp and all lines inside. Special role required"
+      operationId: deleteGfApV3
+      parameters:
+        - name: "apm-principal-token"
+          in: header
+          required: true
+          schema:
+            type: string
+        - name: "folId"
+          in: query
+          description: "FiberOnLocationId where GfAp is placed"
+          required: false
+          explode: false
+          schema:
+            type: string
+        - name: "distributionPointId"
+          in: query
+          description: "GF_AP distribution point id"
+          required: false
+          explode: false
+          schema:
+            type: string
+        - name: "klsId"
+          in: query
+          description: "Customer KLS-ID (GF-AP)"
+          required: false
+          explode: false
+          schema:
+            type: integer
+            format: int64
+      responses:
+        200:
+          description: "GfAp successfully deleted"
+        400:
+          description: "Can't perform operation"
+        403:
+          description: "Not enough rights"
+        404:
+          description: "GfAp not found"
+  /resource-order-resource-inventory/v3/gfAps/{folId}:
+    patch:
+      tags:
+        - GfAp
+      summary: "Update GfAp by folId"
+      operationId: updateGfApV3
+      parameters:
+        - name: "folId"
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: "apm-principal-token"
+          in: header
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/GfApUpdateV3"
+      responses:
+        "200":
+          description: "GfAp sucessfully updated"
+        "400":
+          description: "Bad request"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AppSecificProblemDetails'
+        "404":
+          description: "GfAp not found"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AppSecificProblemDetails'
+  /resource-order-resource-inventory/v2/llc:
+    get:
+      tags:
+        - LlcV2
+      summary: Get page with LLC by parameters
+      description: ""
+      operationId: getLlcInfoV2
+      parameters:
+        - name: BaseLlcInfoDtoV2
+          in: query
+          schema:
+            $ref: "#/components/schemas/BaseLlcInfoDtoV2"
+        - name: LlcInfoPageRequest
+          in: query
+          schema:
+            $ref: "#/components/schemas/LlcInfoPageRequest"
+        - name: apm-principal-token
+          in: header
+          required: false
+          schema:
+            type: string
+      responses:
+        "200":
+          description: LLC found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PageLlcInfoV2"
+        "400":
+          description: Invalid request parameters
+    put:
+      tags:
+        - LlcV2
+      summary: "Update LLC by parameters "
+      description: ""
+      operationId: updateLlcInfoV2
+      deprecated: true
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/LlcUpdateDtoV2"
+      responses:
+        "200":
+          description: LLC found
+        "400":
+          description: Validation fail
+  /resource-order-resource-inventory/v2/llc/connect:
+    put:
+      tags:
+        - LlcV2
+      summary: Set connected to NVT LLCs.
+      description: ""
+      operationId: setNvtConnectedV2
+      requestBody:
+        $ref: "#/components/requestBodies/NvtConnectedDtoArray"
+      responses:
+        "200":
+          description: Connected
+        "400":
+          description: LLC connected to NVT or not planned
+        "404":
+          description: LLC not found
+        "412":
+          description: Concurrent change of LLC or nested items
+  /resource-order-resource-inventory/v3/llc/{llcId}:
+    patch:
+      tags:
+        - Llc
+      summary: "Update Lllc by id parameters"
+      description: ""
+      operationId: updateLlcInfoV3
+      parameters:
+        - name: "llcId"
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: "apm-principal-token"
+          in: header
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/LlcUpdateInfoV3"
+      responses:
+        "200":
+          description: "Llc info updated"
+        "400":
+          description: "Bad request"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AppSecificProblemDetails'
+        "404":
+          description: "Llc not found"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AppSecificProblemDetails'
+  /resource-order-resource-inventory/v1/ponPlanning:
+    put:
+      tags:
+        - PonPlanning
+      summary: "Start Pon-Planning for property by FolId "
+      description: ""
+      operationId: executePonPlanning
+      requestBody:
+        $ref: '#/components/requestBodies/PonPlanningDtoArray'
+      responses:
+        "200":
+          description: Pon-Planning was executed
+        "400":
+          description: Bad request
+  /resource-order-resource-inventory/v3/plannedHouse:
+    get:
+      tags:
+        - PlannedHouseV3
+      summary: Get page with Planned houses by Onkz, Asb and Name
+      description: ""
+      operationId: getPlannedHouseV3
+      parameters:
+        - name: BasePlannedHouseDto
+          in: query
+          schema:
+            $ref: "#/components/schemas/BasePlannedHouseDto"
+        - name: PlannedHousePageRequest
+          in: query
+          schema:
+            $ref: "#/components/schemas/PlannedHousePageRequest"
+      responses:
+        "200":
+          description: Planned houses found
+          content:
+            "application/json":
+              schema:
+                $ref: "#/components/schemas/PagePlannedHouseV3"
+        "400":
+          description: Invalid request parameters
+    put:
+      tags:
+        - PlannedHouseV3
+      summary: Create or update property in Planned NVT area by Onkz, Asb, NvtName and KlsId, DistributionPointId, FOL-ID of the property
+      description: ""
+      operationId: putPlannedHouse
+      requestBody:
+        $ref: "#/components/requestBodies/PlannedHousePut"
+      responses:
+        "201":
+          description: Put PlannedHouse request successfully processed
+        "400":
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AppSecificProblemDetails'
+  /resource-order-resource-inventory/v3/plannedHouse/{folId}:
+    delete:
+      tags:
+        - PlannedHouseV3
+      summary: Delete property in Planned NVT area by FOL-ID of the property
+      description: ""
+      operationId: deletePlannedHouseV3
+      parameters:
+        - name: folId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Delete PlannedHouse request successfully processed
+        "400":
+          description: Invalid request parameters
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AppSecificProblemDetails'
+servers:
+  - url: http://localhost:8089
+components:
+  requestBodies:
+    NvtConnectedDtoArray:
+      content:
+        application/json:
+          schema:
+            type: array
+            items:
+              $ref: "#/components/schemas/NvtConnectedDto"
+    PlannedHousePut:
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/PlannedHousePutV3"
+    PonPlanningDtoArray:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/PonPlanningDto'
+  schemas:
+    NvtAreaChangedEvent:
+      type: object
+      properties:
+        nvtKlsId:
+          type: integer
+          format: int64
+          description: NVT_KLS-ID
+        nvtAsb:
+          type: integer
+          format: int64
+          description: NVT_ASB
+        nvtOnkz:
+          type: integer
+          format: int64
+          description: NVT_ONKZ
+        nvtName:
+          type: string
+          description: NVT_NAME
+        changeType:
+          type: string
+          description: CHANGE_TYPE
+          enum:
+            - CREATED
+            - UPDATED
+        _links:
+          type: object
+          additionalProperties:
+            type: object
+    NvtAreaChangedEventPayload:
+      type: object
+      properties:
+        nvtKlsId:
+          type: integer
+          format: int64
+          description: NVT_KLS-ID
+        nvtAsb:
+          type: integer
+          format: int64
+          description: NVT_ASB
+        nvtOnkz:
+          type: integer
+          format: int64
+          description: NVT_ONKZ
+        nvtName:
+          type: string
+          description: NVT_NAME
+        changeType:
+          type: string
+          description: CHANGE_TYPE
+          enum:
+            - CREATED
+            - UPDATED
+      description: Information about changed/created NVT
+    BaseLlcInfoDto:
+      type: object
+      properties:
+        hkFiberOnkz:
+          type: integer
+          format: int64
+          description: ONKZ for GF-NVt (and HK)
+        hkFiberAsb:
+          type: integer
+          format: int64
+          description: AsB for GF-NVt (and HK)
+        gfNvtName:
+          type: string
+          description: Name of GF_NVt
+          minLength: 0
+          maxLength: 8
+          pattern: ^[\d]{1,3}V[\d]{4}$
+        gfNvtKlsId:
+          type: integer
+          format: int64
+          description: KLS-ID for GF-NVt
+        id:
+          type: integer
+          format: int64
+          description: Internal LLC ID
+        apartmentCplId:
+          type: string
+          description: Wohnung CPL-ID
+          pattern: ^[\d[A-Z]]{6}$
+        nvtConnected:
+          type: boolean
+          description: Is cables in NVT connected?
+        gfApKlsId:
+          type: integer
+          format: int64
+          description: Customer KLS-ID (GF-AP)
+        gfApName:
+          type: string
+          description: GF-AP name
+          minLength: 0
+          maxLength: 13
+          pattern: ^[\d]{1,3}P(?:[\d]{3,4}[a-z]?|[\d]{7})$
+        gfApStatus:
+          type: string
+          description: GF_AP status (planned, build)
+          enum:
+            - PLANNED
+            - BUILT
+            - INCOMPLETE
+            - INCOMPLETE_PLANNED
+            - DEFECTIVE
+        llcBaustatus:
+          type: string
+          description: LLC baustatus (planned, build, incomplite)
+          enum:
+            - PLANNED
+            - BUILT
+            - INCOMPLETE
+            - INCOMPLETE_PLANNED
+            - DEFECTIVE
+        forNvtConnection:
+          type: boolean
+          description: Set for filter GfApStatus = InventoryStatusEnum.PLANNED and
+            NvtConnected = false
+        gfApCplId:
+          type: string
+          description: Building part (Gebäudeteil) CPL-ID
+          pattern: ^[\d[A-Z]]{6}$
+        ponPortOltVpsz:
+          type: string
+          description: OLT VPSZ
+          minLength: 0
+          maxLength: 20
+        ponPortOltFachSz:
+          type: string
+          description: OLT FachSZ
+          minLength: 0
+          maxLength: 4
+        ponPortOltBg:
+          type: string
+          description: OLT slot
+          minLength: 0
+          maxLength: 3
+        ponPortPortNumber:
+          type: string
+          description: PONPort number
+          minLength: 0
+          maxLength: 3
+    BaseLlcInfoDtoV2:
+      type: object
+      properties:
+        hkFiberOnkz:
+          type: integer
+          format: int64
+          description: ONKZ for GF-NVt (and HK)
+        hkFiberAsb:
+          type: integer
+          format: int64
+          description: AsB for GF-NVt (and HK)
+        gfNvtName:
+          type: string
+          description: Name of GF_NVt
+          minLength: 0
+          maxLength: 8
+          pattern: ^[\d]{1,3}V[\d]{4}$
+        gfNvtKlsId:
+          type: integer
+          format: int64
+          description: KLS-ID for GF-NVt
+        id:
+          type: integer
+          format: int64
+          description: Internal LLC ID
+        apartmentCplId:
+          type: string
+          description: Wohnung CPL-ID
+          pattern: ^[\d[A-Z]]{6}$
+        nvtConnected:
+          type: boolean
+          description: Is cables in NVT connected?
+        gfApKlsId:
+          type: integer
+          format: int64
+          description: Customer KLS-ID (GF-AP)
+        gfApDistributionPointId:
+          type: string
+          description: Distribution-point-ID equivalent to building-part
+          pattern: ^[A-Z]{1,3}$
+        gfApFolId:
+          type: string
+          description: Unique ID of Area Data Management for an explicit distribution-point
+        gfApName:
+          type: string
+          description: GF-AP name
+          minLength: 0
+          maxLength: 13
+          pattern: ^[\d]{1,3}P(?:[\d]{3,4}[a-z]?|[\d]{7})$
+        gfApStatus:
+          type: string
+          description: GF_AP status (planned, build)
+          enum:
+            - PLANNED
+            - BUILT
+        gfApAsb:
+          type: integer
+          format: int64
+          description: GF_AP.ASB
+        gfApOnkz:
+          type: integer
+          format: int64
+          description: GF_AP.ONKZ
+        gfNvtOnkz:
+          type: integer
+          format: int64
+          description: GF_NVT.ONKZ
+        gfNvtAsb:
+          type: integer
+          format: int64
+          description: GF_NVT.ASB
+        llcBaustatus:
+          type: string
+          description: LLC baustatus (planned, build, incomplite)
+          enum:
+            - PLANNED
+            - BUILT
+            - PARTIALLY_BUILT
+            - INCOMPLETE_PLANNED
+            - DEFECTIVE
+        forNvtConnection:
+          type: boolean
+          description: Set for filter GfApStatus = InventoryStatusEnum.PLANNED and
+            NvtConnected = false
+        gfApCplId:
+          type: string
+          description: Building part (Gebäudeteil) CPL-ID
+          pattern: ^[\d[A-Z]]{6}$
+        ponPortOltVpsz:
+          type: string
+          description: OLT VPSZ
+          minLength: 0
+          maxLength: 20
+        ponPortOltFachSz:
+          type: string
+          description: OLT FachSZ
+          minLength: 0
+          maxLength: 4
+        ponPortOltBg:
+          type: string
+          description: OLT slot
+          minLength: 0
+          maxLength: 3
+        ponPortPortNumber:
+          type: string
+          description: PONPort number
+          minLength: 0
+          maxLength: 3
+    GfApUpdateDtoKeyV2:
+      type: object
+      properties:
+        klsId:
+          type: integer
+          format: int64
+          description: Customer KLS-ID (GF-AP) search key
+        apName:
+          type: string
+          description: GF-AP name search key
+          minLength: 0
+          maxLength: 13
+          pattern: ^[\d]{1,3}P(?:[\d]{3,4}[a-z]?|[\d]{7})$
+        buildingSectionCplId:
+          type: string
+          description: Building part (Gebäudeteil) CPL-ID search key
+          pattern: ^[\d[A-Z]]{6}$
+      description: Key for search GF_AP
+    GfApUpdateDtoV2:
+      type: object
+      properties:
+        key:
+          $ref: "#/components/schemas/GfApUpdateDtoKeyV2"
+        value:
+          $ref: "#/components/schemas/GfApUpdateDtoValueV2"
+      description: Data to update GF_AP
+    GfApUpdateV3:
+      type: object
+      properties:
+        typeDescription:
+          type: string
+          description: GF_AP.TYPE_DESCRIPTION
+          minLength: 0
+          maxLength: 255
+        materialNumber:
+          type: string
+          description: Material number for GF-AP
+          minLength: 0
+          maxLength: 50
+        status:
+          type: string
+          description: GF_AP status (planned, build)
+          enum:
+            - PLANNED
+            - BUILT
+    GfApUpdateDtoValueV2:
+      type: object
+      properties:
+        manufacturer:
+          type: string
+          description: GF_AP.MANUFACTURER
+          minLength: 0
+          maxLength: 50
+        typeDescription:
+          type: string
+          description: GF_AP.TYPE_DESCRIPTION
+          minLength: 0
+          maxLength: 255
+        materialNumber:
+          type: string
+          description: Material number for GF-AP
+          minLength: 0
+          maxLength: 50
+        status:
+          type: string
+          description: GF_AP status (planned, build)
+          enum:
+            - PLANNED
+            - BUILT
+      description: Values for update GF_AP
+    LlcInfoDto:
+      type: object
+      properties:
+        hkFiberOnkz:
+          type: integer
+          format: int64
+          description: ONKZ for GF-NVt (and HK)
+        hkFiberAsb:
+          type: integer
+          format: int64
+          description: AsB for GF-NVt (and HK)
+        gfNvtName:
+          type: string
+          description: Name of GF_NVt
+          minLength: 0
+          maxLength: 8
+          pattern: ^[\d]{1,3}V[\d]{4}$
+        gfNvtKlsId:
+          type: integer
+          format: int64
+          description: KLS-ID for GF-NVt
+        id:
+          type: integer
+          format: int64
+          description: Internal LLC ID
+        apartmentCplId:
+          type: string
+          description: Wohnung CPL-ID
+          pattern: ^[\d[A-Z]]{6}$
+        nvtConnected:
+          type: boolean
+          description: Is cables in NVT connected?
+        gfApKlsId:
+          type: integer
+          format: int64
+          description: Customer KLS-ID (GF-AP)
+        gfApName:
+          type: string
+          description: GF-AP name
+          minLength: 0
+          maxLength: 13
+          pattern: ^[\d]{1,3}P(?:[\d]{3,4}[a-z]?|[\d]{7})$
+        gfApStatus:
+          type: string
+          description: GF_AP status (planned, build)
+          enum:
+            - PLANNED
+            - BUILT
+            - INCOMPLETE
+            - INCOMPLETE_PLANNED
+            - DEFECTIVE
+        llcBaustatus:
+          type: string
+          description: LLC baustatus (planned, build, incomplite)
+          enum:
+            - PLANNED
+            - BUILT
+            - INCOMPLETE
+            - INCOMPLETE_PLANNED
+            - DEFECTIVE
+        forNvtConnection:
+          type: boolean
+          description: Set for filter GfApStatus = InventoryStatusEnum.PLANNED and
+            NvtConnected = false
+        gfApCplId:
+          type: string
+          description: Building part (Gebäudeteil) CPL-ID
+          pattern: ^[\d[A-Z]]{6}$
+        ponPortOltVpsz:
+          type: string
+          description: OLT VPSZ
+          minLength: 0
+          maxLength: 20
+        ponPortOltFachSz:
+          type: string
+          description: OLT FachSZ
+          minLength: 0
+          maxLength: 4
+        ponPortOltBg:
+          type: string
+          description: OLT slot
+          minLength: 0
+          maxLength: 3
+        ponPortPortNumber:
+          type: string
+          description: PONPort number
+          minLength: 0
+          maxLength: 3
+        modifiedDate:
+          type: integer
+          format: int64
+          description: LLC modified date
+        vstOnkz:
+          type: integer
+          format: int64
+          description: ONKZ for VSt
+        vstAsb:
+          type: integer
+          format: int64
+          description: AsB VSt
+        vstKlsId:
+          type: integer
+          format: int64
+          description: KLS-ID for VSt
+        gfApCouplingratio:
+          type: string
+          description: Ratio for Splitter in GF-AP
+          minLength: 0
+          maxLength: 2
+        gfApPortnumber:
+          type: string
+          description: Port number on Splitter in GF-AP
+          minLength: 0
+          maxLength: 3
+        gfApSplitterNumber:
+          type: integer
+          format: int64
+          description: Splitter number in GF-AP
+        gfApMaterialNumber:
+          type: string
+          description: Material number for GF-AP
+        couplerNvtCouplingRatio:
+          type: string
+          description: Splitter Ratio in NVt
+          minLength: 0
+          maxLength: 2
+        couplerNvtUmsRaster:
+          type: string
+          description: UMS Raster for Splitter in NVt
+          minLength: 0
+          maxLength: 8
+        couplerNvtCouplerPort:
+          type: string
+          description: Output Port on Splitter in NVt
+          minLength: 0
+          maxLength: 3
+        hkFiberGfHk:
+          type: string
+          description: Name of GF-HK
+          minLength: 0
+          maxLength: 64
+        hkFiberFaser:
+          type: string
+          description: Faser in GF-HK
+          minLength: 0
+          maxLength: 3
+        hkFiberUmsRaster:
+          type: string
+          description: UMS Raster where GF-HK connected
+          minLength: 0
+          maxLength: 3
+        vzkFiberUmsRaster:
+          type: string
+          description: UMS Raster where Vzk connected
+          minLength: 0
+          maxLength: 6
+        vzkFiberFaser:
+          type: string
+          description: Vzk cable Faser
+          minLength: 0
+          maxLength: 3
+        zielHvtOnkz:
+          type: string
+          description: Optional Ziel HvT ONKZ
+        zielHvtAsb:
+          type: string
+          description: Optional Ziel HvT AsB
+        zielHvtGeb:
+          type: string
+          description: Optional Ziel HvT Gebaude
+          minLength: 0
+          maxLength: 3
+        zielHvtRaum:
+          type: string
+          description: Optional Ziel HvT Raum
+          minLength: 0
+          maxLength: 3
+        messWdmGestellGebRaum:
+          type: string
+          description: WDM Filter Raum
+          minLength: 0
+          maxLength: 10
+        messWdmGestellReihe:
+          type: string
+          description: WDM Filter Reihe
+          minLength: 0
+          maxLength: 3
+        messWdmGestellPlatz:
+          type: string
+          description: WDM Filter Platz
+          minLength: 0
+          maxLength: 3
+        messWdmGestellBgt:
+          type: string
+          description: WDM Filter BGT
+          minLength: 0
+          maxLength: 3
+        messWdmGestellKas:
+          type: string
+          description: WDM Filter Kassete
+          minLength: 0
+          maxLength: 3
+        messWdmGestellStift:
+          type: string
+          description: WDM Filter Stift
+          minLength: 0
+          maxLength: 3
+        gfInnenKabelKabelnamegfi1:
+          type: string
+          description: Name of GF Innen Kabel between OLT and WDM-Filter
+          minLength: 0
+          maxLength: 64
+        gfInnenKabelFasergfi1:
+          type: string
+          description: Faser of GF Innen Kabel between OLT and WDM-Filter
+          minLength: 0
+          maxLength: 3
+        gfInnenKabelKabelnamegfi2:
+          type: string
+          description: Name of GF-Innen Kabel between WDM-Filter and E&MMS HVt
+          minLength: 0
+          maxLength: 64
+        gfInnenKabelFasergfi2:
+          type: string
+          description: Faser of GF Innen Kabel between WDM-Filter and E&MMS HVt
+          minLength: 0
+          maxLength: 3
+        ponPortStatus:
+          type: string
+          description: Status of connection PORT to cables (planned, build)
+          enum:
+            - PLANNED
+            - BUILT
+            - INCOMPLETE
+            - INCOMPLETE_PLANNED
+            - DEFECTIVE
+        ponPortOltBgt:
+          type: string
+          description: OLT BGT
+          minLength: 0
+          maxLength: 3
+        ponPortOltReihe:
+          type: string
+          description: OLT Reihe
+          minLength: 0
+          maxLength: 3
+        ponPortOltPlatz:
+          type: string
+          description: OLT Platz
+          minLength: 0
+          maxLength: 3
+        ponPortOltTpl:
+          type: string
+          description: OLT Technical Platz Location (TPL)
+          minLength: 0
+          maxLength: 50
+        planningRuleId:
+          type: string
+          description: PlanningRuleID
+        emmsHvtReiheAb:
+          type: string
+        emmsHvtStiftAb:
+          type: string
+        emmsHvtPlatzAb:
+          type: string
+        emmsHvtStiftAn:
+          type: string
+        emmsHvtReiheAn:
+          type: string
+        emmsHvtPlatzAn:
+          type: string
+        emmsHvtKasAb:
+          type: string
+        emmsaStiftAn:
+          type: string
+        emmsHvtTpl:
+          type: string
+        emmsaKasAn:
+          type: string
+        emmsaReiheAb:
+          type: string
+        emmsaKasAb:
+          type: string
+        emmsHvtBgtAn:
+          type: string
+        emmsaPlatzAn:
+          type: string
+        emmsHvtKasAn:
+          type: string
+        emmsaBgtAb:
+          type: string
+        emmsaStiftAb:
+          type: string
+        emmsaReiheAn:
+          type: string
+        emmsaPlatzAb:
+          type: string
+        emmsHvtBgtAb:
+          type: string
+        emmsaBgtAn:
+          type: string
+      description: PON logic line information
+    LlcInfoPageRequest:
+      type: object
+      properties:
+        page:
+          type: integer
+          format: int32
+        pageSize:
+          type: integer
+          minimum: 1
+          maximum: 500
+          format: int32
+        direction:
+          type: string
+          default: ASC
+          enum:
+            - ASC
+            - DESC
+        sortField:
+          type: string
+          enum:
+            - ID
+            - LLC_APARTMENT_CPL_ID
+            - HK_FIBER_ONKZ
+            - HK_FIBER_ASB
+            - GF_NVT_NAME
+            - GF_NVT_KLS_ID
+            - NVT_CONNECTED
+            - GF_AP_STATUS
+            - GF_AP_KLS_ID
+            - GF_AP_NAME
+            - GF_AP_ONKZ
+            - GF_AP_ASB
+            - GF_AP_BUILDING_SECTION_CPL_ID
+            - LLC_BAUSTATUS
+    LlcUpdateDto:
+      type: object
+      properties:
+        key:
+          $ref: "#/components/schemas/LlcUpdateDtoKey"
+        value:
+          $ref: "#/components/schemas/LlcUpdateDtoValue"
+      description: Data to update LLC
+    LlcUpdateDtoKey:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+          description: Internal LLC ID search key
+        gfApName:
+          type: string
+          description: GF-AP name search key
+          minLength: 0
+          maxLength: 13
+          pattern: ^[\d]{1,3}P(?:[\d]{3,4}[a-z]?|[\d]{7})$
+        gfApKlsId:
+          type: integer
+          format: int64
+          description: Customer KLS-ID (GF-AP) search key
+        gfApPortnumber:
+          type: string
+          description: Port number on Splitter in GF-AP search key
+          minLength: 0
+          maxLength: 3
+        splitterNumber:
+          type: integer
+          format: int64
+          description: Splitter number in GF-AP search key
+        vzkFiberFaser:
+          type: string
+          description: Vzk cable Faser search key
+          minLength: 0
+          maxLength: 3
+      description: Key for update Llc
+    LlcUpdateDtoKeyV2:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+          description: Internal LLC ID search key
+        gfApName:
+          type: string
+          description: GF-AP name search key
+          minLength: 0
+          maxLength: 13
+          pattern: ^[\d]{1,3}P(?:[\d]{3,4}[a-z]?|[\d]{7})$
+        gfApKlsId:
+          type: integer
+          format: int64
+          description: Customer KLS-ID (GF-AP) search key
+        gfApPortnumber:
+          type: string
+          description: Port number on Splitter in GF-AP search key
+          minLength: 0
+          maxLength: 3
+        splitterNumber:
+          type: integer
+          format: int64
+          description: Splitter number in GF-AP search key
+        vzkFiberFaser:
+          type: string
+          description: Vzk cable Faser search key
+          minLength: 0
+          maxLength: 3
+      description: Key for update Llc v2
+    LlcUpdateDtoV2:
+      type: object
+      properties:
+        key:
+          $ref: "#/components/schemas/LlcUpdateDtoKeyV2"
+        value:
+          $ref: "#/components/schemas/LlcUpdateDtoValueV2"
+      description: Data to update LLC v2
+    LlcUpdateDtoValue:
+      type: object
+      properties:
+        apartmentCplId:
+          type: string
+          description: Wohnung CPL-ID
+          pattern: ^[\d[A-Z]]{6}$
+      description: Values for update LLC
+    LlcUpdateDtoValueV2:
+      type: object
+      properties:
+        apartmentCplId:
+          type: string
+          description: Wohnung CPL-ID
+        gfApConnectionIsDefective:
+          type: boolean
+          description: GF_AP is_defective flag
+        vzkFiberIsDefective:
+          type: boolean
+          description: VZK_FIBER.IS_DEFECTIVE
+      description: Values for update LLC v2
+    LlcUpdateInfoV3:
+      type: object
+      properties:
+        apartmentCplId:
+          type: string
+          description: Wohnung CPL-ID
+          nullable: true
+        gfApConnectionIsDefective:
+          type: boolean
+          description: GF_AP is_defective flag
+        vzkFiberIsDefective:
+          type: boolean
+          description: VZK_FIBER.IS_DEFECTIVE
+    LlcInfoDtoV2:
+      type: object
+      properties:
+        hkFiberOnkz:
+          type: integer
+          format: int64
+          description: ONKZ for GF-NVt (and HK)
+        hkFiberAsb:
+          type: integer
+          format: int64
+          description: AsB for GF-NVt (and HK)
+        gfNvtName:
+          type: string
+          description: Name of GF_NVt
+          minLength: 0
+          maxLength: 8
+          pattern: ^[\d]{1,3}V[\d]{4}$
+        gfNvtKlsId:
+          type: integer
+          format: int64
+          description: KLS-ID for GF-NVt
+        nvtType:
+          type: string
+          description: GF_NVT.NVT_TYPE
+          minLength: 0
+          maxLength: 40
+        id:
+          type: integer
+          format: int64
+          description: Internal LLC ID
+        apartmentCplId:
+          type: string
+          description: Wohnung CPL-ID
+          pattern: ^[\d[A-Z]]{6}$
+        nvtConnected:
+          type: boolean
+          description: Is cables in NVT connected?
+        gfApKlsId:
+          type: integer
+          format: int64
+          description: Customer KLS-ID (GF-AP)
+        gfApDistributionPointId:
+          type: string
+          description: Distribution-point-ID equivalent to building-part
+          pattern: ^[A-Z]{1,3}$
+        gfApFolId:
+          type: string
+          description: Unique ID of Area Data Management for an explicit distribution-point
+        gfApName:
+          type: string
+          description: GF-AP name
+          minLength: 0
+          maxLength: 13
+          pattern: ^[\d]{1,3}P(?:[\d]{3,4}[a-z]?|[\d]{7})$
+        gfApStatus:
+          type: string
+          description: GF_AP status (planned, build)
+          enum:
+            - PLANNED
+            - BUILT
+        gfApAsb:
+          type: integer
+          format: int64
+          description: GF_AP.ASB
+        gfApOnkz:
+          type: integer
+          format: int64
+          description: GF_AP.ONKZ
+        gfNvtOnkz:
+          type: integer
+          format: int64
+          description: GF_NVT.ONKZ
+        gfNvtAsb:
+          type: integer
+          format: int64
+          description: GF_NVT.ASB
+        llcBaustatus:
+          type: string
+          description: LLC baustatus (planned, build, incomplite)
+          enum:
+            - PLANNED
+            - BUILT
+            - PARTIALLY_BUILT
+            - INCOMPLETE_PLANNED
+            - DEFECTIVE
+        forNvtConnection:
+          type: boolean
+          description: Set for filter GfApStatus = InventoryStatusEnum.PLANNED and
+            NvtConnected = false
+        gfApCplId:
+          type: string
+          description: Building part (Gebäudeteil) CPL-ID
+          pattern: ^[\d[A-Z]]{6}$
+        ponPortOltVpsz:
+          type: string
+          description: OLT VPSZ
+          minLength: 0
+          maxLength: 20
+        ponPortOltFachSz:
+          type: string
+          description: OLT FachSZ
+          minLength: 0
+          maxLength: 4
+        ponPortOltBg:
+          type: string
+          description: OLT slot
+          minLength: 0
+          maxLength: 3
+        ponPortPortNumber:
+          type: string
+          description: PONPort number
+          minLength: 0
+          maxLength: 3
+        modifiedDate:
+          type: integer
+          format: int64
+          description: LLC modified date
+        defectItem:
+          type: string
+          description: Llc defect item
+        vstOnkz:
+          type: integer
+          format: int64
+          description: ONKZ for VSt
+        vstAsb:
+          type: integer
+          format: int64
+          description: AsB VSt
+        vstKlsId:
+          type: integer
+          format: int64
+          description: KLS-ID for VSt
+        gfApCouplingratio:
+          type: string
+          description: Ratio for Splitter in GF-AP
+          minLength: 0
+          maxLength: 2
+        gfApPortnumber:
+          type: string
+          description: Port number on Splitter in GF-AP
+          minLength: 0
+          maxLength: 3
+        gfApSplitterNumber:
+          type: integer
+          format: int64
+          description: Splitter number in GF-AP
+        gfApPinNumber:
+          type: integer
+          format: int64
+          description: GF-AP NE3 NE4 connection plug number - strictly monotonic increased
+        gfApMaterialNumber:
+          type: string
+          description: Material number for GF-AP
+        gfApConnectionIsDefective:
+          type: boolean
+          description: GF_AP is_defective flag
+        couplerNvtCouplingRatio:
+          type: string
+          description: Splitter Ratio in NVt
+          minLength: 0
+          maxLength: 2
+        couplerNvtUmsRaster:
+          type: string
+          description: UMS Raster for Splitter in NVt
+          minLength: 0
+          maxLength: 8
+        couplerNvtCouplerPort:
+          type: string
+          description: Output Port on Splitter in NVt
+          minLength: 0
+          maxLength: 3
+        hkFiberGfHk:
+          type: string
+          description: Name of GF-HK
+          minLength: 0
+          maxLength: 64
+        hkFiberFaser:
+          type: string
+          description: Faser in GF-HK
+          minLength: 0
+          maxLength: 3
+        hkFiberUmsRaster:
+          type: string
+          description: UMS Raster where GF-HK connected
+          minLength: 0
+          maxLength: 8
+        vzkFiberUmsRaster:
+          type: string
+          description: UMS Raster where Vzk connected
+          minLength: 0
+          maxLength: 8
+        vzkFiberFaser:
+          type: string
+          description: Vzk cable Faser
+          minLength: 0
+          maxLength: 3
+        vzkFiberIsDefective:
+          type: boolean
+          description: VZK_FIBER.IS_DEFECTIVE
+        zielHvtOnkz:
+          type: integer
+          format: int32
+          description: Optional Ziel HvT ONKZ
+        zielHvtAsb:
+          type: integer
+          format: int32
+          description: Optional Ziel HvT AsB
+        zielHvtGeb:
+          type: string
+          description: Optional Ziel HvT Gebaude
+          minLength: 0
+          maxLength: 3
+        zielHvtRaum:
+          type: string
+          description: Optional Ziel HvT Raum
+          minLength: 0
+          maxLength: 3
+        emmsHvtReiheAn:
+          type: string
+          description: Input (ankommend) E&MMS-HVt Reihe
+          minLength: 0
+          maxLength: 3
+        emmsHvtPlatzAn:
+          type: string
+          description: Input (ankommend) E&MMS-HVt Platz
+          minLength: 0
+          maxLength: 3
+        emmsHvtBgtAn:
+          type: string
+          description: Input (ankommend) E&MMS-HVt BGT
+          minLength: 0
+          maxLength: 3
+        emmsHvtKasAn:
+          type: string
+          description: Input (ankommend) E&MMS-HVt Kassete
+          minLength: 0
+          maxLength: 3
+        emmsHvtStiftAn:
+          type: string
+          description: Input (ankommend) E&MMS-HVt Stift
+          minLength: 0
+          maxLength: 3
+        emmsHvtReiheAb:
+          type: string
+          description: Output (Abgehend)  E&MMS-HVt Riehe
+          minLength: 0
+          maxLength: 3
+        emmsHvtPlatzAb:
+          type: string
+          description: Output (Abgehend)  E&MMS-HVt Platz
+          minLength: 0
+          maxLength: 3
+        emmsHvtBgtAb:
+          type: string
+          description: Output (Abgehend) E&MMS-HVt BGT
+          minLength: 0
+          maxLength: 3
+        emmsHvtKasAb:
+          type: string
+          description: Output (Abgehend) E&MMS-HVt Kassete
+          minLength: 0
+          maxLength: 3
+        emmsHvtStiftAb:
+          type: string
+          description: Output (Abgehend)  E&MMS-HVt Stift
+          minLength: 0
+          maxLength: 3
+        emmsHvtTpl:
+          type: string
+          description: EMS HVt Technical Platz Location (TPL)
+          minLength: 0
+          maxLength: 50
+        messWdmGestellGebRaum:
+          type: string
+          description: WDM Filter Raum
+          minLength: 0
+          maxLength: 10
+        messWdmGestellReihe:
+          type: string
+          description: WDM Filter Reihe
+          minLength: 0
+          maxLength: 3
+        messWdmGestellPlatz:
+          type: string
+          description: WDM Filter Platz
+          minLength: 0
+          maxLength: 3
+        messWdmGestellBgt:
+          type: string
+          description: WDM Filter BGT
+          minLength: 0
+          maxLength: 3
+        messWdmGestellKas:
+          type: string
+          description: WDM Filter Kassete
+          minLength: 0
+          maxLength: 3
+        messWdmGestellStift:
+          type: string
+          description: WDM Filter Stift
+          minLength: 0
+          maxLength: 3
+        emmsaReiheAn:
+          type: string
+          description: Input  (ankommend) for optional E&MMS HVt des OLT standortes Reine
+          minLength: 0
+          maxLength: 3
+        emmsaPlatzAn:
+          type: string
+          description: Input  (ankommend) for optional E&MMS HVt des OLT standortes Platz
+          minLength: 0
+          maxLength: 3
+        emmsaBgtAn:
+          type: string
+          description: Input (ankommend) for optional E&MMS HVt des OLT standortes BGT
+          minLength: 0
+          maxLength: 3
+        emmsaKasAn:
+          type: string
+          description: Input (ankommend) for optional E&MMS HVt des OLT standortes Kassete
+          minLength: 0
+          maxLength: 3
+        emmsaStiftAn:
+          type: string
+          description: Input  (ankommend) for optional E&MMS HVt des OLT standortes Stift
+          minLength: 0
+          maxLength: 3
+        emmsaReiheAb:
+          type: string
+          description: Output (Abgehend) for optional E&MMS HVt des OLT standortes Reihe
+          minLength: 0
+          maxLength: 3
+        emmsaPlatzAb:
+          type: string
+          description: Output (Abgehend) for optional E&MMS HVt des OLT standortes Platz
+          minLength: 0
+          maxLength: 3
+        emmsaBgtAb:
+          type: string
+          description: Output (Abgehend) for optional E&MMS HVt des OLT standortes BGT
+          minLength: 0
+          maxLength: 3
+        emmsaKasAb:
+          type: string
+          description: Output (Abgehend) for optional E&MMS HVt des OLT standortes Kassete
+          minLength: 0
+          maxLength: 3
+        emmsaStiftAb:
+          type: string
+          description: Output (Abgehend) for optional E&MMS HVt des OLT standortes Stift
+          minLength: 0
+          maxLength: 3
+        gfInnenKabelKabelnamegfi1:
+          type: string
+          description: Name of GF Innen Kabel between OLT and WDM-Filter
+          minLength: 0
+          maxLength: 64
+        gfInnenKabelFasergfi1:
+          type: string
+          description: Faser of GF Innen Kabel between OLT and WDM-Filter
+          minLength: 0
+          maxLength: 3
+        gfInnenKabelKabelnamegfi2:
+          type: string
+          description: Name of GF-Innen Kabel between WDM-Filter and E&MMS HVt
+          minLength: 0
+          maxLength: 64
+        gfInnenKabelFasergfi2:
+          type: string
+          description: Faser of GF Innen Kabel between WDM-Filter and E&MMS HVt
+          minLength: 0
+          maxLength: 3
+        ponPortStatus:
+          type: string
+          description: Status of connection PORT to cables (planned, build)
+          enum:
+            - PLANNED
+            - BUILT
+        ponPortOltBgt:
+          type: string
+          description: OLT BGT
+          minLength: 0
+          maxLength: 3
+        ponPortOltReihe:
+          type: string
+          description: OLT Reihe
+          minLength: 0
+          maxLength: 3
+        ponPortOltPlatz:
+          type: string
+          description: OLT Platz
+          minLength: 0
+          maxLength: 3
+        ponPortOltTpl:
+          type: string
+          description: OLT Technical Platz Location (TPL)
+          minLength: 0
+          maxLength: 50
+        planningRuleId:
+          type: string
+          description: PlanningRuleID
+        resourceAssociationPartyId:
+          type: integer
+          format: int64
+          description: Party ID of organization
+      description: PON logic line information
+    NvtConnectedDto:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+          description: Internal LLC ID
+        modifiedDate:
+          type: integer
+          format: int64
+          description: LLC modified date
+    PonPlanningDto:
+      type: object
+      properties:
+        folId:
+          description: FOL-ID of a property
+          type: string
+        fullExpansion:
+          description: Is FullExpansion
+          type: boolean
+          default: false
+      required:
+        - folId
+    PlannedNvtV3:
+      type: object
+      required:
+        - onkz
+      properties:
+        onkz:
+          type: integer
+          format: int64
+          description: PLANNED_NVT.ONKZ
+        asb:
+          type: integer
+          format: int64
+          description: PLANNED_NVT.ASB
+        name:
+          type: string
+          description: PLANNED_NVT.NAME
+        id:
+          type: integer
+          format: int64
+        klsId:
+          type: integer
+          format: int64
+          description: PLANNED_NVT.KLS_ID
+        vvmAreaNumber:
+          type: string
+          description: PLANNED_NVT.VVM_AREA_ID
+        nvtType:
+          type: string
+          description: PLANNED_NVT.TYPE
+        organizationID:
+          type: integer
+          format: int64
+          description: PLANNED_NVT.PARTY_ID
+        plannedVst:
+          $ref: "#/components/schemas/PlannedVstDtoV3"
+        numberOfHkFiber:
+          type: integer
+          format: int64
+          description: PLANNED_NVT.NUMBER_OF_HK_FIBER
+        areaType:
+          type: string
+          description: PLANNED_NVT.AREA_TYPE
+          enum:
+            - INDUSTRIAL
+            - RESIDENTIAL
+      description: PlannedNvt
+    PlannedVstDtoV3:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        onkz:
+          type: integer
+          format: int64
+          description: PLANNED_VST.ONKZ
+        asb:
+          type: integer
+          format: int64
+          description: PLANNED_VST.ASB
+        name:
+          type: string
+          description: PLANNED_VST.VST_NAME
+        oltVpsz:
+          type: string
+          description: PLANNED_VST.OLT_VPSZ
+        klsId:
+          type: integer
+          format: int64
+          description: PLANNED_VST.KLS_ID
+      description: PlannedVst
+    PlannedHousePutV3:
+      type: object
+      properties:
+        onkz:
+          description: PLANNED_NVT.ONKZ
+          type: integer
+          format: int64
+          minimum: 30
+          maximum: 39999
+        asb:
+          description: PLANNED_NVT.ASB
+          type: integer
+          format: int64
+          minimum: 1
+        nvtName:
+          description: PLANNED_NVT.NAME
+          type: string
+          pattern: '^[\d]{1,3}V[\d]{4}$'
+        klsId:
+          description: PLANNED_HOUSE.KLS_ID
+          type: integer
+          format: int64
+          minimum: 1
+        distributionPointId:
+          description: Distribution-point-ID equivalent to building-part-Id
+          type: string
+          pattern: '^[A-Z]{1,3}$'
+        folId:
+          description: Unique ID of Area Data Managment for an explizit distribution-point
+          type: string
+          minLength: 1
+      required:
+        - onkz
+        - asb
+        - name
+        - klsId
+        - distributionPointId
+        - folId
+    PagePlannedHouseV3:
+      type: object
+      properties:
+        totalPages:
+          type: integer
+          format: int32
+        totalElements:
+          type: integer
+          format: int64
+        size:
+          type: integer
+          format: int32
+        content:
+          type: array
+          items:
+            $ref: "#/components/schemas/PlannedHouseV3"
+        number:
+          type: integer
+          format: int32
+        sort:
+          $ref: "#/components/schemas/Sort"
+        numberOfElements:
+          type: integer
+          format: int32
+        first:
+          type: boolean
+        last:
+          type: boolean
+        pageable:
+          $ref: "#/components/schemas/Pageable"
+    PlannedHouseV3:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        klsId:
+          type: integer
+          format: int64
+        folId:
+          type: string
+        distributionPointId:
+          type: string
+          pattern: '^[A-Z]{1,3}$'
+        plannedNvt:
+          $ref: "#/components/schemas/PlannedNvtV3"
+      description: PlannedHouse
+    BasePlannedHouseDto:
+      type: object
+      properties:
+        asb:
+          description: PLANNED_NVT.ASB
+          type: integer
+          format: int64
+          minimum: 0
+        name:
+          description: PLANNED_NVT.NAME
+          type: string
+          maxLength: 8
+        onkz:
+          description: PLANNED_NVT.ONKZ
+          type: integer
+          format: int64
+          minimum: 30
+          maximum: 39999
+        klsId:
+          description: PLANNED_HOUSE.KLS_ID
+          type: integer
+          format: int64
+          minimum: 0
+        distributionPointId:
+          description: PLANNED_HOUSE.DISTRIBUTION_POINT_ID
+          type: string
+          maxLength: 3
+        folId:
+          description: PLANNED_HOUSE.FOL_ID
+          type: string
+    PlannedHousePageRequest:
+      type: object
+      properties:
+        direction:
+          description: direction
+          type: string
+          default: ASC
+          enum:
+            - ASC
+            - DESC
+        page:
+          description: page
+          type: integer
+          format: int32
+          default: 0
+        pageSize:
+          description: pageSize
+          type: integer
+          format: int32
+          default: 25
+        sortField:
+          description: sortField
+          type: string
+          enum:
+            - ID
+            - KLS_ID
+    Page:
+      type: object
+      properties:
+        totalPages:
+          type: integer
+          format: int32
+        totalElements:
+          type: integer
+          format: int64
+        size:
+          type: integer
+          format: int32
+        content:
+          type: array
+          items:
+            type: object
+        number:
+          type: integer
+          format: int32
+        sort:
+          $ref: "#/components/schemas/Sort"
+        first:
+          type: boolean
+        last:
+          type: boolean
+        pageable:
+          $ref: "#/components/schemas/Pageable"
+        numberOfElements:
+          type: integer
+          format: int32
+    PageLlcInfo:
+      type: object
+      properties:
+        totalPages:
+          type: integer
+          format: int32
+        totalElements:
+          type: integer
+          format: int64
+        size:
+          type: integer
+          format: int32
+        content:
+          type: array
+          items:
+            $ref: "#/components/schemas/LlcInfoDto"
+        number:
+          type: integer
+          format: int32
+        sort:
+          $ref: "#/components/schemas/Sort"
+        first:
+          type: boolean
+        last:
+          type: boolean
+        pageable:
+          $ref: "#/components/schemas/Pageable"
+        numberOfElements:
+          type: integer
+          format: int32
+    PageLlcInfoV2:
+      type: object
+      properties:
+        totalPages:
+          type: integer
+          format: int32
+        totalElements:
+          type: integer
+          format: int64
+        size:
+          type: integer
+          format: int32
+        content:
+          type: array
+          items:
+            $ref: "#/components/schemas/LlcInfoDtoV2"
+        number:
+          type: integer
+          format: int32
+        sort:
+          $ref: "#/components/schemas/Sort"
+        first:
+          type: boolean
+        last:
+          type: boolean
+        pageable:
+          $ref: "#/components/schemas/Pageable"
+        numberOfElements:
+          type: integer
+          format: int32
+    Pageable:
+      type: object
+      properties:
+        offset:
+          type: integer
+          format: int64
+        sort:
+          $ref: "#/components/schemas/Sort"
+        pageNumber:
+          type: integer
+          format: int32
+        paged:
+          type: boolean
+        unpaged:
+          type: boolean
+        pageSize:
+          type: integer
+          format: int32
+    Sort:
+      type: object
+      properties:
+        unsorted:
+          type: boolean
+        sorted:
+          type: boolean
+    RFCProblem:
+      type: object
+      title: RFCProblem
+      description: "RFC Problem Details. See https://tools.ietf.org/html/rfc7807#page-5
+        for more details."
+      properties:
+        type:
+          type: string
+          format: uri
+          description: "A URI reference [RFC3986] that identifies the problem type. Consumers
+            MUST use the 'type' string as the primary identifier for the problem type."
+          default: about:blank
+        title:
+          type: string
+          description: "A short, human-readable summary of the problem type. Consumers
+            SHOULD NOT automatically dereference the type URI."
+        status:
+          description: "The HTTP status code ([RFC7231], Section 6) generated by the
+            origin server for this occurrence of the problem. The 'status' member, if
+            present, is only advisory; it conveys the HTTP status code used for the
+            convenience of the consumer. Generators MUST use the same status code in
+            the actual HTTP response."
+          type: integer
+        detail:
+          type: string
+          description: "A human-readable explanation specific to this occurrence of
+              the problem. The 'detail' member, if present, ought to focus on helping
+              the client correct the problem, rather than giving debugging information."
+        instance:
+          type: string
+          description: "A URI reference that identifies the specific occurrence of the
+            problem. It may or may not yield further information if dereferenced."
+          format: uri
+      required:
+        - type
+        - title
+    AppSecificProblemDetails:
+      title: "AppSecificProblemDetails"
+      description: "App specific problem details"
+      allOf:
+        - $ref: '#/components/schemas/RFCProblem'
+        - type: object
+          properties:
+            embedded:
+              type: object
+              $ref: '#/components/schemas/ErrorNumberDetails'
+    ErrorNumberDetails:
+      title: "RFCProblemErrorNumberDetails"
+      description: "Error number details(including fehlerbuildnummer code)."
+      properties:
+        code:
+          type: string
+          description: "Application related code (as defined in the API or from
+              a common list). This would be the application specific error (such
+              as the 16-digit 'Fehlerbildnummer'). To support zero prefixed error
+              code numbers (0000123412341234), the string format is used. The error
+              code MUST be 16 digits in length for coherence across applications."
+          minLength: 16
+          maxLength: 16
+        reason:
+          type: string
+          description: "Root cause of error"
+        message:
+          type: string
+          description: "Error number message"
+        status:
+          type: integer
+          description: "Optional http status code associated with the problem message,
+              when the transport pattern is publish/subscribe and no HTTP headers
+              are available."
+        severity:
+          type: string
+          enum:
+            - MINOR
+            - MEDIUM
+            - MAJOR
+          description: "Optional severity code of the problem."
+      required:
+        - code
+        - reason
