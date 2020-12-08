@@ -106,12 +106,6 @@
                                         </inputSpec>
                                     </item>
                                     <item>
-                                        <name>pon.inventory.client</name>
-                                        <inputSpec>
-                                            ${project.basedir}/src/main/resources/swagger/pon-inventory/pon-inventory-2.6.0.yaml
-                                        </inputSpec>
-                                    </item>
-                                    <item>
                                         <name>dpu.commissioning</name>
                                         <inputSpec>
                                             ${project.basedir}/src/main/resources/swagger/dpu-commissioning/dpu-commissioning-internal.yaml
@@ -417,6 +411,12 @@
                                         <name>access.line.management.external.client</name>
                                         <inputSpec>
                                             ${project.basedir}/src/main/resources/swagger/access-line-management/access-line-management-external.1.2.0.yaml
+                                        </inputSpec>
+                                    </item>
+                                    <item>
+                                        <name>pon.inventory.client</name>
+                                        <inputSpec>
+                                            ${project.basedir}/src/main/resources/swagger/pon-inventory/pon-inventory-2.6.0.yaml
                                         </inputSpec>
                                     </item>
                                 </items>
