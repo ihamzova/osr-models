@@ -2,18 +2,138 @@
 swagger: "2.0"
 info:
   description: "Backend-For-Frontend for Mobile DPU UI"
-  version: "0.0.2"
+  version: "0.1.0"
   title: "mobile-dpu-bff"
 host: "localhost:8080"
 tags:
-- name: "Mobile DPU BFF External"
+- name: "Mobile-DPU-BFF-DPU-External"
+- name: "Mobile-DPU-BFF-External"
+- name: "Mobile-DPU-BFF-Sec-External"
 schemes:
 - "http"
 paths:
+  /resource-order-resource-inventory/mobiledpubff/v1/acid/{acid}:
+    get:
+      tags:
+      - "Mobile-DPU-BFF-Sec-External"
+      summary: "Returns a-cid mapping."
+      description: ""
+      operationId: "getAcid"
+      parameters:
+      - name: "acid"
+        in: "path"
+        description: "Reference partner ID"
+        required: true
+        type: "string"
+        maxLength: 20
+        minLength: 1
+      responses:
+        200:
+          description: "Acid Found."
+          schema:
+            $ref: "#/definitions/ACidResponse"
+        404:
+          description: "NotFound."
+        500:
+          description: "Internal Error."
+  /resource-order-resource-inventory/mobiledpubff/v1/dpu/commissioning/start:
+    post:
+      tags:
+      - "Mobile-DPU-BFF-DPU-External"
+      summary: "Start Dpu-commissioning."
+      description: ""
+      operationId: "startDpuCommissioning"
+      parameters:
+      - in: "body"
+        name: "startDpuCommissioningRequest"
+        description: "startDpuCommissioningRequest"
+        required: true
+        schema:
+          $ref: "#/definitions/StartDpuCommissioningRequest"
+      responses:
+        201:
+          description: "Process started"
+          schema:
+            $ref: "#/definitions/StartDpuCommissioningResponse"
+        400:
+          description: "Bad request."
+        500:
+          description: "Internal Error."
+  /resource-order-resource-inventory/mobiledpubff/v1/dpu/fiber/{fiberOnLocationId}:
+    get:
+      tags:
+      - "Mobile-DPU-BFF-DPU-External"
+      summary: "Return a DpuResponse determined by given fiberOnLocationId."
+      description: ""
+      operationId: "getDpuByFiberOnLocationId"
+      parameters:
+      - name: "fiberOnLocationId"
+        in: "path"
+        description: "fiberOnLocationId"
+        required: true
+        type: "string"
+        maxLength: 19
+        minLength: 1
+        pattern: "[0-9]{1,19}"
+      responses:
+        200:
+          description: "Dpu Found."
+          schema:
+            $ref: "#/definitions/DpuResponse"
+        404:
+          description: "Dpu NotFound."
+        500:
+          description: "Internal Error."
+  /resource-order-resource-inventory/mobiledpubff/v1/dpu/operating:
+    post:
+      tags:
+      - "Mobile-DPU-BFF-DPU-External"
+      summary: "Mark the DPU functional as OPERATING."
+      description: ""
+      operationId: "markDpuAsOperating"
+      parameters:
+      - in: "body"
+        name: "markDpuAsOperatingRequest"
+        description: "markDpuAsOperatingRequest"
+        required: true
+        schema:
+          $ref: "#/definitions/MarkDpuAsOperatingRequest"
+      responses:
+        200:
+          description: "Dpu Found and Marked As Operational."
+          schema:
+            $ref: "#/definitions/DpuResponse"
+        404:
+          description: "Dpu NotFound."
+        500:
+          description: "Internal Error."
+  /resource-order-resource-inventory/mobiledpubff/v1/dpu/serialNumber/update:
+    post:
+      tags:
+      - "Mobile-DPU-BFF-DPU-External"
+      summary: "Update SerialNumber of DPU."
+      description: ""
+      operationId: "updateDpuSerialNumber"
+      parameters:
+      - in: "body"
+        name: "updateDpuSerialNumberRequest"
+        description: "updateDpuSerialNumberRequest"
+        required: true
+        schema:
+          $ref: "#/definitions/UpdateDpuSerialNumberRequest"
+      responses:
+        200:
+          description: "Dpu Found and Updated."
+          schema:
+            $ref: "#/definitions/DpuResponse"
+        404:
+          description: "Dpu NotFound."
+        500:
+          description: "Internal Error."
   /resource-order-resource-inventory/mobiledpubff/v1/workorder/{woId}:
     get:
       tags:
-      - "Mobile DPU BFF External"
+      - "Mobile-DPU-BFF-External"
       summary: "Return a WorkorderResponse determined by given Workorder-Id."
       description: ""
       operationId: "getWorkorder"
@@ -36,7 +156,7 @@ paths:
   /resource-order-resource-inventory/mobiledpubff/v1/workorder/{woId}/complete:
     post:
       tags:
-      - "Mobile DPU BFF External"
+      - "Mobile-DPU-BFF-External"
       summary: "Completes a workorder for given Workorder-Id and returns WorkorderResponse."
       description: ""
       operationId: "completeWorkorder"
@@ -59,7 +179,7 @@ paths:
   /resource-order-resource-inventory/mobiledpubff/v1/workorder/{woId}/start:
     post:
       tags:
-      - "Mobile DPU BFF External"
+      - "Mobile-DPU-BFF-External"
       summary: "Starts a workorder for given Workorder-Id and returns WorkorderResponse."
       description: ""
       operationId: "startWorkorder"
@@ -80,9 +200,130 @@ paths:
         500:
           description: "Internal Error."
 definitions:
+  ACidResponse:
+    type: "object"
+    required:
+    - "brokerHint"
+    - "kcIdpHint"
+    properties:
+      kcIdpHint:
+        type: "string"
+        example: "supplier-weiss"
+        description: "RHSSO Idp Hint."
+      brokerHint:
+        type: "string"
+        example: "internal"
+        description: "Broker Hint enum: [external, internal]."
+    description: "ACidResponse"
+  DpuResponse:
+    type: "object"
+    required:
+    - "endSZ"
+    - "fiberOnLocationId"
+    - "lifeCycleState"
+    properties:
+      endSZ:
+        type: "string"
+        example: "49/8571/0/71GA"
+        description: "Endstellenschluesselzahl"
+        pattern: "[0-9]{1,6}\\/[0-9]{1,6}\\/[0-9]{1,6}\\/[a-zA-Z0-9]{2,4}"
+      serialNumber:
+        type: "string"
+        example: "1"
+        description: "SerialNumber of DPU."
+        minLength: 1
+        maxLength: 50
+        pattern: "[a-zA-Z0-9]{1,50}"
+      fiberOnLocationId:
+        type: "string"
+        example: "1"
+        description: "fiberOnLocationId of DPU."
+        minLength: 1
+        maxLength: 19
+        pattern: "[0-9]{1,19}"
+      lifeCycleState:
+        type: "string"
+        example: "OPERATING"
+        description: "lifeCycleState of DPU."
+        enum:
+        - "INSTALLING"
+        - "OPERATING"
+        - "RETIRING"
+        - "NOT_OPERATING"
+        - "PLANNING"
+    description: "DpuResponse"
+  MarkDpuAsOperatingRequest:
+    type: "object"
+    required:
+    - "endSZ"
+    properties:
+      endSZ:
+        type: "string"
+        example: "49/8571/0/71GA"
+        description: "Endstellenschluesselzahl"
+        pattern: "[0-9]{1,6}\\/[0-9]{1,6}\\/[0-9]{1,6}\\/[a-zA-Z0-9]{2,4}"
+      uplinkPortOperating:
+        type: "boolean"
+        description: "DpuUplinkPort OPERATING too. Default : true."
+    description: "MarkDpuAsOperatingRequest"
+  StartDpuCommissioningRequest:
+    type: "object"
+    required:
+    - "endSZ"
+    properties:
+      endSZ:
+        type: "string"
+        example: "49/8571/0/71GA"
+        description: "Endstellenschluesselzahl"
+        pattern: "[0-9]{1,6}\\/[0-9]{1,6}\\/[0-9]{1,6}\\/[a-zA-Z0-9]{2,4}"
+    description: "StartDpuCommissioningRequest"
+  StartDpuCommissioningResponse:
+    type: "object"
+    required:
+    - "businessKey"
+    - "endSZ"
+    - "processId"
+    - "processStatus"
+    properties:
+      processId:
+        type: "string"
+        description: "ID of the Process."
+      endSZ:
+        type: "string"
+        example: "49/8571/0/71GA"
+        description: "Endstellenschluesselzahl"
+        pattern: "[0-9]{1,6}\\/[0-9]{1,6}\\/[0-9]{1,6}\\/[a-zA-Z0-9]{2,4}"
+      processStatus:
+        type: "string"
+        description: "Status of the Process."
+        enum:
+        - "RUNNING"
+        - "ERROR"
+      businessKey:
+        type: "string"
+        description: "BusinessKey of the Process."
+  UpdateDpuSerialNumberRequest:
+    type: "object"
+    required:
+    - "endSZ"
+    properties:
+      endSZ:
+        type: "string"
+        example: "49/8571/0/71GA"
+        description: "Endstellenschluesselzahl"
+        pattern: "[0-9]{1,6}\\/[0-9]{1,6}\\/[0-9]{1,6}\\/[a-zA-Z0-9]{2,4}"
+      serialNumber:
+        type: "string"
+        example: "1"
+        description: "SerialNumber of DPU."
+        minLength: 1
+        maxLength: 50
+        pattern: "[a-zA-Z0-9]{1,50}"
+    description: "UpdateDpuSerialNumberRequest"
   WorkorderResponse:
     type: "object"
     required:
+    - "folId"
     - "id"
     - "status"
     - "type"
@@ -102,15 +343,20 @@ definitions:
         - "COMPLETED"
         - "CANCELED"
       folId:
+        type: "string"
+        example: "1234567890"
+        description: "FiberOnLocation-ID of Workorder, a reference to location where\
+          \ workorder will be done."
+      type:
+        type: "string"
+        example: "DPU_INSTALLATION"
+        description: "Type of Workorder."
+      klsId:
         type: "integer"
         format: "int64"
         example: 1234567890
         description: "KLS-ID of Workorder, a reference to address where workorder\
           \ will be done."
-      type:
-        type: "string"
-        example: "DPU_INSTALLATION"
-        description: "Type of Workorder."
       dueDateTimeBegin:
         type: "string"
         format: "date-time"
