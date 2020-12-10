@@ -54,15 +54,15 @@ info:
     \ pattern  |\n| -----------------------  |---------------  |-------------------------------------\
     \  |-----------  |--------------------------------------------------------------------------------------------------------------------------------------------------------\
     \  |\n|    id     |    integer     |           |    M      |       |"
-  version: "4.4.0"
+  version: "4.8.0"
   title: "OLT Resource Inventory"
 host: "localhost:8080"
 tags:
 - name: "AncpSessionExternalController"
-- name: "AssuranceExternalControllerV2"
 - name: "AssuranceExternalControllerV3"
 - name: "AssuranceExternalControllerV4"
 - name: "DeviceExternalController"
+- name: "DeviceExternalControllerV2"
 - name: "DpuAtOltConfigurationExternalController"
 - name: "DpuEmsConfigurationExternalController"
 - name: "DpuPonConnectionExternalController"
@@ -318,6 +318,12 @@ paths:
           \ criteria must be delivered. Otherwise request will fail."
         required: false
         type: "string"
+      - name: "fiberOnLocationId"
+        in: "query"
+        description: "Search criteria to find one or multiple device. In minimum one\
+          \ criteria must be delivered. Otherwise request will fail."
+        required: false
+        type: "string"
       - name: "klsId"
         in: "query"
         description: "Search criteria to find one or multiple device. In minimum one\
@@ -475,6 +481,7 @@ paths:
           description: "Can't perform operation"
           schema:
             $ref: "#/definitions/ErrorResponse"
+      deprecated: true
   /resource-order-resource-inventory/v1/dpu/dpuAtOltConfiguration:
     get:
       tags:
@@ -1848,7 +1855,7 @@ paths:
       parameters:
       - name: "vpsz"
         in: "query"
-        description: " Part of Endsz"
+        description: "Part of Endsz"
         required: true
         type: "string"
         pattern: "^[0-9]{1,6}\\/[0-9]{1,6}\\/[0-9]{1,6}[\\/a-zA-Z0-9]{0,5}"
@@ -1910,8 +1917,8 @@ paths:
     get:
       tags:
       - "DeviceExternalController"
-      summary: "Returns all EndSz's based on the criteria. A valid VPSZ or ENDSZ must\
-        \ provided"
+      summary: "Returns all EndSz's based on the criteria. A valid VPSZ, FIBERONLOCTIONID\
+        \ or ENDSZ must provided"
       description: ""
       operationId: "getEndSzsByCriteria"
       produces:
@@ -1926,6 +1933,11 @@ paths:
         - "OLT"
         - "BNG"
         - "DPU"
+      - name: "fiberOnLocationId"
+        in: "query"
+        description: "Search criteria to find one or multiple endsz based on criteria."
+        required: false
+        type: "string"
       - name: "vpsz"
         in: "query"
         description: "Search criteria to find one or multiple endsz based on criteria."
@@ -2061,707 +2073,31 @@ paths:
           description: "Not present in database"
           schema:
             $ref: "#/definitions/ErrorResponse"
-  /resource-order-resource-inventory/v2/assurance/accessLine:
-    get:
+  /resource-order-resource-inventory/v2/dpu:
+    post:
       tags:
-      - "AssuranceExternalControllerV2"
-      summary: "Find access lines by criteria"
+      - "DeviceExternalControllerV2"
+      summary: "Create new DPU"
       description: ""
-      operationId: "findAccessLinesByCriteriaV2"
+      operationId: "createDPU"
+      consumes:
+      - "application/json"
       produces:
-      - "application/xml"
+      - "application/json"
       parameters:
-      - name: "lineId"
-        in: "query"
-        description: ""
+      - in: "body"
+        name: "body"
+        description: "Properties of new DPU"
         required: false
-        type: "string"
-      - name: "ontId"
-        in: "query"
-        description: ""
-        required: false
-        type: "integer"
-        format: "int32"
-      - name: "ontSerialNumber"
-        in: "query"
-        description: ""
-        required: false
-        type: "string"
-      - name: "technology"
-        in: "query"
-        description: ""
-        required: false
-        type: "string"
-        enum:
-        - "GFAST"
-        - "GPON"
-      - name: "X-Business-Context"
-        in: "header"
-        description: "The business context is a general classification for a larger\
-          \ number of requests (types) usually set by the originating consumer. Any\
-          \ service receiving this header parameter MUST forward it unmodified to\
-          \ other services it invokes. Non-REST technologies (e.g. SOABP) might use\
-          \ a different identifier for this attribute."
-        required: false
-        type: "string"
-      - name: "X-Correlation-ID"
-        in: "header"
-        description: "Value for identifying a single transaction across multiple services\
-          \ up to the backend. Usually set by the originating consumer.Any service\
-          \ receiving this header parameter MUST forward it unmodified to other services\
-          \ it invokes. Non-REST technologies (e.g. SOABP) might use a different identifier\
-          \ for this attribute. If this ID is not available (not supplied, empty or\
-          \ at origin), the service MUST create it as a UUID. The maximum length of\
-          \ 256 characters MUST NOT be exceeded (a standard UUID has 36 characters).\
-          \ The creator MAY prefix the UUID with an application and/or instance defined\
-          \ string."
-        required: false
-        type: "string"
-      - name: "X-Request-ID"
-        in: "header"
-        description: "Value to identify an individual request across consuming application,\
-          \ middleware and service provider. This ID is to be generated for every\
-          \ single request and not to be passed down (as X-Correlation-ID) to sub-services.\
-          \ Every consuming application MUST create this value as UUID. The maximum\
-          \ length of 256 characters MUST NOT be exceeded (a standard UUID has 36\
-          \ characters). The creator MAY prefix the UUID with an application and/or\
-          \ instance defined string."
-        required: false
-        type: "string"
+        schema:
+          $ref: "#/definitions/DpuCreateRequestV2"
       responses:
         200:
           description: "Successfully found"
           schema:
-            type: "array"
-            items:
-              $ref: "#/definitions/AssuranceAccessLineDtoV2"
+            $ref: "#/definitions/Device"
         400:
           description: "Can't perform operation"
-          schema:
-            $ref: "#/definitions/ErrorResponse"
-        404:
-          description: "Not present in database"
-          schema:
-            $ref: "#/definitions/ErrorResponse"
-  /resource-order-resource-inventory/v2/assurance/accessLine/{id}:
-    get:
-      tags:
-      - "AssuranceExternalControllerV2"
-      summary: "Find accessline by id"
-      description: ""
-      operationId: "findAccessLineByIdV2"
-      produces:
-      - "application/xml"
-      parameters:
-      - name: "id"
-        in: "path"
-        required: true
-        type: "integer"
-        format: "int64"
-      - name: "X-Business-Context"
-        in: "header"
-        description: "The business context is a general classification for a larger\
-          \ number of requests (types) usually set by the originating consumer. Any\
-          \ service receiving this header parameter MUST forward it unmodified to\
-          \ other services it invokes. Non-REST technologies (e.g. SOABP) might use\
-          \ a different identifier for this attribute."
-        required: false
-        type: "string"
-      - name: "X-Correlation-ID"
-        in: "header"
-        description: "Value for identifying a single transaction across multiple services\
-          \ up to the backend. Usually set by the originating consumer.Any service\
-          \ receiving this header parameter MUST forward it unmodified to other services\
-          \ it invokes. Non-REST technologies (e.g. SOABP) might use a different identifier\
-          \ for this attribute. If this ID is not available (not supplied, empty or\
-          \ at origin), the service MUST create it as a UUID. The maximum length of\
-          \ 256 characters MUST NOT be exceeded (a standard UUID has 36 characters).\
-          \ The creator MAY prefix the UUID with an application and/or instance defined\
-          \ string."
-        required: false
-        type: "string"
-      - name: "X-Request-ID"
-        in: "header"
-        description: "Value to identify an individual request across consuming application,\
-          \ middleware and service provider. This ID is to be generated for every\
-          \ single request and not to be passed down (as X-Correlation-ID) to sub-services.\
-          \ Every consuming application MUST create this value as UUID. The maximum\
-          \ length of 256 characters MUST NOT be exceeded (a standard UUID has 36\
-          \ characters). The creator MAY prefix the UUID with an application and/or\
-          \ instance defined string."
-        required: false
-        type: "string"
-      responses:
-        200:
-          description: "Successfully found"
-          schema:
-            $ref: "#/definitions/AssuranceAccessLineDtoV2"
-        400:
-          description: "Can't perform operation"
-          schema:
-            $ref: "#/definitions/ErrorResponse"
-        404:
-          description: "Not present in database"
-          schema:
-            $ref: "#/definitions/ErrorResponse"
-  /resource-order-resource-inventory/v2/assurance/card:
-    get:
-      tags:
-      - "AssuranceExternalControllerV2"
-      summary: "Find card by criteria"
-      description: ""
-      operationId: "findCardByCriteriaV2"
-      produces:
-      - "application/xml"
-      parameters:
-      - name: "cardtype"
-        in: "query"
-        description: ""
-        required: false
-        type: "string"
-        enum:
-        - "GPON"
-        - "UPLINK_CARD"
-        - "MANAGEMENT_CARD"
-        - "SUPPORT_MODULE"
-        - "PROCESSING_BOARD"
-      - name: "emsName"
-        in: "query"
-        description: ""
-        required: false
-        type: "string"
-      - name: "firmwareVersion"
-        in: "query"
-        description: ""
-        required: false
-        type: "string"
-      - name: "X-Business-Context"
-        in: "header"
-        description: "The business context is a general classification for a larger\
-          \ number of requests (types) usually set by the originating consumer. Any\
-          \ service receiving this header parameter MUST forward it unmodified to\
-          \ other services it invokes. Non-REST technologies (e.g. SOABP) might use\
-          \ a different identifier for this attribute."
-        required: false
-        type: "string"
-      - name: "X-Correlation-ID"
-        in: "header"
-        description: "Value for identifying a single transaction across multiple services\
-          \ up to the backend. Usually set by the originating consumer.Any service\
-          \ receiving this header parameter MUST forward it unmodified to other services\
-          \ it invokes. Non-REST technologies (e.g. SOABP) might use a different identifier\
-          \ for this attribute. If this ID is not available (not supplied, empty or\
-          \ at origin), the service MUST create it as a UUID. The maximum length of\
-          \ 256 characters MUST NOT be exceeded (a standard UUID has 36 characters).\
-          \ The creator MAY prefix the UUID with an application and/or instance defined\
-          \ string."
-        required: false
-        type: "string"
-      - name: "X-Request-ID"
-        in: "header"
-        description: "Value to identify an individual request across consuming application,\
-          \ middleware and service provider. This ID is to be generated for every\
-          \ single request and not to be passed down (as X-Correlation-ID) to sub-services.\
-          \ Every consuming application MUST create this value as UUID. The maximum\
-          \ length of 256 characters MUST NOT be exceeded (a standard UUID has 36\
-          \ characters). The creator MAY prefix the UUID with an application and/or\
-          \ instance defined string."
-        required: false
-        type: "string"
-      responses:
-        200:
-          description: "Successfully found"
-          schema:
-            type: "array"
-            items:
-              $ref: "#/definitions/AssuranceCardDtoV2"
-        400:
-          description: "Can't perform operation"
-          schema:
-            $ref: "#/definitions/ErrorResponse"
-        404:
-          description: "Not present in database"
-          schema:
-            $ref: "#/definitions/ErrorResponse"
-  /resource-order-resource-inventory/v2/assurance/card/{cardId}:
-    get:
-      tags:
-      - "AssuranceExternalControllerV2"
-      summary: "Find card by id"
-      description: ""
-      operationId: "findCardByIdV2"
-      produces:
-      - "application/xml"
-      parameters:
-      - name: "cardId"
-        in: "path"
-        required: true
-        type: "integer"
-        format: "int64"
-      - name: "X-Business-Context"
-        in: "header"
-        description: "The business context is a general classification for a larger\
-          \ number of requests (types) usually set by the originating consumer. Any\
-          \ service receiving this header parameter MUST forward it unmodified to\
-          \ other services it invokes. Non-REST technologies (e.g. SOABP) might use\
-          \ a different identifier for this attribute."
-        required: false
-        type: "string"
-      - name: "X-Correlation-ID"
-        in: "header"
-        description: "Value for identifying a single transaction across multiple services\
-          \ up to the backend. Usually set by the originating consumer.Any service\
-          \ receiving this header parameter MUST forward it unmodified to other services\
-          \ it invokes. Non-REST technologies (e.g. SOABP) might use a different identifier\
-          \ for this attribute. If this ID is not available (not supplied, empty or\
-          \ at origin), the service MUST create it as a UUID. The maximum length of\
-          \ 256 characters MUST NOT be exceeded (a standard UUID has 36 characters).\
-          \ The creator MAY prefix the UUID with an application and/or instance defined\
-          \ string."
-        required: false
-        type: "string"
-      - name: "X-Request-ID"
-        in: "header"
-        description: "Value to identify an individual request across consuming application,\
-          \ middleware and service provider. This ID is to be generated for every\
-          \ single request and not to be passed down (as X-Correlation-ID) to sub-services.\
-          \ Every consuming application MUST create this value as UUID. The maximum\
-          \ length of 256 characters MUST NOT be exceeded (a standard UUID has 36\
-          \ characters). The creator MAY prefix the UUID with an application and/or\
-          \ instance defined string."
-        required: false
-        type: "string"
-      responses:
-        200:
-          description: "Successfully found"
-          schema:
-            $ref: "#/definitions/AssuranceCardDtoV2"
-        400:
-          description: "Can't perform operation"
-          schema:
-            $ref: "#/definitions/ErrorResponse"
-        404:
-          description: "Not present in database"
-          schema:
-            $ref: "#/definitions/ErrorResponse"
-  /resource-order-resource-inventory/v2/assurance/device:
-    get:
-      tags:
-      - "AssuranceExternalControllerV2"
-      summary: "Find device by criteria"
-      description: ""
-      operationId: "findDeviceByCriteriaV2"
-      produces:
-      - "application/xml"
-      parameters:
-      - name: "devicetype"
-        in: "query"
-        description: ""
-        required: false
-        type: "string"
-        enum:
-        - "OLT"
-        - "BNG"
-        - "DPU"
-      - name: "emsName"
-        in: "query"
-        description: ""
-        required: false
-        type: "string"
-      - name: "endsz"
-        in: "query"
-        description: ""
-        required: false
-        type: "string"
-      - name: "fsz"
-        in: "query"
-        description: ""
-        required: false
-        type: "string"
-      - name: "vpsz"
-        in: "query"
-        description: ""
-        required: false
-        type: "string"
-      - name: "X-Business-Context"
-        in: "header"
-        description: "The business context is a general classification for a larger\
-          \ number of requests (types) usually set by the originating consumer. Any\
-          \ service receiving this header parameter MUST forward it unmodified to\
-          \ other services it invokes. Non-REST technologies (e.g. SOABP) might use\
-          \ a different identifier for this attribute."
-        required: false
-        type: "string"
-      - name: "X-Correlation-ID"
-        in: "header"
-        description: "Value for identifying a single transaction across multiple services\
-          \ up to the backend. Usually set by the originating consumer.Any service\
-          \ receiving this header parameter MUST forward it unmodified to other services\
-          \ it invokes. Non-REST technologies (e.g. SOABP) might use a different identifier\
-          \ for this attribute. If this ID is not available (not supplied, empty or\
-          \ at origin), the service MUST create it as a UUID. The maximum length of\
-          \ 256 characters MUST NOT be exceeded (a standard UUID has 36 characters).\
-          \ The creator MAY prefix the UUID with an application and/or instance defined\
-          \ string."
-        required: false
-        type: "string"
-      - name: "X-Request-ID"
-        in: "header"
-        description: "Value to identify an individual request across consuming application,\
-          \ middleware and service provider. This ID is to be generated for every\
-          \ single request and not to be passed down (as X-Correlation-ID) to sub-services.\
-          \ Every consuming application MUST create this value as UUID. The maximum\
-          \ length of 256 characters MUST NOT be exceeded (a standard UUID has 36\
-          \ characters). The creator MAY prefix the UUID with an application and/or\
-          \ instance defined string."
-        required: false
-        type: "string"
-      responses:
-        200:
-          description: "Successfully found"
-          schema:
-            type: "array"
-            items:
-              $ref: "#/definitions/AssuranceDeviceDtoV2"
-        400:
-          description: "Can't perform operation"
-          schema:
-            $ref: "#/definitions/ErrorResponse"
-        404:
-          description: "Not present in database"
-          schema:
-            $ref: "#/definitions/ErrorResponse"
-  /resource-order-resource-inventory/v2/assurance/device/{deviceId}:
-    get:
-      tags:
-      - "AssuranceExternalControllerV2"
-      summary: "Find device by id"
-      description: ""
-      operationId: "findDeviceByIdV2"
-      produces:
-      - "application/xml"
-      parameters:
-      - name: "deviceId"
-        in: "path"
-        required: true
-        type: "integer"
-        format: "int64"
-      - name: "X-Business-Context"
-        in: "header"
-        description: "The business context is a general classification for a larger\
-          \ number of requests (types) usually set by the originating consumer. Any\
-          \ service receiving this header parameter MUST forward it unmodified to\
-          \ other services it invokes. Non-REST technologies (e.g. SOABP) might use\
-          \ a different identifier for this attribute."
-        required: false
-        type: "string"
-      - name: "X-Correlation-ID"
-        in: "header"
-        description: "Value for identifying a single transaction across multiple services\
-          \ up to the backend. Usually set by the originating consumer.Any service\
-          \ receiving this header parameter MUST forward it unmodified to other services\
-          \ it invokes. Non-REST technologies (e.g. SOABP) might use a different identifier\
-          \ for this attribute. If this ID is not available (not supplied, empty or\
-          \ at origin), the service MUST create it as a UUID. The maximum length of\
-          \ 256 characters MUST NOT be exceeded (a standard UUID has 36 characters).\
-          \ The creator MAY prefix the UUID with an application and/or instance defined\
-          \ string."
-        required: false
-        type: "string"
-      - name: "X-Request-ID"
-        in: "header"
-        description: "Value to identify an individual request across consuming application,\
-          \ middleware and service provider. This ID is to be generated for every\
-          \ single request and not to be passed down (as X-Correlation-ID) to sub-services.\
-          \ Every consuming application MUST create this value as UUID. The maximum\
-          \ length of 256 characters MUST NOT be exceeded (a standard UUID has 36\
-          \ characters). The creator MAY prefix the UUID with an application and/or\
-          \ instance defined string."
-        required: false
-        type: "string"
-      responses:
-        200:
-          description: "Successfully found"
-          schema:
-            $ref: "#/definitions/AssuranceDeviceDtoV2"
-        400:
-          description: "Can't perform operation"
-          schema:
-            $ref: "#/definitions/ErrorResponse"
-        404:
-          description: "Not present in database"
-          schema:
-            $ref: "#/definitions/ErrorResponse"
-  /resource-order-resource-inventory/v2/assurance/ethernetlink:
-    get:
-      tags:
-      - "AssuranceExternalControllerV2"
-      summary: "Find ethernetlinks by filter criteria"
-      description: ""
-      operationId: "findUplinksByCriteriaV2"
-      produces:
-      - "application/xml"
-      parameters:
-      - name: "bngEndSz"
-        in: "query"
-        description: ""
-        required: false
-        type: "string"
-      - name: "lbz"
-        in: "query"
-        description: ""
-        required: false
-        type: "string"
-      - name: "lsz"
-        in: "query"
-        description: ""
-        required: false
-        type: "string"
-      - name: "oltEndSz"
-        in: "query"
-        description: ""
-        required: false
-        type: "string"
-      - name: "X-Business-Context"
-        in: "header"
-        description: "The business context is a general classification for a larger\
-          \ number of requests (types) usually set by the originating consumer. Any\
-          \ service receiving this header parameter MUST forward it unmodified to\
-          \ other services it invokes. Non-REST technologies (e.g. SOABP) might use\
-          \ a different identifier for this attribute."
-        required: false
-        type: "string"
-      - name: "X-Correlation-ID"
-        in: "header"
-        description: "Value for identifying a single transaction across multiple services\
-          \ up to the backend. Usually set by the originating consumer.Any service\
-          \ receiving this header parameter MUST forward it unmodified to other services\
-          \ it invokes. Non-REST technologies (e.g. SOABP) might use a different identifier\
-          \ for this attribute. If this ID is not available (not supplied, empty or\
-          \ at origin), the service MUST create it as a UUID. The maximum length of\
-          \ 256 characters MUST NOT be exceeded (a standard UUID has 36 characters).\
-          \ The creator MAY prefix the UUID with an application and/or instance defined\
-          \ string."
-        required: false
-        type: "string"
-      - name: "X-Request-ID"
-        in: "header"
-        description: "Value to identify an individual request across consuming application,\
-          \ middleware and service provider. This ID is to be generated for every\
-          \ single request and not to be passed down (as X-Correlation-ID) to sub-services.\
-          \ Every consuming application MUST create this value as UUID. The maximum\
-          \ length of 256 characters MUST NOT be exceeded (a standard UUID has 36\
-          \ characters). The creator MAY prefix the UUID with an application and/or\
-          \ instance defined string."
-        required: false
-        type: "string"
-      responses:
-        200:
-          description: "Successfully found"
-          schema:
-            type: "array"
-            items:
-              $ref: "#/definitions/AssuranceEthernetLinkDtoV2"
-        400:
-          description: "Can't perform operation"
-          schema:
-            $ref: "#/definitions/ErrorResponse"
-        404:
-          description: "Not present in database"
-          schema:
-            $ref: "#/definitions/ErrorResponse"
-  /resource-order-resource-inventory/v2/assurance/ethernetlink/{id}:
-    get:
-      tags:
-      - "AssuranceExternalControllerV2"
-      summary: "Find ethernetlink by id"
-      description: ""
-      operationId: "findUplinkByIdV2"
-      produces:
-      - "application/xml"
-      parameters:
-      - name: "id"
-        in: "path"
-        required: true
-        type: "integer"
-        format: "int64"
-      - name: "X-Business-Context"
-        in: "header"
-        description: "The business context is a general classification for a larger\
-          \ number of requests (types) usually set by the originating consumer. Any\
-          \ service receiving this header parameter MUST forward it unmodified to\
-          \ other services it invokes. Non-REST technologies (e.g. SOABP) might use\
-          \ a different identifier for this attribute."
-        required: false
-        type: "string"
-      - name: "X-Correlation-ID"
-        in: "header"
-        description: "Value for identifying a single transaction across multiple services\
-          \ up to the backend. Usually set by the originating consumer.Any service\
-          \ receiving this header parameter MUST forward it unmodified to other services\
-          \ it invokes. Non-REST technologies (e.g. SOABP) might use a different identifier\
-          \ for this attribute. If this ID is not available (not supplied, empty or\
-          \ at origin), the service MUST create it as a UUID. The maximum length of\
-          \ 256 characters MUST NOT be exceeded (a standard UUID has 36 characters).\
-          \ The creator MAY prefix the UUID with an application and/or instance defined\
-          \ string."
-        required: false
-        type: "string"
-      - name: "X-Request-ID"
-        in: "header"
-        description: "Value to identify an individual request across consuming application,\
-          \ middleware and service provider. This ID is to be generated for every\
-          \ single request and not to be passed down (as X-Correlation-ID) to sub-services.\
-          \ Every consuming application MUST create this value as UUID. The maximum\
-          \ length of 256 characters MUST NOT be exceeded (a standard UUID has 36\
-          \ characters). The creator MAY prefix the UUID with an application and/or\
-          \ instance defined string."
-        required: false
-        type: "string"
-      responses:
-        200:
-          description: "Successfully found"
-          schema:
-            $ref: "#/definitions/AssuranceEthernetLinkDtoV2"
-        400:
-          description: "Can't perform operation"
-          schema:
-            $ref: "#/definitions/ErrorResponse"
-        404:
-          description: "Not present in database"
-          schema:
-            $ref: "#/definitions/ErrorResponse"
-  /resource-order-resource-inventory/v2/assurance/port:
-    get:
-      tags:
-      - "AssuranceExternalControllerV2"
-      summary: "Find Port by Name and Type"
-      description: ""
-      operationId: "findPortsByCriteriaV2"
-      produces:
-      - "application/xml"
-      parameters:
-      - name: "name"
-        in: "query"
-        description: ""
-        required: false
-        type: "string"
-      - name: "porttype"
-        in: "query"
-        description: ""
-        required: false
-        type: "string"
-        enum:
-        - "PON"
-        - "ETHERNET"
-        - "GFAST"
-      - name: "X-Business-Context"
-        in: "header"
-        description: "The business context is a general classification for a larger\
-          \ number of requests (types) usually set by the originating consumer. Any\
-          \ service receiving this header parameter MUST forward it unmodified to\
-          \ other services it invokes. Non-REST technologies (e.g. SOABP) might use\
-          \ a different identifier for this attribute."
-        required: false
-        type: "string"
-      - name: "X-Correlation-ID"
-        in: "header"
-        description: "Value for identifying a single transaction across multiple services\
-          \ up to the backend. Usually set by the originating consumer.Any service\
-          \ receiving this header parameter MUST forward it unmodified to other services\
-          \ it invokes. Non-REST technologies (e.g. SOABP) might use a different identifier\
-          \ for this attribute. If this ID is not available (not supplied, empty or\
-          \ at origin), the service MUST create it as a UUID. The maximum length of\
-          \ 256 characters MUST NOT be exceeded (a standard UUID has 36 characters).\
-          \ The creator MAY prefix the UUID with an application and/or instance defined\
-          \ string."
-        required: false
-        type: "string"
-      - name: "X-Request-ID"
-        in: "header"
-        description: "Value to identify an individual request across consuming application,\
-          \ middleware and service provider. This ID is to be generated for every\
-          \ single request and not to be passed down (as X-Correlation-ID) to sub-services.\
-          \ Every consuming application MUST create this value as UUID. The maximum\
-          \ length of 256 characters MUST NOT be exceeded (a standard UUID has 36\
-          \ characters). The creator MAY prefix the UUID with an application and/or\
-          \ instance defined string."
-        required: false
-        type: "string"
-      responses:
-        200:
-          description: "Successfully found"
-          schema:
-            type: "array"
-            items:
-              $ref: "#/definitions/AssurancePortDtoV2"
-        400:
-          description: "Can't perform operation"
-          schema:
-            $ref: "#/definitions/ErrorResponse"
-        404:
-          description: "Not present in database"
-          schema:
-            $ref: "#/definitions/ErrorResponse"
-  /resource-order-resource-inventory/v2/assurance/port/{id}:
-    get:
-      tags:
-      - "AssuranceExternalControllerV2"
-      summary: "Find port by id"
-      description: ""
-      operationId: "findPortByIdV2"
-      produces:
-      - "application/xml"
-      parameters:
-      - name: "id"
-        in: "path"
-        required: true
-        type: "integer"
-        format: "int64"
-      - name: "X-Business-Context"
-        in: "header"
-        description: "The business context is a general classification for a larger\
-          \ number of requests (types) usually set by the originating consumer. Any\
-          \ service receiving this header parameter MUST forward it unmodified to\
-          \ other services it invokes. Non-REST technologies (e.g. SOABP) might use\
-          \ a different identifier for this attribute."
-        required: false
-        type: "string"
-      - name: "X-Correlation-ID"
-        in: "header"
-        description: "Value for identifying a single transaction across multiple services\
-          \ up to the backend. Usually set by the originating consumer.Any service\
-          \ receiving this header parameter MUST forward it unmodified to other services\
-          \ it invokes. Non-REST technologies (e.g. SOABP) might use a different identifier\
-          \ for this attribute. If this ID is not available (not supplied, empty or\
-          \ at origin), the service MUST create it as a UUID. The maximum length of\
-          \ 256 characters MUST NOT be exceeded (a standard UUID has 36 characters).\
-          \ The creator MAY prefix the UUID with an application and/or instance defined\
-          \ string."
-        required: false
-        type: "string"
-      - name: "X-Request-ID"
-        in: "header"
-        description: "Value to identify an individual request across consuming application,\
-          \ middleware and service provider. This ID is to be generated for every\
-          \ single request and not to be passed down (as X-Correlation-ID) to sub-services.\
-          \ Every consuming application MUST create this value as UUID. The maximum\
-          \ length of 256 characters MUST NOT be exceeded (a standard UUID has 36\
-          \ characters). The creator MAY prefix the UUID with an application and/or\
-          \ instance defined string."
-        required: false
-        type: "string"
-      responses:
-        200:
-          description: "Successfully found"
-          schema:
-            $ref: "#/definitions/AssurancePortDtoV2"
-        400:
-          description: "Can't perform operation"
-          schema:
-            $ref: "#/definitions/ErrorResponse"
-        404:
-          description: "Not present in database"
           schema:
             $ref: "#/definitions/ErrorResponse"
   /resource-order-resource-inventory/v3/assurance/card:
@@ -3765,6 +3101,8 @@ definitions:
         format: "date-time"
       port:
         $ref: "#/definitions/Port"
+      lastAncpStatus:
+        type: "string"
   AllocatedIPAddresses:
     type: "object"
     properties:
@@ -3854,102 +3192,10 @@ definitions:
       portId:
         type: "integer"
         format: "int64"
-  AssuranceAccessLineDtoV2:
-    type: "object"
-    properties:
-      defaultNeProfile:
-        $ref: "#/definitions/AssuranceDefaultNeProfileDto"
-      defaultNetworkLineProfile:
-        $ref: "#/definitions/AssuranceDefaultNetworkLineProfileDto"
-      homeId:
+      lastAncpStatus:
         type: "string"
-      id:
-        type: "integer"
-        format: "int64"
-      lineId:
-        type: "string"
-      portId:
-        type: "integer"
-        format: "int64"
-      status:
-        type: "string"
-      partyId:
-        type: "integer"
-        format: "int64"
-      subscriberNeProfile:
-        $ref: "#/definitions/AssuranceSubscriberNeProfileDto"
-      subscriberNetworkLineProfile:
-        $ref: "#/definitions/AssuranceSubscriberNetworkLineProfileDto"
-      technology:
-        type: "string"
-      resourceId:
-        type: "string"
-  AssuranceCardDtoV2:
-    type: "object"
-    properties:
-      cardtype:
-        type: "string"
-        description: "Type of element"
-        enum:
-        - "GPON"
-        - "UPLINK_CARD"
-        - "MANAGEMENT_CARD"
-        - "SUPPORT_MODULE"
-        - "PROCESSING_BOARD"
-      description:
-        type: "string"
-        description: "Description of element"
-      deviceId:
-        type: "integer"
-        format: "int64"
-        description: "ID of the device where this card is"
-      emsName:
-        type: "string"
-        description: "It is the unique identifier"
-      firmwareVersion:
-        type: "string"
-        description: "The current firmware version of element"
-      id:
-        type: "integer"
-        format: "int64"
-        description: "It is the unique identifier in database"
-      materialNumber:
-        type: "string"
-        description: "Material number of element"
-      name:
-        type: "string"
-        description: "Name of element"
-      portIDs:
-        type: "array"
-        description: "List of id of port for this card"
-        items:
-          type: "integer"
-          format: "int64"
-      resourceState:
-        type: "string"
-        description: "Status of element"
-      serialNumber:
-        type: "string"
-        description: "Serial number of element"
-      serviceState:
-        type: "string"
-        description: "Service number of CARD"
-      shortName:
-        type: "string"
-        description: "Short name of element"
-      slotNumber:
-        type: "string"
-        description: "SlotNumber of device where this card is"
-      equipmentNumber:
-        type: "string"
-        description: "Equipment number of this card"
-      partyId:
-        type: "integer"
-        format: "int64"
-        description: "Composite Party ID of this card"
-      ressourceId:
-        type: "string"
-        description: "Resource ID of this card"
+        minLength: 0
+        maxLength: 50
   AssuranceCardDtoV3:
     type: "object"
     properties:
@@ -4080,142 +3326,6 @@ definitions:
         type: "string"
         description: "EndSz of device"
         pattern: "[0-9]{1,6}\\/[0-9]{1,6}\\/[0-9]{1,6}\\/[a-zA-Z0-9]{2,4}"
-  AssuranceDefaultNeProfileDto:
-    type: "object"
-    properties:
-      ancpPartitionId:
-        type: "integer"
-        format: "int32"
-      anpTag:
-        type: "integer"
-        format: "int32"
-      ontId:
-        type: "integer"
-        format: "int32"
-      ontSerialNumber:
-        type: "string"
-      profileName:
-        type: "string"
-      state:
-        type: "string"
-  AssuranceDefaultNetworkLineProfileDto:
-    type: "object"
-    properties:
-      accessNetworkType:
-        type: "string"
-      accessType:
-        type: "string"
-      authMethod:
-        type: "integer"
-        format: "int32"
-      guaranteedDownBandwidth:
-        type: "integer"
-        format: "int32"
-      guaranteedUpBandwidth:
-        type: "integer"
-        format: "int32"
-      klsId:
-        type: "integer"
-        format: "int64"
-      maxDownBandwidth:
-        type: "integer"
-        format: "int32"
-      maxUpBandwidth:
-        type: "integer"
-        format: "int32"
-      minDownBandwidth:
-        type: "integer"
-        format: "int32"
-      minUpBandwidth:
-        type: "integer"
-        format: "int32"
-      state:
-        type: "string"
-  AssuranceDeviceDtoV2:
-    type: "object"
-    properties:
-      cardIDs:
-        type: "array"
-        description: "List of id of card for this device"
-        items:
-          type: "integer"
-          format: "int64"
-      communicationState:
-        type: "string"
-        description: "Communication state of device"
-      description:
-        type: "string"
-        description: "Description of element"
-      deviceName:
-        type: "string"
-        description: "Name of element"
-      devicetype:
-        type: "string"
-        description: "Type of element"
-        enum:
-        - "OLT"
-        - "BNG"
-        - "DPU"
-      emsName:
-        type: "string"
-        description: "It is the unique identifier"
-      endsz:
-        type: "string"
-        description: "EndSz of device"
-        pattern: "[0-9]{1,6}\\/[0-9]{1,6}\\/[0-9]{1,6}\\/[a-zA-Z0-9]{2,4}"
-      firmwareVersion:
-        type: "string"
-        description: "The current firmware version of element"
-      fsz:
-        type: "string"
-        description: "Description of the type network element and it is part of end_sz"
-      id:
-        type: "integer"
-        format: "int64"
-        description: "It is the unique identifier in database"
-      importState:
-        type: "string"
-        description: "Import status of device"
-      ipaddress:
-        type: "string"
-        description: "IP-Address of device"
-      klsid:
-        type: "string"
-        description: "Id of the location of device"
-      materialNumber:
-        type: "string"
-        description: "Material number of element"
-      resourceState:
-        type: "string"
-        description: "Status of element"
-      serialNumber:
-        type: "string"
-        description: "Serial number of element"
-      shortName:
-        type: "string"
-        description: "Short name of element"
-      vendor:
-        type: "string"
-        description: "Model of device"
-      vpsz:
-        type: "string"
-        description: " Part of Endsz"
-      asb:
-        type: "string"
-        description: "ASB of device"
-      technicalLocation:
-        type: "string"
-        description: "Technical location of device"
-      equipmentNumber:
-        type: "string"
-        description: "Equipment number of device"
-      partyId:
-        type: "integer"
-        format: "int64"
-        description: "Composite Party ID of device"
-      ressourceId:
-        type: "string"
-        description: "Resource ID of device"
   AssuranceDeviceDtoV3:
     type: "object"
     properties:
@@ -4284,7 +3394,7 @@ definitions:
         description: "Model of device"
       vpsz:
         type: "string"
-        description: " Part of Endsz"
+        description: "Part of Endsz"
       asb:
         type: "string"
         description: "ASB of device"
@@ -4361,7 +3471,7 @@ definitions:
         description: "Model of device"
       vpsz:
         type: "string"
-        description: " Part of Endsz"
+        description: "Part of Endsz"
       asb:
         type: "string"
         description: "ASB of device"
@@ -4381,62 +3491,6 @@ definitions:
       lifeCycleState:
         type: "string"
         description: "LifeCycleState of device"
-  AssuranceEthernetLinkDtoV2:
-    type: "object"
-    properties:
-      ancpStatus:
-        type: "string"
-        description: "Ancp status of ethernet link"
-        enum:
-        - "ACTIVE"
-        - "INACTIVE"
-      bngPortRef:
-        type: "integer"
-        format: "int64"
-        description: "ID of the BNG PORT where this port is"
-      endsza:
-        type: "string"
-        description: "EndSz of device"
-        pattern: "[0-9]{1,6}\\/[0-9]{1,6}\\/[0-9]{1,6}\\/[a-zA-Z0-9]{2,4}"
-      endszb:
-        type: "string"
-        description: "EndSz of device"
-        pattern: "[0-9]{1,6}\\/[0-9]{1,6}\\/[0-9]{1,6}\\/[a-zA-Z0-9]{2,4}"
-      id:
-        type: "integer"
-        format: "int64"
-        description: "It is the unique identifier in database"
-      ipStatus:
-        type: "string"
-        description: "Status of ethernet link"
-        enum:
-        - "ACTIVE"
-        - "PLANNED"
-        - "ACTIVATION_PROCESS"
-      lbz:
-        type: "string"
-        description: "LBZ"
-      lsz:
-        type: "string"
-        description: "Business description of link between OLT and BNG"
-      oltPortRef:
-        type: "integer"
-        format: "int64"
-        description: "ID of the OLT PORT where this port is"
-      ordnungsnummer:
-        type: "integer"
-        format: "int32"
-        description: "OrderNumber is an identifier of link"
-      uewegId:
-        type: "string"
-        description: "UEWEGID is an identifier of link"
-      partyId:
-        type: "integer"
-        format: "int64"
-        description: "Composite Party ID of this ethernetlink"
-      resourceId:
-        type: "string"
-        description: "Resource ID of this ethernetlink"
   AssuranceEthernetLinkDtoV3:
     type: "object"
     properties:
@@ -4554,26 +3608,6 @@ definitions:
       resourceId:
         type: "string"
         description: "Resource ID of this ethernetlink"
-  AssuranceOpticalModuleDtoV2:
-    type: "object"
-    properties:
-      description:
-        type: "string"
-      emsName:
-        type: "string"
-      manufacturer:
-        type: "string"
-      materialNumber:
-        type: "string"
-      name:
-        type: "string"
-      shortName:
-        type: "string"
-      partyId:
-        type: "integer"
-        format: "int64"
-      resourceId:
-        type: "string"
   AssuranceOpticalModuleDtoV3:
     type: "object"
     properties:
@@ -4614,49 +3648,6 @@ definitions:
         format: "int64"
       resourceId:
         type: "string"
-  AssurancePortDtoV2:
-    type: "object"
-    properties:
-      accessLineIDs:
-        type: "array"
-        description: "List of id of accesses line for this port"
-        items:
-          type: "integer"
-          format: "int64"
-      cardId:
-        type: "integer"
-        format: "int64"
-        description: "ID of the card where this port is"
-      ethernetLinkIDs:
-        type: "array"
-        description: "List of id of ethernet link for this port"
-        items:
-          type: "integer"
-          format: "int64"
-      id:
-        type: "integer"
-        format: "int64"
-        description: "It is the unique identifier in database"
-      opticalModule:
-        description: "Service number of CARD"
-        $ref: "#/definitions/AssuranceOpticalModuleDtoV2"
-      portNumber:
-        type: "string"
-        description: "It is the unique identifier in database"
-      porttype:
-        type: "string"
-        description: "Type of element"
-        enum:
-        - "PON"
-        - "ETHERNET"
-        - "GFAST"
-      partyId:
-        type: "integer"
-        format: "int64"
-        description: "Composite Party ID of this port"
-      ressourceId:
-        type: "string"
-        description: "Resource ID of this port"
   AssurancePortDtoV3:
     type: "object"
     properties:
@@ -4734,54 +3725,6 @@ definitions:
       slotNumber:
         type: "string"
         description: "SlotNumber of device where this card is"
-  AssuranceSubscriberNeProfileDto:
-    type: "object"
-    properties:
-      ontSerialNumber:
-        type: "string"
-      profileName:
-        type: "string"
-  AssuranceSubscriberNetworkLineProfileDto:
-    type: "object"
-    properties:
-      authMethod:
-        type: "integer"
-        format: "int32"
-      downBandwidth:
-        type: "integer"
-        format: "int32"
-      federationPartner:
-        type: "string"
-      guaranteedDownBandwidth:
-        type: "integer"
-        format: "int32"
-      guaranteedUpBandwidth:
-        type: "integer"
-        format: "int32"
-      klsId:
-        type: "integer"
-        format: "int64"
-      l2ccid:
-        type: "string"
-      maxDownBandwidth:
-        type: "integer"
-        format: "int32"
-      maxUpBandwidth:
-        type: "integer"
-        format: "int32"
-      minDownBandwidth:
-        type: "integer"
-        format: "int32"
-      minUpBandwidth:
-        type: "integer"
-        format: "int32"
-      providerId:
-        type: "string"
-      substitutionDomain:
-        type: "string"
-      upBandwidth:
-        type: "integer"
-        format: "int32"
   Card:
     type: "object"
     properties:
@@ -4925,6 +3868,9 @@ definitions:
         - "OPERATING"
         - "RETIRING"
         - "PLANNING"
+      fiberOnLocationId:
+        type: "string"
+        pattern: "^\\d{0,19}$"
       ports:
         type: "array"
         items:
@@ -5031,6 +3977,36 @@ definitions:
       oltPort:
         type: "string"
         description: "Port number of OLT where DPU is connected"
+      fiberOnLocationId:
+        type: "string"
+        description: "FiberOnLocation ID of DPU"
+        pattern: "^\\d{0,19}$"
+  DpuCreateRequestV2:
+    type: "object"
+    required:
+    - "endsz"
+    - "fiberOnLocationId"
+    - "klsId"
+    - "type"
+    properties:
+      endsz:
+        type: "string"
+        description: "EndSz of DPU"
+        pattern: "[0-9]{1,6}\\/[0-9]{1,6}\\/[0-9]{1,6}\\/[a-zA-Z0-9]{2,4}"
+      klsId:
+        type: "integer"
+        format: "int64"
+        description: "KLS-ID"
+      type:
+        type: "string"
+        description: "Type (emsNbiName)"
+      serialNumber:
+        type: "string"
+        description: "Serial Number"
+      fiberOnLocationId:
+        type: "string"
+        description: "FiberOnLocation ID of DPU"
+        pattern: "^\\d{0,19}$"
   DpuEmsConfigurationDto:
     type: "object"
     properties:
@@ -5226,6 +4202,9 @@ definitions:
       compositePartyId:
         type: "integer"
         format: "int64"
+      fiberOnLocationId:
+        type: "string"
+        pattern: "^\\d{0,19}$"
   IPSubnet:
     type: "object"
     properties:
@@ -5337,12 +4316,12 @@ definitions:
   Page:
     type: "object"
     properties:
-      totalPages:
-        type: "integer"
-        format: "int32"
       totalElements:
         type: "integer"
         format: "int64"
+      totalPages:
+        type: "integer"
+        format: "int32"
       size:
         type: "integer"
         format: "int32"
@@ -5358,23 +4337,23 @@ definitions:
       numberOfElements:
         type: "integer"
         format: "int32"
-      first:
-        type: "boolean"
       last:
         type: "boolean"
       pageable:
         $ref: "#/definitions/Pageable"
+      first:
+        type: "boolean"
       empty:
         type: "boolean"
   PageAssuranceCardDtoV4:
     type: "object"
     properties:
-      totalPages:
-        type: "integer"
-        format: "int32"
       totalElements:
         type: "integer"
         format: "int64"
+      totalPages:
+        type: "integer"
+        format: "int32"
       size:
         type: "integer"
         format: "int32"
@@ -5390,23 +4369,23 @@ definitions:
       numberOfElements:
         type: "integer"
         format: "int32"
-      first:
-        type: "boolean"
       last:
         type: "boolean"
       pageable:
         $ref: "#/definitions/Pageable"
+      first:
+        type: "boolean"
       empty:
         type: "boolean"
   PageAssuranceDeviceDtoV4:
     type: "object"
     properties:
-      totalPages:
-        type: "integer"
-        format: "int32"
       totalElements:
         type: "integer"
         format: "int64"
+      totalPages:
+        type: "integer"
+        format: "int32"
       size:
         type: "integer"
         format: "int32"
@@ -5422,23 +4401,23 @@ definitions:
       numberOfElements:
         type: "integer"
         format: "int32"
-      first:
-        type: "boolean"
       last:
         type: "boolean"
       pageable:
         $ref: "#/definitions/Pageable"
+      first:
+        type: "boolean"
       empty:
         type: "boolean"
   PageAssuranceEthernetLinkDtoV4:
     type: "object"
     properties:
-      totalPages:
-        type: "integer"
-        format: "int32"
       totalElements:
         type: "integer"
         format: "int64"
+      totalPages:
+        type: "integer"
+        format: "int32"
       size:
         type: "integer"
         format: "int32"
@@ -5454,23 +4433,23 @@ definitions:
       numberOfElements:
         type: "integer"
         format: "int32"
-      first:
-        type: "boolean"
       last:
         type: "boolean"
       pageable:
         $ref: "#/definitions/Pageable"
+      first:
+        type: "boolean"
       empty:
         type: "boolean"
   PageAssurancePortDtoV4:
     type: "object"
     properties:
-      totalPages:
-        type: "integer"
-        format: "int32"
       totalElements:
         type: "integer"
         format: "int64"
+      totalPages:
+        type: "integer"
+        format: "int32"
       size:
         type: "integer"
         format: "int32"
@@ -5486,12 +4465,12 @@ definitions:
       numberOfElements:
         type: "integer"
         format: "int32"
-      first:
-        type: "boolean"
       last:
         type: "boolean"
       pageable:
         $ref: "#/definitions/Pageable"
+      first:
+        type: "boolean"
       empty:
         type: "boolean"
   Pageable:
@@ -5502,16 +4481,16 @@ definitions:
         format: "int64"
       sort:
         $ref: "#/definitions/Sort"
-      pageNumber:
+      pageSize:
         type: "integer"
         format: "int32"
       unpaged:
         type: "boolean"
-      paged:
-        type: "boolean"
-      pageSize:
+      pageNumber:
         type: "integer"
         format: "int32"
+      paged:
+        type: "boolean"
   Port:
     type: "object"
     properties:
