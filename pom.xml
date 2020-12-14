@@ -327,6 +327,12 @@
                                             ${project.basedir}/src/main/resources/swagger/olt-resource-inventory/olt-resource-inventory-external.4.6.0.yaml
                                         </inputSpec>
                                     </item>
+                                    <item>
+                                        <name>area.data.management.external.client</name>
+                                        <inputSpec>
+                                            ${project.basedir}/src/main/resources/swagger/area-data-management/area-data-management-external.yaml
+                                        </inputSpec>
+                                    </item>
                                 </items>
                             </bulk>
                             <language/>
