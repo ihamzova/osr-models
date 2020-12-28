@@ -244,6 +244,18 @@
                                         </inputSpec>
                                     </item>
                                     <item>
+                                        <name>wg.a4.provisioning.internal.v1_5_0.client</name>
+                                        <inputSpec>
+                                            ${project.basedir}/src/main/resources/swagger/wg-a4-provisioning/wg-a4-provisioning-internal-v1.5.0.yaml
+                                        </inputSpec>
+                                    </item>
+                                    <item>
+                                        <name>wg.a4.provisioning.external.v1_5_0.client</name>
+                                        <inputSpec>
+                                            ${project.basedir}/src/main/resources/swagger/wg-a4-provisioning/wg-a4-provisioning-external-v1.5.0.yaml
+                                        </inputSpec>
+                                    </item>
+                                    <item>
                                         <name>ont.olt.orchestrator.internal.client</name>
                                         <inputSpec>
                                             ${project.basedir}/src/main/resources/swagger/ont-olt-orchestrator/ont-olt-orchestrator-internal-v2.yaml
@@ -253,6 +265,18 @@
                                         <name>ont.olt.orchestrator.external.client</name>
                                         <inputSpec>
                                             ${project.basedir}/src/main/resources/swagger/ont-olt-orchestrator/ont-olt-orchestrator-external-v2.yaml
+                                        </inputSpec>
+                                    </item>
+                                    <item>
+                                        <name>ont.olt.orchestrator.internal.v2_8_0.client</name>
+                                        <inputSpec>
+                                            ${project.basedir}/src/main/resources/swagger/ont-olt-orchestrator/ont-olt-orchestrator-internal-v2.8.0.yaml
+                                        </inputSpec>
+                                    </item>
+                                    <item>
+                                        <name>ont.olt.orchestrator.external.v2_8_0.client</name>
+                                        <inputSpec>
+                                            ${project.basedir}/src/main/resources/swagger/ont-olt-orchestrator/ont-olt-orchestrator-external-v2.8.0.yaml
                                         </inputSpec>
                                     </item>
                                     <item>
@@ -289,6 +313,30 @@
                                         <name>access.process.management.internal.v1.client</name>
                                         <inputSpec>
                                             ${project.basedir}/src/main/resources/swagger/access-process-management/access-process-management-internal-v1.yaml
+                                        </inputSpec>
+                                    </item>
+                                    <item>
+                                        <name>access.process.management.internal.v1-5-0.client</name>
+                                        <inputSpec>
+                                            ${project.basedir}/src/main/resources/swagger/access-process-management/access-process-management-internal-v1.5.0.yaml
+                                        </inputSpec>
+                                    </item>
+                                    <item>
+                                        <name>access.process.management.external.v1-5-0.client</name>
+                                        <inputSpec>
+                                            ${project.basedir}/src/main/resources/swagger/access-process-management/access-process-management-external-v1.5.0.yaml
+                                        </inputSpec>
+                                    </item>
+                                    <item>
+                                        <name>ri.abstraction.layer.internal.v1_2_0.client</name>
+                                        <inputSpec>
+                                            ${project.basedir}/src/main/resources/swagger/ri-abstraction-layer/ri-abstraction-layer-internal-v1.2.0.yaml
+                                        </inputSpec>
+                                    </item>
+                                    <item>
+                                        <name>ri.abstraction.layer.external.v1_2_0.client</name>
+                                        <inputSpec>
+                                            ${project.basedir}/src/main/resources/swagger/ri-abstraction-layer/ri-abstraction-layer-external-v1.2.0.yaml
                                         </inputSpec>
                                     </item>
                                 </items>
@@ -376,6 +424,18 @@
                                         </inputSpec>
                                     </item>
                                     <item>
+                                        <name>access.line.resource.inventory.internal.v5_1_0.client</name>
+                                        <inputSpec>
+                                            ${project.basedir}/src/main/resources/swagger/access-line-resource-inventory/access-line-resource-inventory-internal-v5.1.0.yaml
+                                        </inputSpec>
+                                    </item>
+                                    <item>
+                                        <name>access.line.resource.inventory.external.v5_1_0.client</name>
+                                        <inputSpec>
+                                            ${project.basedir}/src/main/resources/swagger/access-line-resource-inventory/access-line-resource-inventory-external-v5.1.0.yaml
+                                        </inputSpec>
+                                    </item>
+                                    <item>
                                         <name>olt.discovery.external.v1_2_0.client</name>
                                         <inputSpec>
                                             ${project.basedir}/src/main/resources/swagger/olt-discovery/olt-discovery-external.1.2.0.yaml
@@ -429,6 +489,18 @@
                                         <name>access.line.management.external.client</name>
                                         <inputSpec>
                                             ${project.basedir}/src/main/resources/swagger/access-line-management/access-line-management-external.1.2.0.yaml
+                                        </inputSpec>
+                                    </item>
+                                    <item>
+                                        <name>access.line.management.internal.v1_7_0.client</name>
+                                        <inputSpec>
+                                            ${project.basedir}/src/main/resources/swagger/access-line-management/access-line-management-internal-v1.7.0.yaml
+                                        </inputSpec>
+                                    </item>
+                                    <item>
+                                        <name>access.line.management.external.v1_7_0.client</name>
+                                        <inputSpec>
+                                            ${project.basedir}/src/main/resources/swagger/access-line-management/access-line-management-external-v1.7.0.yaml
                                         </inputSpec>
                                     </item>
                                     <item>
