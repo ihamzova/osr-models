@@ -1,0 +1,310 @@
+---
+swagger: "2.0"
+info:
+  description: "## Access Process management API"
+  version: "1.5.0"
+  title: "Access Process management"
+host: "localhost:8092"
+tags:
+- name: "ProcessManagementExternalController"
+schemes:
+- "http"
+paths:
+  /resource-order-resource-inventory/v1/processManagement/manualProcessRestoreTask/{processId}:
+    post:
+      tags:
+      - "ProcessManagementExternalController"
+      summary: "Restores failed process"
+      description: "Restores failed process"
+      operationId: "restore"
+      parameters:
+      - name: "apm-principal-token"
+        in: "header"
+        description: "APM Token"
+        required: false
+        type: "string"
+      - name: "processId"
+        in: "path"
+        description: "Process instance id"
+        required: true
+        type: "string"
+      responses:
+        200:
+          description: "Process restoration started"
+        400:
+          description: "Bad Request"
+          schema:
+            $ref: "#/definitions/ProblemDetails"
+        401:
+          description: "Unauthorized"
+          schema:
+            $ref: "#/definitions/ProblemDetails"
+        403:
+          description: "Forbidden"
+          schema:
+            $ref: "#/definitions/ProblemDetails"
+        404:
+          description: "Process instance not found"
+          schema:
+            $ref: "#/definitions/ProblemDetails"
+        500:
+          description: "Internal server error"
+          schema:
+            $ref: "#/definitions/ProblemDetails"
+  /resource-order-resource-inventory/v1/processManagement/searchChildProcesses:
+    post:
+      tags:
+      - "ProcessManagementExternalController"
+      summary: "Searches child processes by process ID"
+      description: "Searches child processes by process ID. Also searches tasks of\
+        \ current process"
+      operationId: "searchChildProcesses"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "apm-principal-token"
+        in: "header"
+        description: "APM Token"
+        required: false
+        type: "string"
+      - in: "body"
+        name: "body"
+        description: "RequestChildProcessesDto"
+        required: false
+        schema:
+          $ref: "#/definitions/RequestChildProcessesDto"
+      responses:
+        200:
+          description: "Successfully found"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/ProcessInformationViewDto"
+        400:
+          description: "Can't perform operation"
+          schema:
+            $ref: "#/definitions/ProblemDetails"
+        401:
+          description: "Unauthorized"
+          schema:
+            $ref: "#/definitions/ProblemDetails"
+        403:
+          description: "Forbidden"
+          schema:
+            $ref: "#/definitions/ProblemDetails"
+        404:
+          description: "Not present in database"
+          schema:
+            $ref: "#/definitions/ProblemDetails"
+        500:
+          description: "Internal server error"
+          schema:
+            $ref: "#/definitions/ProblemDetails"
+  /resource-order-resource-inventory/v1/processManagement/searchProcessesByParams:
+    post:
+      tags:
+      - "ProcessManagementExternalController"
+      summary: "Gets Process by requestProcessInformationDto and managementUIPage."
+      description: "Gets Processes by input parameters for search and with additional\
+        \ sort parameters."
+      operationId: "searchProcessesByParams"
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "apm-principal-token"
+        in: "header"
+        description: "APM Token"
+        required: false
+        type: "string"
+      - in: "body"
+        name: "body"
+        description: "RequestProcessesDto"
+        required: false
+        schema:
+          $ref: "#/definitions/RequestProcessesDto"
+      - name: "direction"
+        in: "query"
+        description: "direction"
+        required: false
+        type: "string"
+        enum:
+        - "ASC"
+        - "DESC"
+      - name: "page"
+        in: "query"
+        description: "page"
+        required: false
+        type: "integer"
+        format: "int32"
+      - name: "pageSize"
+        in: "query"
+        description: "pageSize"
+        required: false
+        type: "integer"
+        format: "int32"
+      - name: "sortField"
+        in: "query"
+        description: "sortField"
+        required: false
+        type: "string"
+        enum:
+        - "START_TIME"
+        - "END_TIME"
+        - "PROCESS_STATUS"
+      responses:
+        200:
+          description: "Successfully found"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/ProcessInformationViewDto"
+        400:
+          description: "Can't perform operation"
+          schema:
+            $ref: "#/definitions/ProblemDetails"
+        401:
+          description: "Unauthorized"
+          schema:
+            $ref: "#/definitions/ProblemDetails"
+        403:
+          description: "Forbidden"
+          schema:
+            $ref: "#/definitions/ProblemDetails"
+        404:
+          description: "Not present in database"
+          schema:
+            $ref: "#/definitions/ProblemDetails"
+        500:
+          description: "Internal server error"
+          schema:
+            $ref: "#/definitions/ProblemDetails"
+definitions:
+  ProblemDetails:
+    type: "object"
+    required:
+    - "title"
+    - "type"
+    properties:
+      type:
+        type: "string"
+        description: "type"
+      title:
+        type: "string"
+        description: "title"
+      status:
+        type: "integer"
+        format: "int32"
+        description: "status"
+      detail:
+        type: "string"
+        description: "detail"
+      instance:
+        type: "string"
+        description: "instance"
+      embedded:
+        description: "embedded"
+        $ref: "#/definitions/SpecificProblemDetails"
+    description: "Error response of 4xx and 5xx http statuses."
+  ProcessInformationViewDto:
+    type: "object"
+    properties:
+      eventInfo:
+        type: "string"
+        description: "Information or process definition of the process"
+      processInstanceId:
+        type: "string"
+        description: "Unique Process Id of the process"
+      eventType:
+        type: "string"
+        description: "Type of event. Can be TASK or PROCESS"
+        enum:
+        - "TASK"
+        - "PROCESS"
+      activityType:
+        type: "string"
+        description: "Type of the activity"
+      startTime:
+        type: "string"
+        format: "date-time"
+        description: "Process starting time"
+      endTime:
+        type: "string"
+        format: "date-time"
+        description: "Process ending time"
+      processState:
+        type: "string"
+        description: "State of the process. Can be RUNNING, FINISHED, DELETED and\
+          \ FAILED"
+      variables:
+        type: "object"
+        description: " Process variables"
+      errorMessage:
+        type: "string"
+        description: "Failure message"
+      businessKey:
+        type: "string"
+        description: "Business key of a process"
+      incidentStatus:
+        type: "string"
+        description: "Status of the incident. Can be OPEN, RESOLVED and DELETED"
+        enum:
+        - "OPEN"
+        - "RESOLVED"
+        - "DELETED"
+      duration:
+        type: "string"
+        description: "Duration of a process"
+  RequestChildProcessesDto:
+    type: "object"
+    required:
+    - "processInstanceId"
+    properties:
+      processInstanceId:
+        type: "string"
+        format: "uuid"
+  RequestProcessesDto:
+    type: "object"
+    properties:
+      endSz:
+        type: "string"
+        pattern: "[0-9]{1,6}\\/[0-9]{1,6}\\/[0-9]{1,6}\\/[a-zA-Z0-9]{2,4}"
+      slotNumber:
+        type: "string"
+      portNumber:
+        type: "string"
+      processInstanceId:
+        type: "string"
+      processState:
+        type: "array"
+        uniqueItems: true
+        items:
+          type: "string"
+          enum:
+          - "RUNNING"
+          - "FINISHED"
+          - "DELETED"
+          - "FAILED"
+  SpecificProblemDetails:
+    type: "object"
+    required:
+    - "code"
+    - "reason"
+    properties:
+      code:
+        type: "string"
+        description: "code"
+      reason:
+        type: "string"
+        description: "reason"
+      message:
+        type: "string"
+        description: "message"
+      status:
+        type: "integer"
+        format: "int32"
+        description: "status"
+    description: "Specific problem details(including fehlerbuildnummer code)."

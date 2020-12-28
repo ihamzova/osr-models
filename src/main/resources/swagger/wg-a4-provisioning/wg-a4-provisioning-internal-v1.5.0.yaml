@@ -1,0 +1,125 @@
+---
+swagger: "2.0"
+info:
+  description: "## Access 4.0 access line preprovisioning API"
+  version: "1.5.0"
+  title: "Access 4.0 access line preprovisioning"
+host: "localhost:8291"
+tags:
+- name: "PreProvisioningProcessController"
+schemes:
+- "http"
+paths:
+  /api/wgA4Provisioning/v1/a4/accessLines:
+    post:
+      tags:
+      - "PreProvisioningProcessController"
+      summary: "A4 access line provisioning process"
+      description: "Starts WG a4 provisioning process for access line"
+      operationId: "startAccessLinePreProvisioning"
+      consumes:
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "body"
+        description: "Termination point reference info"
+        required: true
+        schema:
+          $ref: "#/definitions/TpRefDto"
+      responses:
+        201:
+          description: "Process started"
+        400:
+          description: "Bad request"
+          schema:
+            $ref: "#/definitions/ProblemDetails"
+        500:
+          description: "Can't perform operation"
+          schema:
+            $ref: "#/definitions/ProblemDetails"
+      security:
+      - apmToken: []
+securityDefinitions:
+  apmToken:
+    type: "apiKey"
+    name: "apmToken"
+    in: "header"
+definitions:
+  ProblemDetails:
+    type: "object"
+    required:
+    - "title"
+    - "type"
+    properties:
+      type:
+        type: "string"
+        description: "type"
+      title:
+        type: "string"
+        description: "title"
+      status:
+        type: "integer"
+        format: "int32"
+        description: "status"
+      detail:
+        type: "string"
+        description: "detail"
+      instance:
+        type: "string"
+        description: "instance"
+      embedded:
+        description: "embedded"
+        $ref: "#/definitions/SpecificProblemDetails"
+    description: "Error response of 4xx and 5xx http statuses."
+  SpecificProblemDetails:
+    type: "object"
+    required:
+    - "code"
+    - "reason"
+    properties:
+      code:
+        type: "string"
+        description: "code"
+      reason:
+        type: "string"
+        description: "reason"
+      message:
+        type: "string"
+        description: "message"
+      status:
+        type: "integer"
+        format: "int32"
+        description: "status"
+    description: "Specific problem details(including fehlerbuildnummer code)."
+  TpRefDto:
+    type: "object"
+    required:
+    - "endSz"
+    - "klsId"
+    - "partyId"
+    - "portNumber"
+    - "tpRef"
+    properties:
+      endSz:
+        type: "string"
+        description: "A4 device endSz"
+        pattern: "[0-9]{1,6}\\/[0-9]{1,6}\\/[0-9]{1,6}\\/[a-zA-Z0-9]{2,4}"
+      slotNumber:
+        type: "string"
+        description: "A4 device slot number"
+        minLength: 0
+        maxLength: 50
+      portNumber:
+        type: "string"
+        description: "A4 device port number"
+      klsId:
+        type: "string"
+        description: "KlsId of A4 device"
+        pattern: "[0-9]{1,12}"
+      tpRef:
+        type: "string"
+        description: "Termination point reference"
+      partyId:
+        type: "integer"
+        format: "int64"
+        description: "PartyId of termination point"
