@@ -10,7 +10,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>osr-models</artifactId>
-    <version>0.0.64</version>
+    <version>0.0.65</version>
 
     <properties>
         <framework.version>${project.parent.version}</framework.version>
@@ -292,6 +292,18 @@
                                         </inputSpec>
                                     </item>
                                     <item>
+                                        <name>network.line.profile.management.internal.v1_4_0.client</name>
+                                        <inputSpec>
+                                            ${project.basedir}/src/main/resources/swagger/network-line-profile-management/network-line-profile-management-internal-v1.4.0.yaml
+                                        </inputSpec>
+                                    </item>
+                                    <item>
+                                        <name>network.line.profile.management.external.v1_4_0.client</name>
+                                        <inputSpec>
+                                            ${project.basedir}/src/main/resources/swagger/network-line-profile-management/network-line-profile-management-external-v1.4.0.yaml
+                                        </inputSpec>
+                                    </item>
+                                    <item>
                                         <name>resource.inventory.adapter.external.client</name>
                                         <inputSpec>
                                             ${project.basedir}/src/main/resources/swagger/resource-inventory-adapter/resource-inventory-adapter-external-swagger.2.4.0.yaml
@@ -316,13 +328,13 @@
                                         </inputSpec>
                                     </item>
                                     <item>
-                                        <name>access.process.management.internal.v1-5-0.client</name>
+                                        <name>access.process.management.internal.v1_5_0.client</name>
                                         <inputSpec>
                                             ${project.basedir}/src/main/resources/swagger/access-process-management/access-process-management-internal-v1.5.0.yaml
                                         </inputSpec>
                                     </item>
                                     <item>
-                                        <name>access.process.management.external.v1-5-0.client</name>
+                                        <name>access.process.management.external.v1_5_0.client</name>
                                         <inputSpec>
                                             ${project.basedir}/src/main/resources/swagger/access-process-management/access-process-management-external-v1.5.0.yaml
                                         </inputSpec>
