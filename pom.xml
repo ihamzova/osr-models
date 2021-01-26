@@ -10,7 +10,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>osr-models</artifactId>
-    <version>0.0.65</version>
+    <version>0.0.66</version>
 
     <properties>
         <framework.version>${project.parent.version}</framework.version>
@@ -118,9 +118,15 @@
                                         </inputSpec>
                                     </item>
                                     <item>
-                                        <name>home.id.generator.internal.client</name>
+                                        <name>home.id.management.internal.v1_1_2_0.client</name>
                                         <inputSpec>
-                                            ${project.basedir}/src/main/resources/swagger/home-id-generator/swagger.yaml
+                                            ${project.basedir}/src/main/resources/swagger/home-id-management/home-id-management-internal-v1.1.2.0.yaml
+                                        </inputSpec>
+                                    </item>
+                                    <item>
+                                        <name>home.id.management.external.v1_1_2_0.client</name>
+                                        <inputSpec>
+                                            ${project.basedir}/src/main/resources/swagger/home-id-management/home-id-management-external-v1.1.2.0.yaml
                                         </inputSpec>
                                     </item>
                                     <item>
