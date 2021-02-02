@@ -10,7 +10,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>osr-models</artifactId>
-    <version>0.0.66</version>
+    <version>0.0.67</version>
 
     <properties>
         <framework.version>${project.parent.version}</framework.version>
@@ -519,6 +519,12 @@
                                         <name>access.line.management.external.v1_7_0.client</name>
                                         <inputSpec>
                                             ${project.basedir}/src/main/resources/swagger/access-line-management/access-line-management-external-v1.7.0.yaml
+                                        </inputSpec>
+                                    </item>
+                                    <item>
+                                        <name>access.line.management.v1_8_0.client</name>
+                                        <inputSpec>
+                                            ${project.basedir}/src/main/resources/swagger/access-line-management/access-line-management-v1.8.0.yaml
                                         </inputSpec>
                                     </item>
                                     <item>
