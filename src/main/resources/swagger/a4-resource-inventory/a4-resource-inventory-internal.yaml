@@ -2,7 +2,7 @@ swagger: '2.0'
 info:
   title: a4-resource-inventory
   description: This interface allows you to do CRUD-operations on the a4-resource-inventory
-  version: 4.0.0
+  version: 5.0.0
   contact:
     email: DL_Berlinium@telekom.de
 basePath: /resource-order-resource-inventory/v1/
@@ -1366,7 +1366,7 @@ paths:
       description: This operation intended for search by uuid of terminationPoint
       tags:
         - NetworkServiceProfilesA10Nsp
-      summary: Retrieve NetworkServiceProfileA10Nsp based on related TerminationPoint or l2CcId or itAccountingKey.
+      summary: Retrieve NetworkServiceProfileA10Nsp based on related TerminationPoint or carrierBsaReference or itAccountingKey.
       operationId: findNetworkServiceProfilesA10Nsp
       parameters:
         - name: terminationPointUuid
@@ -1374,7 +1374,7 @@ paths:
           description: UUID of related TerminationPoint item.
           required: false
           type: string
-        - name: l2CcId
+        - name: carrierBsaReference
           in: query
           description: Rahmenvertragsnummer of NetworkServiceProfileA10Nsp
           required: false
@@ -1886,7 +1886,7 @@ definitions:
       href:
         type: string
         description: References parent element
-      l2CcId:
+      carrierBsaReference:
         type: string
         description: Rahmenvertragsnummer for L2Bsa termination point
   AdditionalAttributeDto:
@@ -1979,7 +1979,7 @@ definitions:
       specificationVersion:
         type: string
         description: attributes of this NetworkServiceProfileA10NspDto item
-      l2CcId:
+      carrierBsaReference:
         type: string
         description: attributes of this NetworkServiceProfileA10NspDto item
       lagId:
