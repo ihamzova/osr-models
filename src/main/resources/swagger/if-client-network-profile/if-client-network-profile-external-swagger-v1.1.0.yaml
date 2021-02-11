@@ -1,0 +1,387 @@
+---
+swagger: "2.0"
+info:
+  description: "This interface bridges Service Order Management Processes logic with\
+    \ Network Line Profile service adapter"
+  version: "1.1.0"
+  title: "Interface ClientNetworkProfile"
+host: "localhost:8080"
+tags:
+  - name: "IfClientNetworkProfileCallbackController"
+  - name: "IfClientNetworkProfileController"
+schemes:
+  - "http"
+paths:
+  /api/resourceOrderingManagement/v1/resourceCharacteristicsIntern:
+    post:
+      tags:
+        - "IfClientNetworkProfileController"
+      summary: "'used for transferring Resource Characteristics from Order Process\
+        \ Logic to IfClientNetworkProfile'"
+      description: "'used for transferring Resource Characteristics from Order Process\
+        \ Logic to IfClientNetworkProfile'"
+      operationId: "updateLineProfileRequestIntern"
+      parameters:
+        - in: "body"
+          name: "body"
+          description: "Resource Characteristics"
+          required: true
+          schema:
+            $ref: "#/definitions/ResourceOrderData"
+      responses:
+        202:
+          description: "Network LineProfile request is accepted"
+        400:
+          description: "Bad Request (Sync Response on POST Request)"
+  /callback/resourceOrderingManagement/v1/resourceOrderCallback:
+    post:
+      tags:
+        - "IfClientNetworkProfileCallbackController"
+      summary: "Receives a 'resourceOrderCallback'"
+      description: "callback for resourceOrder request containing resource order and\
+        \ characteristics"
+      operationId: "updateLineProfileCallback"
+      parameters:
+        - in: "body"
+          name: "body"
+          required: false
+          schema:
+            $ref: "#/definitions/AsyncResponseNotification"
+        - name: "X-Callback-Correlation-Id"
+          in: "header"
+          required: true
+          type: "string"
+      responses:
+        200:
+          description: "Network LineProfile request is processed"
+        400:
+          description: "Bad Request (Sync Response on callback)"
+  /callback/resourceOrderingManagement/v1/resourceOrderCallback/error:
+    post:
+      tags:
+        - "IfClientNetworkProfileCallbackController"
+      summary: "Receives an error callback from API gateway"
+      description: "Handle incoming error requests from 3scale API gateway."
+      operationId: "errorCallback"
+      parameters:
+        - name: "X-Callback-Correlation-Id"
+          in: "header"
+          required: true
+          type: "string"
+          format: "uuid"
+        - name: "X-Callback-Request-Id"
+          in: "header"
+          required: true
+          type: "string"
+          format: "uuid"
+        - name: "X-Callback-Error-HTTP-Code"
+          in: "header"
+          required: true
+          type: "string"
+        - name: "X-Callback-Error-Id"
+          in: "header"
+          required: true
+          type: "string"
+          format: "uuid"
+        - in: "body"
+          name: "body"
+          required: false
+          schema:
+            type: "string"
+      responses:
+        202:
+          description: "Error accepted"
+        400:
+          description: "Bad Request"
+definitions:
+  AsyncResponseNotification:
+    type: "object"
+    required:
+      - "success"
+    properties:
+      error:
+        $ref: "#/definitions/CallbackError"
+      response:
+        $ref: "#/definitions/Notification"
+      success:
+        type: "boolean"
+    description: "AsyncResponseNotification"
+  CallbackError:
+    type: "object"
+    properties:
+      message:
+        type: "string"
+      status:
+        type: "integer"
+        format: "int32"
+      code:
+        type: "string"
+  Event:
+    type: "object"
+    required:
+      - "resourceOrder"
+    properties:
+      resourceOrder:
+        $ref: "#/definitions/ResourceOrder"
+    description: "Event"
+  Notification:
+    type: "object"
+    required:
+      - "event"
+    properties:
+      eventId:
+        type: "string"
+        description: "Notification ID"
+      eventTime:
+        type: "string"
+        format: "date-time"
+        description: "Event date"
+      eventType:
+        type: "string"
+        description: "Event type: Possible values: ResourceOrderCreationNotification,\
+          \ ResourceOrderAttributeValueChangeNotification, ResourceOrderStateChangeNotification,\
+          \ ResourceOrderRemoveNotification, ResourceInformationRequiredNotification"
+      event:
+        $ref: "#/definitions/Event"
+    description: "Notification"
+  Resource:
+    type: "object"
+    required:
+      - "id"
+      - "state"
+    properties:
+      id:
+        type: "string"
+        description: "Identifier of a resource instance. Required to be unique."
+      href:
+        type: "string"
+        description: "Reference to the owned resource (useful for delete or modify\
+          \ command)."
+      name:
+        type: "string"
+        description: "Name of the resource."
+      description:
+        type: "string"
+        description: "A description of the resource (what it provides)."
+      state:
+        type: "string"
+        description: "State of resources as per TMF. Notication: <lifecycle-state>-<sub-state>"
+        enum:
+          - "PLANNING_PROPOSED"
+          - "PLANNING_FEASIBILITYCHECKED"
+          - "PLANNING_DESIGNED"
+          - "PLANNING_ORDERED"
+          - "PLANNING_ACTIVATED"
+          - "PLANNING_DEACTIVATED"
+          - "INSTALLING_ACTIVATED"
+          - "INSTALLING_DEACTIVATED"
+          - "OPERATING_WORKING"
+          - "OPERATING_ALLSLAS"
+          - "OPERATING_SOMESLAS"
+          - "OPERATING_NOSLAS"
+          - "OPERATING_NOTWORKING"
+          - "RETIRING"
+      type:
+        type: "string"
+        description: "Type of the resource"
+      resourceCharacteristics:
+        type: "array"
+        items:
+          $ref: "#/definitions/ResourceCharacteristicCallback"
+    description: "Resource attributes description"
+  ResourceCharacteristic:
+    type: "object"
+    required:
+      - "name"
+    properties:
+      name:
+        type: "string"
+        description: "Resource characteristic type"
+        enum:
+          - "Calid"
+          - "L2CCID"
+          - "substitutionDomain"
+          - "authMethod"
+          - "federationPartner"
+          - "providerID"
+          - "KLSID"
+          - "PPDownL3"
+          - "PPUpL3"
+          - "ramMaxDownL2"
+          - "ramMaxUpL2"
+          - "ramMinUpL2"
+          - "ramMinDownL2"
+          - "ramMinKPDownL2"
+          - "ramMinKPUpL2"
+      value:
+        type: "string"
+        description: "Resource characteristic value"
+    description: "Resource characteristic"
+  ResourceCharacteristicCallback:
+    type: "object"
+    required:
+      - "name"
+    properties:
+      name:
+        type: "string"
+        description: "Resource characteristic type"
+        enum:
+          - "CALID"
+          - "L2CCID"
+          - "SUBSTITUTIONDOMAIN"
+          - "AUTHMETHOD"
+          - "FEDERATIONPARTNER"
+          - "PROVIDERID"
+          - "KLSID"
+          - "PPDOWNL3"
+          - "PPUPL3"
+          - "RAMMAXDOWNL2"
+          - "RAMMAXUPL2"
+          - "RAMMINUPL2"
+          - "RAMMINDOWNL2"
+          - "RAMMINKPDOWNL2"
+          - "RAMMINKPUPL2"
+      value:
+        type: "string"
+        description: "Resource characteristic value"
+    description: "Resource characteristic"
+  ResourceOrder:
+    type: "object"
+    required:
+      - "id"
+      - "resourceOrderItems"
+      - "state"
+    properties:
+      id:
+        type: "string"
+        description: "Identifier of an instance of the Resource Order. Required to\
+          \ be unique within the resource type."
+      href:
+        type: "string"
+        description: "Hyperlink to access the order."
+      state:
+        type: "string"
+        description: "A string used to give a name to the Resource Order."
+        enum:
+          - "ACKNOWLEDGED"
+          - "INPROGRESS"
+          - "CANCELLED"
+          - "COMPLETED"
+          - "REJECTED"
+          - "PENDING"
+          - "HELD"
+          - "FAILED"
+          - "PARTIAL"
+      name:
+        type: "string"
+        description: "A string used to give a name to the Resource Order."
+      description:
+        type: "string"
+        description: "A free-text description of the Resource Order."
+      priority:
+        type: "integer"
+        format: "int32"
+        description: "A way that can be used by consumers to prioritize orders in\
+          \ Resource Order Management system (from 0 to 4 : 0 is the highest priority,\
+          \ and 4 the lowest)."
+      category:
+        type: "string"
+        description: "Used to categorize the order from a business perspective that\
+          \ can be useful for the Resource Order Management system."
+      orderDate:
+        type: "string"
+        format: "date-time"
+        description: "Date when the order was created. Format 2018-04-10T04:00:00.000Z"
+      requestedStartDate:
+        type: "string"
+        format: "date"
+        description: "Order start date wished by the requester. Format: yyyy-MM-dd"
+      requestedCompletionDate:
+        type: "string"
+        format: "date"
+        description: "Requested delivery date from the requester perspective. Format:\
+          \ yyyy-MM-dd"
+      completionDate:
+        type: "string"
+        format: "date-time"
+        description: "Date when the order was completed. Format 2018-04-10T04:00:00.000Z"
+      startDate:
+        type: "string"
+        format: "date"
+        description: "Order start date. Format yyyy-MM-dd"
+      expectedCompletionDate:
+        type: "string"
+        format: "date"
+        description: "Expected delivery date amended by the provider. Format: yyyy-MM-dd"
+      resourceOrderItems:
+        type: "array"
+        items:
+          $ref: "#/definitions/ResourceOrderItem"
+    description: "A Resource Order is a request to provision a set of Resources (logical\
+      \ and physical) triggered by the request to provision a Service through a Service\
+      \ Order."
+  ResourceOrderData:
+    type: "object"
+    required:
+      - "action"
+      - "callbackUrl"
+      - "resourceCharacteristics"
+    properties:
+      callbackUrl:
+        type: "string"
+        description: "individual callback url: baseURL+SO.ID"
+        pattern: "^http.+/[0-9]+$"
+      resourceId:
+        type: "string"
+        description: "Resource ID: if not known, empty. Can be filled, if reference\
+          \ is needed"
+      resourceOrderId:
+        type: "string"
+        description: "Resource Order ID to be delivered back in the response"
+      action:
+        type: "string"
+        description: "Resource Order Action types as per TMF"
+        enum:
+          - "add"
+          - "modify"
+          - "delete"
+          - "noChange"
+      resourceCharacteristics:
+        type: "array"
+        description: "Resource Characteristics"
+        items:
+          $ref: "#/definitions/ResourceCharacteristic"
+    description: "List of Resource"
+  ResourceOrderItem:
+    type: "object"
+    required:
+      - "resource"
+    properties:
+      id:
+        type: "string"
+        description: "Identifier of the line item (generally it is a sequence number\
+          \ 1, 2, 3,...)."
+      action:
+        type: "string"
+        description: "Resource Order Action types as per TMF"
+        enum:
+          - "ADD"
+          - "MODIFY"
+          - "DELETE"
+          - "NOCHANGE"
+      state:
+        type: "string"
+        description: "State of the order item."
+        enum:
+          - "ACKNOWLEDGED"
+          - "INPROGRESS"
+          - "CANCELLED"
+          - "COMPLETED"
+          - "REJECTED"
+          - "PENDING"
+          - "HELD"
+          - "FAILED"
+          - "PARTIAL"
+      resource:
+        $ref: "#/definitions/Resource"
+    description: "An identified part of the order."
