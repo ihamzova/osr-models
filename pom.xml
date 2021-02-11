@@ -10,7 +10,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>osr-models</artifactId>
-    <version>0.0.69</version>
+    <version>0.0.70</version>
 
     <properties>
         <framework.version>${project.parent.version}</framework.version>
@@ -313,6 +313,12 @@
                                         <name>resource.inventory.adapter.external.client</name>
                                         <inputSpec>
                                             ${project.basedir}/src/main/resources/swagger/resource-inventory-adapter/resource-inventory-adapter-external-swagger.2.4.0.yaml
+                                        </inputSpec>
+                                    </item>
+                                    <item>
+                                        <name>ifclient.network.profile.client</name>
+                                        <inputSpec>
+                                            ${project.basedir}/src/main/resources/swagger/if-client-network-profile/if-client-network-profile-external-swagger-v1.1.0.yaml
                                         </inputSpec>
                                     </item>
                                     <item>
