@@ -10,7 +10,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>osr-models</artifactId>
-    <version>0.0.70</version>
+    <version>0.0.71</version>
 
     <properties>
         <framework.version>${project.parent.version}</framework.version>
@@ -537,6 +537,12 @@
                                         <name>pon.inventory.client</name>
                                         <inputSpec>
                                             ${project.basedir}/src/main/resources/swagger/pon-inventory/pon-inventory-2.6.0.yaml
+                                        </inputSpec>
+                                    </item>
+                                    <item>
+                                        <name>access.line.resource.inventory.v5_8_0.client</name>
+                                        <inputSpec>
+                                            ${project.basedir}/src/main/resources/swagger/access-line-resource-inventory/access-line-resource-inventory-v5.8.0.yaml
                                         </inputSpec>
                                     </item>
                                 </items>

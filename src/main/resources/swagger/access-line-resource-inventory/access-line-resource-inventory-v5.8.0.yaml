@@ -1,0 +1,3762 @@
+openapi: 3.0.1
+info:
+  title: Access Line Resource Inventory
+  description: |-
+    ## Access Line Resource Inventory API
+
+    Microservice contains and processes information about access lines, network and line profiles.
+  version: 5.8.0
+servers:
+  - url: 'http://localhost'
+tags:
+  - name: AccessLineController
+  - name: AccessLineControllerExternal
+  - name: AccessLineManagementController
+  - name: AllocatedAnpTag Controller
+  - name: AllocatedOnuIdController
+  - name: AssuranceControllerV4
+  - name: BackHaulManagementController
+  - name: Backhaul Id Controller
+  - name: HomeIdController
+  - name: HomeIdManagementController
+  - name: LineIdController
+  - name: PhysicalResourceReferenceInternalController
+paths:
+  /resource-order-resource-inventory/v1/allocatedOnuId:
+    put:
+      tags:
+        - AllocatedOnuIdController
+      summary: Updates an allocated onuId
+      operationId: updateAllocatedOnuId
+      security:
+        - OAuth2:
+            - 'rori:allocatedOnuId:write'
+            - 'giga:cga:all-area-access'
+      requestBody:
+        description: Allocated OnuId Dto
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AllocatedOnuIdDto'
+        required: false
+      responses:
+        '200':
+          description: Successfully updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AllocatedOnuIdDto'
+        '400':
+          description: Can't perform operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+        '404':
+          description: Not present in database
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+        '409':
+          description: Access line already updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+        '500':
+          description: Internal error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+      x-codegen-request-body-name: body
+    post:
+      tags:
+        - AllocatedOnuIdController
+      summary: Creates an allocated onuId
+      operationId: createAllocatedOnuId
+      security:
+        - OAuth2:
+            - 'rori:allocatedOnuId:write'
+            - 'giga:cga:all-area-access'
+      requestBody:
+        description: Allocated OnuId Dto
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AllocatedOnuIdDto'
+        required: false
+      responses:
+        '201':
+          description: Successfully created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AllocatedOnuIdDto'
+        '400':
+          description: Can't perform operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+        '404':
+          description: Port is not present in database
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+        '500':
+          description: Internal error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+      x-codegen-request-body-name: body
+    delete:
+      tags:
+        - AllocatedOnuIdController
+      summary: Deletes allocated onuId by Id
+      operationId: deleteAllocatedOnuId
+      security:
+        - OAuth2:
+            - 'rori:allocatedOnuId:write'
+            - 'giga:cga:all-area-access'
+      parameters:
+        - name: id
+          in: query
+          description: id
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: Successfully deleted
+          content: {}
+        '400':
+          description: Can't perform operation
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+        '500':
+          description: Internal error
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+  /resource-order-resource-inventory/v1/allocatedOnuId/findFirstAllocatedOnuId:
+    post:
+      tags:
+        - AllocatedOnuIdController
+      summary: Finds first allocated onuId or first in the list depends on criteria
+      operationId: findFirstAllocatedOnuId
+      security:
+        - OAuth2:
+            - 'rori:allocatedOnuId:read'
+            - 'giga:cga:all-area-access'
+      requestBody:
+        description: findFirstAllocatedOnuId
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SearchAllocatedOnuIdDto'
+        required: true
+      responses:
+        '200':
+          description: Successfully get
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/AllocatedOnuIdDto'
+        '400':
+          description: Can't perform operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+        '500':
+          description: Internal error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+      x-codegen-request-body-name: body
+  /resource-order-resource-inventory/v1/allocatedOnuId/search:
+    post:
+      tags:
+        - AllocatedOnuIdController
+      summary: Searches list of allocated onuId by criteria
+      operationId: searchAllocatedOnuId
+      security:
+        - OAuth2:
+            - 'rori:allocatedOnuId:read'
+            - 'giga:cga:all-area-access'
+      requestBody:
+        description: searchAllocatedOnuIdDto
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SearchAllocatedOnuIdDto'
+        required: true
+      responses:
+        '200':
+          description: Successfully get
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: integer
+                  format: int32
+        '400':
+          description: Can't perform operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+        '500':
+          description: Internal error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+      x-codegen-request-body-name: body
+  /resource-order-resource-inventory/v3/accessLine:
+    put:
+      tags:
+        - AccessLineController
+      summary: Updates an access line
+      operationId: update
+      security:
+        - OAuth2:
+            - 'rori:accessLine:write'
+            - 'giga:cga:all-area-access'
+      requestBody:
+        description: Access Line Dto
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AccessLineDto'
+        required: false
+      responses:
+        '200':
+          description: Successfully updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AccessLineDto'
+        '400':
+          description: Can't perform operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+        '404':
+          description: Not present in database
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+        '409':
+          description: Access line already updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+        '500':
+          description: Internal error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+      x-codegen-request-body-name: body
+    post:
+      tags:
+        - AccessLineController
+      summary: Creates an access line
+      operationId: create
+      security:
+        - OAuth2:
+            - 'rori:accessLine:write'
+            - 'giga:cga:all-area-access'
+      requestBody:
+        description: Access Line Dto
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AccessLineDto'
+        required: false
+      responses:
+        '201':
+          description: Successfully created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AccessLineDto'
+        '400':
+          description: Can't perform operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+        '500':
+          description: Internal error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+      x-codegen-request-body-name: body
+    delete:
+      tags:
+        - AccessLineController
+      summary: Deletes AccessLine by lineId
+      operationId: delete
+      security:
+        - OAuth2:
+            - 'rori:accessLine:write'
+            - 'giga:cga:all-area-access'
+      parameters:
+        - name: lineId
+          in: query
+          description: lineId
+          required: true
+          schema:
+            pattern: '[A-Z0-9]{3}\.[A-Z0-9]{1,6}\.[A-Z0-9]{1,10}'
+            type: string
+      responses:
+        '200':
+          description: Successfully deleted
+          content: {}
+        '400':
+          description: Can't perform operation
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+        '500':
+          description: Internal error
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+  /resource-order-resource-inventory/v3/accessLine/accessLineCountTask:
+    post:
+      tags:
+        - AccessLineController
+      summary: Counts Access Lines by criteria
+      description: Counts Access Lines by criteria.
+      operationId: accessLineCountTask
+      security:
+        - OAuth2:
+            - 'rori:accessLine:read'
+            - 'giga:cga:all-area-access'
+      requestBody:
+        description: 'Port Reference Dto '
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SearchAccessLineStatisticDto'
+        required: false
+      responses:
+        '200':
+          description: Successfully get
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/AccessLineStatisticDto'
+        '400':
+          description: Can't perform operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+        '500':
+          description: Internal error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+      x-codegen-request-body-name: body
+  /resource-order-resource-inventory/v3/accessLine/search:
+    post:
+      tags:
+        - AccessLineController
+      summary: Searches Access Lines by criteria
+      operationId: searchAccessLines
+      security:
+        - OAuth2:
+            - 'rori:accessLine:read'
+            - 'giga:cga:all-area-access'
+      requestBody:
+        description: SearchAccessLineDto
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SearchAccessLineDto'
+        required: true
+      responses:
+        '200':
+          description: Successfully get
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/AccessLineDto'
+        '400':
+          description: Can't perform operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+        '500':
+          description: Internal error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+      x-codegen-request-body-name: body
+  /resource-order-resource-inventory/v5/accessLine:
+    get:
+      tags:
+        - AccessLineControllerExternal
+      summary: List or find AccessLine objects
+      description: This operation list or find AccessLine entities
+      operationId: listAccessLine
+      security:
+        - OAuth2:
+            - 'rori:accessLine:read'
+            - 'giga:cga:all-area-access'
+      parameters:
+        - name: RequestAssuranceAccessLineV5Dto
+          in: query
+          schema:
+            $ref: '#/components/schemas/RequestAssuranceAccessLineV5Dto'
+        - name: offset
+          in: query
+          description: Requested index for start of resources to be provided in response
+          schema:
+            type: integer
+            format: int32
+        - name: limit
+          in: query
+          description: Requested number of resources to be provided in response
+          schema:
+            type: integer
+            format: int32
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json;charset=utf-8:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/AccessLine'
+        '400':
+          description: Bad Request
+          content:
+            application/json;charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '401':
+          description: Unauthorized
+          content:
+            application/json;charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Forbidden
+          content:
+            application/json;charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Not Found
+          content:
+            application/json;charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '405':
+          description: Method Not allowed
+          content:
+            application/json;charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '409':
+          description: Conflict
+          content:
+            application/json;charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json;charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/Error'
+  '/resource-order-resource-inventory/v5/accessLine/{id}':
+    get:
+      tags:
+        - AccessLineControllerExternal
+      summary: Retrieves a AccessLine by ID
+      description: This operation retrieves a AccessLine entity. Attribute selection is enabled for all first level attributes.
+      operationId: retrieveAccessLine
+      security:
+        - OAuth2:
+            - 'rori:accessLine:read'
+            - 'giga:cga:all-area-access'
+      parameters:
+        - name: id
+          in: path
+          description: Identifier of the AccessLine
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: fields
+          in: query
+          description: Comma-separated properties to provide in response
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json;charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/AccessLine'
+        '400':
+          description: Bad Request
+          content:
+            application/json;charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '401':
+          description: Unauthorized
+          content:
+            application/json;charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: Forbidden
+          content:
+            application/json;charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Not Found
+          content:
+            application/json;charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '405':
+          description: Method Not allowed
+          content:
+            application/json;charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '409':
+          description: Conflict
+          content:
+            application/json;charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json;charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /resource-order-resource-inventory/v3/anpTagPool/search:
+    post:
+      tags:
+        - AllocatedAnpTag Controller
+      summary: Searches AllocatedAnpTags by criteria
+      operationId: searchAllocatedAnpTags
+      security:
+        - OAuth2:
+            - 'rori:anpTagPool:read'
+            - 'giga:cga:all-area-access'
+      requestBody:
+        description: SearchAnpTagDto
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SearchAllocatedAnpTagDto'
+        required: true
+      responses:
+        '200':
+          description: Successfully get
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/AllocatedAnpTagDto'
+        '400':
+          description: Can't perform operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+        '500':
+          description: Internal error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+      x-codegen-request-body-name: body
+  /resource-order-resource-inventory/v3/backhaulId:
+    put:
+      tags:
+        - Backhaul Id Controller
+      summary: Creates or updates particular backhaul id
+      operationId: createOrUpdateBackhaulId
+      security:
+        - OAuth2:
+            - 'rori:backhaulId:write'
+            - 'giga:cga:all-area-access'
+      requestBody:
+        description: BackhaulIdDto
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BackhaulIdDto'
+        required: true
+      responses:
+        '200':
+          description: BackhaulId was created/updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BackhaulIdDto'
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+        '404':
+          description: Reference to physical resource did not find
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+        '500':
+          description: Internal error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+      x-codegen-request-body-name: body
+  /resource-order-resource-inventory/v3/backhaulId/search:
+    post:
+      tags:
+        - Backhaul Id Controller
+      summary: Searches backhaul Ids by criteria
+      operationId: searchBackhaulIds
+      security:
+        - OAuth2:
+            - 'rori:backhaulId:read'
+            - 'giga:cga:all-area-access'
+      requestBody:
+        description: SearchBackhaulIdDto
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SearchBackhaulIdDto'
+        required: true
+      responses:
+        '200':
+          description: Successfully get
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/BackhaulIdDto'
+        '400':
+          description: Can't perform operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+        '500':
+          description: Internal error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+      x-codegen-request-body-name: body
+  '/resource-order-resource-inventory/v3/backhaulId/{id}':
+    delete:
+      tags:
+        - Backhaul Id Controller
+      summary: Deletes backhaul id by id
+      operationId: deleteBackhaulId
+      security:
+        - OAuth2:
+            - 'rori:backhaulId:write'
+            - 'giga:cga:all-area-access'
+      parameters:
+        - name: id
+          in: path
+          description: Id of backhaul id
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: Successfully deleted
+          content: {}
+        '400':
+          description: Can't perform operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+        '500':
+          description: Internal error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+  /resource-order-resource-inventory/v3/backhaulId/generateBckhaulIdTask:
+    post:
+      tags:
+        - Backhaul Id Controller
+      summary: Generates new BackhaulId
+      description: Generates new BackhaulId.
+      operationId: generateBackhaulId
+      security:
+        - OAuth2:
+            - 'rori:backhaulId:write'
+            - 'giga:cga:all-area-access'
+      responses:
+        '201':
+          description: New BackhaulId generated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SingleBackhaulId'
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+        '500':
+          description: Internal error during generating of BackhaulId
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+  /resource-order-resource-inventory/v3/homeIdPool:
+    post:
+      tags:
+        - HomeIdController
+      summary: 'Appends homeIDs by endSZ, slotNumber and portNumber.'
+      operationId: addHomeIds
+      security:
+        - OAuth2:
+            - 'rori:homeIdPool:write'
+            - 'giga:cga:all-area-access'
+      requestBody:
+        description: HomeIDs list
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: '#/components/schemas/HomeIdDto'
+        required: true
+      responses:
+        '201':
+          description: HomeIDs were added
+          content: {}
+        '400':
+          description: Bad request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+        '409':
+          description: HomeIDs already exist
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+        '500':
+          description: Internal error
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+      x-codegen-request-body-name: body
+  /resource-order-resource-inventory/v3/homeIdPool/homeId:
+    put:
+      tags:
+        - HomeIdController
+      summary: Updates particular home id in pool
+      operationId: updateHomeId
+      security:
+        - OAuth2:
+            - 'rori:homeIdPool:write'
+            - 'giga:cga:all-area-access'
+      requestBody:
+        description: HomeIdDto
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/HomeIdDto'
+        required: true
+      responses:
+        '200':
+          description: HomeId was updated
+          content: {}
+        '400':
+          description: Bad request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+        '404':
+          description: Reference to physical resource not found
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+        '409':
+          description: HomeId already updated
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+        '500':
+          description: Internal error
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+      x-codegen-request-body-name: body
+  /resource-order-resource-inventory/v3/homeIdPool/search/homeId:
+    post:
+      tags:
+        - HomeIdController
+      summary: Searches homeIDs in pool by criteria
+      operationId: searchHomeIds
+      security:
+        - OAuth2:
+            - 'rori:homeIdPool:read'
+            - 'giga:cga:all-area-access'
+      requestBody:
+        description: Search homeID criteria
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SearchHomeIdDto'
+        required: true
+      responses:
+        '200':
+          description: Successfully get
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/HomeIdDto'
+        '400':
+          description: Can't perform operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+        '500':
+          description: Internal error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+      x-codegen-request-body-name: body
+  '/resource-order-resource-inventory/v3/homeIdPool/{id}':
+    delete:
+      tags:
+        - HomeIdController
+      summary: Deletes homeId by id
+      operationId: deleteHomeId
+      security:
+        - OAuth2:
+            - 'rori:homeIdPool:write'
+            - 'giga:cga:all-area-access'
+      parameters:
+        - name: id
+          in: path
+          description: Id of homeId
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: Successfully deleted
+          content: {}
+        '400':
+          description: Can't perform operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+        '500':
+          description: Internal error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+  /resource-order-resource-inventory/v3/lineIdPool:
+    post:
+      tags:
+        - LineIdController
+      summary: Appends LineIds pool
+      operationId: addLineIds
+      security:
+        - OAuth2:
+            - 'rori:lineIdPool:write'
+            - 'giga:cga:all-area-access'
+      requestBody:
+        description: List of LineIdDto
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: '#/components/schemas/LineIdDto'
+        required: true
+      responses:
+        '201':
+          description: LineIds were added to LineIdPool
+          content: {}
+        '400':
+          description: Bad request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+        '409':
+          description: LineIds already exist
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+        '500':
+          description: Internal error
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+      x-codegen-request-body-name: body
+  /resource-order-resource-inventory/v3/lineIdPool/lineId:
+    put:
+      tags:
+        - LineIdController
+      summary: Updates particular line id in pool
+      operationId: updateLineId
+      security:
+        - OAuth2:
+            - 'rori:lineIdPool:write'
+            - 'giga:cga:all-area-access'
+      requestBody:
+        description: LineIdDto
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LineIdDto'
+        required: true
+      responses:
+        '200':
+          description: LineId was updated
+          content: {}
+        '400':
+          description: Bad request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+        '404':
+          description: Reference to physical resource did not find
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+        '500':
+          description: Internal error
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+      x-codegen-request-body-name: body
+  /resource-order-resource-inventory/v3/lineIdPool/lineId/search:
+    post:
+      tags:
+        - LineIdController
+      summary: Searches Line Ids in pool by criteria
+      operationId: searchLineIds
+      security:
+        - OAuth2:
+            - 'rori:lineIdPool:read'
+            - 'giga:cga:all-area-access'
+      requestBody:
+        description: SearchLineIdDto
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SearchLineIdDto'
+        required: true
+      responses:
+        '200':
+          description: Successfully get
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/LineIdDto'
+        '400':
+          description: Can't perform operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+        '500':
+          description: Internal error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+      x-codegen-request-body-name: body
+  '/resource-order-resource-inventory/v3/lineIdPool/{id}':
+    delete:
+      tags:
+        - LineIdController
+      summary: Deletes lineId by id
+      operationId: deleteLineId
+      security:
+        - OAuth2:
+            - 'rori:lineIdPool:write'
+            - 'giga:cga:all-area-access'
+      parameters:
+        - name: id
+          in: path
+          description: Id of lineId
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: Successfully deleted
+          content: {}
+        '400':
+          description: Can't perform operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+        '500':
+          description: Internal error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+  /resource-order-resource-inventory/v3/managementAccessLine/info:
+    post:
+      tags:
+        - AccessLineManagementController
+      summary: Finds or gets an access line by Line Id
+      security:
+        - apmToken: []
+      operationId: getLineInfo
+      requestBody:
+        description: lineId
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/GetAccessLineDto'
+        required: true
+      responses:
+        '200':
+          description: Successfully get
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AccessLineDto'
+        '400':
+          description: Can't perform operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+        '404':
+          description: Not present in database
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+        '500':
+          description: Internal error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+      x-codegen-request-body-name: body
+  /resource-order-resource-inventory/v3/managementAccessLine/onuId:
+    post:
+      tags:
+        - AccessLineManagementController
+      summary: Finds or gets an onu id by Line Id
+      operationId: getOnuId
+      security:
+        - apmToken: []
+      requestBody:
+        description: Allocated OnuId Dto
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/GetAllocatedOnuIdDto'
+        required: false
+      responses:
+        '200':
+          description: Successfully get
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AllocatedOnuDto'
+        '400':
+          description: Can't perform operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+        '404':
+          description: Not present in database
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+        '500':
+          description: Internal error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+      x-codegen-request-body-name: body
+  /resource-order-resource-inventory/v3/managementAccessLine/search:
+    post:
+      tags:
+        - AccessLineManagementController
+      summary: Gets AccessLines by search criteria
+      description: Gets AccessLines by input parameters for search and with additional sort parameters.
+      security:
+        - apmToken: []
+      operationId: search
+      parameters:
+        - name: AccessLinePageRequest
+          in: query
+          schema:
+            $ref: '#/components/schemas/AccessLinePageRequest'
+      requestBody:
+        description: Request AccessLineViewDto
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RequestAccessLineViewDto'
+        required: true
+      responses:
+        '200':
+          description: Successfully received
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PageAccessLineViewDto'
+        '400':
+          description: Can't perform operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+        '500':
+          description: Internal error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+      x-codegen-request-body-name: body
+  /resource-order-resource-inventory/v3/managementBackHaul/info:
+    post:
+      tags:
+        - BackHaulManagementController
+      summary: Finds or gets an access lines by backHaulId
+      operationId: getLinesInfo
+      security:
+        - apmToken: []
+      requestBody:
+        description: backHaulId
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/GetAccessLinesDto'
+        required: true
+      responses:
+        '200':
+          description: Successfully sent
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AccessLinesDto'
+        '400':
+          description: Can't perform operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+        '404':
+          description: Not present in database
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+        '500':
+          description: Internal error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+      x-codegen-request-body-name: body
+  /resource-order-resource-inventory/v3/managementBackHaul/search:
+    post:
+      tags:
+        - BackHaulManagementController
+      summary: Gets BackHauls by search criteria
+      description: Gets BackHauls by input parameters for search and with additional sort parameters.
+      operationId: searchBackHauls
+      security:
+        - apmToken: []
+      parameters:
+        - name: BackhaulIdPageRequest
+          in: query
+          schema:
+            $ref: "#/components/schemas/BackhaulIdPageRequest"
+      requestBody:
+        description: Request BackHaulViewDto
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RequestBackHaulViewDto'
+        required: true
+      responses:
+        '200':
+          description: Successfully received
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PageBackHaulViewDto'
+        '400':
+          description: Can't perform operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+        '500':
+          description: Internal error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+      x-codegen-request-body-name: body
+  /resource-order-resource-inventory/v3/managementHomeId/search:
+    post:
+      tags:
+        - HomeIdManagementController
+      summary: Gets HomeIdView by search criteria
+      description: Gets HomeIdView by input parameters for search and with additional sort parameters.
+      operationId: searchHomeId
+      security:
+        - apmToken: []
+      parameters:
+        - name: HomeIdPageRequest
+          in: query
+          schema:
+            $ref: "#/components/schemas/HomeIdPageRequest"
+      requestBody:
+        description: Request HomeIdViewDto
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RequestHomeIdViewDto'
+        required: true
+      responses:
+        '200':
+          description: Successfully received
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PageHomeIdViewDto'
+        '400':
+          description: Can't perform operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+        '500':
+          description: Internal error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+      x-codegen-request-body-name: body
+  /resource-order-resource-inventory/v3/physicalResourceReference/search:
+    post:
+      tags:
+        - PhysicalResourceReferenceInternalController
+      summary: Searches physical resource reference by criteria
+      operationId: searchPhysicalResourceReference
+      security:
+        - OAuth2:
+            - 'rori:physicalResourceReference:read'
+            - 'giga:cga:all-area-access'
+      requestBody:
+        description: Search physical resource reference criteria
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SearchPhysicalResourceReferenceDto'
+        required: true
+      responses:
+        '200':
+          description: Successfully get
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ReferenceDto'
+        '400':
+          description: Can't perform operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+        '500':
+          description: Internal error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+      x-codegen-request-body-name: body
+  '/resource-order-resource-inventory/v3/physicalResourceReference/{id}':
+    delete:
+      tags:
+        - PhysicalResourceReferenceInternalController
+      summary: Deletes physical resource reference by id
+      operationId: deletePhysicalResourceReference
+      security:
+        - OAuth2:
+            - 'rori:physicalResourceReference:write'
+            - 'giga:cga:all-area-access'
+      parameters:
+        - name: id
+          in: path
+          description: Reference id
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: Successfully deleted
+          content: {}
+        '400':
+          description: Can't perform operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+        '409':
+          description: Reference can't be deleted
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+        '500':
+          description: Internal error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+  /resource-order-resource-inventory/v4/assurance/accessLine:
+    get:
+      tags:
+        - AssuranceControllerV4
+      summary: Finds access lines by criteria
+      operationId: findAccessLinesByCriteriaV4
+      security:
+        - OAuth2:
+            - 'rori:assurance:accessLine:read'
+            - 'giga:cga:all-area-access'
+      parameters:
+        - name: RequestAssuranceAccessLineV4Dto
+          in: query
+          schema:
+            $ref: '#/components/schemas/RequestAssuranceAccessLineV4Dto'
+        - name: AssuranceAccessLineV4PageRequest
+          in: query
+          description: direction
+          schema:
+            $ref: '#/components/schemas/AssuranceAccessLineV4PageRequest'
+      responses:
+        '200':
+          description: Successfully found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PageAssuranceAccessLineDtoV4'
+        '400':
+          description: Can't perform operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+        '404':
+          description: Not present in database
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+        '500':
+          description: Internal error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+  '/resource-order-resource-inventory/v4/assurance/accessLine/{id}':
+    get:
+      tags:
+        - AssuranceControllerV4
+      summary: Finds access line by id
+      operationId: findAccessLineByIdV4
+      security:
+        - OAuth2:
+            - 'rori:assurance:accessLine:read'
+            - 'giga:cga:all-area-access'
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: Successfully found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AssuranceAccessLineDtoV4'
+        '400':
+          description: Can't perform operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+        '404':
+          description: Not present in database
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+        '500':
+          description: Internal error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+components:
+  securitySchemes:
+    apmToken:
+      type: apiKey
+      in: header
+      name: apm-principal-token
+    OAuth2:
+      type: oauth2
+      flows:
+        clientCredentials:
+          tokenUrl: 'https://rhsso-develop.magic.telekom.de/auth/realms/GigabitHub/protocol/openid-connect/token'
+          scopes:
+            'rori:allocatedOnuId:read': Read scope
+            'rori:allocatedOnuId:write': Write scope
+            'rori:accessLine:read': Read scope
+            'rori:accessLine:write': Write scope
+            'rori:backhaulId:read': Read scope
+            'rori:backhaulId:write': Write scope
+            'rori:homeIdPool:read': Read scope
+            'rori:homeIdPool:write': Write scope
+            'rori:lineIdPool:read': Read scope
+            'rori:lineIdPool:write': Write scope
+            'rori:physicalResourceReference:read': Read scope
+            'rori:physicalResourceReference:write': Write scope
+            'rori:anpTagPool:read': Read scope
+            'rori:assurance:accessLine:read': Read scope
+            'giga:cga:all-area-access': General Access Scope
+  schemas:
+    AccessLine:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        href:
+          type: string
+        creationDate:
+          type: string
+          format: date-time
+        description:
+          type: string
+        homeId:
+          type: string
+        lineId:
+          type: string
+        modificationDate:
+          type: string
+          format: date-time
+        productionPlatform:
+          $ref: '#/components/schemas/AccessLineProductionPlatform'
+        status:
+          $ref: '#/components/schemas/AccessLineStatus'
+        technology:
+          $ref: '#/components/schemas/AccessLineTechnology'
+        version:
+          type: integer
+          format: int64
+        portReferences:
+          $ref: '#/components/schemas/AccessLinePortReferenceList'
+        profiles:
+          $ref: '#/components/schemas/AccessLineProfiles'
+        relatedParty:
+          type: array
+          items:
+            $ref: '#/components/schemas/RelatedParty'
+        '@baseType':
+          type: string
+        '@schemaLocation':
+          type: string
+        '@type':
+          type: string
+      description: 'AccessLine Skipped properties: activationFeature,attachment,note,place,resourceSpecification,value,startOperatingDate,endOperatingDate,administrativeState,resourceStatus,usageState,name,resourceVersion,operationalState,category,resourceCharacteristic,resourceRelationship'
+    AccessLineDto:
+      type: object
+      properties:
+        id:
+          type: integer
+          description: Internal (from database) id of Access Line entity
+          format: int64
+        technology:
+          $ref: '#/components/schemas/AccessLineTechnology'
+        status:
+          $ref: '#/components/schemas/AccessLineStatus'
+        lineId:
+          type: string
+          description: Line Id
+        homeId:
+          pattern: '^[A-Z0-9]{7}$'
+          type: string
+          description: Home Id
+        defaultNeProfile:
+          $ref: '#/components/schemas/DefaultNeProfileDto'
+        fttbNeProfile:
+          $ref: '#/components/schemas/FttbNeProfileDto'
+        defaultNetworkLineProfile:
+          $ref: '#/components/schemas/DefaultNetworkLineProfileDto'
+        subscriberNetworkLineProfile:
+          $ref: '#/components/schemas/SubscriberNetworkLineProfileDto'
+        reference:
+          $ref: '#/components/schemas/ReferenceDto'
+        uplinkReference:
+          $ref: '#/components/schemas/ReferenceDto'
+        dpuReference:
+          $ref: '#/components/schemas/ReferenceDto'
+        resourceAssociation:
+          $ref: '#/components/schemas/ResourceAssociationDto'
+        networkServiceProfileReference:
+          $ref: '#/components/schemas/NetworkServiceProfileReferenceDto'
+        version:
+          type: integer
+          description: Version of object
+          format: int64
+        productionPlatform:
+          $ref: '#/components/schemas/AccessLineProductionPlatform'
+        anpTag:
+          $ref: '#/components/schemas/AllocatedAnpTagDto'
+        creationDate:
+          type: string
+          description: Date of access line creation
+          format: date-time
+        modificationDate:
+          type: string
+          description: Date of access line modification
+          format: date-time
+    AccessLineInfoDto:
+      type: object
+      properties:
+        lineId:
+          type: string
+          description: Line Id
+        status:
+          $ref: '#/components/schemas/AccessLineStatus'
+    AccessLinePortReference:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        endSZ:
+          type: string
+        portName:
+          type: string
+        portType:
+          $ref: '#/components/schemas/PortType'
+        slotName:
+          type: string
+        version:
+          type: integer
+          format: int64
+        '@baseType':
+          type: string
+        '@schemaLocation':
+          type: string
+        '@type':
+          type: string
+      description: A defined list of AccessLinePortReference of an Access Line
+    AccessLinePortReferenceList:
+      type: object
+      properties:
+        dpuDownlinkPortReference:
+          $ref: '#/components/schemas/AccessLinePortReference'
+        oltDownlinkPortReference:
+          $ref: '#/components/schemas/AccessLinePortReference'
+        oltUplinkPortReference:
+          $ref: '#/components/schemas/AccessLinePortReference'
+        '@baseType':
+          type: string
+        '@schemaLocation':
+          type: string
+        '@type':
+          type: string
+      description: A defined list of AccessLinePortReference of an Access Line.
+    AccessLineProfiles:
+      type: object
+      properties:
+        fttbNeProfile:
+          $ref: '#/components/schemas/AccessLineProfilesFttbNetworkElementProfile'
+        ftthNeProfile:
+          $ref: '#/components/schemas/AccessLineProfilesFtthNetworkElementProfile'
+        networkLineProfile:
+          $ref: '#/components/schemas/AccessLineProfilesNetworkLineProfile'
+        '@baseType':
+          type: string
+        '@schemaLocation':
+          type: string
+        '@type':
+          type: string
+      description: A defined list of AccessLineProfiles of an Access Line
+    AccessLineProfilesDefaultNetworkLineProfile:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        accessNetworkType:
+          type: string
+        accessType:
+          type: string
+        authMethod:
+          type: integer
+          format: int32
+        creationDate:
+          type: string
+          format: date-time
+        federationPartner:
+          type: string
+        guaranteedDownBandwidth:
+          type: integer
+          format: int32
+        guaranteedUpBandwidth:
+          type: integer
+          format: int32
+        klsId:
+          type: integer
+          format: int64
+        maxDownBandwidth:
+          type: integer
+          format: int32
+        maxUpBandwidth:
+          type: integer
+          format: int32
+        minDownBandwidth:
+          type: integer
+          format: int32
+        minUpBandwidth:
+          type: integer
+          format: int32
+        modificationDate:
+          type: string
+          format: date-time
+        state:
+          $ref: '#/components/schemas/ProfileState'
+        syncStatus:
+          $ref: '#/components/schemas/SyncStatus'
+        version:
+          type: integer
+          format: int64
+        '@baseType':
+          type: string
+        '@schemaLocation':
+          type: string
+        '@type':
+          type: string
+      description: 'Default Network Line Profile of an Access Line, configured on the Radius'
+    AccessLineProfilesFttbNetworkElementProfile:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        anpTag:
+          type: integer
+          format: int32
+        bandwidthProfile:
+          type: string
+        creationDate:
+          type: string
+          format: date-time
+        dpuLineSpectrumProfile:
+          type: string
+        gfastInterfaceProfile:
+          type: string
+        modificationDate:
+          type: string
+          format: date-time
+        numberOfGemPorts:
+          type: integer
+          format: int32
+        onuAccessId:
+          type: integer
+          format: int32
+        stateMosaic:
+          $ref: '#/components/schemas/ProfileState'
+        stateOlt:
+          $ref: '#/components/schemas/ProfileState'
+        syncStatus:
+          $ref: '#/components/schemas/SyncStatus'
+        version:
+          type: integer
+          format: int64
+        '@baseType':
+          type: string
+        '@schemaLocation':
+          type: string
+        '@type':
+          type: string
+      description: 'Network Element Profile of an Access Line, configured on the DPU'
+    AccessLineProfilesFtthDefaultNetworkElementProfile:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        ancpPartitionId:
+          type: integer
+          format: int32
+        anpTag:
+          type: integer
+          format: int32
+        creationDate:
+          type: string
+          format: date-time
+        modificationDate:
+          type: string
+          format: date-time
+        ontSerialNumber:
+          type: string
+        onuId:
+          type: integer
+          format: int32
+        profileName:
+          type: string
+        state:
+          $ref: '#/components/schemas/ProfileState'
+        syncStatus:
+          $ref: '#/components/schemas/SyncStatus'
+        version:
+          type: integer
+          format: int64
+        '@baseType':
+          type: string
+        '@schemaLocation':
+          type: string
+        '@type':
+          type: string
+      description: 'Default Network Element Profile of an Access Line, configured on the OLT'
+    AccessLineProfilesFtthNetworkElementProfile:
+      type: object
+      properties:
+        defaultNetworkElementProfile:
+          $ref: '#/components/schemas/AccessLineProfilesFtthDefaultNetworkElementProfile'
+        networkServiceProfileFtthAccessReference:
+          $ref: '#/components/schemas/AccessLineProfilesNetworkServiceProfileFtthAccessReference'
+        subscriberNetworkElementProfile:
+          $ref: '#/components/schemas/AccessLineProfilesFtthSubscriberNetworkElementProfile'
+        '@baseType':
+          type: string
+        '@schemaLocation':
+          type: string
+        '@type':
+          type: string
+      description: 'A defined list of AccessLineProfiles of an Access Line, configured on the OLT'
+    AccessLineProfilesFtthSubscriberNetworkElementProfile:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        creationDate:
+          type: string
+          format: date-time
+        modificationDate:
+          type: string
+          format: date-time
+        ontSerialNumber:
+          type: string
+        ontState:
+          $ref: '#/components/schemas/OntState'
+        profileName:
+          type: string
+        state:
+          $ref: '#/components/schemas/ProfileState'
+        syncStatus:
+          $ref: '#/components/schemas/SyncStatus'
+        version:
+          type: integer
+          format: int64
+        '@baseType':
+          type: string
+        '@schemaLocation':
+          type: string
+        '@type':
+          type: string
+      description: 'Customer specific Network Element Profile of an Access Line, configured on the OLT'
+    AccessLineProfilesNetworkLineProfile:
+      type: object
+      properties:
+        defaultNetworkLineProfile:
+          $ref: '#/components/schemas/AccessLineProfilesDefaultNetworkLineProfile'
+        subscriberNetworkLineProfile:
+          $ref: '#/components/schemas/AccessLineProfilesSubscriberNetworkLineProfile'
+        '@baseType':
+          type: string
+        '@schemaLocation':
+          type: string
+        '@type':
+          type: string
+      description: 'A defined list of AccessLineProfiles of an Access Line, configured on the Radius'
+    AccessLineProfilesNetworkServiceProfileFtthAccessReference:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        creationDate:
+          type: string
+          format: date-time
+        modificationDate:
+          type: string
+          format: date-time
+        nspOntSerialNumber:
+          type: string
+        syncStatus:
+          $ref: '#/components/schemas/SyncStatus'
+        tpRef:
+          type: string
+        uuid:
+          type: string
+        version:
+          type: integer
+          format: int64
+        '@baseType':
+          type: string
+        '@schemaLocation':
+          type: string
+        '@type':
+          type: string
+      description: 'Network Service Profile Reference of an Access Line, configured on the OLT for A4'
+    AccessLineProfilesSubscriberNetworkLineProfile:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        authMethod:
+          type: integer
+          format: int32
+        creationDate:
+          type: string
+          format: date-time
+        downBandwidth:
+          type: integer
+          format: int32
+        federationPartner:
+          type: string
+        guaranteedDownBandwidth:
+          type: integer
+          format: int32
+        guaranteedUpBandwidth:
+          type: integer
+          format: int32
+        klsId:
+          type: integer
+          format: int64
+        l2ccid:
+          type: string
+        maxDownBandwidth:
+          type: integer
+          format: int32
+        maxUpBandwidth:
+          type: integer
+          format: int32
+        minDownBandwidth:
+          type: integer
+          format: int32
+        minUpBandwidth:
+          type: integer
+          format: int32
+        modificationDate:
+          type: string
+          format: date-time
+        providerId:
+          type: string
+        state:
+          $ref: '#/components/schemas/ProfileState'
+        substitutionDomain:
+          type: string
+        syncStatus:
+          $ref: '#/components/schemas/SyncStatus'
+        upBandwidth:
+          type: integer
+          format: int32
+        version:
+          type: integer
+          format: int64
+        '@baseType':
+          type: string
+        '@schemaLocation':
+          type: string
+        '@type':
+          type: string
+      description: 'Customer specific Network Line Profile of an Access Line, configured on the Radius'
+    AccessLineStatisticDto:
+      required:
+        - endSz
+      type: object
+      properties:
+        endSz:
+          type: string
+          description: EndSz
+        slotNumber:
+          type: string
+          description: Slot number
+        portNumber:
+          type: string
+          description: Port number
+        status:
+          $ref: '#/components/schemas/AccessLineStatus'
+        accessLineCount:
+          type: integer
+          description: 'Count of Access Line status (inactive, walled Garden or assigned)'
+          format: int64
+    AccessLineViewDto:
+      type: object
+      properties:
+        lineId:
+          type: string
+          description: Line Id
+        homeId:
+          type: string
+          description: Home Id
+        endSz:
+          type: string
+          description: EndSz
+        slotNumber:
+          type: string
+          description: Slot number
+        portNumber:
+          type: string
+          description: Port number
+        status:
+          $ref: '#/components/schemas/AccessLineStatus'
+        subscriberNeProfileState:
+          $ref: '#/components/schemas/ProfileState'
+        subscriberNetworkLineProfileState:
+          $ref: '#/components/schemas/ProfileState'
+        productionPlatform:
+          $ref: '#/components/schemas/AccessLineProductionPlatform'
+        outOfSync:
+          type: string
+          description: Out of sync statuses
+        defaultNeProfileState:
+          $ref: '#/components/schemas/ProfileState'
+        defaultNetworkLineProfileState:
+          $ref: '#/components/schemas/ProfileState'
+        fttbNeProfileState:
+          $ref: '#/components/schemas/ProfileState'
+        ontSerialNumber:
+          type: string
+          description: Ont serial number
+    AccessLinesDto:
+      type: object
+      properties:
+        lineIds:
+          type: array
+          description: Access line Ids and statuses
+          items:
+            $ref: '#/components/schemas/AccessLineInfoDto'
+    AllocatedAnpTagDto:
+      required:
+        - reference
+      type: object
+      properties:
+        id:
+          type: integer
+          description: Internal (from database) id of AllocatedAnpTag entity
+          format: int64
+        anpTag:
+          type: integer
+          description: Anptag
+          format: int32
+        reference:
+          $ref: '#/components/schemas/ReferenceDto'
+        version:
+          type: integer
+          description: Version of object
+          format: int64
+        creationDate:
+          type: string
+          description: Date of ANP tag creation
+          format: date-time
+        modificationDate:
+          type: string
+          description: Date of ANP tag modification
+          format: date-time
+    AllocatedOnuDto:
+      required:
+        - onuId
+      type: object
+      properties:
+        onuId:
+          maximum: 127
+          minimum: 0
+          type: integer
+          description: OnuId of access line or lines
+          format: int32
+    AllocatedOnuIdDto:
+      required:
+        - onuId
+        - reference
+      type: object
+      properties:
+        id:
+          type: integer
+          description: Internal (from database) id of onu id entity
+          format: int64
+        dpuEndSZ:
+          pattern: '[0-9]{1,6}\/[0-9]{1,6}\/[0-9]{1,6}\/[a-zA-Z0-9]{2,4}'
+          type: string
+          description: EndSz of dpu device with this onuId
+        onuId:
+          maximum: 127
+          minimum: 0
+          type: integer
+          description: OnuId of access line or lines
+          format: int32
+        accessLine:
+          $ref: '#/components/schemas/AccessLineDto'
+        reference:
+          $ref: '#/components/schemas/ReferenceDto'
+        version:
+          type: integer
+          description: Version of object
+          format: int64
+        creationDate:
+          type: string
+          description: Date of ONU creation
+          format: date-time
+        modificationDate:
+          type: string
+          description: Date of ONU modification
+          format: date-time
+    AssuranceAccessLineDtoV4:
+      type: object
+      properties:
+        defaultNeProfile:
+          $ref: '#/components/schemas/AssuranceDefaultNeProfileDto'
+        defaultNetworkLineProfile:
+          $ref: '#/components/schemas/AssuranceDefaultNetworkLineProfileDto'
+        endSZ:
+          type: string
+          description: EndSz of physical resource
+        homeId:
+          type: string
+          description: Home Id
+        id:
+          type: integer
+          description: Internal (from database) id of Access Line entity
+          format: int64
+        lineId:
+          type: string
+          description: Line Id
+        nspRef:
+          $ref: '#/components/schemas/AssuranceNspRefDtoV4'
+        partyId:
+          type: integer
+          description: Party id of Access Line
+          format: int32
+        portNumber:
+          type: string
+          description: Port number of physical resource
+        productionPlatform:
+          type: string
+          description: Production platform
+        resourceId:
+          type: string
+          description: Unique ID of a resource
+        slotNumber:
+          type: string
+          description: Slot number of physical resource
+        status:
+          type: string
+          description: 'Status of Access Line (inactive, walled Garden or assigned)'
+        subscriberNeProfile:
+          $ref: '#/components/schemas/AssuranceSubscriberNeProfileDtoV4'
+        subscriberNetworkLineProfile:
+          $ref: '#/components/schemas/AssuranceSubscriberNetworkLineProfileDtoV4'
+        technology:
+          type: string
+          description: Technology of Access Line
+    AssuranceDefaultNeProfileDto:
+      type: object
+      properties:
+        ancpPartitionId:
+          type: integer
+          description: Id of ANCP partition
+          format: int32
+        anpTag:
+          type: integer
+          description: Anptag
+          format: int32
+        ontId:
+          type: integer
+          description: Id of ont
+          format: int32
+        ontSerialNumber:
+          type: string
+          description: ONT serial number of DefaultNeProfile
+        profileName:
+          type: string
+          description: Name of profile
+        state:
+          type: string
+          description: 'State of DefaultNeProfile (inactive, active)'
+    AssuranceDefaultNetworkLineProfileDto:
+      type: object
+      properties:
+        accessNetworkType:
+          type: string
+          description: Access network type of DefaultNetworkLineProfile
+        accessType:
+          type: string
+          description: Access type of DefaultNetworkLineProfile
+        authMethod:
+          type: integer
+          description: Authentication method of DefaultNetworkLineProfile
+          format: int32
+        guaranteedDownBandwidth:
+          type: integer
+          description: Guaranteed down bandwidth of DefaultNetworkLineProfile
+          format: int32
+        guaranteedUpBandwidth:
+          type: integer
+          description: Guaranteed up bandwidth of DefaultNetworkLineProfile
+          format: int32
+        klsId:
+          type: integer
+          description: KlsId of DefaultNetworkLineProfile
+          format: int64
+        maxDownBandwidth:
+          type: integer
+          description: Maximum down bandwidth of DefaultNetworkLineProfile
+          format: int32
+        maxUpBandwidth:
+          type: integer
+          description: Maximum up bandwidth of DefaultNetworkLineProfile
+          format: int32
+        minDownBandwidth:
+          type: integer
+          description: Minimum down bandwidth of DefaultNetworkLineProfile
+          format: int32
+        minUpBandwidth:
+          type: integer
+          description: Minimum up bandwidth of DefaultNetworkLineProfile
+          format: int32
+        state:
+          type: string
+          description: 'State of DefaultNeProfile (inactive, active)'
+    AssuranceNspRefDtoV4:
+      type: object
+      properties:
+        creationDate:
+          type: string
+          description: Date of network service profile creation
+          format: date-time
+        tpRef:
+          type: string
+          description: tp reference of network service profile reference entity
+        uuid:
+          type: string
+          description: UUID of network service profile reference entity
+    AssuranceSubscriberNeProfileDtoV4:
+      type: object
+      properties:
+        ontSerialNumber:
+          type: string
+          description: ONT serial number of SubscriberNeProfile
+        ontState:
+          type: string
+          description: State of ONT
+        profileName:
+          type: string
+          description: Name of profile
+        state:
+          type: string
+          description: State of SubscriberNeProfile
+    AssuranceSubscriberNetworkLineProfileDtoV4:
+      type: object
+      properties:
+        authMethod:
+          type: integer
+          description: Authentication method of SubscriberNetworkLineProfile
+          format: int32
+        downBandwidth:
+          type: integer
+          description: Down band width of SubscriberNetworkLineProfile
+          format: int32
+        federationPartner:
+          type: string
+          description: Federation Partner of SubscriberNetworkLineProfile
+        guaranteedDownBandwidth:
+          type: integer
+          description: Guaranteed down band width of SubscriberNetworkLineProfile
+          format: int32
+        guaranteedUpBandwidth:
+          type: integer
+          description: Guaranteed up band width of SubscriberNetworkLineProfile
+          format: int32
+        klsId:
+          type: integer
+          description: KlsId of SubscriberNetworkLineProfile
+          format: int64
+        l2ccid:
+          type: string
+          description: 12 ccid of SubscriberNetworkLineProfile
+        maxDownBandwidth:
+          type: integer
+          description: Maximum down bandwidth of SubscriberNetworkLineProfile
+          format: int32
+        maxUpBandwidth:
+          type: integer
+          description: Maximum up bandwidth of SubscriberNetworkLineProfile
+          format: int32
+        minDownBandwidth:
+          type: integer
+          description: Minimum down bandwidth of SubscriberNetworkLineProfile
+          format: int32
+        minUpBandwidth:
+          type: integer
+          description: Minimum up bandwidth of SubscriberNetworkLineProfile
+          format: int32
+        providerId:
+          type: string
+          description: Minimum up bandwidth of SubscriberNetworkLineProfile
+        substitutionDomain:
+          type: string
+          description: Substitution Domain of SubscriberNetworkLineProfile
+        state:
+          type: string
+          description: State of SubscriberNetworkLineProfile
+        upBandwidth:
+          type: integer
+          description: Up band width of SubscriberNetworkLineProfile
+          format: int32
+    BackHaulViewDto:
+      type: object
+      properties:
+        backHaulId:
+          type: string
+          description: BackHaul Id
+        endSz:
+          type: string
+          description: EndSz
+        slotNumber:
+          type: string
+          description: Slot number
+        portNumber:
+          type: string
+          description: Port number
+        status:
+          $ref: '#/components/schemas/BackhaulStatus'
+    BackhaulIdDto:
+      required:
+        - backhaulId
+        - port
+      type: object
+      properties:
+        id:
+          type: integer
+          description: Internal (from database) id of backhaul id entity
+          format: int64
+        backhaulId:
+          pattern: '#bhid-[a-z0-9]{2,10}'
+          type: string
+          description: Backhaul id
+        status:
+          $ref: '#/components/schemas/BackhaulStatus'
+        port:
+          $ref: '#/components/schemas/ReferenceDto'
+        version:
+          type: integer
+          description: Version of object
+          format: int64
+        resourceAssociation:
+          $ref: '#/components/schemas/ResourceAssociationDto'
+        creationDate:
+          type: string
+          description: Date of backhaul creation
+          format: date-time
+        modificationDate:
+          type: string
+          description: Date of backhaul modification
+          format: date-time
+    DefaultNeProfileDto:
+      type: object
+      properties:
+        id:
+          type: integer
+          description: Internal (from database) id of DefaultNeProfile entity
+          format: int64
+        profileName:
+          type: string
+          description: Name of profile
+        ontSerialNumber:
+          type: string
+          description: ONT serial number of DefaultNeProfile
+        state:
+          $ref: '#/components/schemas/ProfileState'
+        ancpPartitionId:
+          maximum: 255
+          minimum: 0
+          type: integer
+          description: Id of ANCP partition
+          format: int32
+        subscriberNeProfile:
+          $ref: '#/components/schemas/SubscriberNeProfileDto'
+        version:
+          type: integer
+          description: Version of object
+          format: int64
+        syncStatus:
+          $ref: '#/components/schemas/SyncStatus'
+        creationDate:
+          type: string
+          description: Date of default NE profile creation
+          format: date-time
+        modificationDate:
+          type: string
+          description: Date of default NE profile modification
+          format: date-time
+    DefaultNetworkLineProfileDto:
+      type: object
+      properties:
+        id:
+          type: integer
+          description: Internal (from database) id of DefaultNetworkLineProfile entity
+          format: int64
+        authMethod:
+          maximum: 1
+          minimum: 0
+          type: integer
+          description: Authentication method of DefaultNetworkLineProfile
+          format: int32
+        klsId:
+          maximum: 999999999999
+          minimum: 0
+          type: integer
+          description: KlsId of DefaultNetworkLineProfile
+          format: int64
+        minDownBandwidth:
+          minimum: 0
+          type: integer
+          description: Minimum down bandwidth of DefaultNetworkLineProfile
+          format: int32
+        minUpBandwidth:
+          minimum: 0
+          type: integer
+          description: Minimum up bandwidth of DefaultNetworkLineProfile
+          format: int32
+        guaranteedDownBandwidth:
+          minimum: 0
+          type: integer
+          description: Guaranteed down bandwidth of DefaultNetworkLineProfile
+          format: int32
+        guaranteedUpBandwidth:
+          minimum: 0
+          type: integer
+          description: Guaranteed up bandwidth of DefaultNetworkLineProfile
+          format: int32
+        maxDownBandwidth:
+          minimum: 0
+          type: integer
+          description: Maximum down bandwidth of DefaultNetworkLineProfile
+          format: int32
+        maxUpBandwidth:
+          minimum: 0
+          type: integer
+          description: Maximum up bandwidth of DefaultNetworkLineProfile
+          format: int32
+        state:
+          $ref: '#/components/schemas/ProfileState'
+        federationPartner:
+          maxLength: 32
+          minLength: 0
+          type: string
+          description: Federation partner of DefaultNetworkLineProfile
+        accessNetworkType:
+          maxLength: 16
+          minLength: 0
+          type: string
+          description: Access network type of DefaultNetworkLineProfile
+        accessType:
+          maxLength: 16
+          minLength: 0
+          type: string
+          description: Access type of DefaultNetworkLineProfile
+        version:
+          type: integer
+          description: Version of object
+          format: int64
+        syncStatus:
+          $ref: '#/components/schemas/SyncStatus'
+        creationDate:
+          type: string
+          description: Date of default network line profile creation
+          format: date-time
+        modificationDate:
+          type: string
+          description: Date of default network line profile modification
+          format: date-time
+    Error:
+      type: object
+      properties:
+        code:
+          type: string
+        reason:
+          type: string
+        message:
+          type: string
+        status:
+          type: string
+        referenceError:
+          type: string
+        '@baseType':
+          type: string
+        '@schemaLocation':
+          type: string
+        '@type':
+          type: string
+      description: 'Used when an API throws an Error, typically with a HTTP error response-code (3xx, 4xx, 5xx)'
+    FttbNeProfileDto:
+      type: object
+      properties:
+        id:
+          type: integer
+          description: Internal (from database) id of FttbNeProfile entity
+          format: int64
+        gfastInterfaceProfile:
+          type: string
+          description: GfastInterface of profile
+        stateOlt:
+          $ref: '#/components/schemas/ProfileState'
+        stateMosaic:
+          $ref: '#/components/schemas/ProfileState'
+        dpuLineSpectrumProfile:
+          type: string
+          description: Dpu line spectrum profile
+        numberOfGemPorts:
+          type: integer
+          description: Number of Gem ports
+          format: int32
+        bandwidthProfile:
+          type: string
+          description: Bandwidth of profile
+        onuAccessId:
+          $ref: '#/components/schemas/OnuAccessIdDto'
+        version:
+          type: integer
+          description: Version of object
+          format: int64
+        syncStatus:
+          $ref: '#/components/schemas/SyncStatus'
+        creationDate:
+          type: string
+          description: Date of fttb NE profile creation
+          format: date-time
+        modificationDate:
+          type: string
+          description: Date of fttb NE profile modification
+          format: date-time
+    GetAccessLineDto:
+      required:
+        - lineId
+      type: object
+      properties:
+        lineId:
+          pattern: '[A-Z0-9]{3}\.[A-Z0-9]{1,6}\.[A-Z0-9]{1,10}'
+          type: string
+          description: Criteria for search Access Line by line id
+    GetAccessLinesDto:
+      required:
+        - backHaulId
+      type: object
+      properties:
+        backHaulId:
+          pattern: '#bhid-[a-z0-9]{2,10}'
+          type: string
+          description: Criteria for search Access Lines by backHaul id
+    GetAllocatedOnuIdDto:
+      required:
+        - lineId
+      type: object
+      properties:
+        lineId:
+          pattern: '[A-Z0-9]{3}\.[A-Z0-9]{1,6}\.[A-Z0-9]{1,10}'
+          type: string
+          description: Line Id
+    HomeIdDto:
+      required:
+        - homeId
+        - port
+        - status
+      type: object
+      properties:
+        id:
+          type: integer
+          description: Internal (from database) id of home id entity
+          format: int64
+        homeId:
+          pattern: '^[A-Z0-9]{7}$'
+          type: string
+          description: HomeId from pool for access line
+        status:
+          $ref: '#/components/schemas/HomeIdStatus'
+        port:
+          $ref: '#/components/schemas/ReferenceDto'
+        resourceAssociation:
+          $ref: '#/components/schemas/ResourceAssociationDto'
+        version:
+          type: integer
+          description: HomeId version
+          format: int64
+        creationDate:
+          type: string
+          description: Date of homeId creation
+          format: date-time
+        modificationDate:
+          type: string
+          description: Date of homeId modification
+          format: date-time
+    HomeIdViewDto:
+      type: object
+      properties:
+        endSz:
+          type: string
+          description: EndSz
+        slotNumber:
+          type: string
+          description: Slot number
+        portNumber:
+          type: string
+          description: Port number
+        homeId:
+          type: string
+          description: Home Id
+        status:
+          $ref: '#/components/schemas/HomeIdStatus'
+        accessLineCount:
+          type: integer
+          description: Number of access lines with home Id
+          format: int64
+    LineIdDto:
+      required:
+        - lineId
+        - port
+      type: object
+      properties:
+        id:
+          type: integer
+          description: Internal (from database) id of line id entity
+          format: int64
+        lineId:
+          pattern: '[A-Z0-9]{3}\.[A-Z0-9]{1,6}\.[A-Z0-9]{1,10}'
+          type: string
+          description: LineId from pool for access line
+        status:
+          $ref: '#/components/schemas/LineIdStatus'
+        port:
+          $ref: '#/components/schemas/ReferenceDto'
+        version:
+          type: integer
+          description: Version of object
+          format: int64
+        creationDate:
+          type: string
+          description: Date of lineId creation
+          format: date-time
+        modificationDate:
+          type: string
+          description: Date of lineId modification
+          format: date-time
+    NetworkServiceProfileReferenceDto:
+      type: object
+      properties:
+        id:
+          type: integer
+          description: Internal (from database) id of network service profile reference entity
+          format: int64
+        uuid:
+          type: string
+          description: UUID of network service profile reference entity
+        tpRef:
+          pattern: '^[0-9A-Fa-f]{8}\-[0-9A-Fa-f]{4}\-[0-9A-Fa-f]{4}\-[0-9A-Fa-f]{4}\-[0-9A-Fa-f]{12}$'
+          type: string
+          description: tp reference of network service profile reference entity
+        creationDate:
+          type: string
+          description: Date of network service profile creation
+          format: date-time
+        nspOntSerialNumber:
+          pattern: '^[A-F0-9]{16}$'
+          type: string
+          description: NSP ONT serial number
+        version:
+          type: integer
+          description: Version of object
+          format: int64
+        syncStatus:
+          $ref: '#/components/schemas/SyncStatus'
+        modificationDate:
+          type: string
+          description: Date of network service profile modification
+          format: date-time
+    OnuAccessIdDto:
+      type: object
+      properties:
+        id:
+          type: integer
+          description: Internal (from database) id of OnuAccessId entity
+          format: int64
+        onuAccessId:
+          type: integer
+          description: Onu Access Id
+          format: int32
+        version:
+          type: integer
+          description: Version of object
+          format: int64
+        creationDate:
+          type: string
+          description: Date of ONU accessId creation
+          format: date-time
+        modificationDate:
+          type: string
+          description: Date of ONU accessId modification
+          format: date-time
+    Page:
+      type: object
+      properties:
+        totalPages:
+          type: integer
+          format: int32
+        totalElements:
+          type: integer
+          format: int64
+        number:
+          type: integer
+          format: int32
+        size:
+          type: integer
+          format: int32
+        content:
+          type: array
+          items:
+            type: object
+            properties: {}
+        sort:
+          $ref: '#/components/schemas/Sort'
+        first:
+          type: boolean
+        numberOfElements:
+          type: integer
+          format: int32
+        last:
+          type: boolean
+        pageable:
+          $ref: '#/components/schemas/Pageable'
+        empty:
+          type: boolean
+    PageAccessLineViewDto:
+      type: object
+      properties:
+        totalPages:
+          type: integer
+          format: int32
+        totalElements:
+          type: integer
+          format: int64
+        number:
+          type: integer
+          format: int32
+        size:
+          type: integer
+          format: int32
+        content:
+          type: array
+          items:
+            $ref: '#/components/schemas/AccessLineViewDto'
+        sort:
+          $ref: '#/components/schemas/Sort'
+        first:
+          type: boolean
+        numberOfElements:
+          type: integer
+          format: int32
+        last:
+          type: boolean
+        pageable:
+          $ref: '#/components/schemas/Pageable'
+        empty:
+          type: boolean
+    PageAssuranceAccessLineDtoV4:
+      type: object
+      properties:
+        totalPages:
+          type: integer
+          format: int32
+        totalElements:
+          type: integer
+          format: int64
+        number:
+          type: integer
+          format: int32
+        size:
+          type: integer
+          format: int32
+        content:
+          type: array
+          items:
+            $ref: '#/components/schemas/AssuranceAccessLineDtoV4'
+        sort:
+          $ref: '#/components/schemas/Sort'
+        first:
+          type: boolean
+        numberOfElements:
+          type: integer
+          format: int32
+        last:
+          type: boolean
+        pageable:
+          $ref: '#/components/schemas/Pageable'
+        empty:
+          type: boolean
+    PageBackHaulViewDto:
+      type: object
+      properties:
+        totalPages:
+          type: integer
+          format: int32
+        totalElements:
+          type: integer
+          format: int64
+        number:
+          type: integer
+          format: int32
+        size:
+          type: integer
+          format: int32
+        content:
+          type: array
+          items:
+            $ref: '#/components/schemas/BackHaulViewDto'
+        sort:
+          $ref: '#/components/schemas/Sort'
+        first:
+          type: boolean
+        numberOfElements:
+          type: integer
+          format: int32
+        last:
+          type: boolean
+        pageable:
+          $ref: '#/components/schemas/Pageable'
+        empty:
+          type: boolean
+    PageHomeIdViewDto:
+      type: object
+      properties:
+        totalPages:
+          type: integer
+          format: int32
+        totalElements:
+          type: integer
+          format: int64
+        number:
+          type: integer
+          format: int32
+        size:
+          type: integer
+          format: int32
+        content:
+          type: array
+          items:
+            $ref: '#/components/schemas/HomeIdViewDto'
+        sort:
+          $ref: '#/components/schemas/Sort'
+        first:
+          type: boolean
+        numberOfElements:
+          type: integer
+          format: int32
+        last:
+          type: boolean
+        pageable:
+          $ref: '#/components/schemas/Pageable'
+        empty:
+          type: boolean
+    Pageable:
+      type: object
+      properties:
+        offset:
+          type: integer
+          format: int64
+        sort:
+          $ref: '#/components/schemas/Sort'
+        pageSize:
+          type: integer
+          format: int32
+        unpaged:
+          type: boolean
+        paged:
+          type: boolean
+        pageNumber:
+          type: integer
+          format: int32
+    ProblemDetails:
+      required:
+        - title
+        - type
+      type: object
+      properties:
+        type:
+          type: string
+          description: type
+        title:
+          type: string
+          description: title
+        status:
+          type: integer
+          description: status
+          format: int32
+        detail:
+          type: string
+          description: detail
+        instance:
+          type: string
+          description: instance
+        embedded:
+          $ref: '#/components/schemas/SpecificProblemDetails'
+      description: Error response of 4xx and 5xx http statuses.
+    ReferenceDto:
+      required:
+        - endSz
+        - portNumber
+        - portType
+      type: object
+      properties:
+        id:
+          type: integer
+          description: Internal (from database) id of Reference entity
+          format: int64
+        endSz:
+          pattern: '[0-9]{1,6}\/[0-9]{1,6}\/[0-9]{1,6}\/[a-zA-Z0-9]{2,4}'
+          type: string
+          description: Endsz of physical resource
+        slotNumber:
+          type: string
+          description: Slot number of physical resource
+        portNumber:
+          type: string
+          description: Port number of physical resource
+        version:
+          type: integer
+          description: Version of object
+          format: int64
+        portType:
+          $ref: '#/components/schemas/PortType'
+        creationDate:
+          type: string
+          description: Date of reference creation
+          format: date-time
+        modificationDate:
+          type: string
+          description: Date of reference modification
+          format: date-time
+    RelatedParty:
+      type: object
+      properties:
+        id:
+          type: string
+        href:
+          type: string
+        name:
+          type: string
+        role:
+          type: string
+        '@baseType':
+          type: string
+        '@schemaLocation':
+          type: string
+        '@type':
+          type: string
+        '@referredType':
+          type: string
+      description: Related Entity reference. A related party defines party or party role linked to a specific entity.
+    RequestAccessLineStatusDto:
+      type: object
+      properties:
+        accessLineStatus:
+          $ref: '#/components/schemas/AccessLineStatus'
+        subscriberNeProfileState:
+          $ref: '#/components/schemas/ProfileState'
+        subscriberNetworkLineProfileState:
+          $ref: '#/components/schemas/ProfileState'
+    RequestAccessLineViewDto:
+      type: object
+      properties:
+        lineId:
+          pattern: '[A-Z0-9]{3}\.[A-Z0-9]{1,6}\.[A-Z0-9]{1,10}'
+          type: string
+        homeId:
+          pattern: '^[A-Z0-9]{7}$'
+          type: string
+        endSz:
+          pattern: '[0-9]{1,6}\/[0-9]{1,6}\/[0-9]{1,6}\/[a-zA-Z0-9]{2,4}'
+          type: string
+        statuses:
+          uniqueItems: true
+          type: array
+          items:
+            $ref: '#/components/schemas/RequestAccessLineStatusDto'
+        slotNumber:
+          type: string
+        portNumber:
+          type: string
+        productionPlatforms:
+          uniqueItems: true
+          type: array
+          items:
+            $ref: '#/components/schemas/AccessLineProductionPlatform'
+        ontSerialNumber:
+          type: string
+        klsId:
+          type: integer
+          format: int64
+        profileSyncStatus:
+          uniqueItems: true
+          type: array
+          items:
+            $ref: '#/components/schemas/SyncStatus'
+    RequestBackHaulViewDto:
+      type: object
+      properties:
+        backHaulId:
+          pattern: '#bhid-[a-z0-9]{2,10}'
+          type: string
+        endSz:
+          pattern: '[0-9]{1,6}\/[0-9]{1,6}\/[0-9]{1,6}\/[a-zA-Z0-9]{2,4}'
+          type: string
+        slotNumber:
+          type: string
+        portNumber:
+          type: string
+        statuses:
+          uniqueItems: true
+          type: array
+          items:
+            $ref: '#/components/schemas/BackhaulStatus'
+    RequestHomeIdViewDto:
+      type: object
+      properties:
+        homeId:
+          pattern: '^[A-Z0-9]{7}$'
+          type: string
+        endSz:
+          pattern: '[0-9]{1,6}\/[0-9]{1,6}\/[0-9]{1,6}\/[a-zA-Z0-9]{2,4}'
+          type: string
+        slotNumber:
+          type: string
+        portNumber:
+          type: string
+        statuses:
+          uniqueItems: true
+          type: array
+          items:
+            $ref: '#/components/schemas/HomeIdStatus'
+        logicalStatus:
+          $ref: '#/components/schemas/HomeIdLogicalStatus'
+    ResourceAssociationDto:
+      type: object
+      properties:
+        id:
+          type: integer
+          description: Internal (from database) id of ResourceAssociation entity
+          format: int64
+        version:
+          type: integer
+          description: Version of object
+          format: int64
+        partyId:
+          type: integer
+          description: Party Id value
+          format: int64
+        resourceId:
+          type: string
+          description: Unique resource ID (GUID)
+        creationDate:
+          type: string
+          description: Date of resource association creation
+          format: date-time
+        modificationDate:
+          type: string
+          description: Date of resource association modification
+          format: date-time
+    SearchAccessLineDto:
+      type: object
+      minProperties: 1
+      properties:
+        id:
+          type: integer
+          description: Criteria for search Access Line by internal id
+          format: int64
+        endSz:
+          pattern: '[0-9]{1,6}\/[0-9]{1,6}\/[0-9]{1,6}\/[a-zA-Z0-9]{2,4}'
+          type: string
+          description: Criteria for search Access Line by endsz
+        referenceType:
+          $ref: '#/components/schemas/ReferenceType'
+        slotNumber:
+          type: string
+          description: Criteria for search Access Line by slot number
+        portNumber:
+          type: string
+          description: Criteria for search Access Line by port number
+        lineId:
+          type: string
+          description: Criteria for search Access Line by line id
+        homeId:
+          type: string
+          description: Criteria for search Access Line by home id
+        status:
+          $ref: '#/components/schemas/AccessLineStatus'
+        technology:
+          $ref: '#/components/schemas/AccessLineTechnology'
+        ontSerialNumber:
+          type: string
+          description: |-
+            Criteria for search Access Line by ont serial number. Search serial number in:
+            1. subscriber NE profiles if production platform is not specified or production platform is OLT_BNG.
+            2. network service profile reference if production platform is A4
+        tpRef:
+          type: string
+          description: Criteria for search Access Line by TP ref in NSP
+        productionPlatform:
+          $ref: '#/components/schemas/AccessLineProductionPlatform'
+        subscriberNeStates:
+          uniqueItems: true
+          type: array
+          description: Criteria for search Access Line by subscriber NE profile state
+          items:
+            $ref: '#/components/schemas/ProfileState'
+    SearchAccessLineStatisticDto:
+      required:
+        - endSz
+      type: object
+      properties:
+        endSz:
+          pattern: '[0-9]{1,6}\/[0-9]{1,6}\/[0-9]{1,6}\/[a-zA-Z0-9]{2,4}'
+          type: string
+          description: Criteria for search access lines statistics by EndSz
+        slotNumber:
+          type: string
+          description: Criteria for search access lines statistics by Slot number
+        portNumber:
+          type: string
+          description: criteria for search access lines statistics by Port number
+    SearchAllocatedAnpTagDto:
+      required:
+        - endSz
+      type: object
+      properties:
+        endSz:
+          pattern: '[0-9]{1,6}\/[0-9]{1,6}\/[0-9]{1,6}\/[a-zA-Z0-9]{2,4}'
+          type: string
+          description: Criteria for search AllocatedAnpTags by endsz
+    SearchAllocatedOnuIdDto:
+      required:
+        - oltEndSz
+        - portNumber
+      type: object
+      properties:
+        oltEndSz:
+          pattern: '[0-9]{1,6}\/[0-9]{1,6}\/[0-9]{1,6}\/[a-zA-Z0-9]{2,4}'
+          type: string
+          description: Criteria for search onu id by endsz of olt device
+        slotNumber:
+          type: string
+          description: Criteria for search onu id by slot number of olt device
+        portNumber:
+          type: string
+          description: Criteria for search onu id by port number of olt device
+        dpuEndSz:
+          pattern: '[0-9]{1,6}\/[0-9]{1,6}\/[0-9]{1,6}\/[a-zA-Z0-9]{2,4}'
+          type: string
+          description: Criteria for search onu id by endsz of dpu device
+        onuId:
+          type: integer
+          description: Criteria for search onu id by onu Id
+          format: int32
+        lineId:
+          pattern: '[A-Z0-9]{3}\.[A-Z0-9]{1,6}\.[A-Z0-9]{1,10}'
+          type: string
+          description: Criteria for search onu id by line id of assigned access line
+    SearchBackhaulIdDto:
+      type: object
+      minProperties: 1
+      properties:
+        endSz:
+          pattern: '[0-9]{1,6}\/[0-9]{1,6}\/[0-9]{1,6}\/[a-zA-Z0-9]{2,4}'
+          type: string
+          description: Criteria for search backhaul id by endsz
+        slotNumber:
+          type: string
+          description: Criteria for search backhaul id by slot number
+        portNumber:
+          type: string
+          description: Criteria for search backhaul id by port number
+        status:
+          $ref: '#/components/schemas/BackhaulStatus'
+        id:
+          type: integer
+          description: Criteria for search backhaul id by internal id
+          format: int64
+        backhaulId:
+          pattern: '#bhid-[a-z0-9]{2,10}'
+          type: string
+          description: Criteria for search backhaul id by backhaulId
+    SearchHomeIdDto:
+      type: object
+      minProperties: 1
+      properties:
+        endSz:
+          pattern: '[0-9]{1,6}\/[0-9]{1,6}\/[0-9]{1,6}\/[a-zA-Z0-9]{2,4}'
+          type: string
+          description: Criteria for search home id by endsz
+        slotNumber:
+          type: string
+          description: Criteria for search home id by slot number
+        portNumber:
+          type: string
+          description: Criteria for search home id by port number
+        id:
+          type: integer
+          description: Criteria for search home id by internal id
+          format: int64
+        homeId:
+          pattern: '^[A-Z0-9]{7}$'
+          type: string
+          description: Criteria for search home id by homeId
+        status:
+          $ref: '#/components/schemas/HomeIdStatus'
+    SearchLineIdDto:
+      type: object
+      minProperties: 1
+      properties:
+        endSz:
+          pattern: '[0-9]{1,6}\/[0-9]{1,6}\/[0-9]{1,6}\/[a-zA-Z0-9]{2,4}'
+          type: string
+          description: Criteria for search line id by endsz
+        slotNumber:
+          type: string
+          description: Criteria for search line id by slot number
+        portNumber:
+          type: string
+          description: Criteria for search line id by port number
+        id:
+          type: integer
+          description: Criteria for search line id by internal id
+          format: int64
+        lineId:
+          pattern: '[A-Z0-9]{3}\.[A-Z0-9]{1,6}\.[A-Z0-9]{1,10}'
+          type: string
+          description: Criteria for search line id by lineId
+        status:
+          $ref: '#/components/schemas/LineIdStatus'
+    SearchPhysicalResourceReferenceDto:
+      required:
+        - endSz
+      type: object
+      properties:
+        endSz:
+          pattern: '[0-9]{1,6}\/[0-9]{1,6}\/[0-9]{1,6}\/[a-zA-Z0-9]{2,4}'
+          type: string
+          description: Criteria for search physical resource references by endsz
+        slotNumber:
+          type: string
+          description: Criteria for search physical resource references by slot number
+        portNumber:
+          type: string
+          description: Criteria for search physical resource references by port number
+        portType:
+          $ref: '#/components/schemas/PortType'
+    SingleBackhaulId:
+      type: object
+      properties:
+        backhaulId:
+          type: string
+          description: Generated new BackhaulId
+      description: Generated BackhaulId
+    Sort:
+      type: object
+      properties:
+        sorted:
+          type: boolean
+        unsorted:
+          type: boolean
+        empty:
+          type: boolean
+    SpecificProblemDetails:
+      required:
+        - code
+        - reason
+      type: object
+      properties:
+        code:
+          type: string
+          description: code
+        reason:
+          type: string
+          description: reason
+        message:
+          type: string
+          description: message
+        status:
+          type: integer
+          description: status
+          format: int32
+      description: Specific problem details(including fehlerbuildnummer code).
+    SubscriberNeProfileDto:
+      type: object
+      properties:
+        id:
+          type: integer
+          description: Internal (from database) id of SubscriberNeProfile entity
+          format: int64
+        profileName:
+          type: string
+          description: Name of profile
+        state:
+          $ref: '#/components/schemas/ProfileState'
+        ontSerialNumber:
+          pattern: '^[A-F0-9]{16}$|^DEFAULT$'
+          type: string
+          description: ONT serial number of SubscriberNeProfile
+        version:
+          type: integer
+          description: Version of object
+          format: int64
+        ontState:
+          $ref: '#/components/schemas/OntState'
+        syncStatus:
+          $ref: '#/components/schemas/SyncStatus'
+        creationDate:
+          type: string
+          description: Date of subscriber NE profile creation
+          format: date-time
+        modificationDate:
+          type: string
+          description: Date of subscriber NE profile modification
+          format: date-time
+    SubscriberNetworkLineProfileDto:
+      type: object
+      properties:
+        id:
+          type: integer
+          description: Internal (from database) id of SubscriberNetworkLineProfile entity
+          format: int64
+        authMethod:
+          maximum: 1
+          minimum: 0
+          type: integer
+          description: Authentication method of SubscriberNetworkLineProfile
+          format: int32
+        klsId:
+          maximum: 999999999999
+          minimum: 0
+          type: integer
+          description: KlsId of SubscriberNetworkLineProfile
+          format: int64
+        minDownBandwidth:
+          minimum: 0
+          type: integer
+          description: Minimum down bandwidth of SubscriberNetworkLineProfile
+          format: int32
+        minUpBandwidth:
+          minimum: 0
+          type: integer
+          description: Minimum up bandwidth of SubscriberNetworkLineProfile
+          format: int32
+        guaranteedDownBandwidth:
+          minimum: 0
+          type: integer
+          description: Guaranteed down bandwidth of SubscriberNetworkLineProfile
+          format: int32
+        guaranteedUpBandwidth:
+          minimum: 0
+          type: integer
+          description: Guaranteed up bandwidth of SubscriberNetworkLineProfile
+          format: int32
+        maxDownBandwidth:
+          minimum: 0
+          type: integer
+          description: Maximum down bandwidth of SubscriberNetworkLineProfile
+          format: int32
+        maxUpBandwidth:
+          minimum: 0
+          type: integer
+          description: Maximum up bandwidth of SubscriberNetworkLineProfile
+          format: int32
+        downBandwidth:
+          minimum: 0
+          type: integer
+          description: Down bandwidth of SubscriberNetworkLineProfile
+          format: int32
+        upBandwidth:
+          minimum: 0
+          type: integer
+          description: Up bandwidth of SubscriberNetworkLineProfile
+          format: int32
+        state:
+          $ref: '#/components/schemas/ProfileState'
+        federationPartner:
+          maxLength: 32
+          minLength: 0
+          type: string
+          description: Federation partner of SubscriberNetworkLineProfile
+        providerId:
+          pattern: '^[0-9]{1,4}$'
+          type: string
+          description: provider id of SubscriberNetworkLineProfile
+        substitutionDomain:
+          maxLength: 32
+          minLength: 0
+          pattern: '^([a-z0-9_\-.]){1,32}$'
+          type: string
+          description: Substitution domain of SubscriberNetworkLineProfile
+        l2ccid:
+          maxLength: 32
+          minLength: 0
+          pattern: '^([a-z0-9_\-.]){1,32}$'
+          type: string
+          description: 12 ccid of SubscriberNetworkLineProfile
+        version:
+          type: integer
+          description: Version of object
+          format: int64
+        syncStatus:
+          $ref: '#/components/schemas/SyncStatus'
+        creationDate:
+          type: string
+          description: Date of subscriber network line profile creation
+          format: date-time
+        modificationDate:
+          type: string
+          description: Date of subscriber network line profile modification
+          format: date-time
+    AccessLineStatus:
+      type: string
+      description: 'Status of Access Line (inactive, walled Garden or assigned)'
+      enum:
+        - INACTIVE
+        - WALLED_GARDEN
+        - ASSIGNED
+    AccessLineTechnology:
+      type: string
+      description: Technology of Access Line entity
+      enum:
+        - GFAST
+        - GPON
+    AccessLineProductionPlatform:
+      type: string
+      description: Production platform
+      enum:
+        - OLT_BNG
+        - A4
+        - WHOLEBUY
+    HomeIdStatus:
+      type: string
+      description: Status of home id
+      enum:
+        - FREE
+        - RESERVED
+        - ASSIGNED
+    ProfileState:
+      type: string
+      description: 'State of Profile (inactive, active)'
+      enum:
+        - INACTIVE
+        - ACTIVE
+    BackhaulStatus:
+      type: string
+      description: Status of BackHaul (configured or not configured)
+      enum:
+        - CONFIGURED
+        - NOT_CONFIGURED
+    SyncStatus:
+      type: string
+      description: Profile sync status
+      enum:
+        - OUT_OF_SYNC
+        - SYNC_IN_PROGRESS
+        - SYNC_FAILED
+    LineIdStatus:
+      type: string
+      description: Status of line id (free or used)
+      enum:
+        - FREE
+        - USED
+    HomeIdLogicalStatus:
+      type: string
+      description: Logical status of home id
+      enum:
+        - FREE
+        - OCCUPIED
+    PortType:
+      type: string
+      description: Type of port
+      enum:
+        - PON
+        - GFAST
+        - ETHERNET
+        - GPON
+    SortingOrder:
+      type: string
+      description: Sortoin order
+      default: ASC
+      enum:
+        - ASC
+        - DESC
+    AccessLineSortingField:
+      type: string
+      description: Access line sorting field
+      enum:
+        - END_SZ
+        - SLOT_NUMBER
+        - PORT_NUMBER
+        - LINE_ID
+        - HOME_ID
+        - PRODUCTION_PLATFORM
+        - ACCESS_LINE_STATUS
+    BackhaulSortingField:
+      type: string
+      description: Backhaul sorting field
+      enum:
+        - END_SZ
+        - SLOT_NUMBER
+        - PORT_NUMBER
+        - BACK_HAUL_ID
+        - PARTY_ID
+        - BACK_HAUL_STATUS
+    HomeIdSortingField:
+      type: string
+      description: HomeId sorting field
+      enum:
+        - END_SZ
+        - SLOT_NUMBER
+        - PORT_NUMBER
+        - HOME_ID
+        - PARTY_ID
+        - STATUS
+        - ACCESS_LINE_COUNT
+    ReferenceType:
+      type: string
+      description: Type of reference when searching by endSz
+      enum:
+        - OLT
+        - DPU
+        - UPLINK
+    OntState:
+      type: string
+      description: 'State of ONT (offline, online, unknown)'
+      enum:
+        - OFFLINE
+        - ONLINE
+        - UNKNOWN
+    HomeIdPageRequest:
+      type: object
+      properties:
+        page:
+          type: integer
+          default: 0
+          format: int32
+        pageSize:
+          type: integer
+          default: 32
+          minimum: 1
+          maximum: 1000
+          format: int32
+        direction:
+          $ref: '#/components/schemas/SortingOrder'
+        sortField:
+          $ref: '#/components/schemas/HomeIdSortingField'
+    BackhaulIdPageRequest:
+      type: object
+      properties:
+        page:
+          type: integer
+          default: 0
+          format: int32
+        pageSize:
+          type: integer
+          default: 32
+          minimum: 1
+          maximum: 1000
+          format: int32
+        direction:
+          $ref: '#/components/schemas/SortingOrder'
+        sortField:
+          $ref: '#/components/schemas/BackhaulSortingField'
+    AccessLinePageRequest:
+      type: object
+      properties:
+        page:
+          type: integer
+          default: 0
+          format: int32
+        pageSize:
+          type: integer
+          default: 32
+          minimum: 1
+          maximum: 1000
+          format: int32
+        direction:
+          $ref: '#/components/schemas/SortingOrder'
+        sortField:
+          $ref: '#/components/schemas/AccessLineSortingField'
+    RequestAssuranceAccessLineV4Dto:
+      type: object
+      properties:
+        endSz:
+          pattern: '[0-9]{1,6}\/[0-9]{1,6}\/[0-9]{1,6}\/[a-zA-Z0-9]{2,4}'
+          type: string
+        lineId:
+          pattern: '[A-Z0-9]{3}\.[A-Z0-9]{1,6}\.[A-Z0-9]{1,10}'
+          type: string
+        ontId:
+          type: integer
+          format: int32
+        ontSerialNumber:
+          type: string
+        portNumber:
+          type: string
+        slotNumber:
+          type: string
+        status:
+          $ref: '#/components/schemas/AccessLineStatus'
+        technology:
+          $ref: '#/components/schemas/AccessLineTechnology'
+    AssuranceAccessLineV4PageRequest:
+      type: object
+      properties:
+        page:
+          type: integer
+          default: 0
+          format: int32
+        pageSize:
+          type: integer
+          default: 1000
+          minimum: 1
+          maximum: 4000
+          format: int32
+        direction:
+          $ref: '#/components/schemas/SortingOrder'
+        sortField:
+          type: string
+          enum:
+            - ID
+    RequestAssuranceAccessLineV5Dto:
+      type: object
+      properties:
+        fields:
+          description: Comma-separated properties to be provided in response
+          type: string
+        homeId:
+          description: For filtering on the base of 'homeId' field (equality)
+          type: string
+        lineId:
+          description: For filtering on the base of 'lineId' field (equality)
+          type: string
+        modificationDate:
+          description: For filtering on the base of 'modificationDate' field (equality)
+          type: string
+          format: date-time
+        modificationDate.gt:
+          description: For filtering on the base of 'modificationDate' field (great than)
+          type: string
+          format: date-time
+        modificationDate.lt:
+          description: For filtering on the base of 'modificationDate' field (less than)
+          type: string
+          format: date-time
+        portReferences.dpuDownlinkPortReference.endSZ:
+          description: For filtering on the base of 'portReferences.dpuDownlinkPortReference.endSZ' field (equality)
+          type: string
+        portReferences.dpuDownlinkPortReference.portName:
+          description: For filtering on the base of 'portReferences.dpuDownlinkPortReference.portName' field (equality)
+          type: string
+        portReferences.oltDownlinkPortReference.endSZ:
+          description: For filtering on the base of 'portReferences.oltDownlinkPortReference.endSZ' field (equality)
+          type: string
+        portReferences.oltDownlinkPortReference.portName:
+          description: For filtering on the base of 'portReferences.oltDownlinkPortReference.portName' field (equality)
+          type: string
+        portReferences.oltDownlinkPortReference.slotName:
+          description: For filtering on the base of 'portReferences.oltDownlinkPortReference.slotName' field (equality)
+          type: string
+        profiles.fttbNeProfile.anpTag:
+          description: For filtering on the base of 'profiles.fttbNeProfile.anpTag' field (equality)
+          type: string
+        profiles.ftthNeProfile.defaultNetworkElementProfile.anpTag:
+          description: For filtering on the base of 'profiles.ftthNeProfile.defaultNetworkElementProfile.anpTag' field (equality)
+          type: string
+        profiles.ftthNeProfile.defaultNetworkElementProfile.onuId:
+          description: For filtering on the base of 'profiles.ftthNeProfile.defaultNetworkElementProfile.onuId' field (equality)
+          type: string
+        profiles.ftthNeProfile.networkServiceProfileFtthAccessReference.nspOntSerialNumber:
+          description: For filtering on the base of 'profiles.ftthNeProfile.networkServiceProfileFtthAccessReference.nspOntSerialNumber' field (equality)
+          type: string
+        profiles.ftthNeProfile.subscriberNetworkElementProfile.ontSerialNumber:
+          description: For filtering on the base of 'profiles.ftthNeProfile.subscriberNetworkElementProfile.ontSerialNumber' field (equality)
+          type: string
