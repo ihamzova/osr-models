@@ -2,31 +2,34 @@
 swagger: "2.0"
 info:
   description: "Backend-For-Frontend for Mobile DPU UI"
-  version: "0.1.0"
+  version: "0.7.0"
   title: "mobile-dpu-bff"
 host: "localhost:8080"
 tags:
-- name: "Mobile-DPU-BFF-DPU-External"
-- name: "Mobile-DPU-BFF-External"
-- name: "Mobile-DPU-BFF-Sec-External"
+  - name: "Mobile-DPU-BFF-DPU-External"
+  - name: "Mobile-DPU-BFF-External"
+  - name: "Mobile-DPU-BFF-Sec-External"
+  - name: "Mobile-DPU-BFF-UI-External"
 schemes:
-- "http"
+  - "http"
 paths:
   /resource-order-resource-inventory/mobiledpubff/v1/acid/{acid}:
     get:
       tags:
-      - "Mobile-DPU-BFF-Sec-External"
+        - "Mobile-DPU-BFF-Sec-External"
       summary: "Returns a-cid mapping."
       description: ""
       operationId: "getAcid"
+      produces:
+        - "application/json"
       parameters:
-      - name: "acid"
-        in: "path"
-        description: "Reference partner ID"
-        required: true
-        type: "string"
-        maxLength: 20
-        minLength: 1
+        - name: "acid"
+          in: "path"
+          description: "Reference partner ID"
+          required: true
+          type: "string"
+          maxLength: 20
+          minLength: 1
       responses:
         200:
           description: "Acid Found."
@@ -36,20 +39,80 @@ paths:
           description: "NotFound."
         500:
           description: "Internal Error."
+  /resource-order-resource-inventory/mobiledpubff/v1/app/permissions:
+    get:
+      tags:
+        - "Mobile-DPU-BFF-Sec-External"
+      summary: "Get permissions for app for provided principal."
+      description: ""
+      operationId: "getAppPermissions"
+      produces:
+        - "application/json"
+      parameters:
+        - name: "apm-principal-token"
+          in: "header"
+          required: true
+          type: "string"
+      responses:
+        200:
+          description: "OK."
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/ApplicationPermission"
+        400:
+          description: "Bad request."
+        500:
+          description: "Internal Error."
+  /resource-order-resource-inventory/mobiledpubff/v1/dpu/commissioning/process/details:
+    get:
+      tags:
+        - "Mobile-DPU-BFF-DPU-External"
+      summary: "Determine a DPUCommissioning process."
+      description: "Determine a DPUCommissioning (not DeComm) process."
+      operationId: "getDpuCommProcessDetails"
+      produces:
+        - "application/json"
+      parameters:
+        - name: "endSZ"
+          in: "query"
+          description: "DPU endSZ"
+          required: true
+          type: "string"
+        - name: "processId"
+          in: "query"
+          description: "Process instance id"
+          required: false
+          type: "string"
+      responses:
+        200:
+          description: "Process determined"
+          schema:
+            $ref: "#/definitions/DpuCommProcessDetailsResponse"
+        400:
+          description: "Bad request"
+        404:
+          description: "NotFound."
+        500:
+          description: "Can't perform operation"
   /resource-order-resource-inventory/mobiledpubff/v1/dpu/commissioning/start:
     post:
       tags:
-      - "Mobile-DPU-BFF-DPU-External"
+        - "Mobile-DPU-BFF-DPU-External"
       summary: "Start Dpu-commissioning."
       description: ""
       operationId: "startDpuCommissioning"
+      consumes:
+        - "application/json"
+      produces:
+        - "application/json"
       parameters:
-      - in: "body"
-        name: "startDpuCommissioningRequest"
-        description: "startDpuCommissioningRequest"
-        required: true
-        schema:
-          $ref: "#/definitions/StartDpuCommissioningRequest"
+        - in: "body"
+          name: "startDpuCommissioningRequest"
+          description: "startDpuCommissioningRequest"
+          required: true
+          schema:
+            $ref: "#/definitions/StartDpuCommissioningRequest"
       responses:
         201:
           description: "Process started"
@@ -62,19 +125,21 @@ paths:
   /resource-order-resource-inventory/mobiledpubff/v1/dpu/fiber/{fiberOnLocationId}:
     get:
       tags:
-      - "Mobile-DPU-BFF-DPU-External"
+        - "Mobile-DPU-BFF-DPU-External"
       summary: "Return a DpuResponse determined by given fiberOnLocationId."
       description: ""
       operationId: "getDpuByFiberOnLocationId"
+      produces:
+        - "application/json"
       parameters:
-      - name: "fiberOnLocationId"
-        in: "path"
-        description: "fiberOnLocationId"
-        required: true
-        type: "string"
-        maxLength: 19
-        minLength: 1
-        pattern: "[0-9]{1,19}"
+        - name: "fiberOnLocationId"
+          in: "path"
+          description: "fiberOnLocationId"
+          required: true
+          type: "string"
+          maxLength: 19
+          minLength: 1
+          pattern: "[0-9]{1,19}"
       responses:
         200:
           description: "Dpu Found."
@@ -87,17 +152,21 @@ paths:
   /resource-order-resource-inventory/mobiledpubff/v1/dpu/operating:
     post:
       tags:
-      - "Mobile-DPU-BFF-DPU-External"
+        - "Mobile-DPU-BFF-DPU-External"
       summary: "Mark the DPU functional as OPERATING."
       description: ""
       operationId: "markDpuAsOperating"
+      consumes:
+        - "application/json"
+      produces:
+        - "application/json"
       parameters:
-      - in: "body"
-        name: "markDpuAsOperatingRequest"
-        description: "markDpuAsOperatingRequest"
-        required: true
-        schema:
-          $ref: "#/definitions/MarkDpuAsOperatingRequest"
+        - in: "body"
+          name: "markDpuAsOperatingRequest"
+          description: "markDpuAsOperatingRequest"
+          required: true
+          schema:
+            $ref: "#/definitions/MarkDpuAsOperatingRequest"
       responses:
         200:
           description: "Dpu Found and Marked As Operational."
@@ -110,17 +179,21 @@ paths:
   /resource-order-resource-inventory/mobiledpubff/v1/dpu/serialNumber/update:
     post:
       tags:
-      - "Mobile-DPU-BFF-DPU-External"
+        - "Mobile-DPU-BFF-DPU-External"
       summary: "Update SerialNumber of DPU."
       description: ""
       operationId: "updateDpuSerialNumber"
+      consumes:
+        - "application/json"
+      produces:
+        - "application/json"
       parameters:
-      - in: "body"
-        name: "updateDpuSerialNumberRequest"
-        description: "updateDpuSerialNumberRequest"
-        required: true
-        schema:
-          $ref: "#/definitions/UpdateDpuSerialNumberRequest"
+        - in: "body"
+          name: "updateDpuSerialNumberRequest"
+          description: "updateDpuSerialNumberRequest"
+          required: true
+          schema:
+            $ref: "#/definitions/UpdateDpuSerialNumberRequest"
       responses:
         200:
           description: "Dpu Found and Updated."
@@ -130,25 +203,81 @@ paths:
           description: "Dpu NotFound."
         500:
           description: "Internal Error."
+  /resource-order-resource-inventory/mobiledpubff/v1/ui/menustructure/{portal}:
+    get:
+      tags:
+        - "Mobile-DPU-BFF-UI-External"
+      summary: "Get menu structure for given portal name."
+      description: ""
+      operationId: "getMenuForPortal"
+      produces:
+        - "application/json"
+      parameters:
+        - name: "portal"
+          in: "path"
+          description: "portal"
+          required: true
+          type: "string"
+        - name: "interpolate"
+          in: "query"
+          description: "interpolate"
+          required: false
+          type: "boolean"
+      responses:
+        200:
+          description: "Top-level menu items, with their children included."
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/MenuItemDTO"
+        500:
+          description: "Internal Error."
+  /resource-order-resource-inventory/mobiledpubff/v1/user/organizationInfo:
+    get:
+      tags:
+        - "Mobile-DPU-BFF-Sec-External"
+      summary: "Return organization info for user."
+      description: ""
+      operationId: "getOrganizationInfo"
+      produces:
+        - "application/json"
+      parameters:
+        - name: "apm-principal-token"
+          in: "header"
+          required: true
+          type: "string"
+      responses:
+        200:
+          description: "Ok."
+          schema:
+            $ref: "#/definitions/OrganizationInfoResponse"
+        404:
+          description: "NotFound."
+        500:
+          description: "Internal Error."
   /resource-order-resource-inventory/mobiledpubff/v1/workorder/{woId}:
     get:
       tags:
-      - "Mobile-DPU-BFF-External"
+        - "Mobile-DPU-BFF-External"
       summary: "Return a WorkorderResponse determined by given Workorder-Id."
       description: ""
       operationId: "getWorkorder"
+      produces:
+        - "application/json"
       parameters:
-      - name: "woId"
-        in: "path"
-        description: "woId"
-        required: true
-        type: "integer"
-        format: "int64"
+        - name: "woId"
+          in: "path"
+          description: "woId"
+          required: true
+          type: "integer"
+          format: "int64"
       responses:
         200:
           description: "Workorder Found."
           schema:
             $ref: "#/definitions/WorkorderResponse"
+        400:
+          description: "Bad request."
         404:
           description: "Workorder NotFound."
         500:
@@ -156,17 +285,19 @@ paths:
   /resource-order-resource-inventory/mobiledpubff/v1/workorder/{woId}/complete:
     post:
       tags:
-      - "Mobile-DPU-BFF-External"
+        - "Mobile-DPU-BFF-External"
       summary: "Completes a workorder for given Workorder-Id and returns WorkorderResponse."
       description: ""
       operationId: "completeWorkorder"
+      produces:
+        - "application/json"
       parameters:
-      - name: "woId"
-        in: "path"
-        description: "woId"
-        required: true
-        type: "integer"
-        format: "int64"
+        - name: "woId"
+          in: "path"
+          description: "woId"
+          required: true
+          type: "integer"
+          format: "int64"
       responses:
         200:
           description: "Workorder Completed."
@@ -179,17 +310,19 @@ paths:
   /resource-order-resource-inventory/mobiledpubff/v1/workorder/{woId}/start:
     post:
       tags:
-      - "Mobile-DPU-BFF-External"
+        - "Mobile-DPU-BFF-External"
       summary: "Starts a workorder for given Workorder-Id and returns WorkorderResponse."
       description: ""
       operationId: "startWorkorder"
+      produces:
+        - "application/json"
       parameters:
-      - name: "woId"
-        in: "path"
-        description: "woId"
-        required: true
-        type: "integer"
-        format: "int64"
+        - name: "woId"
+          in: "path"
+          description: "woId"
+          required: true
+          type: "integer"
+          format: "int64"
       responses:
         200:
           description: "Workorder Started."
@@ -203,8 +336,8 @@ definitions:
   ACidResponse:
     type: "object"
     required:
-    - "brokerHint"
-    - "kcIdpHint"
+      - "brokerHint"
+      - "kcIdpHint"
     properties:
       kcIdpHint:
         type: "string"
@@ -215,12 +348,87 @@ definitions:
         example: "internal"
         description: "Broker Hint enum: [external, internal]."
     description: "ACidResponse"
+  ApplicationPermission:
+    type: "object"
+    required:
+      - "key"
+    properties:
+      resource:
+        type: "string"
+        example: "SERVICE_ORDER"
+        description: "Domain resource that this permissions is applied to."
+      action:
+        type: "string"
+        example: "CREATE"
+        description: "Action invocable on the domain resource that this permissions."
+      key:
+        type: "string"
+        example: "SERVICE_ORDER#CREATE"
+        description: "ApplicationPermission identifier in form RESOURCE#ACTION."
+    description: "ApplicationPermission"
+  DpuCommProcessDetailsResponse:
+    type: "object"
+    required:
+      - "endSZ"
+    properties:
+      processId:
+        type: "string"
+        description: "ProcessId"
+      endSZ:
+        type: "string"
+        example: "49/8571/0/71GA"
+        description: "Endstellenschluesselzahl"
+        pattern: "[0-9]{1,6}\\/[0-9]{1,6}\\/[0-9]{1,6}\\/[a-zA-Z0-9]{2,4}"
+      status:
+        type: "string"
+        description: "DpuCommProcessStatus"
+        enum:
+          - "RUNNING"
+          - "ENDED"
+          - "SUSPENDED"
+          - "ERROR"
+      businessKey:
+        type: "string"
+        description: "BusinessKey of the Process"
+      usecase:
+        type: "string"
+        description: "Usecase"
+      startTime:
+        type: "string"
+        format: "date-time"
+        description: "Process start time"
+      endTime:
+        type: "string"
+        format: "date-time"
+        description: "Process end time"
+      incidentMsg:
+        type: "string"
+        description: "Incident message"
+      tasks:
+        type: "array"
+        description: "List of tasks"
+        items:
+          $ref: "#/definitions/DpuCommProcessTaskType"
+    description: "DpuCommProcessDetailsResponse"
+  DpuCommProcessTaskType:
+    type: "object"
+    properties:
+      taskId:
+        type: "string"
+        description: "Task id"
+      taskName:
+        type: "string"
+        description: "Task name"
+      active:
+        type: "boolean"
+        description: "is task active"
+    description: "DpuCommProcessTaskType"
   DpuResponse:
     type: "object"
     required:
-    - "endSZ"
-    - "fiberOnLocationId"
-    - "lifeCycleState"
+      - "endSZ"
+      - "fiberOnLocationId"
+      - "lifeCycleState"
     properties:
       endSZ:
         type: "string"
@@ -246,16 +454,16 @@ definitions:
         example: "OPERATING"
         description: "lifeCycleState of DPU."
         enum:
-        - "INSTALLING"
-        - "OPERATING"
-        - "RETIRING"
-        - "NOT_OPERATING"
-        - "PLANNING"
+          - "INSTALLING"
+          - "OPERATING"
+          - "RETIRING"
+          - "NOT_OPERATING"
+          - "PLANNING"
     description: "DpuResponse"
   MarkDpuAsOperatingRequest:
     type: "object"
     required:
-    - "endSZ"
+      - "endSZ"
     properties:
       endSZ:
         type: "string"
@@ -266,10 +474,78 @@ definitions:
         type: "boolean"
         description: "DpuUplinkPort OPERATING too. Default : true."
     description: "MarkDpuAsOperatingRequest"
+  MenuItemDTO:
+    type: "object"
+    properties:
+      persisted:
+        type: "boolean"
+      guid:
+        type: "string"
+      version:
+        type: "integer"
+        format: "int32"
+      key:
+        type: "string"
+      name:
+        type: "string"
+      i18n:
+        type: "object"
+        additionalProperties:
+          type: "string"
+      url:
+        type: "string"
+      portalId:
+        type: "string"
+      disabled:
+        type: "boolean"
+      position:
+        type: "integer"
+        format: "int32"
+      children:
+        type: "array"
+        items:
+          $ref: "#/definitions/MenuItemDTO"
+      permissionObject:
+        type: "string"
+      badge:
+        type: "string"
+      scope:
+        type: "string"
+        enum:
+          - "PORTAL"
+          - "APP"
+          - "PAGE"
+      applicationId:
+        type: "string"
+      portalExit:
+        type: "boolean"
+      parentKey:
+        type: "string"
+    description: "MenuItemDTO"
+  OrganizationInfoResponse:
+    type: "object"
+    properties:
+      carrierCode:
+        type: "string"
+        example: "DTAG"
+        description: "Determined Carrier Code."
+      name:
+        type: "string"
+        description: "Name."
+      tradingName:
+        type: "string"
+        description: "TradingName."
+      parentName:
+        type: "string"
+        description: "Parent Name."
+      parentTradingName:
+        type: "string"
+        description: "Parent TradingName."
+    description: "OrganizationInfoResponse"
   StartDpuCommissioningRequest:
     type: "object"
     required:
-    - "endSZ"
+      - "endSZ"
     properties:
       endSZ:
         type: "string"
@@ -280,10 +556,10 @@ definitions:
   StartDpuCommissioningResponse:
     type: "object"
     required:
-    - "businessKey"
-    - "endSZ"
-    - "processId"
-    - "processStatus"
+      - "businessKey"
+      - "endSZ"
+      - "processId"
+      - "processStatus"
     properties:
       processId:
         type: "string"
@@ -297,15 +573,16 @@ definitions:
         type: "string"
         description: "Status of the Process."
         enum:
-        - "RUNNING"
-        - "ERROR"
+          - "RUNNING"
+          - "ERROR"
       businessKey:
         type: "string"
         description: "BusinessKey of the Process."
+    description: "StartDpuCommissioningResponse"
   UpdateDpuSerialNumberRequest:
     type: "object"
     required:
-    - "endSZ"
+      - "endSZ"
     properties:
       endSZ:
         type: "string"
@@ -323,10 +600,10 @@ definitions:
   WorkorderResponse:
     type: "object"
     required:
-    - "folId"
-    - "id"
-    - "status"
-    - "type"
+      - "folId"
+      - "id"
+      - "status"
+      - "type"
     properties:
       id:
         type: "integer"
@@ -338,10 +615,10 @@ definitions:
         example: "CREATED"
         description: "Status of Workorder."
         enum:
-        - "CREATED"
-        - "IN_PROGRESS"
-        - "COMPLETED"
-        - "CANCELED"
+          - "CREATED"
+          - "IN_PROGRESS"
+          - "COMPLETED"
+          - "CANCELED"
       folId:
         type: "string"
         example: "1234567890"
