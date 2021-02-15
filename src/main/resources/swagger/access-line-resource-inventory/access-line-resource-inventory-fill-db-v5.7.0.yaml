@@ -1,0 +1,247 @@
+openapi: 3.0.1
+info:
+  title: Access Line Resource Inventory
+  description: |-
+    ## Access Line Resource Inventory API
+
+    Microservice contains and processes information about access lines, network and line profiles.
+  version: 5.7.0
+servers:
+  - url: http://localhost:8060/
+tags:
+  - name: FillDatabase
+paths:
+  /api/test/v3/fill-access-line-database:
+    delete:
+      tags:
+        - FillDatabase
+      summary: 'Clears database tables content. '
+      description: 'Launches a script that clears all tables. '
+      operationId: deleteDatabase
+      responses:
+        200:
+          description: Database successfully cleared
+          content: {}
+  /api/test/v3/fill-access-line-database/add-fttb-lines:
+    get:
+      tags:
+        - FillDatabase
+      summary: Adds FTTB access lines to olt device. !!SHOULD BE CALLED AFTER OLT-COMMISSIONING
+        EMULATION METHOD!!
+      description: 'Launches a script that fills access lines resource inventory database
+        as a part of OLT commissioning process emulation. Script creates physical
+        resource reference to on given OLT device port, where DPU device should be,
+        line ID pool for this port and 4 FTTB access lines: 2 WALLED GARDEN, 1 INACTIVE
+        without default_network_line_profile and fttb_ne_profile 1 without fttb_ne_profile
+        but with active default_network_line_profile'
+      operationId: addFttbLinesToOltDevice
+      parameters:
+        - name: OLT_END_SZ
+          in: query
+          description: EndSz of OLT device, default values is 49/30/179/76H1
+          schema:
+            pattern: '[0-9]{1,6}\/[0-9]{1,6}\/[0-9]{1,6}\/[a-zA-Z0-9]{2,4}'
+            type: string
+        - name: OLT_SLOT_WITH_DPU
+          in: query
+          description: Number of slot on OLT Device where DPU Device is, default values
+            is 5
+          schema:
+            type: string
+        - name: OLT_PORT_WITH_DPU
+          in: query
+          description: Number of port on OLT Device where DPU Device is, default values
+            is 0
+          schema:
+            type: string
+        - name: DPU_END_SZ
+          in: query
+          description: EndSz of DPU device, default values is 49/30/179/71G0
+          schema:
+            pattern: '[0-9]{1,6}\/[0-9]{1,6}\/[0-9]{1,6}\/[a-zA-Z0-9]{2,4}'
+            type: string
+      responses:
+        200:
+          description: Database successfully initialized
+          content: {}
+  /api/test/v3/fill-access-line-database/adtran-olt:
+    post:
+      tags:
+        - FillDatabase
+      summary: Fills access line resource inventory database with Adtran Olt SDX 6320.
+      description: 'Launches a script that fills access lines resource inventory database
+        with Adtran Olt SDX 6320. Physical resource references have similar endsz,
+        slot, port but different port type.4 ports will be createdEach port has 31
+        ASSIGNED line and 1 WALLED_GARDEN. '
+      operationId: fillDatabaseWithAdtranOlt
+      parameters:
+        - name: END_SZ
+          in: query
+          description: EndSz of Adtran OLT device, default values is 49/911/1100/76H3
+          schema:
+            pattern: '[0-9]{1,6}\/[0-9]{1,6}\/[0-9]{1,6}\/[a-zA-Z0-9]{2,4}'
+            type: string
+        - name: HOME_ID_SEQ
+          in: query
+          description: Start homeId sequence
+          required: true
+          schema:
+            maximum: 500000000
+            minimum: 0
+            type: integer
+            format: int32
+        - name: LINE_ID_SEQ
+          in: query
+          description: Start lineId sequence
+          required: true
+          schema:
+            maximum: 9000000
+            minimum: 0
+            type: integer
+            format: int32
+      responses:
+        202:
+          description: Script successfully started
+          content: {}
+  /api/test/v3/fill-access-line-database/dpu-preprovisioning:
+    get:
+      tags:
+        - FillDatabase
+      summary: Fills access line resource inventory database as a part of DPU commissioning
+        process emulation.
+      description: Launches a script that prepares access lines resource inventory
+        database for DPU preprovisioning process. Script creates physical resource
+        reference of OLT device for port with PDU device, allocated_onu_id for this
+        reference and lineId poll with 32 line Ids
+      operationId: fillDatabaseForDpuPreprovisioning
+      parameters:
+        - name: OLT_END_SZ
+          in: query
+          description: EndSz of OLT device, default values is 49/89/8000/76H2
+          schema:
+            pattern: '[0-9]{1,6}\/[0-9]{1,6}\/[0-9]{1,6}\/[a-zA-Z0-9]{2,4}'
+            type: string
+        - name: OLT_SLOT_WITH_DPU
+          in: query
+          description: Number of slot on OLT Device where DPU Device is, default values
+            is 1
+          schema:
+            type: string
+        - name: OLT_PORT_WITH_DPU
+          in: query
+          description: Number of port on OLT Device where DPU Device is, default values
+            is 0
+          schema:
+            type: string
+        - name: DPU_END_SZ
+          in: query
+          description: EndSz of DPU device, default values is 49/30/179/71G0
+          schema:
+            pattern: '[0-9]{1,6}\/[0-9]{1,6}\/[0-9]{1,6}\/[a-zA-Z0-9]{2,4}'
+            type: string
+      responses:
+        200:
+          description: Database successfully initialized
+          content: {}
+  /api/test/v3/fill-access-line-database/olt-commissioning:
+    get:
+      tags:
+        - FillDatabase
+      summary: Fills access line resource inventory database as a part of OLT commissioning
+        process emulation.
+      description: 'Launches a script that fills access lines resource inventory database
+        as a part of OLT commissioning process emulation. The first three ports have
+        32 access lines. Each card has 8 ports for OLT device. '
+      operationId: fillDatabaseForOltCommissioning
+      parameters:
+        - name: KLS_ID
+          in: query
+          description: Id of the location of device, default values is 14653
+          schema:
+            pattern: '[0-9]{1,12}'
+            type: string
+        - name: END_SZ
+          in: query
+          description: EndSz of OLT device, default values is 49/30/179/76H1
+          schema:
+            pattern: '[0-9]{1,6}\/[0-9]{1,6}\/[0-9]{1,6}\/[a-zA-Z0-9]{2,4}'
+            type: string
+        - name: SLOT_NUMBER1
+          in: query
+          description: SlotNumber of Device where this card is, default values is 3
+          schema:
+            type: string
+        - name: SLOT_NUMBER2
+          in: query
+          description: SlotNumber of Device where this card is, default values is 4
+          schema:
+            type: string
+        - name: SLOT_NUMBER3
+          in: query
+          description: SlotNumber of Device where this card is, default values is 5
+          schema:
+            type: string
+      responses:
+        200:
+          description: Database successfully initialized
+          content: {}
+  /api/test/v3/fill-access-line-database/performance-test:
+    post:
+      tags:
+        - FillDatabase
+      summary: Fills access line resource inventory database with a huge OLTs.
+      description: Launches a script that fills access lines resource inventory database
+        with a huge OLTs. Each OLT has cards from 1 to 7 with 16 ports with 32 access
+        lines. Each port has 31 ASSIGNED line and 1 WALLED_GARDEN. OLT names generated
+        from prefix and character from range [0-9A-Z]. Choose initial home ID and
+        line ID sequence values to avoid duplicated line IDs and home IDs.
+      operationId: fillDatabaseForPerformanceTest
+      parameters:
+        - name: END_SZ
+          in: query
+          description: EndSz prefix of OLT devices, default values is 49/78/179/76H
+          schema:
+            pattern: '[0-9]{1,6}\/[0-9]{1,6}\/[0-9]{1,6}\/[a-zA-Z0-9]{2,4}'
+            type: string
+        - name: COUNT
+          in: query
+          description: Number of created devices
+          required: true
+          schema:
+            maximum: 36
+            minimum: 1
+            type: integer
+            format: int32
+        - name: HOME_ID_SEQ
+          in: query
+          description: Start homeId sequence
+          required: true
+          schema:
+            maximum: 500000000
+            minimum: 0
+            type: integer
+            format: int32
+        - name: LINE_ID_SEQ
+          in: query
+          description: Start lineId sequence
+          required: true
+          schema:
+            maximum: 9000000
+            minimum: 0
+            type: integer
+            format: int32
+      responses:
+        202:
+          description: Script successfully started
+          content: {}
+  /api/test/v3/fill-access-line-database/truncateDatabase:
+    delete:
+      tags:
+        - FillDatabase
+      summary: 'Truncates database tables content. '
+      description: 'Database successfully truncated. '
+      operationId: truncateDatabase
+      responses:
+        200:
+          description: Database truncate script successfully started
+          content: {}
