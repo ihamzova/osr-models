@@ -10,7 +10,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>osr-models</artifactId>
-    <version>0.0.72</version>
+    <version>0.0.73</version>
 
     <properties>
         <framework.version>${project.parent.version}</framework.version>
@@ -482,6 +482,7 @@
                     <generateApiTests>false</generateApiTests>
                     <generateModelTests>false</generateModelTests>
                     <library>rest-assured</library>
+                    <skipValidateSpec>true</skipValidateSpec>
                     <configOptions>
                         <dateLibrary>java8</dateLibrary>
                     </configOptions>
@@ -543,6 +544,18 @@
                                         <name>access.line.resource.inventory.v5_8_0.client</name>
                                         <inputSpec>
                                             ${project.basedir}/src/main/resources/swagger/access-line-resource-inventory/access-line-resource-inventory-v5.8.0.yaml
+                                        </inputSpec>
+                                    </item>
+                                    <item>
+                                        <name>access.line.resource.inventory.fill.db.v5_7_0.client</name>
+                                        <inputSpec>
+                                            ${project.basedir}/src/main/resources/swagger/access-line-resource-inventory/access-line-resource-inventory-fill-db-v5.7.0.yaml
+                                        </inputSpec>
+                                    </item>
+                                    <item>
+                                        <name>wg.access.provisioning.v1_6_0.client</name>
+                                        <inputSpec>
+                                            ${project.basedir}/src/main/resources/swagger/wg-access-provisioning/wg-access-provisioning-v1.6.0.yaml
                                         </inputSpec>
                                     </item>
                                 </items>
