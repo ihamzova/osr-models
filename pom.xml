@@ -10,7 +10,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>osr-models</artifactId>
-    <version>0.0.73</version>
+    <version>0.0.74</version>
 
     <properties>
         <framework.version>${project.parent.version}</framework.version>
@@ -556,6 +556,12 @@
                                         <name>wg.access.provisioning.v1_6_0.client</name>
                                         <inputSpec>
                                             ${project.basedir}/src/main/resources/swagger/wg-access-provisioning/wg-access-provisioning-v1.6.0.yaml
+                                        </inputSpec>
+                                    </item>
+                                    <item>
+                                        <name>wg.fttb.access.provisioning.v1_2_0.client</name>
+                                        <inputSpec>
+                                            ${project.basedir}/src/main/resources/swagger/wg-fttb-access-provisioning/wg-fttb-access-provisioning-v1.2.0.yaml
                                         </inputSpec>
                                     </item>
                                 </items>
