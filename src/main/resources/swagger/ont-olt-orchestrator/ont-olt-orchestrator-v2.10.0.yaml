@@ -1,0 +1,1122 @@
+openapi: 3.0.2
+info:
+  title: ONT-OLT-Orchestrator
+  description: ONT-OLT-Orchestrator API
+  version: 2.10.0
+servers:
+  - url: 'http://localhost'
+tags:
+  - name: OntOltOrchestratorSyncV2
+  - name: OntOltOrchestratorV2
+  - name: callbackV2
+paths:
+  '/resource-order-resource-inventory/v2/accessLine':
+    post:
+      operationId: searchLineInformation
+      tags:
+        - OntOltOrchestratorSyncV2
+      summary: Searches Access Line information by criteria
+      description: "Searches the access lines by received criteria. Returns the list of lineIds of found lines."
+      security:
+        - OAuth2:
+            - 'giga:cga:all-area-access'
+            - 'rori:searchLineInformation:read'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SearchAccessLineInformationDto'
+      responses:
+        200:
+          description: "Successfully get"
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/AccessLineInformationDto'
+        400:
+          description: "Can't perform operation"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+        500:
+          description: "Internal error"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+  '/resource-order-resource-inventory/v2/commissioning/lineId':
+    post:
+      operationId: reserveAccessLineWithHomeIdV2
+      tags:
+        - OntOltOrchestratorV2
+      summary: Reserving new access line by port or homeId
+      description: "Checking port type received in request with port type of physical\
+        \ resource in database.\nIf match - starting reservation process. If not match\
+        \ - sending error callback.\nIf port type is not present in request - getting\
+        \ it from database\nFTTH case:\n Reserving new access line by changing status\
+        \ to assign. Try to find free access line\n with defined homeId. If there\
+        \ is not such AL, starts post provisioning process in wg-access-provisioning.\n\
+        \ Change status of line to \"Assigned\". Return object with reserved line\
+        \ id and home id.\n FTTB case:\n Reserving new access line by changing status\
+        \ to assign. Try to find free access line by homeId.\n If found - checks port\
+        \ ref, Saves this line in status ASSIGNED.\n If not found - try to find free\
+        \ access line by port ref.\n Sets homeId and saves this line in status ASSIGNED."
+      security:
+        - OAuth2:
+            - 'giga:cga:all-area-access'
+            - 'rori:reserveAccessLineWithHomeIdV2t:write'
+      parameters:
+        - $ref: '#/components/parameters/X-Callback-Correlation-Id'
+        - $ref: '#/components/parameters/X-Callback-Url'
+        - $ref: '#/components/parameters/X-Callback-Method'
+        - $ref: '#/components/parameters/X-Callback-Id'
+        - $ref: '#/components/parameters/X-Callback-Error-Url'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PortAndHomeIdDto'
+      responses:
+        202:
+          description: "Reserve request is accepted"
+        400:
+          description: "Bad Request (Sync Response on POST Request)"
+      x-async-responses:
+        callback: callbackReserveAccessLineV2
+      callbacks:
+        errorCallback:
+          $ref: '#/components/callbacks/ErrorCallback'
+        callbackReserveAccessLineV2:
+          '{$request.header.X-Callback-Url}':
+            post:
+              summary: Reserves line callback
+              description: "Sends to a consumer a notification with line id of reserved line."
+              security:
+                - OAuth2:
+                    - 'giga:callback:full'
+                    - 'giga:cga:all-area-access'
+              parameters:
+                - $ref: '#/components/parameters/X-Callback-Correlation-Id'
+              requestBody:
+                description: "Sends to a consumer a notification with line id of reserved line."
+                content:
+                  application/json:
+                    schema:
+                      $ref: '#/components/schemas/OperationResultLineIdDto'
+                required: true
+              responses:
+                200:
+                  description: "line id is processed."
+                400:
+                  description: "Bad request"
+  '/resource-order-resource-inventory/v2/commissioning/ont/':
+    post:
+      operationId: createOntResourceV2
+      tags:
+        - OntOltOrchestratorV2
+      summary: Registers ONT
+      description: "Sends request to create ONT resource."
+      security:
+        - OAuth2:
+            - 'giga:cga:all-area-access'
+            - 'rori:createOntResourceV2:write'
+      parameters:
+        - $ref: '#/components/parameters/X-Callback-Correlation-Id'
+        - $ref: '#/components/parameters/X-Callback-Url'
+        - $ref: '#/components/parameters/X-Callback-Method'
+        - $ref: '#/components/parameters/X-Callback-Id'
+        - $ref: '#/components/parameters/X-Callback-Error-Url'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/OntResourceV2Dto'
+      responses:
+        202:
+          description: "Create Ont Resource request is accepted"
+        400:
+          description: "Bad Request (Sync Response on POST Request)"
+      x-async-responses:
+        callback: callbackCreateOntResourceV2
+      callbacks:
+        errorCallback:
+          $ref: '#/components/callbacks/ErrorCallback'
+        callbackCreateOntResourceV2:
+          '{$request.header.X-Callback-Url}':
+            post:
+              summary: ONT registration callback
+              description: "Sends to a consumer a notification with result of ONT registration."
+              security:
+                - OAuth2:
+                    - 'giga:callback:full'
+                    - 'giga:cga:all-area-access'
+              parameters:
+                - $ref: '#/components/parameters/X-Callback-Correlation-Id'
+              requestBody:
+                description: "ONT Creation Result"
+                content:
+                  application/json:
+                    schema:
+                      $ref: '#/components/schemas/OperationResultLineIdSerialNumberDto'
+                required: true
+              responses:
+                200:
+                  description: "Ont Resource creation is processed"
+                400:
+                  description: "Bad request"
+    patch:
+      operationId: updateOntResourceV2
+      tags:
+        - OntOltOrchestratorSyncV2
+      summary: Updates ONT state and associates access line with homeId
+      description: "Updates ONT state and associates access line with homeId."
+      security:
+        - OAuth2:
+            - 'giga:cga:all-area-access'
+            - 'rori:updateOntResourceV2:write'
+      parameters:
+        - in: query
+          name: lineId
+          description: "LineId"
+          required: true
+          schema:
+            type: string
+            pattern: '[A-Z0-9]{3}\.[A-Z0-9]{1,6}\.[A-Z0-9]{1,10}'
+        - in: query
+          name: ontStateResult
+          description: "Connectivity Test Result"
+          required: true
+          schema:
+            type: string
+        - in: query
+          name: homeId
+          description: "Home Id"
+          required: false
+          schema:
+            type: string
+            pattern: '^[A-Z0-9]{7}$'
+      responses:
+        200:
+          description: "Access line is updated"
+        400:
+          description: "Bad request"
+        404:
+          description: "Access line is not presented in database or ONT is not configured yet"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+        500:
+          description: "Can't perform operation"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+  '/resource-order-resource-inventory/v2/commissioning/ont/{lineId}':
+    put:
+      operationId: changeOntSerialNumberV2
+      tags:
+        - OntOltOrchestratorV2
+      summary: Changes ONT serial number
+      description: "Sends request to change ONT serial number."
+      security:
+        - OAuth2:
+            - 'giga:cga:all-area-access'
+            - 'rori:changeOntSerialNumberV2:write'
+      parameters:
+        - $ref: '#/components/parameters/X-Callback-Correlation-Id'
+        - $ref: '#/components/parameters/X-Callback-Url'
+        - $ref: '#/components/parameters/X-Callback-Method'
+        - $ref: '#/components/parameters/X-Callback-Id'
+        - $ref: '#/components/parameters/X-Callback-Error-Url'
+        - in: path
+          name: lineId
+          description: "LineId"
+          required: true
+          schema:
+            type: string
+        - in: query
+          name: newSerialNumber
+          description: "ONT new Serial Number"
+          required: true
+          schema:
+            type: string
+      responses:
+        202:
+          description: "Ont serial number change request is accepted"
+        400:
+          description: "Bad Request (Sync Response on POST Request)"
+      x-async-responses:
+        callback: callbackOntChangeV2
+      callbacks:
+        errorCallback:
+          $ref: '#/components/callbacks/ErrorCallback'
+        callbackChangeOntV2:
+          '{$request.header.X-Callback-Url}':
+            post:
+              summary: ONT change callback
+              description: "Sends to a consumer a notification with result of ONT change."
+              security:
+                - OAuth2:
+                    - 'giga:callback:full'
+                    - 'giga:cga:all-area-access'
+              parameters:
+                - $ref: '#/components/parameters/X-Callback-Correlation-Id'
+              requestBody:
+                description: "ONT Change Result"
+                content:
+                  application/json:
+                    schema:
+                      $ref: '#/components/schemas/OperationResultLineIdNewSerialNumberDto'
+                required: true
+              responses:
+                200:
+                  description: "Ont Resource change is processed"
+                400:
+                  description: "Bad request"
+  '/resource-order-resource-inventory/v2/commissioning/ont/{lineId}/connectivity':
+    post:
+      operationId: testOntResourceV2
+      tags:
+        - OntOltOrchestratorV2
+      summary: Tests ONT state
+      description: "Sends request to test ONT state."
+      security:
+        - OAuth2:
+            - 'giga:cga:all-area-access'
+            - 'rori:testOntResourceV2:read'
+      parameters:
+        - $ref: '#/components/parameters/X-Callback-Correlation-Id'
+        - $ref: '#/components/parameters/X-Callback-Url'
+        - $ref: '#/components/parameters/X-Callback-Method'
+        - $ref: '#/components/parameters/X-Callback-Id'
+        - $ref: '#/components/parameters/X-Callback-Error-Url'
+        - in: path
+          name: lineId
+          description: "LineId"
+          required: true
+          schema:
+            type: string
+      responses:
+        202:
+          description: "Test Ont Resource request is accepted"
+        400:
+          description: "Bad Request (Sync Response on POST Request)"
+      x-async-responses:
+        callback: callbackTestOntResourceV2
+      callbacks:
+        errorCallback:
+          $ref: '#/components/callbacks/ErrorCallback'
+        callbackTestOntResourceV2:
+          '{$request.header.X-Callback-Url}':
+            post:
+              summary: Tests ONT state callback
+              description: "Sends to a consumer a notification with result of ONT test state."
+              security:
+                - OAuth2:
+                    - 'giga:callback:full'
+                    - 'giga:cga:all-area-access'
+              parameters:
+                - $ref: '#/components/parameters/X-Callback-Correlation-Id'
+              requestBody:
+                description: "ONT Test State Result"
+                content:
+                  application/json:
+                    schema:
+                      $ref: '#/components/schemas/OperationResultOntTestDto'
+                required: true
+              responses:
+                200:
+                  description: "Tests ont callback"
+                400:
+                  description: "Bad request"
+  '/resource-order-resource-inventory/v2/commissioning/ont/{lineId}/state':
+    get:
+      operationId: getOntStateV2
+      tags:
+        - OntOltOrchestratorSyncV2
+      summary: Gets ONT state
+      description: "Gets ONT state."
+      security:
+        - OAuth2:
+          - 'giga:cga:all-area-access'
+          - 'rori:getOntStateV2:read'
+      parameters:
+      - in: path
+        name: lineId
+        description: "LineId"
+        required: true
+        schema:
+          type: string
+          pattern: '[A-Z0-9]{3}\.[A-Z0-9]{1,6}\.[A-Z0-9]{1,10}'
+      responses:
+        200:
+          description: "Ont state if configuration found"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OntStateDto'
+        400:
+          description: "Bad request"
+        404:
+          description: "Access line not found or ONT is not configured yet"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+        500:
+          description: "Can't perform operation"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+  '/resource-order-resource-inventory/v2/networkElementProfile':
+      delete:
+        operationId: decommissioningNetworkElementProfile
+        tags:
+          - OntOltOrchestratorV2
+        summary: Decommissions Network Element Profile in Kuendigung case
+        description: "Decommissions NE Profile.\nChecks the production platform of the\
+                \ access line.\n * If OLT@BNG: Change serial number in SEAL to default. Delete\
+                \ subscriber NE profile and change status of AL to WG or Assign. Also start\
+                \ deprovisioning process in wg-access-provisioning MS for AL if there are\
+                \ more then 32 AL on port and more or equals two AL with the same homeId.\n\
+                \ * If A4.0: Decommissions NspRef. Change serial number in A4.0 RI and NEMO\
+                \ to empty.\n\n Change status of AL to WG or Assigned."
+        security:
+          - OAuth2:
+              - 'giga:cga:all-area-access'
+              - 'rori:decommissioningNetworkElementProfile:write'
+        parameters:
+          - $ref: '#/components/parameters/X-Callback-Correlation-Id'
+          - $ref: '#/components/parameters/X-Callback-Url'
+          - $ref: '#/components/parameters/X-Callback-Method'
+          - $ref: '#/components/parameters/X-Callback-Id'
+          - $ref: '#/components/parameters/X-Callback-Error-Url'
+          - in: query
+            name: lineId
+            description: "Line ID"
+            required: true
+            schema:
+              type: string
+          - in: query
+            name: serialNumber
+            description: "ONT Serial Number"
+            required: false
+            schema:
+              type: string
+          - in: query
+            name: rollbackToReservation
+            description: "Rollback to reservation"
+            required: false
+            schema:
+              type: boolean
+              default: false
+        responses:
+          202:
+            description: "Decommissioning NE Profile request is accepted"
+          400:
+            description: "Bad Request (Sync Response on POST Request)"
+        x-async-responses:
+          callback: callbackDecommissioningNetworkElementProfile
+        callbacks:
+          errorCallback:
+            $ref: '#/components/callbacks/ErrorCallback'
+          callbackDecommissioningNetworkElementProfile:
+            '{$request.header.X-Callback-Url}':
+              post:
+                summary: NE Profile decommissioning callback
+                description: "Sends to a consumer a notification with result of NE profile decommissioning."
+                security:
+                  - OAuth2:
+                      - 'giga:callback:full'
+                      - 'giga:cga:all-area-access'
+                parameters:
+                  - $ref: '#/components/parameters/X-Callback-Correlation-Id'
+                requestBody:
+                  description: "NE Profile Decommissioning Result"
+                  content:
+                    application/json:
+                      schema:
+                        $ref: '#/components/schemas/OperationResultVoid'
+                  required: true
+                responses:
+                  200:
+                    description: "Decommissioning NE Profile is processed"
+                  400:
+                    description: "Bad request"
+  '/resource-order-resource-inventory/v2/reserveAccessLineTask':
+    post:
+      operationId: reserveAccessLineByHomeIdV2
+      tags:
+        - OntOltOrchestratorV2
+      summary: Reserving new access line by homeId
+      description: "Reserving new access line by changing status to assign. Try to\
+             \ find free access line\n with defined homeId. If there is no such AL, starts\
+             \ post provisioning process in wg-access-provisioning.\n Change status of\
+             \ access line and home id to \"Assigned\". Return object with reserved line\
+             \ id and home id."
+      security:
+        - OAuth2:
+            - 'giga:cga:all-area-access'
+            - 'rori:reserveAccessLineByHomeIdV2:write'
+      parameters:
+        - $ref: '#/components/parameters/X-Callback-Correlation-Id'
+        - $ref: '#/components/parameters/X-Callback-Url'
+        - $ref: '#/components/parameters/X-Callback-Method'
+        - $ref: '#/components/parameters/X-Callback-Id'
+        - $ref: '#/components/parameters/X-Callback-Error-Url'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/HomeIdDto'
+      responses:
+        202:
+          description: "Reserve request is accepted"
+        400:
+          description: "Bad Request (Sync Response on POST Request)"
+      x-async-responses:
+        callback: callbackReserveAccessLineByHomeIdV2
+      callbacks:
+        errorCallback:
+          $ref: '#/components/callbacks/ErrorCallback'
+        callbackReserveAccessLineByHomeIdV2:
+          '{$request.header.X-Callback-Url}':
+            post:
+              summary: Reserves line by Home Id (DGF case) callback
+              description: "Sends to a consumer a notification with line id of reserved line."
+              security:
+                - OAuth2:
+                    - 'giga:callback:full'
+                    - 'giga:cga:all-area-access'
+              parameters:
+                - $ref: '#/components/parameters/X-Callback-Correlation-Id'
+              requestBody:
+                description: "ONT Creation Result"
+                content:
+                  application/json:
+                    schema:
+                      $ref: '#/components/schemas/OperationResultLineIdDto'
+                required: true
+              responses:
+                200:
+                  description: "line id is processed"
+                400:
+                  description: "Bad request"
+  '/callback/ontOltOrchestrator/v2/callbackReserveAccessLine':
+    post:
+      operationId: callbackReserveAccessLineV2
+      tags:
+        - callbackV2
+      summary: Reserves line callback
+      description: "Sends to a consumer a notification with line id of reserved line."
+      security:
+        - OAuth2:
+            - 'giga:callback:full'
+            - 'giga:cga:all-area-access'
+      parameters:
+        - $ref: '#/components/parameters/X-Callback-Correlation-Id'
+      requestBody:
+        description: "ONT Creation Result"
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/OperationResultLineIdDto'
+      responses:
+        200:
+          description: "line id is processed"
+        400:
+          description: "Bad request"
+      x-async-responses:
+        reference-operation-id: reserveAccessLineWithHomeIdV2
+  '/callback/ontOltOrchestrator/v2/callbackReserveAccessLineByHomeId':
+    post:
+      operationId: callbackReserveAccessLineByHomeIdV2
+      tags:
+        - callbackV2
+      summary: Reserves line by Home Id (DGF case) callback
+      description: "Sends to a consumer a notification with line id of reserved line."
+      security:
+        - OAuth2:
+            - 'giga:callback:full'
+            - 'giga:cga:all-area-access'
+      parameters:
+        - $ref: '#/components/parameters/X-Callback-Correlation-Id'
+      requestBody:
+        description: "ONT Creation Result"
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/OperationResultLineIdDto'
+      responses:
+        200:
+          description: "line id is processed"
+        400:
+          description: "Bad request"
+      x-async-responses:
+        reference-operation-id: reserveAccessLineByHomeIdV2
+  '/callback/ontOltOrchestrator/v2/changeOntSerialNumber':
+    post:
+      operationId: callbackChangeOntV2
+      tags:
+        - callbackV2
+      summary: ONT change callback
+      description: "Sends to a consumer a notification with result of ONT change."
+      security:
+        - OAuth2:
+            - 'giga:callback:full'
+            - 'giga:cga:all-area-access'
+      parameters:
+        - $ref: '#/components/parameters/X-Callback-Correlation-Id'
+      requestBody:
+        description: "ONT Change Result"
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/OperationResultLineIdNewSerialNumberDto'
+      responses:
+        200:
+          description: "Ont Resource change is processed"
+        400:
+          description: "Bad request"
+      x-async-responses:
+        reference-operation-id: changeOntSerialNumberV2
+  '/callback/ontOltOrchestrator/v2/createOntResource':
+    post:
+      operationId: callbackCreateOntResourceV2
+      tags:
+        - callbackV2
+      summary: ONT registration callback
+      description: "Sends to a consumer a notification with result of ONT registration."
+      security:
+        - OAuth2:
+            - 'giga:callback:full'
+            - 'giga:cga:all-area-access'
+      parameters:
+        - $ref: '#/components/parameters/X-Callback-Correlation-Id'
+      requestBody:
+        description: "ONT Creation Result"
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/OperationResultLineIdSerialNumberDto'
+      responses:
+        200:
+          description: "Ont Resource creation is processed"
+        400:
+          description: "Bad request"
+      x-async-responses:
+        reference-operation-id: createOntResourceV2
+  '/callback/ontOltOrchestrator/v2/decommissioningNEProfile':
+    post:
+      operationId: callbackDecommissioningNetworkElementProfile
+      tags:
+        - callbackV2
+      summary: NE Profile decommissioning callback
+      description: "Sends to a consumer a notification with result of NE profile decommissioning."
+      security:
+        - OAuth2:
+            - 'giga:callback:full'
+            - 'giga:cga:all-area-access'
+      parameters:
+        - $ref: '#/components/parameters/X-Callback-Correlation-Id'
+      requestBody:
+        description: "NE Profile Decommissioning Result"
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/OperationResultVoid'
+      responses:
+        200:
+          description: "Decommissioning NE Profile is processed"
+        400:
+          description: "Bad request"
+      x-async-responses:
+        reference-operation-id: decommissioningNetworkElementProfile
+  '/callback/ontOltOrchestrator/v2/error':
+    post:
+      operationId: receiveError
+      tags:
+        - callbackV2
+      summary: Endpoint to receive error from 3scale in case of technical failure
+      description: "Receives error from 3scale in case of technical failure. The endpoint\
+              \ is used only for unexpected errors which could not be processed by the provider\
+              \ itself. Like HTTP 404 Not Found, HTTP 503 Service Unavailable."
+      security:
+        - OAuth2:
+            - 'giga:callback:full'
+            - 'giga:cga:all-area-access'
+      parameters:
+        - $ref: '#/components/parameters/X-Callback-Correlation-Id'
+        - $ref: '#/components/parameters/X-Callback-Request-Id'
+        - $ref: '#/components/parameters/X-Callback-Error-Id'
+        - $ref: '#/components/parameters/X-Callback-Error-HTTP-Code'
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              type: object
+      responses:
+        202:
+          description: "Your callback API implementation should return this HTTP status\
+                  \ code if the data was received successfully"
+  '/callback/ontOltOrchestrator/v2/testOntResource':
+    post:
+      operationId: callbackTestOntResourceV2
+      tags:
+        - callbackV2
+      summary: Tests ONT state callback
+      description: "Sends to a consumer a notification with result of ONT test state."
+      security:
+        - OAuth2:
+            - 'giga:callback:full'
+            - 'giga:cga:all-area-access'
+      parameters:
+        - $ref: '#/components/parameters/X-Callback-Correlation-Id'
+      requestBody:
+        description: "ONT Test State Result"
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/OperationResultOntTestDto'
+      responses:
+        200:
+          description: "Tests ont callback"
+        400:
+          description: "Bad request"
+      x-async-responses:
+        reference-operation-id: testOntResourceV2
+components:
+  securitySchemes:
+    OAuth2:
+      type: oauth2
+      flows:
+        clientCredentials:
+          tokenUrl: 'https://rhsso-develop.magic.telekom.de/auth/realms/GigabitHub/protocol/openid-connect/token'
+          scopes:
+            'giga:cga:all-area-access': General Access Scope
+            'rori:searchLineInformation:read': Read scope
+            'rori:reserveAccessLineWithHomeIdV2t:write': Write scope
+            'rori:createOntResourceV2:write': Write scope
+            'rori:updateOntResourceV2:write': Write scope
+            'rori:changeOntSerialNumberV2:write': Write scope
+            'rori:testOntResourceV2:read': Read scope
+            'rori:getOntStateV2:read': Read scope
+            'rori:reserveAccessLineByHomeIdV2:write': Write scope
+            'rori:decommissioningNetworkElementProfile:write': Write scope
+            'giga:callback:full': FULL scope
+  schemas:
+    AccessLineInformationDto:
+      type: object
+      properties:
+        homeId:
+          type: string
+          description: "Home Id"
+        ontSerialNumber:
+          type: string
+          description: "ONT serial number"
+        subscriberNeProfileState:
+          $ref: '#/components/schemas/SubscriberNeProfiesStates'
+        portNumber:
+          type: string
+          description: "Port number"
+        slotNumber:
+          type: string
+          description: "Slot number"
+        endSz:
+          type: string
+          description: "EndSz"
+        lineId:
+          type: string
+          description: "Line Id"
+    CallbackError:
+      type: object
+      properties:
+        message:
+          type: string
+        status:
+          type: integer
+          format: int32
+        code:
+          type: string
+    HomeIdDto:
+      type: object
+      required:
+        - homeId
+      properties:
+        homeId:
+          type: string
+          pattern: '^[A-Z0-9]{7}$'
+          minLength: 1
+    LineIdDto:
+      type: object
+      properties:
+        homeId:
+          type: string
+        lineId:
+          type: string
+      description: "Encapsulate information about access line"
+    LineIdSerialNumberDto:
+      type: object
+      properties:
+        serialNumber:
+          type: string
+        lineId:
+          type: string
+      description: "Encapsulate information about access line and serial number"
+    OntState:
+      type: string
+      description: "Actual status of the ONT"
+      example: Online
+      enum:
+        - Offline
+        - Online
+        - Unknown
+    OntResourceV2Dto:
+      type: object
+      required:
+        - lineId
+        - ontSerialNumber
+        - ontState
+        - homeId
+      properties:
+        lineId:
+          type: string
+          pattern: '[A-Z0-9]{3}\.[A-Z0-9]{1,6}\.[A-Z0-9]{1,10}'
+        ontSerialNumber:
+          minLength: 1
+          type: string
+        ontState:
+          $ref: '#/components/schemas/OntState'
+        homeId:
+          type: string
+          minLength: 1
+          pattern: '^[A-Z0-9]{7}$'
+    OntStateDto:
+      type: object
+      properties:
+        serialNumber:
+          type: string
+        ontState:
+          type: string
+      description: "Encapsulate information about ONT state"
+    OntTestDto:
+      type: object
+      properties:
+        ontId:
+          type: integer
+          format: int32
+          description: "ID of the ONT in the PON"
+        actualRunState:
+          $ref: '#/components/schemas/OntState'
+        lastDownTime:
+          type: string
+          format: date-time
+          example: '2018-08-21T17:32:28.0000000+00:00'
+          description: "Time when the ONT last went down"
+        lastDownCause:
+          type: string
+          example: LOS
+          description: "Reason why the ONT last went down"
+        lastUpTime:
+          type: string
+          format: date-time
+          example: '2018-08-21T16:58:08.0000000+00:00'
+          description: "ONT last up time"
+    OperationResultLineIdDto:
+      type: object
+      description: "OperationResultLineIdDto"
+      properties:
+        error:
+          $ref: '#/components/schemas/CallbackError'
+        response:
+          $ref: '#/components/schemas/LineIdDto'
+        success:
+          type: boolean
+    OperationResultLineIdNewSerialNumberDto:
+      type: object
+      description: "OperationResultLineIdNewSerialNumberDto"
+      properties:
+        error:
+          $ref: '#/components/schemas/CallbackError'
+        response:
+          $ref: '#/components/schemas/LineIdSerialNumberDto'
+        success:
+          type: boolean
+    OperationResultLineIdSerialNumberDto:
+      type: object
+      description: "OperationResultLineIdSerialNumberDto"
+      properties:
+        error:
+          $ref: '#/components/schemas/CallbackError'
+        response:
+          $ref: '#/components/schemas/LineIdSerialNumberDto'
+        success:
+          type: boolean
+    OperationResultOntTestDto:
+      type: object
+      description: "OperationResultOntTestDto"
+      properties:
+        error:
+          $ref: '#/components/schemas/CallbackError'
+        response:
+          $ref: '#/components/schemas/OntTestDto'
+        success:
+          type: boolean
+    OperationResultVoid:
+      type: object
+      description: "OperationResultVoid"
+      properties:
+        error:
+          $ref: '#/components/schemas/CallbackError'
+        response:
+          type: object
+          description: "Result of successful operation."
+        success:
+          type: boolean
+    PortAndHomeIdDto:
+      type: object
+      properties:
+        vpSz:
+          type: string
+          minLength: 6
+          maxLength: 20
+        fachSz:
+          type: string
+          minLength: 2
+          maxLength: 5
+        portNumber:
+          type: string
+        slotNumber:
+          type: string
+        portType:
+          type: string
+          enum:
+            - PON
+            - GFAST
+            - ETHERNET
+            - GPON
+        homeId:
+          type: string
+          pattern: '^[A-Z0-9]{7}$'
+      required:
+        - homeId
+        - vpSz
+        - fachSz
+        - portNumber
+    ProblemDetails:
+      type: object
+      description: "Error response of 4xx and 5xx http statuses."
+      required:
+        - title
+        - type
+      properties:
+        type:
+          type: string
+          description: "type"
+        title:
+          type: string
+          description: "title"
+        status:
+          type: integer
+          format: int32
+          description: "status"
+        detail:
+          type: string
+          description: "detail"
+        instance:
+          type: string
+          description: "instance"
+        embedded:
+          $ref: '#/components/schemas/SpecificProblemDetails'
+    SearchAccessLineInformationDto:
+      type: object
+      minProperties: 1
+      properties:
+        homeId:
+          type: string
+          description: "Criteria for search Access Line information by home id"
+          pattern: '^[A-Z0-9]{7}$'
+        ontSerialNumber:
+          type: string
+          description: "Criteria for search Access Line information by ont serial number.\
+            \ Search serial number in:\n1. subscriber NE profiles if access line production\
+            \ platform is OLT_BNG.\n2. network service profile reference if access line\
+            \ production platform is A4"
+          pattern: '^[A-F0-9]{16}$'
+        subscriberNeStates:
+          type: array
+          description: "Criteria for search Access Line information by subscriber NE\
+            \ profile state. Search criteria is applied only for access lines with OLT_BNG\
+            \ production platform."
+          uniqueItems: true
+          items:
+            $ref: '#/components/schemas/SubscriberNeProfiesStates'
+        portNumber:
+          type: string
+          description: "Criteria for search Access Line information by port number"
+          minLength: 0
+          maxLength: 50
+        slotNumber:
+          type: string
+          description: "Criteria for search Access Line information by slot number"
+          minLength: 0
+          maxLength: 50
+        endSz:
+          type: string
+          description: "Criteria for search Access Line information by endsz"
+          pattern: '[0-9]{1,6}\\/[0-9]{1,6}\\/[0-9]{1,6}\\/[a-zA-Z0-9]{2,4}'
+    SubscriberNeProfiesStates:
+      type: string
+      description: "Subscriber NE profile state"
+      enum:
+        - INACTIVE
+        - ACTIVE
+    SpecificProblemDetails:
+      type: object
+      description: "Specific problem details(including fehlerbuildnummer code)."
+      required:
+        - code
+        - reason
+      properties:
+        code:
+          type: string
+          description: "code"
+        reason:
+          type: string
+          description: "reason"
+        message:
+          type: string
+          description: "message"
+        status:
+          type: integer
+          format: int32
+          description: "status"
+  parameters:
+    X-Callback-Id:
+      name: X-Callback-Id
+      in: header
+      description:
+        "Unique consumerID used to identify the request consumer within FUSE and provide support for maintenance.
+        Possible Values: VVM, IBT, DigiOSS."
+      required: false
+      schema:
+        type: string
+
+    X-Callback-Correlation-Id:
+      name: X-Callback-Correlation-Id
+      in: header
+      description:
+        "UUID V4 generated identifier - needs to be unique for each request over all systems - with this the callback URL is identified internally.
+        If not provided in request it will be generated by the integration layer and will be returned in response. The asynchronous callback will provide this ID for correlation of request and callback."
+      required: true
+      schema:
+        type: string
+        format: uuid
+
+    X-Callback-Request-Id:
+      name: X-Callback-Request-Id
+      in: header
+      description: "UUID V4 generated identifier - request id"
+      required: true
+      schema:
+        type: string
+        format: uuid
+
+    X-Callback-Error-Id:
+      name: X-Callback-Error-Id
+      in: header
+      description: "UUID V4 generated error identifier."
+      required: true
+      schema:
+        type: string
+        format: uuid
+
+    X-Callback-Error-HTTP-Code:
+      name: X-Callback-Error-HTTP-Code
+      in: header
+      description: "Http error code such as 404, 503."
+      required: true
+      schema:
+        type: string
+
+    X-Callback-Url:
+      name: X-Callback-Url
+      in: header
+      description: "The provided Rest Interface from the consumer where the expected callback is sent to."
+      required: true
+      schema:
+        type: string
+
+    X-Callback-Error-Url:
+      name: X-Callback-Error-Url
+      in: header
+      description:
+        'Decoupling component will transfer information to the provided X-Callback-Error-Url with this content. If NO X-Callback-Error-Url is provided
+        Fuse will try to deliver the message to: X-Callback-Url + "/error"'
+      required: false
+      schema:
+        type: string
+
+    X-Callback-Method:
+      name: X-Callback-Method
+      in: header
+      description: "The method of Rest Interface for callback. Default method if not specified is POST.
+          (currently only POST is supported, might change in future)"
+      required: false
+      schema:
+        type: string
+        enum: [ POST, PUT, PATCH, DELETE ]
+        default: POST
+
+  headers:
+    X-Callback-Request-Id:
+      description: "UUID V4 generated identifier - request id"
+      required: false
+      schema:
+        type: string
+        format: uuid
+
+    X-Callback-Correlation-Id:
+      description: "UUID V4 generated identifier - needs to be unique for each request over all
+          systems - with this the callback URL is identified internally"
+      required: false
+      schema:
+        type: string
+        format: uuid
+  callbacks:
+    ErrorCallback:
+      '{$request.header.X-Callback-Error-Url}':
+        post:
+          summary: Callback method
+          security:
+            - OAuth2:
+                - 'giga:callback:full'
+                - 'giga:cga:all-area-access'
+          parameters:
+            - $ref: '#/components/parameters/X-Callback-Correlation-Id'
+          requestBody:
+            description: Callback Body
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/CallbackError'
+            required: false
+          responses:
+            200:
+              description: Ok.

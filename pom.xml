@@ -10,7 +10,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>osr-models</artifactId>
-    <version>0.0.74</version>
+    <version>0.0.75</version>
 
     <properties>
         <framework.version>${project.parent.version}</framework.version>
@@ -562,6 +562,12 @@
                                         <name>wg.fttb.access.provisioning.v1_2_0.client</name>
                                         <inputSpec>
                                             ${project.basedir}/src/main/resources/swagger/wg-fttb-access-provisioning/wg-fttb-access-provisioning-v1.2.0.yaml
+                                        </inputSpec>
+                                    </item>
+                                    <item>
+                                        <name>ont.olt.orchestrator.v2_10_0.client</name>
+                                        <inputSpec>
+                                            ${project.basedir}/src/main/resources/swagger/ont-olt-orchestrator/ont-olt-orchestrator-v2.10.0.yaml
                                         </inputSpec>
                                     </item>
                                 </items>
