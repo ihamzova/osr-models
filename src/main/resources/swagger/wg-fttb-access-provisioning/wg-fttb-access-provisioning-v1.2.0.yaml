@@ -1,0 +1,561 @@
+openapi: 3.0.1
+info:
+  title: WG FTTB access provisioning
+  description: '## WG FTTB access provisioning API'
+  version: 1.2.0
+servers:
+  - url: http://localhost:8092/
+tags:
+  - name: FttbDeprovisioningController
+  - name: FttbProvisioningController
+  - name: callback
+paths:
+  /resource-order-resource-inventory/v1/fttbDeprovisioning/device:
+    delete:
+      tags:
+        - FttbDeprovisioningController
+      summary: Device deprovisioning process
+      description: Starts FTTB WG access provisioning process for device
+      operationId: startDeviceDeprovisioning
+      security:
+        - apmToken: []
+        - OAuth2:
+            - 'rori:fttbDeprovisioningDevice:write'
+            - 'giga:cga:all-area-access'
+      parameters:
+        - $ref: '#/components/parameters/X-Callback-Correlation-Id'
+        - $ref: '#/components/parameters/X-Callback-Url'
+        - $ref: '#/components/parameters/X-Callback-Id'
+        - $ref: '#/components/parameters/X-Callback-Error-Url'
+        - $ref: '#/components/parameters/X-Callback-Method'
+        - name: dpuEndSZ
+          in: query
+          description: dpuEndSZ
+          required: true
+          schema:
+            pattern: '[0-9]{1,6}\/[0-9]{1,6}\/[0-9]{1,6}\/[a-zA-Z0-9]{2,4}'
+            type: string
+      responses:
+        202:
+          description: Process started
+          content: {}
+        400:
+          description: Bad request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+        500:
+          description: Can't perform operation
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+      callbacks:
+        DeprovisioningCallback:
+          $ref: '#/components/callbacks/DeprovisioningCallback'
+        ErrorCallback:
+          $ref: '#/components/callbacks/ErrorCallback'
+  /resource-order-resource-inventory/v1/fttbDeprovisioning/port:
+    delete:
+      tags:
+        - FttbDeprovisioningController
+      summary: Port deprovisioning process
+      description: Starts FTTB WG access deprovisioning process for port
+      operationId: startPortDeprovisioning
+      security:
+        - apmToken: []
+        - OAuth2:
+            - 'rori:fttbDeprovisioningPort:write'
+            - 'giga:cga:all-area-access'
+      parameters:
+        - $ref: '#/components/parameters/X-Callback-Correlation-Id'
+        - $ref: '#/components/parameters/X-Callback-Url'
+        - $ref: '#/components/parameters/X-Callback-Id'
+        - $ref: '#/components/parameters/X-Callback-Error-Url'
+        - $ref: '#/components/parameters/X-Callback-Method'
+        - name: endSZ
+          in: query
+          description: dpuEndSZ
+          required: true
+          schema:
+            pattern: '[0-9]{1,6}\/[0-9]{1,6}\/[0-9]{1,6}\/[a-zA-Z0-9]{2,4}'
+            type: string
+        - name: port
+          in: query
+          description: port
+          required: true
+          schema:
+            type: string
+      responses:
+        202:
+          description: Process started
+          content: {}
+        400:
+          description: Bad request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+        500:
+          description: Can't perform operation
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+      callbacks:
+        DeprovisioningCallback:
+          $ref: '#/components/callbacks/DeprovisioningCallback'
+        ErrorCallback:
+          $ref: '#/components/callbacks/ErrorCallback'
+  /resource-order-resource-inventory/v1/fttbProvisioning/device:
+    post:
+      tags:
+        - FttbProvisioningController
+      summary: Device provisioning process
+      description: Starts FTTB WG access provisioning process for device
+      operationId: startDeviceProvisioning
+      security:
+        - apmToken: []
+        - OAuth2:
+            - 'rori:fttbProvisioningDevice:write'
+            - 'giga:cga:all-area-access'
+      parameters:
+        - $ref: '#/components/parameters/X-Callback-Correlation-Id'
+        - $ref: '#/components/parameters/X-Callback-Url'
+        - $ref: '#/components/parameters/X-Callback-Id'
+        - $ref: '#/components/parameters/X-Callback-Error-Url'
+        - $ref: '#/components/parameters/X-Callback-Method'
+        - name: endSZ
+          in: query
+          description: dpuEndSZ
+          required: true
+          schema:
+            pattern: '[0-9]{1,6}\/[0-9]{1,6}\/[0-9]{1,6}\/[a-zA-Z0-9]{2,4}'
+            type: string
+      responses:
+        202:
+          description: Process started
+          content: {}
+        400:
+          description: Bad request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+        404:
+          description: Not found
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+        500:
+          description: Can't perform operation
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+      callbacks:
+        ProvisioningCallback:
+          $ref: '#/components/callbacks/ProvisioningCallback'
+        ErrorCallback:
+          $ref: '#/components/callbacks/ErrorCallback'
+  /resource-order-resource-inventory/v1/fttbProvisioning/port:
+    post:
+      tags:
+        - FttbProvisioningController
+      summary: Port provisioning process
+      description: Starts FTTB WG access provisioning process for port
+      operationId: startPortProvisioning
+      security:
+        - apmToken: []
+        - OAuth2:
+            - 'rori:fttbProvisioningPort:write'
+            - 'giga:cga:all-area-access'
+      parameters:
+        - $ref: '#/components/parameters/X-Callback-Correlation-Id'
+        - $ref: '#/components/parameters/X-Callback-Url'
+        - $ref: '#/components/parameters/X-Callback-Id'
+        - $ref: '#/components/parameters/X-Callback-Error-Url'
+        - $ref: '#/components/parameters/X-Callback-Method'
+        - name: endSZ
+          in: query
+          description: dpuEndSZ
+          required: true
+          schema:
+            pattern: '[0-9]{1,6}\/[0-9]{1,6}\/[0-9]{1,6}\/[a-zA-Z0-9]{2,4}'
+            type: string
+        - name: port
+          in: query
+          description: port
+          required: true
+          schema:
+            type: string
+      responses:
+        202:
+          description: Process started
+          content: {}
+        400:
+          description: Bad request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+        500:
+          description: Can't perform operation
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+      callbacks:
+        ProvisioningCallback:
+          $ref: '#/components/callbacks/ProvisioningCallback'
+        ErrorCallback:
+          $ref: '#/components/callbacks/ErrorCallback'
+  /callback/wgFttbAccessProvisioning/v1/deprovisioning:
+    post:
+      tags:
+        - callback
+      summary: Callback about FTTB deprovisioning result
+      description: Sends to a consumer a notification with result of FTTB deprovisioning.
+      operationId: callbackFttbDeprovisioning
+      security:
+        - apmToken: []
+        - OAuth2:
+            - 'giga:callback:full'
+            - 'giga:cga:all-area-access'
+      parameters:
+        - $ref: '#/components/parameters/X-Callback-Correlation-Id'
+      requestBody:
+        description: Operation result notification
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AsyncResponseNotification'
+        required: true
+      responses:
+        200:
+          description: FTTB deprovisioning request is processed
+          content: {}
+        400:
+          description: Bad Request (Sync Response on POST Request)
+          content: {}
+      x-async-responses:
+        reference-operation-id: startPortDeprovisioning
+      x-codegen-request-body-name: body
+  /callback/wgFttbAccessProvisioning/v1/error:
+    post:
+      tags:
+        - callback
+      summary: Endpoint to receive error from 3scale in case of technical failure
+      description: Receives error from 3scale in case of technical failure. The endpoint
+        is used only for unexpected errors which could not be processed by the provider
+        itself. Like HTTP 404 Not Found, HTTP 503 Service Unavailable.
+      operationId: receiveError
+      security:
+        - OAuth2:
+            - 'giga:callback:full'
+            - 'giga:cga:all-area-access'
+      parameters:
+        - $ref: '#/components/parameters/X-Callback-Correlation-Id'
+        - $ref: '#/components/parameters/X-Callback-Request-Id'
+        - $ref: '#/components/parameters/X-Callback-Error-Id'
+        - $ref: '#/components/parameters/X-Callback-Error-HTTP-Code'
+      requestBody:
+        content:
+          '*/*':
+            schema:
+              type: object
+        required: false
+      responses:
+        202:
+          description: Your callback API implementation should return this HTTP status
+            code if the data was received successfully
+          content: {}
+      x-codegen-request-body-name: body
+  /callback/wgFttbAccessProvisioning/v1/provisioning:
+    post:
+      tags:
+        - callback
+      summary: Callback about FTTB provisioning result
+      description: Sends to a consumer a notification with result of FTTB provisioning.
+      operationId: callbackFttbProvisioning
+      security:
+        - OAuth2:
+            - 'giga:callback:full'
+            - 'giga:cga:all-area-access'
+      parameters:
+        - $ref: '#/components/parameters/X-Callback-Correlation-Id'
+      requestBody:
+        description: Operation result notification
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AsyncResponseNotification'
+        required: true
+      responses:
+        200:
+          description: FTTB provisioning request is processed
+          content: {}
+        400:
+          description: Bad Request (Sync Response on POST Request)
+          content: {}
+      x-async-responses:
+        reference-operation-id: startPortProvisioning
+      x-codegen-request-body-name: body
+components:
+  securitySchemes:
+    apmToken:
+      type: apiKey
+      in: header
+      name: apm-principal-token
+    OAuth2:
+      type: oauth2
+      flows:
+        clientCredentials:
+          tokenUrl: 'https://rhsso-develop.magic.telekom.de/auth/realms/GigabitHub/protocol/openid-connect/token'
+          scopes:
+            'rori:fttbProvisioningPort:write' : Write scope
+            'rori:fttbProvisioningDevice:write' : Write scope
+            'rori:fttbDeprovisioningPort:write' : Write scope
+            'rori:fttbDeprovisioningDevice:write' : Write scope
+            'giga:callback:full': Full scope
+            'giga:cga:all-area-access': General Access Scope
+  schemas:
+    AsyncResponseNotification:
+      type: object
+      properties:
+        error:
+          $ref: '#/components/schemas/CallbackError'
+        response:
+          $ref: '#/components/schemas/Notification'
+        success:
+          type: boolean
+      description: AsyncResponseNotification
+    CallbackError:
+      type: object
+      properties:
+        message:
+          type: string
+        status:
+          type: integer
+          format: int32
+        code:
+          type: string
+    Notification:
+      type: object
+      properties:
+        eventId:
+          type: string
+          description: ID of event
+        endSz:
+          type: string
+          description: DPU device endSz
+        port:
+          type: string
+          description: DPU device port
+        operation:
+          type: string
+          description: operation
+        operationState:
+          type: string
+          description: operation state
+          enum:
+            - COMPLETED
+            - FAILED
+      description: Notification
+    ProblemDetails:
+      required:
+        - title
+        - type
+      type: object
+      properties:
+        type:
+          type: string
+          description: type
+        title:
+          type: string
+          description: title
+        status:
+          type: integer
+          description: status
+          format: int32
+        detail:
+          type: string
+          description: detail
+        instance:
+          type: string
+          description: instance
+        embedded:
+          $ref: '#/components/schemas/SpecificProblemDetails'
+      description: Error response of 4xx and 5xx http statuses.
+    SpecificProblemDetails:
+      required:
+        - code
+        - reason
+      type: object
+      properties:
+        code:
+          type: string
+          description: code
+        reason:
+          type: string
+          description: reason
+        message:
+          type: string
+          description: message
+        status:
+          type: integer
+          description: status
+          format: int32
+      description: Specific problem details(including fehlerbuildnummer code).
+
+  parameters:
+    X-Callback-Id:
+      name: X-Callback-Id
+      in: header
+      description: Unique consumerID used to identify the request consumer within
+        FUSE and provide support for maintenance.
+      schema:
+        type: string
+    X-Callback-Correlation-Id:
+      name: X-Callback-Correlation-Id
+      in: header
+      description: UUID V4 generated identifier. Needs to be unique for each request
+        overall all systems. With this the callback URL is identified internally.
+        If not provided in request it will be generated by the integration layer
+        and will be returned in response. The asynchronous callback will provide
+        this ID for correlation of request and callback.
+      required: true
+      schema:
+        type: string
+        format: uuid
+    X-Callback-Request-Id:
+      name: X-Callback-Request-Id
+      in: header
+      description: Unique consumerID from request.
+      required: true
+      schema:
+        type: string
+        format: uuid
+    X-Callback-Error-Id:
+      name: X-Callback-Error-Id
+      in: header
+      description: UUID V4 generated error identifier.
+      required: true
+      schema:
+        type: string
+        format: uuid
+    X-Callback-Error-HTTP-Code:
+      name: X-Callback-Error-HTTP-Code
+      in: header
+      description: Http error code such as 404, 503.
+      required: true
+      schema:
+        type: string
+    X-Callback-Url:
+      name: X-Callback-Url
+      in: header
+      description: The provided Rest Interface from the consumer where the expected
+        callback is sent to.
+      required: true
+      schema:
+        type: string
+    X-Callback-Error-Url:
+      name: X-Callback-Error-Url
+      in: header
+      description: On 3Scale or provider errors FUSE will try to deliver an error
+        on Error Callback URL to the Consumer.
+      schema:
+        type: string
+    X-Callback-Method:
+      name: X-Callback-Method
+      in: header
+      description: Default method if not specified is POST.
+      schema:
+        type: string
+
+  callbacks:
+    DeprovisioningCallback:
+      '{$request.header#/X-Callback-Url}':
+        post:
+          tags:
+            - callback
+          summary: Callback about FTTB deprovisioning result
+          description: Sends to a consumer a notification with result of FTTB deprovisioning.
+          security:
+            - OAuth2:
+                - 'giga:callback:full'
+                - 'giga:cga:all-area-access'
+          parameters:
+            - $ref: '#/components/parameters/X-Callback-Correlation-Id'
+          requestBody:
+            description: Operation result notification
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/AsyncResponseNotification'
+            required: true
+          responses:
+            200:
+              description: FTTB deprovisioning request is processed
+              content: { }
+            400:
+              description: Bad Request (Sync Response on POST Request)
+              content: { }
+    ProvisioningCallback:
+      '{$request.header#/X-Callback-Url}':
+        post:
+          tags:
+            - callback
+          summary: Callback about FTTB provisioning result
+          description: Sends to a consumer a notification with result of FTTB provisioning.
+          security:
+            - OAuth2:
+                - 'giga:callback:full'
+                - 'giga:cga:all-area-access'
+          parameters:
+            - $ref: '#/components/parameters/X-Callback-Correlation-Id'
+          requestBody:
+            description: Operation result notification
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/AsyncResponseNotification'
+            required: true
+          responses:
+            200:
+              description: FTTB provisioning request is processed
+              content: { }
+            400:
+              description: Bad Request (Sync Response on POST Request)
+              content: { }
+    ErrorCallback:
+      '{$request.header#/X-Callback-Error-Url}':
+        post:
+          tags:
+            - callback
+          summary: Endpoint to receive error from 3scale in case of technical failure
+          description: Receives error from 3scale in case of technical failure. The endpoint
+            is used only for unexpected errors which could not be processed by the provider
+            itself. Like HTTP 404 Not Found, HTTP 503 Service Unavailable.
+          security:
+            - OAuth2:
+                - 'giga:callback:full'
+                - 'giga:cga:all-area-access'
+          parameters:
+            - $ref: '#/components/parameters/X-Callback-Correlation-Id'
+            - $ref: '#/components/parameters/X-Callback-Request-Id'
+            - $ref: '#/components/parameters/X-Callback-Error-Id'
+            - $ref: '#/components/parameters/X-Callback-Error-HTTP-Code'
+          requestBody:
+            content:
+              '*/*':
+                schema:
+                  type: object
+            required: false
+          responses:
+            202:
+              description: Your callback API implementation should return this HTTP status
+                code if the data was received successfully
+              content: { }
