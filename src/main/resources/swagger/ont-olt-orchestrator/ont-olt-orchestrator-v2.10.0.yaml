@@ -345,16 +345,16 @@ paths:
       description: "Gets ONT state."
       security:
         - OAuth2:
-          - 'giga:cga:all-area-access'
-          - 'rori:getOntStateV2:read'
+            - 'giga:cga:all-area-access'
+            - 'rori:getOntStateV2:read'
       parameters:
-      - in: path
-        name: lineId
-        description: "LineId"
-        required: true
-        schema:
-          type: string
-          pattern: '[A-Z0-9]{3}\.[A-Z0-9]{1,6}\.[A-Z0-9]{1,10}'
+        - in: path
+          name: lineId
+          description: "LineId"
+          required: true
+          schema:
+            type: string
+            pattern: '[A-Z0-9]{3}\.[A-Z0-9]{1,6}\.[A-Z0-9]{1,10}'
       responses:
         200:
           description: "Ont state if configuration found"
@@ -377,80 +377,80 @@ paths:
               schema:
                 $ref: '#/components/schemas/ProblemDetails'
   '/resource-order-resource-inventory/v2/networkElementProfile':
-      delete:
-        operationId: decommissioningNetworkElementProfile
-        tags:
-          - OntOltOrchestratorV2
-        summary: Decommissions Network Element Profile in Kuendigung case
-        description: "Decommissions NE Profile.\nChecks the production platform of the\
+    delete:
+      operationId: decommissioningNetworkElementProfile
+      tags:
+        - OntOltOrchestratorV2
+      summary: Decommissions Network Element Profile in Kuendigung case
+      description: "Decommissions NE Profile.\nChecks the production platform of the\
                 \ access line.\n * If OLT@BNG: Change serial number in SEAL to default. Delete\
                 \ subscriber NE profile and change status of AL to WG or Assign. Also start\
                 \ deprovisioning process in wg-access-provisioning MS for AL if there are\
                 \ more then 32 AL on port and more or equals two AL with the same homeId.\n\
                 \ * If A4.0: Decommissions NspRef. Change serial number in A4.0 RI and NEMO\
                 \ to empty.\n\n Change status of AL to WG or Assigned."
-        security:
-          - OAuth2:
-              - 'giga:cga:all-area-access'
-              - 'rori:decommissioningNetworkElementProfile:write'
-        parameters:
-          - $ref: '#/components/parameters/X-Callback-Correlation-Id'
-          - $ref: '#/components/parameters/X-Callback-Url'
-          - $ref: '#/components/parameters/X-Callback-Method'
-          - $ref: '#/components/parameters/X-Callback-Id'
-          - $ref: '#/components/parameters/X-Callback-Error-Url'
-          - in: query
-            name: lineId
-            description: "Line ID"
-            required: true
-            schema:
-              type: string
-          - in: query
-            name: serialNumber
-            description: "ONT Serial Number"
-            required: false
-            schema:
-              type: string
-          - in: query
-            name: rollbackToReservation
-            description: "Rollback to reservation"
-            required: false
-            schema:
-              type: boolean
-              default: false
-        responses:
-          202:
-            description: "Decommissioning NE Profile request is accepted"
-          400:
-            description: "Bad Request (Sync Response on POST Request)"
-        x-async-responses:
-          callback: callbackDecommissioningNetworkElementProfile
-        callbacks:
-          errorCallback:
-            $ref: '#/components/callbacks/ErrorCallback'
-          callbackDecommissioningNetworkElementProfile:
-            '{$request.header.X-Callback-Url}':
-              post:
-                summary: NE Profile decommissioning callback
-                description: "Sends to a consumer a notification with result of NE profile decommissioning."
-                security:
-                  - OAuth2:
-                      - 'giga:callback:full'
-                      - 'giga:cga:all-area-access'
-                parameters:
-                  - $ref: '#/components/parameters/X-Callback-Correlation-Id'
-                requestBody:
-                  description: "NE Profile Decommissioning Result"
-                  content:
-                    application/json:
-                      schema:
-                        $ref: '#/components/schemas/OperationResultVoid'
-                  required: true
-                responses:
-                  200:
-                    description: "Decommissioning NE Profile is processed"
-                  400:
-                    description: "Bad request"
+      security:
+        - OAuth2:
+            - 'giga:cga:all-area-access'
+            - 'rori:decommissioningNetworkElementProfile:write'
+      parameters:
+        - $ref: '#/components/parameters/X-Callback-Correlation-Id'
+        - $ref: '#/components/parameters/X-Callback-Url'
+        - $ref: '#/components/parameters/X-Callback-Method'
+        - $ref: '#/components/parameters/X-Callback-Id'
+        - $ref: '#/components/parameters/X-Callback-Error-Url'
+        - in: query
+          name: lineId
+          description: "Line ID"
+          required: true
+          schema:
+            type: string
+        - in: query
+          name: serialNumber
+          description: "ONT Serial Number"
+          required: false
+          schema:
+            type: string
+        - in: query
+          name: rollbackToReservation
+          description: "Rollback to reservation"
+          required: false
+          schema:
+            type: boolean
+            default: false
+      responses:
+        202:
+          description: "Decommissioning NE Profile request is accepted"
+        400:
+          description: "Bad Request (Sync Response on POST Request)"
+      x-async-responses:
+        callback: callbackDecommissioningNetworkElementProfile
+      callbacks:
+        errorCallback:
+          $ref: '#/components/callbacks/ErrorCallback'
+        callbackDecommissioningNetworkElementProfile:
+          '{$request.header.X-Callback-Url}':
+            post:
+              summary: NE Profile decommissioning callback
+              description: "Sends to a consumer a notification with result of NE profile decommissioning."
+              security:
+                - OAuth2:
+                    - 'giga:callback:full'
+                    - 'giga:cga:all-area-access'
+              parameters:
+                - $ref: '#/components/parameters/X-Callback-Correlation-Id'
+              requestBody:
+                description: "NE Profile Decommissioning Result"
+                content:
+                  application/json:
+                    schema:
+                      $ref: '#/components/schemas/OperationResultVoid'
+                required: true
+              responses:
+                200:
+                  description: "Decommissioning NE Profile is processed"
+                400:
+                  description: "Bad request"
   '/resource-order-resource-inventory/v2/reserveAccessLineTask':
     post:
       operationId: reserveAccessLineByHomeIdV2
@@ -782,11 +782,11 @@ components:
     OntState:
       type: string
       description: "Actual status of the ONT"
-      example: Online
+      example: ONLINE
       enum:
-        - Offline
-        - Online
-        - Unknown
+        - OFFLINE
+        - ONLINE
+        - UNKNOWN
     OntResourceV2Dto:
       type: object
       required:
