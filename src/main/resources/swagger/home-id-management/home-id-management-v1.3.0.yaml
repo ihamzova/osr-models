@@ -1,0 +1,341 @@
+openapi: 3.0.1
+info:
+  title: Home ID Management
+  description: |-
+    ## Home ID Management API
+
+    Microservice to manage home IDs.
+  version: 1.3.0
+servers:
+  - url: http://localhost:8065/
+tags:
+  - name: HomeIdManagementExternalController
+  - name: HomeIdGeneratorController
+paths:
+  /resource-order-resource-inventory/v1/assignedHomeId:
+    put:
+      tags:
+        - HomeIdManagementExternalController
+      summary: Sets HomeId to ASSIGNED
+      description: |-
+        Checks status of this HomeId.
+         * If RESERVED - sets it to ASSIGNED.
+         * If ASSIGNED - leaves it ASSIGNED.
+         * If FREE - throw exception.
+      security:
+       - OAuth2:
+           - 'rori:homeIdStatus:write'
+           - 'giga:cga:all-area-access'
+      operationId: assignedHomeId
+      requestBody:
+        description: HomeIdDto
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/HomeIdDto'
+        required: true
+      responses:
+        200:
+          description: HomeId was assigned
+          content: {}
+        400:
+          description: Bad request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+        404:
+          description: HomeId not found
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+        409:
+          description: HomeId is free
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+        500:
+          description: Internal error
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+      x-codegen-request-body-name: body
+  /resource-order-resource-inventory/v1/freeHomeId:
+    put:
+      tags:
+        - HomeIdManagementExternalController
+      summary: Reserves HomeId
+      description: Sets first FREE HomeId to RESERVED and returns it.
+      security:
+        - OAuth2:
+            - 'rori:homeIdStatus:write'
+            - 'giga:cga:all-area-access'
+      operationId: freeHomeId
+      requestBody:
+        description: Port reference
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PortReferenceDto'
+        required: true
+      responses:
+        200:
+          description: Successfully get
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HomeIdDto'
+        400:
+          description: Can't perform operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+        404:
+          description: Reference to physical resource not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+        500:
+          description: Internal error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+      x-codegen-request-body-name: body
+  /resource-order-resource-inventory/v1/homeIdStatuses:
+    put:
+      tags:
+        - HomeIdManagementExternalController
+      summary: Updates HomeId status
+      description: Updates particular HomeId status.
+      operationId: updateHomeId
+      security:
+        - apmToken: [ ]
+      requestBody:
+        description: HomeIdWithStatusDto
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/HomeIdWithStatusDto'
+        required: true
+      responses:
+        200:
+          description: HomeId status was updated
+          content: {}
+        400:
+          description: Bad request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+        404:
+          description: HomeId not found
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+        500:
+          description: Internal error
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+      x-codegen-request-body-name: body
+  /resource-order-resource-inventory/v1/generateHomeIdTask/:
+    post:
+      tags:
+        - HomeIdGeneratorController
+      summary: Generates HomeId
+      description: Generates single new HomeId.
+      security:
+        - OAuth2:
+            - 'rori:generateHomeId:write'
+            - 'giga:cga:all-area-access'
+      operationId: generate
+      responses:
+        201:
+          description: New home id created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SingleHomeId'
+        500:
+          description: Can't perform operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+  /resource-order-resource-inventory/v1/generateHomeIdTask/batch:
+    post:
+      tags:
+        - HomeIdGeneratorController
+      summary: Generate HomeIds
+      description: Generates batch new HomeIds. If number of HomeIds is absent, 32 new HomeIds are generated.
+      security:
+        - OAuth2:
+            - 'rori:generateHomeId:write'
+            - 'giga:cga:all-area-access'
+      operationId: generateBatch
+      parameters:
+        - name: numberHomeIds
+          in: query
+          description: Number of homeIds which should be created
+          schema:
+            maximum: 32
+            minimum: 0
+            type: integer
+            format: int32
+      responses:
+        201:
+          description: Array of number home IDs created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PoolHomeId'
+        400:
+          description: Invalid input parameter
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+        500:
+          description: Can't perform operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+components:
+  securitySchemes:
+    apmToken:
+      type: apiKey
+      in: header
+      name: apm-principal-token
+    OAuth2:
+      type: oauth2
+      flows:
+        clientCredentials:
+          tokenUrl: 'https://rhsso-develop.magic.telekom.de/auth/realms/GigabitHub/protocol/openid-connect/token'
+          scopes:
+            'rori:homeIdStatus:write': Write scope
+            'rori:generateHomeId:write': Write scope
+            'giga:cga:all-area-access': General Access Scope
+  schemas:
+    HomeIdDto:
+      required:
+        - homeId
+      type: object
+      properties:
+        homeId:
+          pattern: ^[A-Z0-9]{7}$
+          type: string
+    HomeIdWithStatusDto:
+      required:
+        - homeId
+        - status
+      type: object
+      properties:
+        homeId:
+          pattern: ^[A-Z0-9]{7}$
+          type: string
+        status:
+          $ref: '#/components/schemas/HomeIdStatus'
+    PoolHomeId:
+      type: object
+      properties:
+        homeIds:
+          type: array
+          description: Generated pool of new HomeIds
+          items:
+            type: string
+    PortReferenceDto:
+      required:
+        - fachSz
+        - portNumber
+        - vpSz
+      type: object
+      properties:
+        vpSz:
+          pattern: '[0-9]{1,6}\/[0-9]{1,6}\/[0-9]{1,6}'
+          type: string
+        fachSz:
+          pattern: '[a-zA-Z0-9]{2,4}'
+          type: string
+        slotNumber:
+          type: string
+        portNumber:
+          type: string
+    ProblemDetails:
+      required:
+        - title
+        - type
+      type: object
+      properties:
+        type:
+          type: string
+          description: type
+        title:
+          type: string
+          description: title
+        status:
+          type: integer
+          description: status
+          format: int32
+        detail:
+          type: string
+          description: detail
+        instance:
+          type: string
+          description: instance
+        embedded:
+          $ref: '#/components/schemas/SpecificProblemDetails'
+      description: Error response of 4xx and 5xx http statuses.
+    SingleHomeId:
+      type: object
+      properties:
+        homeId:
+          type: string
+          description: Generated new HomeId
+    SpecificProblemDetails:
+      required:
+        - code
+        - reason
+      type: object
+      properties:
+        code:
+          type: string
+          description: code
+        reason:
+          type: string
+          description: reason
+        message:
+          type: string
+          description: message
+        status:
+          type: integer
+          description: status
+          format: int32
+      description: Specific problem details(including fehlerbuildnummer code).
+    HomeIdStatus:
+      type: string
+      description: Status of home id
+      enum:
+        - FREE
+        - RESERVED
+        - ASSIGNED
