@@ -2,7 +2,7 @@ swagger: '2.0'
 info:
   title: a4-resource-inventory
   description: This interface allows you to do CRUD-operations on the a4-resource-inventory
-  version: 5.0.0
+  version: 5.2.1
   contact:
     email: DL_Berlinium@telekom.de
 schemes:
@@ -205,16 +205,21 @@ paths:
             $ref: '#/definitions/Error'
   /resource-order-resource-inventory/v1/a4NetworkElementGroups:
     get:
-      description: This operation intended for search a NetworkElementGroup by the name.
+      description: This operation intended for search a NetworkElementGroup by the name or lineId.
       tags:
         - NetworkElementGroups
-      summary: Get a list of Network Element items based on provided name
+      summary: Get a list of Network Element items based on provided name or lineId
       operationId: listNetworkElementGroups
       parameters:
         - name: name
           in: query
           required: false
           description: name to get a list of NetworkElementGroups
+          type: string
+        - name: lineId
+          in: query
+          description: LineId of NSP-FTTH-Access
+          required: false
           type: string
       responses:
         '200':
@@ -1551,6 +1556,109 @@ paths:
           description: get to NetworkServiceProfileL2BsaDto/ - Internal Server Error
           schema:
             $ref: '#/definitions/Error'
+    patch:
+      description: This operation intended for patch a NetworkServiceProfileL2BsaDto.
+      tags:
+        - NetworkServiceProfilesL2Bsa
+      summary: Patch a NetworkServiceProfileL2BsaDto item based on provided lineId.
+      operationId: patchNetworkServiceProfileL2Bsa
+      parameters:
+        - name: L2BsaPatch
+          in: body
+          description: Patch object of NetworkServiceProfileL2Bsa
+          required: true
+          schema:
+            $ref: '#/definitions/L2BsaPatch'
+      responses:
+        '200':
+          description: patch to NetworkServiceProfileL2BsaDto/ - OK
+          schema:
+            $ref: '#/definitions/NetworkServiceProfileL2BsaDto'
+        '400':
+          description: patch to NetworkServiceProfileL2BsaDto/ - Bad Request
+          schema:
+            $ref: '#/definitions/Error'
+        '403':
+          description: patch to NetworkServiceProfileL2BsaDto/ - Forbidden
+          schema:
+            $ref: '#/definitions/Error'
+        '404':
+          description: patch to NetworkServiceProfileL2BsaDto/ - Not Found
+          schema:
+            $ref: '#/definitions/Error'
+        '500':
+          description: patch to NetworkServiceProfileL2BsaDto/ - Internal Error
+          schema:
+            $ref: '#/definitions/Error'
+  /resource-order-resource-inventory/v1/carrierBsaReferences:
+    get:
+      description: This operation intended for search of carrierBsaReferences
+      tags:
+        - Carrier
+      summary: Retrieve CarrierBsaReferences
+      operationId: findCarrierBsaReferences
+      responses:
+        '200':
+          description: get list of carrierBsaReferences/ - OK
+          schema:
+            type: array
+            items:
+              type: string
+        '400':
+          description: get - Bad Request
+          schema:
+            $ref: '#/definitions/Error'
+        '403':
+          description: get - Forbidden
+          schema:
+            $ref: '#/definitions/Error'
+        '404':
+          description: get - Not Found
+          schema:
+            $ref: '#/definitions/Error'
+        '500':
+          description: get - Internal Server Error
+          schema:
+            $ref: '#/definitions/Error'
+  /resource-order-resource-inventory/v1/freeNspL2Bsa:
+    get:
+      description: This operation intended for search by negUuid and carrierBsareference .
+      tags:
+        - NetworkServiceProfilesL2Bsa
+      summary: Retrieve free NetworkServiceProfileL2Bsa based on negUuid and carrierBsareference.
+      operationId: findFreeNspL2Bsa
+      parameters:
+        - name: uuidNEG
+          in: query
+          description: UUID of parent item.
+          required: false
+          type: string
+        - name: carrierBsaReference
+          in: query
+          description: carrierBsareference of the free NspL2Bsa to be find
+          required: false
+          type: string
+      responses:
+        '200':
+          description: get to NetworkServiceProfileL2BsaDto/ - OK
+          schema:
+            $ref: '#/definitions/NetworkServiceProfileL2BsaDto'
+        '400':
+          description: get to NetworkServiceProfileL2BsaDto/ - Bad Request
+          schema:
+            $ref: '#/definitions/Error'
+        '403':
+          description: get to NetworkServiceProfileL2BsaDto/ - Forbidden
+          schema:
+            $ref: '#/definitions/Error'
+        '404':
+          description: get to NetworkServiceProfileL2BsaDto/ - Not Found
+          schema:
+            $ref: '#/definitions/Error'
+        '500':
+          description: get to NetworkServiceProfileL2BsaDto/ - Internal Server Error
+          schema:
+            $ref: '#/definitions/Error'
 definitions:
   GenericResourceDto:
     type: object
@@ -1634,6 +1742,9 @@ definitions:
       networkElementGroupUuid:
         type: string
         description: UUID of Network Element Group item to which this Network Element item belongs. Must contain UUID of an existing Network Element Group
+      partyId:
+        type: string
+        description: Party ID of entity to which network elements belongs to
       href:
         type: string
         description: References to NetworkElementGroup
@@ -2145,3 +2256,16 @@ definitions:
         type: string
         description: Text that provide more details and corrective actions related to the error. This can be shown to a client user.
         example: Please check your request
+  L2BsaPatch:
+    type: object
+    description: The L2BsaPatch understand
+    properties:
+      lineId:
+        type: string
+        description: lineId of L2Bsa Nsp
+      dataRateUp:
+        type: integer
+        description: dataRateUp of L2Bsa Nsp
+      dataRateDown:
+        type: integer
+        description: dataRateDown of L2Bsa Nsp
