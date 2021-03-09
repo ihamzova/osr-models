@@ -10,7 +10,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>osr-models</artifactId>
-    <version>0.0.76</version>
+    <version>0.0.77</version>
 
     <properties>
         <framework.version>${project.parent.version}</framework.version>
@@ -568,6 +568,18 @@
                                         <name>ont.olt.orchestrator.v2_10_0.client</name>
                                         <inputSpec>
                                             ${project.basedir}/src/main/resources/swagger/ont-olt-orchestrator/ont-olt-orchestrator-v2.10.0.yaml
+                                        </inputSpec>
+                                    </item>
+                                    <item>
+                                        <name>home.id.management.v1_3_0.client</name>
+                                        <inputSpec>
+                                            ${project.basedir}/src/main/resources/swagger/home-id-management/home-id-management-v1.3.0.yaml
+                                        </inputSpec>
+                                    </item>
+                                    <item>
+                                        <name>ri.abstraction.layer.v1_3_0.client</name>
+                                        <inputSpec>
+                                            ${project.basedir}/src/main/resources/swagger/ri-abstraction-layer/ri-abstraction-layer-v1.3.0.yaml
                                         </inputSpec>
                                     </item>
                                 </items>
