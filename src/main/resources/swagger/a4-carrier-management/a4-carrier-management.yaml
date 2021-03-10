@@ -1,0 +1,244 @@
+openapi: 3.0.1
+info:
+  title: a4-carrier-management
+  description: API for availability check for NSPA10NSP and allocate and release operations
+    for L2BSA NSP
+  contact:
+    email: DL_Berlinium@telekom.de
+  version: 1.0.0
+servers:
+  - url: 'http://localhost'
+paths:
+  /resource-order-resource-inventory/v1/allocateL2BsaNspTask:
+    post:
+      tags:
+        - allocateL2BsaNspTask
+      summary: allocate a free L2Bsa NSP with line id, CarrierBsReference, data rate down
+        & data rate up
+      description: This operation intended for allocate a free L2Bsa NSP
+      operationId: allocateL2BsaNspTask
+      requestBody:
+        description: task to allocate a L2Bsa NSP
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AllocateL2BsaNspTask'
+        required: true
+      responses:
+        200:
+          description: returns json with UUID of the allocated L2Bsa NSP
+          content:
+            application/json:
+              schema:
+                type: string
+        400:
+          description: allocate a L2Bsa NSP - Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        403:
+          description: allocate a L2Bsa NSP - Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        404:
+          description: allocate a L2Bsa NSP - Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        500:
+          description: allocate a L2Bsa NSP - Internal Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      deprecated: false
+      x-codegen-request-body-name: task
+  /resource-order-resource-inventory/v1/releaseL2BsaNspTask:
+    post:
+      tags:
+        - releaseL2BsaNspTask
+      summary: Releasing a L2Bsa NSP based on its UUID
+      description: This operation intended to release a L2Bsa NSP
+      operationId: releaseL2BsaNspTask
+      requestBody:
+        description: uuid of the L2Bsa NSP that shall be released (json object)
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ReleaseL2BsaNspTask'
+        required: true
+      responses:
+        200:
+          description: release a L2Bsa NSP - OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ReleaseL2BsaNspResponse'
+        400:
+          description: release a L2Bsa NSP - Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        403:
+          description: release a L2Bsa NSP - Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        404:
+          description: release a L2Bsa NSP - Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        500:
+          description: release a L2Bsa NSP - Internal Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      x-codegen-request-body-name: uuid
+  /resource-order-resource-inventory/v1/negCarrierConnections:
+    get:
+      tags:
+        - negCarrierConnections
+      summary: Find Carrier Connections based on provided Network Element Group UUID
+      description: Determine free L2BSA Termination Points by negUuid
+      operationId: getNegCarrierConnections
+      parameters:
+        - name: negUuid
+          in: query
+          description: UUID of Network Element Group
+          required: true
+          schema:
+            $ref: '#/components/schemas/AllowedUuidCharacters'
+      responses:
+        200:
+          description: get NegCarrierConnections - OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NegCarrierConnection'
+        400:
+          description: get NegCarrierConnections - Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        403:
+          description: get NegCarrierConnections - Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        404:
+          description: get NegCarrierConnections - Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        500:
+          description: get NegCarrierConnections - Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+components:
+  schemas:
+    AllocateL2BsaNspTask:
+      required:
+        - lineId
+        - carrierBsaReference
+        - dataRateDown
+        - dataRateUp
+      type: object
+      properties:
+        lineId:
+          $ref: '#/components/schemas/AllowedCharacters'
+        carrierBsaReference:
+          $ref: '#/components/schemas/AllowedCharacters'
+        dataRateDown:
+          type: integer
+          description: data rate down
+        dataRateUp:
+          type: integer
+          description: data rate up
+      description: Task object
+    ReleaseL2BsaNspTask:
+      required:
+        - uuid
+      type: object
+      properties:
+        uuid:
+          $ref: '#/components/schemas/AllowedUuidCharacters'
+      description: object for the request of releaseL2BsaNspTask
+    ReleaseL2BsaNspResponse:
+      title: ReleaseL2BsaNspResponse
+      required:
+        - uuid
+      type: object
+      properties:
+        uuid:
+          $ref: '#/components/schemas/AllowedUuidCharacters'
+      description: ReleaseL2BsaNspResponse
+    NegCarrierConnection:
+      title: NegCarrierConnection
+      required:
+        - negUuid
+        - negName
+        - carrierConnections
+      type: object
+      properties:
+        negUuid:
+          $ref: '#/components/schemas/AllowedUuidCharacters'
+        negName:
+          $ref: '#/components/schemas/AllowedCharacters'
+        carrierConnections:
+          type: array
+          items:
+            $ref: '#/components/schemas/CarrierConnection'
+      description: CarrierConnection with negUuid, negName and CarrierConnections list
+    CarrierConnection:
+      title: CarrierConnection
+      required:
+        - carrierBsaReference
+        - sperrStatus
+      type: object
+      properties:
+        carrierBsaReference:
+          $ref: '#/components/schemas/AllowedCharacters'
+        sperrStatus:
+          type: boolean
+      description: CarrierConnection with carrierBsaReference and sperrStatus
+    Error:
+      type: object
+      properties:
+        code:
+          type: string
+          description: the code of the Fehlerbildnummer
+        reason:
+          type: string
+          description: Text that explains the reason for error. This can be shown
+            to a client user.
+          example: Http Error
+        message:
+          type: string
+          description: Text that provide more details and corrective actions related
+            to the error. This can be shown to a client user.
+          example: Please check your request
+      description: Error model from the TMF OpenAPI
+    AllowedCharacters:
+      title: AllowedCharacters
+      pattern: '[\w,/!=§#@€:µ.*+? \-\u00C0-\u017F]*'
+      type: string
+      description: Validator for AllowedCharacters
+    AllowedUuidCharacters:
+      title: AllowedUuidCharacters
+      pattern: '[0-9a-fA-F]{8}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{12}'
+      type: string
+      description: Validator for AllowedUuidCharacters
