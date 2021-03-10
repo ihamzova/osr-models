@@ -10,7 +10,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>osr-models</artifactId>
-    <version>0.0.77</version>
+    <version>0.0.78</version>
 
     <properties>
         <framework.version>${project.parent.version}</framework.version>
@@ -502,6 +502,12 @@
                                         <name>a4.resource.inventory.service.v4.client</name>
                                         <inputSpec>
                                             ${project.basedir}/src/main/resources/swagger/a4-resource-inventory-service/a4-resource-inventory-service.json
+                                        </inputSpec>
+                                    </item>
+                                    <item>
+                                        <name>a4.carrier.management.client</name>
+                                        <inputSpec>
+                                            ${project.basedir}/src/main/resources/swagger/a4-carrier-management/a4-carrier-management.yaml
                                         </inputSpec>
                                     </item>
                                     <item>
