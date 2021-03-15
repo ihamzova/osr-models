@@ -1,0 +1,137 @@
+openapi: 3.0.1
+info:
+  title: Access 4.0 access line preprovisioning
+  description: '## Access 4.0 access line preprovisioning API'
+  version: 1.6.0
+servers:
+  - url: 'http://localhost:8291/'
+tags:
+  - name: PreProvisioningProcessExternal
+paths:
+  /resource-order-resource-inventory/v1/a4/accessLines:
+    post:
+      tags:
+        - PreProvisioningProcessExternal
+      summary: A4 access line provisioning process
+      description: Starts WG a4 provisioning process for access line
+      operationId: startAccessLinePreProvisioning
+      security:
+        - apmToken: []
+        - OAuth2:
+            - 'rori:accessLine:write'
+            - 'giga:cga:all-area-access'
+      requestBody:
+        description: Termination point reference info
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TpRefDto'
+        required: true
+      responses:
+        '201':
+          description: Process started
+          content: {}
+        '400':
+          description: Bad request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+        '500':
+          description: Can't perform operation
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+components:
+  securitySchemes:
+    OAuth2:
+      type: oauth2
+      flows:
+        clientCredentials:
+          tokenUrl: 'https://rhsso-develop.magic.telekom.de/auth/realms/GigabitHub/protocol/openid-connect/token'
+          scopes:
+            'rori:accessLine:write': Write scope
+            'giga:cga:all-area-access': General Access Scope
+    apmToken:
+      type: apiKey
+      name: apmToken
+      in: header
+  schemas:
+    ProblemDetails:
+      required:
+        - title
+        - type
+      type: object
+      properties:
+        type:
+          type: string
+          description: type
+        title:
+          type: string
+          description: title
+        status:
+          type: integer
+          description: status
+          format: int32
+        detail:
+          type: string
+          description: detail
+        instance:
+          type: string
+          description: instance
+        embedded:
+          $ref: '#/components/schemas/SpecificProblemDetails'
+      description: Error response of 4xx and 5xx http statuses.
+    SpecificProblemDetails:
+      required:
+        - code
+        - reason
+      type: object
+      properties:
+        code:
+          type: string
+          description: code
+        reason:
+          type: string
+          description: reason
+        message:
+          type: string
+          description: message
+        status:
+          type: integer
+          description: status
+          format: int32
+      description: Specific problem details(including fehlerbuildnummer code).
+    TpRefDto:
+      required:
+        - endSz
+        - klsId
+        - partyId
+        - portNumber
+        - tpRef
+      type: object
+      properties:
+        endSz:
+          pattern: '[0-9]{1,6}\/[0-9]{1,6}\/[0-9]{1,6}\/[a-zA-Z0-9]{2,4}'
+          type: string
+          description: A4 device endSz
+        slotNumber:
+          maxLength: 50
+          minLength: 0
+          type: string
+          description: A4 device slot number
+        portNumber:
+          type: string
+          description: A4 device port number
+        klsId:
+          pattern: '[0-9]{1,12}'
+          type: string
+          description: KlsId of A4 device
+        tpRef:
+          type: string
+          description: Termination point reference
+        partyId:
+          type: integer
+          description: PartyId of termination point
+          format: int64

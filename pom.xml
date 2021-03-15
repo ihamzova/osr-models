@@ -10,7 +10,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>osr-models</artifactId>
-    <version>0.0.78</version>
+    <version>0.0.79</version>
 
     <properties>
         <framework.version>${project.parent.version}</framework.version>
@@ -586,6 +586,12 @@
                                         <name>ri.abstraction.layer.v1_3_0.client</name>
                                         <inputSpec>
                                             ${project.basedir}/src/main/resources/swagger/ri-abstraction-layer/ri-abstraction-layer-v1.3.0.yaml
+                                        </inputSpec>
+                                    </item>
+                                    <item>
+                                        <name>wg.a4.provisioning.v1_6_0.client</name>
+                                        <inputSpec>
+                                            ${project.basedir}/src/main/resources/swagger/wg-a4-provisioning/wg-a4-provisioning-v1.6.0.yaml
                                         </inputSpec>
                                     </item>
                                 </items>
