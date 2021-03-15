@@ -1,0 +1,1069 @@
+openapi: 3.0.1
+info:
+  title: Network Line Profile Management
+  description: |-
+    ## Network Line Profile Management API
+
+    API complies TMF 652 Resource Order Management
+    The request for the use case "update NetworkLineProfile only" the request would need to contains:
+    * ResourceOrder
+    * One ResourceOrderItem, quantity: 1, action: modify
+    * One Resource: type: NetworkLineProfile, id: empty
+    * ResourceCharacteristics: all attributes as name/value pairs, which are in the current interface.
+
+    Network line profile resource characteristics:
+
+    | Name | Type | Explanation | Retail M/O | Wholebuy M/O | Validation pattern |
+    | ------- | -------- | -------- | -------- | -------- | -------- |
+    | Calid | String | Customer Access Line ID to identify the line-ID-based network connection | M | M | [A-Z0-9]{3}.[A-Z0-9]{1,6}.[A-Z0-9]{1,10} |
+    | L2CCID | String | Layer 2 Cross-Connection ID | O | O |
+    | substitutionDomain | String | Substitution Domain | O | O |
+    | authMethod | String | Authentication method. Possible values: 0 - userbased, 1 - linebased | M | M |
+    | federationPartner | String | Federation partner for the present line-id port for BNG | O | O |
+    | providerID | String | Identification of the provider, which provides the services for the line | O | O |
+    | KLSID | String | ID referring to the location in the KIO-location server | M | M | [0-9]{1,12} |
+    | PPDownL3 | String | Maximum downstream speed from the preproduct on the ISO / OSI Layer 3 in the unit kbit/s | O | O |
+    | PPUpL3 | String | Maximum upstream speed from the preproduct on the ISO / OSI Layer 3 in the unit Kbit/s | O | O |
+    | ramMaxDownL2 | String | Physical maximum downstream speed on ISO / OSI Layer 2 in the unit Kbit/s | O | M |
+    | ramMaxUpL2 | String | Maximum physical upstream speed on ISO / OSI Layer 2 in the unit Kbit/s | O | M |
+    | ramMinDownL2 | String | Minimal physical downstream speed on ISO / OSI Layer 2 in the unit Kbit/s | O | M |
+    | ramMinUpL2 | String | Minimal physical upstream speed on ISO / OSI Layer 2 in the unit Kbit/s | O | M |
+    | ramMinKPDownL2 | String | Configurationally / planning guaranteed downstream speed on ISO / OSI Layer 2 in the unit kbit/s | O | M |
+    | ramMinKPUpL2 | String | Configurationally / planning guaranteed upstream speed on ISO / OSI Layer 2 in the unit kbit/s | O | M |
+    ### The following fields need to be set on 'Resource' for Resources of type NetworkLineProfile on POST
+    Resource.id : GUID
+    Resource.href: optional, set by service in response
+    Resource.name: NetworkLineProfile
+    Resource.type: NetworkLineProfile
+    Resource.description: optional, set by service in response
+    Resource.state: optional, set by service in response
+
+    ### The following fieds need to be set on 'ResourceOrder' for Resources of type NetworkLineProfile on POST
+    ResourceOrder.id: GUID, unique
+    ResourceOrder.state: optional, set by service in response
+    ResourceOrder.externalID: optional. set if ID of other domain is to be maintained as back reference
+    ResourceOrder.description: optional
+    ResourceOrder.name: optional
+    ResourceOrder.priority: default value 1
+    ResourceOrder.category: NetworkLineProfileUpdate
+    ResourceOrder.orderDate: date-time of order, given by requestor
+    ResourceOrder.requestedStartDate: date given by requestor
+    ResourceOrder.requestedCompletionDate: date, given by requestor
+    ResourceOrder.completionDate: date time, returned by service
+    ResourceOrder.startDate: date of started order, returned by service
+    ResourceOrder.expectedCompletionDate: date of expected completion, returned by service
+
+    ### The following fields need to be set on 'ResourceOrderItem' for Resources of type NetworkLineProfile on POST
+    ResourceOrderItem.id: sequence number
+    ResourceOrderItem.action: modify (in case of the update of Resource NetworkLineProfile)
+    ResourceOrderItem.status: optional, returned by service
+  version: 1.5.0
+servers:
+  - url: 'localhost:8111'
+tags:
+  - name: callbackNlpm
+  - name: networkLineProfile
+paths:
+  /resource-order-resource-inventory/v1/networkLineProfile/:
+    post:
+      tags:
+        - networkLineProfile
+      summary: Update data in RDQ.
+      description: >-
+        - with action "ADD" creates a WB AccessLine +
+        subscriber-networkline-profile;
+
+        - with action "MODIFY" creates a new subscriber-networkline-profile for
+        a OLT_BNG and A4 AccessLine or updates an existing one for OLT_BNG, A4
+        and WB AccessLines;
+
+        - with action "DELETE" deletes a subscriber-networkline-profile for
+        OLT_BNG and A4 AccessLines and the whole WB AccessLine;
+
+        A Resource Order is a request to provision a set of Resources (logical
+        and physical) triggered by the request to provision a Service through a
+        Service Order.
+      operationId: updateLineProfile
+      security:
+        - OAuth2:
+            - 'giga:cga:all-area-access'
+            - 'rori:networkLineProfile:write'
+      parameters:
+        - $ref: '#/components/parameters/X-Callback-Correlation-Id'
+        - $ref: '#/components/parameters/X-Callback-Url'
+        - $ref: '#/components/parameters/X-Callback-Method'
+        - $ref: '#/components/parameters/X-Callback-Id'
+        - $ref: '#/components/parameters/X-Callback-Error-Url'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ResourceOrder'
+      responses:
+        '202':
+          description: Network LineProfile request is accepted
+        '400':
+          description: Bad Request (Sync Response on POST Request)
+      x-async-responses:
+        callback: callbackUpdateLineProfile
+      callbacks:
+        errorCallback:
+          $ref: '#/components/callbacks/ErrorCallback'
+        callbackUpdateLineProfile:
+          '{$request.header.X-Callback-Url}':
+            post:
+              summary: Callback about line profile update
+              description: >-
+                Sends to a consumer a notification with result of line profile
+                update.
+              security:
+                - OAuth2:
+                    - 'giga:callback:full'
+                    - 'giga:cga:all-area-access'
+              parameters:
+                - $ref: '#/components/parameters/X-Callback-Correlation-Id'
+              requestBody:
+                required: true
+                content:
+                  application/json:
+                    schema:
+                      $ref: '#/components/schemas/AsyncResponseNotification'
+              responses:
+                '200':
+                  description: Network LineProfile request is processed
+                '400':
+                  description: Bad Request (Sync Response on POST Request)
+    delete:
+      tags:
+        - networkLineProfile
+      summary: Delete data in RDQ
+      description: >-
+        - with action "MODIFY" deletes a default-networkline-profile;
+
+        - action "DELETE" cannot be provided here;
+
+        A Resource Order is a request to provision a set of Resources (logical
+        and physical) triggered by the request to provision a Service through a
+        Service Order.
+      operationId: deleteLineProfile
+      security:
+        - OAuth2:
+            - 'giga:cga:all-area-access'
+            - 'rori:networkLineProfile:write'
+      parameters:
+        - $ref: '#/components/parameters/X-Callback-Correlation-Id'
+        - $ref: '#/components/parameters/X-Callback-Url'
+        - $ref: '#/components/parameters/X-Callback-Method'
+        - $ref: '#/components/parameters/X-Callback-Id'
+        - $ref: '#/components/parameters/X-Callback-Error-Url'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ResourceOrder'
+      responses:
+        '202':
+          description: Network LineProfile request is accepted
+        '400':
+          description: Bad Request (Sync Response on POST Request)
+      x-async-responses:
+        callback: callbackDeleteLineProfile
+      callbacks:
+        errorCallback:
+          $ref: '#/components/callbacks/ErrorCallback'
+        callbackDeleteLineProfile:
+          '{$request.header.X-Callback-Url}':
+            post:
+              summary: Callback about line profile deletion
+              description: >-
+                Sends to a consumer a notification with result of deleting line
+                profile.
+              security:
+                - OAuth2:
+                    - 'giga:callback:full'
+                    - 'giga:cga:all-area-access'
+              parameters:
+                - $ref: '#/components/parameters/X-Callback-Correlation-Id'
+              requestBody:
+                required: true
+                content:
+                  application/json:
+                    schema:
+                      $ref: '#/components/schemas/AsyncResponseNotification'
+              responses:
+                '200':
+                  description: Network LineProfile request is processed
+                '400':
+                  description: Bad Request (Sync Response on POST Request)
+  /resource-order-resource-inventory/v1/nlProfilesDefaults:
+    get:
+      tags:
+        - networkLineProfile
+      summary: Get default values of NL profiles
+      description: Get default values of NL profiles.
+      operationId: getDefaultProfilesValues
+      security:
+        - OAuth2:
+            - 'giga:cga:all-area-access'
+            - 'rori:nlProfilesDefaults:read'
+      parameters:
+        - in: query
+          name: technology
+          description: Technology
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successfully find
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DefaultProfilesValuesDto'
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+        '500':
+          description: Internal error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+  /resource-order-resource-inventory/v1/profileSynchronizationTask:
+    post:
+      tags:
+        - networkLineProfile
+      summary: Synchronizes network line profile with RDQ
+      description: >-
+        Manages network line profiles update in RDQ.
+
+        When the request is received, network line profile manager gets the
+        access line DTO from resource inventory and sends to RDQ the request
+        with values from DTO to update configuration of network line profile
+        which has 'sync in progress' status. If update was successful, callback
+        will be successful. Otherwise callback will be error. Service does not
+        change sync status.
+      operationId: synchronizeNetworkLineProfile
+      security:
+        - OAuth2:
+            - 'giga:cga:all-area-access'
+            - 'rori:profileSynchronizationTask:write'
+      parameters:
+        - $ref: '#/components/parameters/X-Callback-Correlation-Id'
+        - $ref: '#/components/parameters/X-Callback-Url'
+        - $ref: '#/components/parameters/X-Callback-Method'
+        - $ref: '#/components/parameters/X-Callback-Id'
+        - $ref: '#/components/parameters/X-Callback-Error-Url'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AccessLineRequest'
+      responses:
+        '202':
+          description: Synchronization network line profile request is accepted
+        '400':
+          description: Bad Request (Sync Response on POST Request)
+      x-async-responses:
+        callback: callbackSynchronizeProfileTask
+      callbacks:
+        errorCallback:
+          $ref: '#/components/callbacks/ErrorCallback'
+        callbackSynchronizeProfileTask:
+          '{$request.header.X-Callback-Url}':
+            post:
+              summary: Callback about network line profile synchronization
+              description: >-
+                Sends to a consumer a notification with result of network line
+                profile synchronization.
+              security:
+                - OAuth2:
+                    - 'giga:callback:full'
+                    - 'giga:cga:all-area-access'
+              parameters:
+                - $ref: '#/components/parameters/X-Callback-Correlation-Id'
+              requestBody:
+                required: true
+                content:
+                  application/json:
+                    schema:
+                      $ref: '#/components/schemas/AsyncResponseString'
+              responses:
+                '200':
+                  description: Synchronization network line profile request is processed
+                '400':
+                  description: Bad Request (Sync Response on POST Request)
+  /resource-order-resource-inventory/v1/createDefaultLineProfile:
+    post:
+      tags:
+        - networkLineProfile
+      summary: Creates a 'ResourceOrder' for RDQ create default request
+      description: >-
+        A Resource Order is a request to provision a set of Resources (logical
+        and physical) triggered by the request to provision a Service through a
+        Service Order
+      operationId: configureDefaultNetworkLineProfile
+      security:
+        - OAuth2:
+            - 'giga:cga:all-area-access'
+            - 'rori:createDefaultLineProfile:write'
+      parameters:
+        - $ref: '#/components/parameters/X-Callback-Correlation-Id'
+        - $ref: '#/components/parameters/X-Callback-Url'
+        - $ref: '#/components/parameters/X-Callback-Method'
+        - $ref: '#/components/parameters/X-Callback-Id'
+        - $ref: '#/components/parameters/X-Callback-Error-Url'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ResourceOrder'
+      responses:
+        '202':
+          description: Network LineProfile request is accepted
+        '400':
+          description: Bad Request (Sync Response on POST Request)
+      x-async-responses:
+        callback: callbackCreateDefaultLineProfile
+      callbacks:
+        errorCallback:
+          $ref: '#/components/callbacks/ErrorCallback'
+        callbackCreateDefaultLineProfile:
+          '{$request.header.X-Callback-Url}':
+            post:
+              summary: Callback about default line profile creation
+              description: >-
+                Sends to a consumer a notification with result of default line
+                profile creation.
+              security:
+                - OAuth2:
+                    - 'giga:callback:full'
+                    - 'giga:cga:all-area-access'
+              parameters:
+                - $ref: '#/components/parameters/X-Callback-Correlation-Id'
+              requestBody:
+                required: true
+                content:
+                  application/json:
+                    schema:
+                      $ref: '#/components/schemas/AsyncResponseString'
+              responses:
+                '200':
+                  description: Network LineProfile request is processed
+                '400':
+                  description: Bad Request (Sync Response on POST Request)
+  /callback/networkLineProfileManagement/synchronizeProfileTask:
+    post:
+      tags:
+        - callbackNlpm
+      summary: Callback about network line profile synchronization
+      description: >-
+        Sends to a consumer a notification with result of network line profile
+        synchronization.
+      operationId: callbackSynchronizeProfileTask
+      security:
+        - OAuth2:
+            - 'giga:callback:full'
+            - 'giga:cga:all-area-access'
+      parameters:
+        - $ref: '#/components/parameters/X-Callback-Correlation-Id'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AsyncResponseString'
+      responses:
+        '200':
+          description: Synchronization network line profile request is processed
+        '400':
+          description: Bad Request (Sync Response on POST Request)
+      x-async-responses:
+        reference-operation-id: synchronizeNetworkLineProfile
+  /callback/networkLineProfileManagement/createDefaultNetworkLineProfile:
+    post:
+      tags:
+        - callbackNlpm
+      summary: Callback about default line profile creation
+      description: >-
+        Sends to a consumer a notification with result of default line profile
+        creation.
+      operationId: callbackCreateDefaultLineProfile
+      security:
+        - OAuth2:
+            - 'giga:callback:full'
+            - 'giga:cga:all-area-access'
+      parameters:
+        - $ref: '#/components/parameters/X-Callback-Correlation-Id'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AsyncResponseString'
+      responses:
+        '200':
+          description: Network LineProfile request is processed
+        '400':
+          description: Bad Request (Sync Response on POST Request)
+      x-async-responses:
+        reference-operation-id: createDefaultLineProfile
+  /callback/networkLineProfileManagement/v1/deleteLineProfile:
+    post:
+      tags:
+        - callbackNlpm
+      summary: Callback about line profile deletion
+      description: Sends to a consumer a notification with result of deleting line profile.
+      operationId: callbackDeleteLineProfile
+      security:
+        - OAuth2:
+            - 'giga:callback:full'
+            - 'giga:cga:all-area-access'
+      parameters:
+        - $ref: '#/components/parameters/X-Callback-Correlation-Id'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AsyncResponseNotification'
+      responses:
+        '200':
+          description: Network LineProfile request is processed
+        '400':
+          description: Bad Request (Sync Response on POST Request)
+      x-async-responses:
+        reference-operation-id: deleteLineProfile
+  /callback/networkLineProfileManagement/v1/error:
+    post:
+      tags:
+        - callbackNlpm
+      summary: Endpoint to receive error from 3scale in case of technical failure
+      description: >-
+        Receives error from 3scale in case of technical failure. The endpoint is
+        used only for unexpected errors which could not be processed by the
+        provider itself. Like HTTP 404 Not Found, HTTP 503 Service Unavailable.
+      operationId: receiveError
+      security:
+        - OAuth2:
+            - 'giga:callback:full'
+            - 'giga:cga:all-area-access'
+      parameters:
+        - $ref: '#/components/parameters/X-Callback-Correlation-Id'
+        - $ref: '#/components/parameters/X-Callback-Request-Id'
+        - $ref: '#/components/parameters/X-Callback-Error-Id'
+        - $ref: '#/components/parameters/X-Callback-Error-HTTP-Code'
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              type: object
+      responses:
+        '202':
+          description: >-
+            Your callback API implementation should return this HTTP status code
+            if the data was received successfully
+  /callback/networkLineProfileManagement/v1/updateLineProfile:
+    post:
+      tags:
+        - callbackNlpm
+      summary: Callback about line profile update
+      description: Sends to a consumer a notification with result of line profile update.
+      operationId: callbackUpdateLineProfile
+      security:
+        - OAuth2:
+            - 'giga:callback:full'
+            - 'giga:cga:all-area-access'
+      parameters:
+        - $ref: '#/components/parameters/X-Callback-Correlation-Id'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AsyncResponseNotification'
+      responses:
+        '200':
+          description: Network LineProfile request is processed
+        '400':
+          description: Bad Request (Sync Response on POST Request)
+      x-async-responses:
+        reference-operation-id: processUpdateRequest
+components:
+  securitySchemes:
+    OAuth2:
+      type: oauth2
+      flows:
+        clientCredentials:
+          tokenUrl: >-
+            https://rhsso-develop.magic.telekom.de/auth/realms/GigabitHub/protocol/openid-connect/token
+          scopes:
+            'giga:cga:all-area-access': General Access Scope
+            'rori:networkLineProfile:write': Write Scope
+            'rori:profileSynchronizationTask:write': Write Scope
+            'rori:createDefaultLineProfile:write': Write Scope
+            'rori:nlProfilesDefaults:read': Read Scope
+            'giga:callback:full': FULL scope
+  schemas:
+    AccessLineRequest:
+      type: object
+      required:
+        - lineId
+      properties:
+        lineId:
+          type: string
+          description: Access line id
+          pattern: '[A-Z0-9]{3}\.[A-Z0-9]{1,6}\.[A-Z0-9]{1,10}'
+    AsyncResponseNotification:
+      type: object
+      properties:
+        error:
+          $ref: '#/components/schemas/CallbackError'
+        response:
+          $ref: '#/components/schemas/Notification'
+        success:
+          type: boolean
+      description: AsyncResponseNotification
+    AsyncResponseString:
+      type: object
+      properties:
+        error:
+          $ref: '#/components/schemas/CallbackError'
+        response:
+          type: string
+          description: Result of successful operation.
+        success:
+          type: boolean
+      description: AsyncResponseString
+    ActionType:
+      type: string
+      description: Resource Order Action types as per TMF
+      enum:
+        - ADD
+        - MODIFY
+        - DELETE
+        - NOCHANGE
+    OrderState:
+      type: string
+      description: >-
+        A string used to give a name to the Resource Order. Every other state
+        will be mapped to failed in the IfClientNetworkProfile. State should
+        correlate with state of ResourceOrderItem.
+      enum:
+        - ACKNOWLEDGED
+        - INPROGRESS
+        - CANCELLED
+        - COMPLETED
+        - REJECTED
+        - PENDING
+        - HELD
+        - FAILED
+        - PARTIAL
+    ResourceState:
+      type: string
+      description: |-
+        State of resources as per TMF. Notication: <lifecycle-state>-<sub-state>
+                IF only supports OPERATING_WORKING & OPERATING_NOTWORKING so every other status than OPERATING_WORKING should be mapped to OPERATING_NOTWORKING"
+      enum:
+        - PLANNING_PROPOSED
+        - PLANNING_FEASIBILITYCHECKED
+        - PLANNING_DESIGNED
+        - PLANNING_ORDERED
+        - PLANNING_ACTIVATED
+        - PLANNING_DEACTIVATED
+        - INSTALLING_ACTIVATED
+        - INSTALLING_DEACTIVATED
+        - OPERATING_WORKING
+        - OPERATING_ALLSLAS
+        - OPERATING_SOMESLAS
+        - OPERATING_NOSLAS
+        - OPERATING_NOTWORKING
+        - RETIRING
+    CallbackError:
+      type: object
+      description: Result of fail operation.
+      properties:
+        message:
+          type: string
+        status:
+          type: integer
+          format: int32
+        code:
+          type: string
+    DefaultNetworkLineProfileDto:
+      type: object
+      description: Default profile with defaults
+      properties:
+        id:
+          type: integer
+          format: int64
+          description: Internal (from database) id of DefaultNetworkLineProfile entity
+        authMethod:
+          type: integer
+          format: int32
+          description: Authentication method of DefaultNetworkLineProfile
+        klsId:
+          type: integer
+          format: int64
+          description: KlsId of DefaultNetworkLineProfile
+        minDownBandwidth:
+          type: integer
+          format: int32
+          description: Minimum down bandwidth of DefaultNetworkLineProfile
+        minUpBandwidth:
+          type: integer
+          format: int32
+          description: Minimum up bandwidth of DefaultNetworkLineProfile
+        guaranteedDownBandwidth:
+          type: integer
+          format: int32
+          description: Guaranteed down bandwidth of DefaultNetworkLineProfile
+        guaranteedUpBandwidth:
+          type: integer
+          format: int32
+          description: Guaranteed up bandwidth of DefaultNetworkLineProfile
+        maxDownBandwidth:
+          type: integer
+          format: int32
+          description: Maximum down bandwidth of DefaultNetworkLineProfile
+        maxUpBandwidth:
+          type: integer
+          format: int32
+          description: Maximum up bandwidth of DefaultNetworkLineProfile
+        state:
+          type: string
+          description: 'State of DefaultNeProfile (INACTIVE, ACTIVE)'
+          enum:
+            - INACTIVE
+            - ACTIVE
+        federationPartner:
+          type: string
+          description: Federation partner of DefaultNetworkLineProfile
+        accessNetworkType:
+          type: string
+          description: Access network type of DefaultNetworkLineProfile
+        accessType:
+          type: string
+          description: Access type of DefaultNetworkLineProfile
+        version:
+          type: integer
+          format: int64
+          description: Version of object
+        syncStatus:
+          type: string
+          description: Profile sync status
+          enum:
+            - OUT_OF_SYNC
+            - SYNC_IN_PROGRESS
+            - SYNC_FAILED
+    DefaultProfilesValuesDto:
+      type: object
+      properties:
+        subscriberNetworkLineProfileDto:
+          $ref: '#/components/schemas/SubscriberNetworkLineProfileDto'
+        defaultNetworkLineProfileDto:
+          $ref: '#/components/schemas/DefaultNetworkLineProfileDto'
+    Event:
+      type: object
+      description: Event
+      properties:
+        resourceOrder:
+          $ref: '#/components/schemas/ResourceOrder'
+    Notification:
+      type: object
+      description: Notification. Result of successful operation
+      properties:
+        eventId:
+          type: string
+          description: Notification ID
+        eventTime:
+          type: string
+          format: date-time
+          description: Event date
+        eventType:
+          type: string
+          description: 'Event type: Possible values:  ResourceOrderStateChangeNotification,'
+        event:
+          $ref: '#/components/schemas/Event'
+    ProblemDetails:
+      type: object
+      description: Error response of 4xx and 5xx http statuses.
+      required:
+        - title
+        - type
+      properties:
+        type:
+          type: string
+          description: type
+        title:
+          type: string
+          description: title
+        status:
+          type: integer
+          format: int32
+          description: status
+        detail:
+          type: string
+          description: detail
+        instance:
+          type: string
+          description: instance
+        embedded:
+          $ref: '#/components/schemas/SpecificProblemDetails'
+    ResourceCharacteristic:
+      type: object
+      description: Resource characteristic
+      properties:
+        name:
+          type: string
+          description: Resource characteristic type
+          enum:
+            - CALID
+            - L2CCID
+            - SUBSTITUTIONDOMAIN
+            - AUTHMETHOD
+            - FEDERATIONPARTNER
+            - PROVIDERID
+            - KLSID
+            - PPDOWNL3
+            - PPUPL3
+            - RAMMAXDOWNL2
+            - RAMMAXUPL2
+            - RAMMINUPL2
+            - RAMMINDOWNL2
+            - RAMMINKPDOWNL2
+            - RAMMINKPUPL2
+            - CARRIERBSAREFERENCE
+        value:
+          type: string
+          description: Resource characteristic value
+    ResourceInstance:
+      type: object
+      description: Resource attributes description
+      properties:
+        id:
+          type: string
+          description: Identifier of a resource instance. Required to be unique.
+        href:
+          type: string
+          description: >-
+            Reference to the owned resource (useful for delete or modify
+            command).
+        name:
+          type: string
+          description: Name of the resource.Should be always NetworkLineProfile.
+        description:
+          type: string
+          description: A description of the resource (what it provides).
+        state:
+          $ref: '#/components/schemas/ResourceState'
+        type:
+          type: string
+          description: Type of the resource. Should be always NetworkLineProfile.
+        resourceCharacteristics:
+          type: array
+          items:
+            $ref: '#/components/schemas/ResourceCharacteristic'
+    ResourceOrder:
+      type: object
+      description: >-
+        A Resource Order is a request to provision a set of Resources (logical
+        and physical) triggered by the request to provision a Service through a
+        Service Order.
+      properties:
+        id:
+          type: string
+          description: >-
+            Identifier of an instance of the Resource Order. Required to be
+            unique within the resource type.
+        href:
+          type: string
+          description: Hyperlink to access the order.
+        state:
+          $ref: '#/components/schemas/OrderState'
+        name:
+          type: string
+          description: A string used to give a name to the Resource Order.
+        description:
+          type: string
+          description: A free-text description of the Resource Order.
+        priority:
+          type: integer
+          format: int32
+          description: >-
+            A way that can be used by consumers to prioritize orders in Resource
+            Order Management system (from 0 to 4 : 0 is the highest priority,
+            and 4 the lowest).
+        category:
+          type: string
+          description: >-
+            Used to categorize the order from a business perspective that can be
+            useful for the Resource Order Management system.
+        orderDate:
+          type: string
+          format: date-time
+          description: 'Date when the order was created. Format 2018-04-10T04:00:00.000Z'
+        requestedStartDate:
+          type: string
+          format: date
+          description: 'Order start date wished by the requester. Format: yyyy-MM-dd'
+        requestedCompletionDate:
+          type: string
+          format: date
+          description: >-
+            Requested delivery date from the requester perspective. Format:
+            yyyy-MM-dd
+        completionDate:
+          type: string
+          format: date-time
+          description: 'Date when the order was completed. Format 2018-04-10T04:00:00.000Z'
+        startDate:
+          type: string
+          format: date
+          description: Order start date. Format yyyy-MM-dd
+        expectedCompletionDate:
+          type: string
+          format: date
+          description: 'Expected delivery date amended by the provider. Format: yyyy-MM-dd'
+        resourceOrderItems:
+          type: array
+          items:
+            $ref: '#/components/schemas/ResourceOrderItem'
+    ResourceOrderItem:
+      type: object
+      description: An identified part of the order.
+      properties:
+        id:
+          type: string
+          description: >-
+            Identifier of the line item (generally it is a sequence number 1, 2,
+            3,...).
+        action:
+          $ref: '#/components/schemas/ActionType'
+        state:
+          $ref: '#/components/schemas/OrderState'
+        resource:
+          $ref: '#/components/schemas/ResourceInstance'
+    SpecificProblemDetails:
+      type: object
+      description: Specific problem details(including fehlerbuildnummer code).
+      required:
+        - code
+        - reason
+      properties:
+        code:
+          type: string
+          description: code
+        reason:
+          type: string
+          description: reason
+        message:
+          type: string
+          description: message
+        status:
+          type: integer
+          format: int32
+          description: status
+    SubscriberNetworkLineProfileDto:
+      type: object
+      description: Subscriber profile with defaults
+      properties:
+        id:
+          type: integer
+          format: int64
+          description: Internal (from database) id of SubscriberNetworkLineProfile entity
+        authMethod:
+          type: integer
+          format: int32
+          description: Authentication method of SubscriberNetworkLineProfile
+        klsId:
+          type: integer
+          format: int64
+          description: KlsId of SubscriberNetworkLineProfile
+        minDownBandwidth:
+          type: integer
+          format: int32
+          description: Minimum down bandwidth of SubscriberNetworkLineProfile
+        minUpBandwidth:
+          type: integer
+          format: int32
+          description: Minimum up bandwidth of SubscriberNetworkLineProfile
+        guaranteedDownBandwidth:
+          type: integer
+          format: int32
+          description: Guaranteed down bandwidth of SubscriberNetworkLineProfile
+        guaranteedUpBandwidth:
+          type: integer
+          format: int32
+          description: Guaranteed up bandwidth of SubscriberNetworkLineProfile
+        maxDownBandwidth:
+          type: integer
+          format: int32
+          description: Maximum down bandwidth of SubscriberNetworkLineProfile
+        maxUpBandwidth:
+          type: integer
+          format: int32
+          description: Maximum up bandwidth of SubscriberNetworkLineProfile
+        downBandwidth:
+          type: integer
+          format: int32
+          description: Down bandwidth of SubscriberNetworkLineProfile
+        upBandwidth:
+          type: integer
+          format: int32
+          description: Up bandwidth of SubscriberNetworkLineProfile
+        state:
+          type: string
+          description: 'State of SubscriberNetworkLineProfile (INACTIVE, ACTIVE)'
+          enum:
+            - INACTIVE
+            - ACTIVE
+        federationPartner:
+          type: string
+          description: Federation partner of SubscriberNetworkLineProfile
+        providerId:
+          type: string
+          description: provider id of SubscriberNetworkLineProfile
+        substitutionDomain:
+          type: string
+          description: Substitution domain of SubscriberNetworkLineProfile
+        l2ccid:
+          type: string
+          description: 12 ccid of SubscriberNetworkLineProfile
+        version:
+          type: integer
+          format: int64
+          description: Version of object
+        syncStatus:
+          type: string
+          description: Profile sync status
+          enum:
+            - OUT_OF_SYNC
+            - SYNC_IN_PROGRESS
+            - SYNC_FAILED
+  parameters:
+    X-Callback-Id:
+      name: X-Callback-Id
+      in: header
+      description: >-
+        Unique consumerID used to identify the request consumer within FUSE and
+        provide support for maintenance. Possible Values: VVM, IBT, DigiOSS.
+      required: false
+      schema:
+        type: string
+    X-Callback-Correlation-Id:
+      name: X-Callback-Correlation-Id
+      in: header
+      description: >-
+        UUID V4 generated identifier - needs to be unique for each request over
+        all systems - with this the callback URL is identified internally. If
+        not provided in request it will be generated by the integration layer
+        and will be returned in response. The asynchronous callback will provide
+        this ID for correlation of request and callback.
+      required: true
+      schema:
+        type: string
+        format: uuid
+    X-Callback-Request-Id:
+      name: X-Callback-Request-Id
+      in: header
+      description: UUID V4 generated identifier - request id
+      required: true
+      schema:
+        type: string
+        format: uuid
+    X-Callback-Error-Id:
+      name: X-Callback-Error-Id
+      in: header
+      description: UUID V4 generated error identifier.
+      required: true
+      schema:
+        type: string
+        format: uuid
+    X-Callback-Error-HTTP-Code:
+      name: X-Callback-Error-HTTP-Code
+      in: header
+      description: 'Http error code such as 404, 503.'
+      required: true
+      schema:
+        type: string
+    X-Callback-Url:
+      name: X-Callback-Url
+      in: header
+      description: >-
+        The provided Rest Interface from the consumer where the expected
+        callback is sent to.
+      required: true
+      schema:
+        type: string
+    X-Callback-Error-Url:
+      name: X-Callback-Error-Url
+      in: header
+      description: >-
+        Decoupling component will transfer information to the provided
+        X-Callback-Error-Url with this content. If NO X-Callback-Error-Url is
+        provided Fuse will try to deliver the message to: X-Callback-Url +
+        "/error"
+      required: false
+      schema:
+        type: string
+    X-Callback-Method:
+      name: X-Callback-Method
+      in: header
+      description: >-
+        The method of Rest Interface for callback. Default method if not
+        specified is POST. (currently only POST is supported, might change in
+        future)
+      required: false
+      schema:
+        type: string
+        enum:
+          - POST
+          - PUT
+          - PATCH
+          - DELETE
+        default: POST
+  headers:
+    X-Callback-Request-Id:
+      description: UUID V4 generated identifier - request id
+      required: false
+      schema:
+        type: string
+        format: uuid
+    X-Callback-Correlation-Id:
+      description: >-
+        UUID V4 generated identifier - needs to be unique for each request over
+        all systems - with this the callback URL is identified internally
+      required: false
+      schema:
+        type: string
+        format: uuid
+  callbacks:
+    ErrorCallback:
+      '{$request.header.X-Callback-Error-Url}':
+        post:
+          summary: Callback method
+          security:
+            - OAuth2:
+                - 'giga:callback:full'
+                - 'giga:cga:all-area-access'
+          parameters:
+            - $ref: '#/components/parameters/X-Callback-Correlation-Id'
+          requestBody:
+            description: Callback Body
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/CallbackError'
+            required: false
+          responses:
+            '200':
+              description: Ok.
