@@ -618,18 +618,18 @@
                                             ${project.basedir}/src/main/resources/swagger/ancp-configuration/ancp-configuration-3.0.0.yaml
                                         </inputSpec>
                                     </item>
-                                    <item>
+                                    <!--item>
                                         <name>olt.discovery.v2_1_0.client</name>
                                         <inputSpec>
                                             ${project.basedir}/src/main/resources/swagger/olt-discovery/olt-discovery-2.1.0.yaml
                                         </inputSpec>
-                                    </item>
-                                    <item>
+                                    </item-->
+                                    <!--item>
                                         <name>olt.discovery.callback.v1_0_0.client</name>
                                         <inputSpec>
                                             ${project.basedir}/src/main/resources/swagger/olt-discovery/olt-discovery-callback-template-1.0.0.yaml
                                         </inputSpec>
-                                    </item>
+                                    </item-->
                                 </items>
                             </bulk>
                             <language/>
