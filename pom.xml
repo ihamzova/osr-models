@@ -327,12 +327,12 @@
                                             ${project.basedir}/src/main/resources/swagger/ancp-configuration/ancp-configuration-external.2.1.0.yaml
                                         </inputSpec>
                                     </item>
-                                    <item>
+                                    <!--item>
                                         <name>ancp.configuration.v3_0_0.client</name>
                                         <inputSpec>
                                             ${project.basedir}/src/main/resources/swagger/ancp-configuration/ancp-configuration-3.0.0.yaml
                                         </inputSpec>
-                                    </item>
+                                    </item-->
                                     <item>
                                         <name>rebell.client</name>
                                         <inputSpec>
