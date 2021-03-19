@@ -321,12 +321,12 @@
                                             ${project.basedir}/src/main/resources/swagger/if-client-network-profile/if-client-network-profile-external-swagger-v1.1.0.yaml
                                         </inputSpec>
                                     </item>
-                                    <!--item>
+                                    <item>
                                         <name>ancp.configuration.external.v2_1_0.client</name>
                                         <inputSpec>
                                             ${project.basedir}/src/main/resources/swagger/ancp-configuration/ancp-configuration-external.2.1.0.yaml
                                         </inputSpec>
-                                    </item-->>
+                                    </item>
                                     <item>
                                         <name>rebell.client</name>
                                         <inputSpec>
