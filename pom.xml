@@ -412,9 +412,9 @@
                                         </inputSpec>
                                     </item>
                                     <item>
-                                        <name>olt.resource.inventory.external.v4_10_0.client</name>
+                                        <name>olt.resource.inventory.internal.v4_10_0.client</name>
                                         <inputSpec>
-                                            ${project.basedir}/src/main/resources/swagger/olt-resource-inventory/olt-resource-inventory-external-4.10.0.yaml
+                                            ${project.basedir}/src/main/resources/swagger/olt-resource-inventory/olt-resource-inventory-internal-4.10.0.yaml
                                         </inputSpec>
                                     </item>
                                     <item>
