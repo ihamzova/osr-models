@@ -95,7 +95,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/AncpResponse'
+                $ref: '#/components/schemas/AsyncResponse'
         400:
           description: Bad Request (Sync Response on POST Request)
           content:
@@ -134,7 +134,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/AncpResponse'
+                $ref: '#/components/schemas/AsyncResponse'
         400:
           description: Bad Request (Sync Response on POST Request)
           content:
@@ -172,7 +172,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/AncpResponse'
+                $ref: '#/components/schemas/AsyncResponse'
         400:
           description: Bad Request (Sync Response on POST Request)
           content:
@@ -218,7 +218,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/AncpResponse'
+                $ref: '#/components/schemas/AsyncResponse'
         400:
           description: Bad Request (Sync Response on POST Request)
           content:
@@ -259,7 +259,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/AncpResponse'
+                $ref: '#/components/schemas/AsyncResponse'
         400:
           description: Bad Request (Sync Response on POST Request)
           content:
@@ -305,7 +305,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/AncpResponse'
+                $ref: '#/components/schemas/AsyncResponse'
         400:
           description: Bad Request (Sync Response on POST Request)
           content:
@@ -406,7 +406,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/AncpResponse'
+                $ref: '#/components/schemas/AsyncResponse'
         400:
           description: Bad Request (Sync Response on POST Request)
           content:
@@ -448,7 +448,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/AncpResponse'
+                $ref: '#/components/schemas/AsyncResponse'
         400:
           description: Bad Request (Sync Response on POST Request)
           content:
@@ -495,7 +495,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/AncpResponse'
+                $ref: '#/components/schemas/AsyncResponse'
         400:
           description: Bad Request (Sync Response on POST Request)
           content:
@@ -704,7 +704,7 @@ components:
         embedded:
           $ref: '#/components/schemas/SpecificProblemDetails'
       description: Error response of 4xx and 5xx http statuses.
-    AncpResponse:
+    AsyncResponse:
       required:
         - modifiedIndex
         - status

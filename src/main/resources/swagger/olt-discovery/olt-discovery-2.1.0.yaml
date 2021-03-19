@@ -117,7 +117,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Response'
+                $ref: '#/components/schemas/AsyncResponse'
         400:
           description: Bad Request (Sync Response on POST Request)
           content:
@@ -425,7 +425,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Response'
+                $ref: '#/components/schemas/AsyncResponse'
         400:
           description: Bad Request (Sync Response on POST Request)
           content:
@@ -1174,7 +1174,7 @@ components:
           $ref: '#/components/schemas/EndszType'
         inventoryData:
           $ref: '#/components/schemas/CallbackgetaccessnodeinventoryrequestPayload'
-    Response:
+    AsyncResponse:
       type: object
       properties:
         correlationId:
