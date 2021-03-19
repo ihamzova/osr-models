@@ -1,0 +1,1322 @@
+openapi: 3.0.1
+info:
+  title: OLT-Discovery
+  description: OLT-Discovery API
+  version: 2.1.0
+servers:
+  - url: http://localhost:8120/
+    description: basePath for internal use only
+  - url: https://{API_GATEWAY_URL}
+    description: basePath for communication via api gateway
+
+tags:
+  - name: DiscoveryController
+  - name: DiscrepancyController
+  - name: NetworkInventoryController
+  - name: DiscoveryControllerV2
+  - name: DiscrepancyControllerV2
+  - name: NetworkInventoryControllerV2
+  - name: DiscoveryMaintenance
+  - name: DiscoveryMaintenanceV2
+paths:
+  /api/discovery/v1/cancel:
+    put:
+      tags:
+        - DiscoveryController
+      summary: cancels a running discovery process
+      operationId: cancel
+      parameters:
+        - name: discoveryId
+          in: query
+          description: Id of discovery process from start discovery
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          description: Process canceled
+          content: {}
+        400:
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        404:
+          description: Entity not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /api/discovery/v1/getstatus:
+    get:
+      tags:
+        - DiscoveryController
+      summary: delivers status of existing discovery processes
+      operationId: getStatus
+      parameters:
+        - name: endsz
+          in: query
+          description: EndSz of OLT
+          schema:
+            $ref: '#/components/schemas/EndszType'
+        - name: discoveryId
+          in: query
+          description: Id of discovery process from start discovery
+          schema:
+            type: string
+      responses:
+        200:
+          description: Status delivered
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/DiscoveryStatus'
+        400:
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /api/discovery/v1/start:
+    post:
+      tags:
+        - DiscoveryController
+      summary: Start Discovery Process
+      operationId: start
+      parameters:
+        - name: endsz
+          in: query
+          description: EndSz of OLT
+          required: true
+          schema:
+            $ref: '#/components/schemas/EndszType'
+        - $ref: '#/components/parameters/X-Callback-Id'
+        - $ref: '#/components/parameters/X-Callback-Correlation-Id'
+        - $ref: '#/components/parameters/X-Callback-Url'
+        - $ref: '#/components/parameters/X-Callback-Error-Url'
+        - $ref: '#/components/parameters/X-Callback-Method'
+        - name: type
+          in: query
+          description: Discovery-Type
+          schema:
+            $ref: '#/components/schemas/DiscoveryType'
+        - name: mode
+          in: query
+          description: 'Discovery-Mode (MANUAL: Compare of Inventory from SEAL/PSL with
+          Resource Inventory and apply of modifications to Resource Inventory must
+          be done manually; AUTOMATIC: Compare and apply of modifications to RI will
+          be done automatically)'
+          schema:
+            $ref: '#/components/schemas/DiscoveryMode'
+      responses:
+        202:
+          description: Request to discovery is accepted
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AsyncResponse'
+        400:
+          description: Bad Request (Sync Response on POST Request)
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      callbacks:
+        callbackDiscoveryStart:
+          $ref: '#/components/callbacks/callbackDiscoveryStart'
+  /api/discovery/v1/timeout:
+    put:
+      tags:
+        - DiscoveryMaintenance
+      summary: check discovery timeout and cancel when expired
+      operationId: checkTimeout
+      responses:
+        202:
+          description: Check discovery timeout successful
+          content: {}
+        400:
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /api/discrepancy/v1/apply:
+    put:
+      tags:
+        - DiscrepancyController
+      summary: applies changes from network inventory into resource inventory
+      operationId: applyChangesToResourceInventory
+      parameters:
+        - name: discoveryId
+          in: query
+          description: Id of discovery process from start discovery
+          required: true
+          schema:
+            type: string
+      requestBody:
+        description: result of compare network inventory with resource inventory including
+          decisions
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/InventoryCompareResult'
+        required: true
+      responses:
+        200:
+          description: Changes successfully applied
+          content: {}
+        400:
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        404:
+          description: Entity not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      x-codegen-request-body-name: body
+  /api/discrepancy/v1/compare:
+    get:
+      tags:
+        - DiscrepancyController
+      summary: delivers discrepancy data
+      operationId: compareWithResourceInventory
+      parameters:
+        - name: discoveryId
+          in: query
+          description: Id of discovery process from start discovery
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          description: Discrepancies successfully determined
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InventoryCompareResult'
+        400:
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        404:
+          description: Entity not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /api/networkInventory/v1/add:
+    post:
+      tags:
+        - NetworkInventoryController
+      summary: adds new entry to network inventory
+      operationId: addToNetworkInventory
+      parameters:
+        - name: Endsz
+          in: query
+          description: Endsz of device
+          required: true
+          schema:
+            $ref: '#/components/schemas/EndszType'
+        - name: pslSessionId
+          in: query
+          description: SessionId of corresponding PSL Session in PSL Adapter (only in
+            case of SEAL-PSL Discovery)
+          schema:
+            type: string
+      requestBody:
+        description: Network Inventory data
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CallbackgetaccessnodeinventoryrequestPayload'
+        required: true
+      responses:
+        200:
+          description: Successfully created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NetworkInventoryDto'
+        400:
+          description: Can't perform operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        409:
+          description: Entry already exists
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      x-codegen-request-body-name: body
+  /api/networkInventory/v1/cleanup:
+    delete:
+      tags:
+        - DiscoveryMaintenance
+      summary: Removes outdated data from network inventory
+      operationId: cleanupOutdatedInventoryData
+      responses:
+        200:
+          description: Outdated data successfully deleted
+          content: {}
+        400:
+          description: Can't perform operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /api/networkInventory/v1/get:
+    get:
+      tags:
+        - NetworkInventoryController
+      summary: delivers discovered data
+      operationId: getNetworkInventory
+      parameters:
+        - name: discoveryId
+          in: query
+          description: Id of discovery process from start discovery
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          description: Network Inventory data successful delivered
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CallbackgetaccessnodeinventoryrequestPayload'
+        400:
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        404:
+          description: Entity not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /resource-order-resource-inventory/v2/deviceDiscoveryCancelDiscoveryTask:
+    post:
+      tags:
+        - DiscoveryControllerV2
+      summary: cancels a running discovery process
+      operationId: discoverSessionCancelV2
+      parameters:
+        - name: discoveryId
+          in: query
+          description: Id of discovery process from start discovery
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          description: Process canceled
+          content: {}
+        400:
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        404:
+          description: Entity not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        500:
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /resource-order-resource-inventory/v2/deviceDiscoveryGetDiscoveryStatusTask:
+    post:
+      tags:
+        - DiscoveryControllerV2
+      summary: delivers status of existing discovery processes
+      operationId: getStatusV2
+      parameters:
+        - name: endsz
+          in: query
+          description: EndSz of OLT
+          schema:
+            $ref: '#/components/schemas/EndszType'
+        - name: discoveryId
+          in: query
+          description: Id of discovery process from start discovery
+          schema:
+            type: string
+      responses:
+        200:
+          description: Status delivered
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/DiscoveryStatus'
+        400:
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        500:
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  /reqcb/resource-order-resource-inventory/v2/deviceDiscoveryStartDiscoveryTask:
+    post:
+      tags:
+        - DiscoveryControllerV2
+      summary: Start Discovery Process
+      operationId: startV2
+      parameters:
+        - name: endsz
+          in: query
+          description: EndSz of OLT
+          required: true
+          schema:
+            $ref: '#/components/schemas/EndszType'
+        - $ref: '#/components/parameters/X-Callback-Id'
+        - $ref: '#/components/parameters/X-Callback-Correlation-Id'
+        - $ref: '#/components/parameters/X-Callback-Url'
+        - $ref: '#/components/parameters/X-Callback-Error-Url'
+        - $ref: '#/components/parameters/X-Callback-Method'
+        - name: type
+          in: query
+          description: Discovery-Type
+          required: true
+          schema:
+            $ref: '#/components/schemas/DiscoveryType'
+        - name: mode
+          in: query
+          description: 'Discovery-Mode (MANUAL: Compare of Inventory from SEAL/PSL with
+          Resource Inventory and apply of modifications to Resource Inventory must
+          be done manually; AUTOMATIC: Compare and apply of modifications to RI will
+          be done automatically)'
+          required: true
+          schema:
+            $ref: '#/components/schemas/DiscoveryMode'
+        - name: compositePartyId
+          in: query
+          description: Composite PartyID of organization the equipment belongs to
+          schema:
+            type: string
+      responses:
+        202:
+          description: Request to discovery is accepted
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AsyncResponse'
+        400:
+          description: Bad Request (Sync Response on POST Request)
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        500:
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+      callbacks:
+        callbackDiscoveryStart:
+          $ref: '#/components/callbacks/callbackDiscoveryStart'
+  /resource-order-resource-inventory/v2/deviceDiscoveryCheckDiscoveryTimeoutTask:
+    post:
+      tags:
+        - DiscoveryMaintenanceV2
+      summary: check discovery timeout and cancel when expired
+      operationId: checkTimeoutV2
+      responses:
+        202:
+          description: Check discovery timeout successful
+          content: {}
+        400:
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        500:
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  /resource-order-resource-inventory/v2/deviceDiscoveryApplyDiscrepancyToInventoryTask:
+    post:
+      tags:
+        - DiscrepancyControllerV2
+      summary: applies changes from network inventory into resource inventory
+      operationId: applyChangesToResourceInventoryV2
+      parameters:
+        - name: discoveryId
+          in: query
+          description: Id of discovery process from start discovery
+          required: true
+          schema:
+            type: string
+      requestBody:
+        description: result of compare network inventory with resource inventory including
+          decisions
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/InventoryCompareResult'
+        required: true
+      responses:
+        200:
+          description: Changes successfully applied
+          content: {}
+        400:
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        404:
+          description: Entity not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        500:
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+      x-codegen-request-body-name: body
+  /resource-order-resource-inventory/v2/deviceDiscoveryCreateDiscrepancyReportTask:
+    post:
+      tags:
+        - DiscrepancyControllerV2
+      summary: delivers discrepancy data
+      operationId: compareWithResourceInventoryV2
+      parameters:
+        - name: discoveryId
+          in: query
+          description: Id of discovery process from start discovery
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          description: Discrepancies successfully determined
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InventoryCompareResult'
+        400:
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        404:
+          description: Entity not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        500:
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  /resource-order-resource-inventory/v2/deviceDiscoveryNetworkInventory:
+    get:
+      tags:
+        - NetworkInventoryControllerV2
+      summary: delivers discovered data
+      operationId: getNetworkInventoryV2
+      parameters:
+        - name: discoveryId
+          in: query
+          description: Id of discovery process from start discovery
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          description: Network Inventory data successful delivered
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CallbackgetaccessnodeinventoryrequestPayload'
+        400:
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        404:
+          description: Entity not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        500:
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    post:
+      tags:
+        - NetworkInventoryControllerV2
+      summary: adds new entry to network inventory
+      operationId: addToNetworkInventoryV2
+      parameters:
+        - name: Endsz
+          in: query
+          description: Endsz of device
+          required: true
+          schema:
+            $ref: '#/components/schemas/EndszType'
+        - name: pslSessionId
+          in: query
+          description: SessionId of corresponding PSL Session in PSL Adapter (only in
+            case of SEAL-PSL Discovery)
+          schema:
+            type: string
+      requestBody:
+        description: Network Inventory data
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CallbackgetaccessnodeinventoryrequestPayload'
+        required: true
+      responses:
+        200:
+          description: Successfully created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NetworkInventoryDto'
+        400:
+          description: Can't perform operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        409:
+          description: Entry already exists
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+      x-codegen-request-body-name: body
+  /resource-order-resource-inventory/v2/deviceDiscoveryCleanupOutdatedDiscoveryResultsTask:
+    post:
+      tags:
+        - DiscoveryMaintenanceV2
+      summary: Removes outdated data from network inventory
+      operationId: cleanupOutdatedInventoryDataV2
+      responses:
+        200:
+          description: Outdated data successfully deleted
+          content: {}
+        400:
+          description: Can't perform operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        500:
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+components:
+  schemas:
+    CallbackError:
+      type: object
+      properties:
+        message:
+          type: string
+        status:
+          type: integer
+          format: int32
+        code:
+          type: string
+    CallbackgetaccessnodeinventoryrequestPayload:
+      type: object
+      properties:
+        managedElement:
+          $ref: '#/components/schemas/CallbackgetaccessnodeinventoryrequestPayloadManagedElement'
+        modules:
+          type: array
+          items:
+            $ref: '#/components/schemas/CallbackgetaccessnodeinventoryrequestPayloadModules'
+        ports:
+          type: array
+          items:
+            $ref: '#/components/schemas/CallbackgetaccessnodeinventoryrequestPayloadPorts'
+        connections:
+          type: array
+          items:
+            $ref: '#/components/schemas/CallbackgetaccessnodeinventoryrequestPayloadConnections'
+        onts:
+          type: array
+          items:
+            $ref: '#/components/schemas/CallbackgetaccessnodeinventoryrequestPayloadOnts'
+        ancpConfigurations:
+          type: array
+          items:
+            $ref: '#/components/schemas/CallbackgetaccessnodeinventoryrequestPayloadAncpConfigurations'
+    CallbackgetaccessnodeinventoryrequestPayloadAncpConfigurations:
+      type: object
+      properties:
+        ancpInterfaceAccessNodeIp:
+          type: string
+          description: IP-Address of the access node
+          example: 10.30.120.1
+        vlanId:
+          maximum: 4096
+          exclusiveMaximum: false
+          minimum: 0
+          exclusiveMinimum: false
+          type: number
+          description: SVLAN of the ANCP-interface
+          example: 16.0
+        ancpInterfaceId:
+          maximum: 8
+          exclusiveMaximum: false
+          minimum: 1
+          exclusiveMinimum: false
+          type: number
+          description: Number of the ANCP-interface
+          example: 3.0
+        ancpPartitionId:
+          maximum: 255
+          exclusiveMaximum: false
+          minimum: 0
+          exclusiveMinimum: false
+          type: number
+          description: Number of the ANCP-partition
+          example: 4.0
+        ancpInterfaceControllerNodeIp:
+          type: string
+          description: IP-Address of the port on the controller node (BNG)
+          example: 10.30.120.2
+        uplinkSlot:
+          type: string
+          description: Number of the slot
+        uplinkPort:
+          type: string
+          description: Number of the uplinkPort
+        shelf:
+          type: string
+          description: Number of the shelf
+    CallbackgetaccessnodeinventoryrequestPayloadConnections:
+      type: object
+      properties:
+        vlanId:
+          maximum: 4095
+          exclusiveMaximum: false
+          minimum: 0
+          exclusiveMinimum: false
+          type: number
+          description: SVLAN of the ANCP-interface
+          example: 2010.0
+        ancpPartitionId:
+          maximum: 255
+          exclusiveMaximum: false
+          minimum: 0
+          exclusiveMinimum: false
+          type: number
+          description: Number of the ANCP-partition
+          example: 4.0
+        shelf:
+          type: string
+          description: Number of the shelf
+        slot:
+          type: string
+          description: Number of the slot
+        port:
+          type: string
+          description: Number of the port
+    CallbackgetaccessnodeinventoryrequestPayloadManagedElement:
+      type: object
+      properties:
+        name:
+          type: string
+          description: Endpoint key number which uniquely identifies a Manged element
+            in the DTAG network
+          example: 49_231_50_71M1
+        ipAddress:
+          type: string
+          description: ZDCN IP Address of ME
+          example: 10.182.69.11
+        productName:
+          type: string
+          description: Name of the device type
+          example: MA5600T
+        manufacturer:
+          type: string
+          description: Unique ID that identifies the vendor of the ME
+          example: HUAWEI
+        softwareVersion:
+          type: string
+          description: Firmware version of the access node
+          example: MA5600V800R008C02
+        resourceState:
+          type: string
+          description: Current planning status of the managed element
+          example: WORKING
+          enum:
+            - WORKING
+            - NON_WORKING
+        communicationState:
+          type: string
+          description: Shows whether Managed Element in the DTAG network can be managed
+            by the EMS or not
+          example: CS_AVAILABLE
+          enum:
+            - CS_AVAILABLE
+            - CS_UNAVAILABLE
+    CallbackgetaccessnodeinventoryrequestPayloadModules:
+      type: object
+      properties:
+        slot:
+          type: string
+          description: Number of the slot
+          example: "2"
+        installedEquipmentObjectType:
+          type: string
+          description: Manufacturer's identification number of the module
+          example: H802GPBD
+        installedSerialNumber:
+          type: string
+          description: Manufacturer specific serial number of the module
+          example: 020PFN6TBA603435
+        manufacturer:
+          type: string
+          description: Unique identifier that identifies the vendor of the module
+          example: HUAWEI
+        installedVersion:
+          type: string
+          description: Firmware version of the module
+          example: MA5600V800R017C10
+        resourceState:
+          type: string
+          description: Current planning status of the module
+          example: INSTALLING_INSTALLED
+          enum:
+            - INSTALLING_INSTALLED
+            - INSTALLING_INTEGRATED
+            - INSTALLING_REJECTED
+            - UNKNOWN
+        resourceFulfillmentState:
+          type: string
+          description: Current service status of the module
+          example: IN_SERVICE
+          enum:
+            - IN_SERVICE
+            - OUT_OF_SERVICE
+            - OUT_OF_SERVICE_BY_MAINTENANCE
+            - SERV_NA
+        shelf:
+          type: string
+          description: Number of the shelf
+    CallbackgetaccessnodeinventoryrequestPayloadOnts:
+      type: object
+      properties:
+        vlanId:
+          maximum: 4095
+          exclusiveMaximum: false
+          minimum: 0
+          exclusiveMinimum: false
+          type: number
+          description: VLAN ID per port for unique port identification
+          example: 2010.0
+        serialNumber:
+          type: string
+          description: ID for registration at the ONT
+          example: 48575443F3F84003
+        installedSerialNumber:
+          type: string
+          description: Manufacturer specific serial number of the ONT
+          example: FFFFFFFF0500F8EA
+        lineId:
+          type: string
+          description: Unique identification number of the port/connector
+          example: DEU.DTAG.2010
+        manufacturer:
+          type: string
+          description: Unique ID that identifies the vendor of the ONT
+          example: HWTC
+        installedEquipmentObjectType:
+          type: string
+          description: Manufacturer's identification number of the ONT
+          example: ONT
+        softwareVersion:
+          type: string
+          description: Firmware version of the ONT
+          example: MA5600V800R017C10
+        lineProfile:
+          type: string
+          description: Line Profile of the ONT
+          example: FTTH-generic_500M-up_1G-down
+        serviceProfile:
+          type: string
+          description: Service Profile of the ONT
+          example: FTTH-generic
+        ontId:
+          type: integer
+          description: ID of the ONT in the PON
+          format: int32
+        shelf:
+          type: string
+          description: Number of the shelf
+        slot:
+          type: string
+          description: Number of the slot
+        port:
+          type: string
+          description: Number of the port
+    CallbackgetaccessnodeinventoryrequestPayloadPorts:
+      type: object
+      properties:
+        portType:
+          type: string
+          description: Technical type of the port
+          example: ETHERNET
+          enum:
+            - SIP
+            - ADSL
+            - VDSL
+            - VVDSL
+            - SVVDSL
+            - SHDSL
+            - ETHERNET
+            - PON
+        installedPartNumberSFP:
+          type: string
+          description: Part number of the SFP module which is connected to an Ethernet/PON
+            port
+          example: OpticVendorSpecific:53 50 53 2D 34 33 2D 34 38 48 2D 48 50 2D 43
+            44 45 23 35 20 20 20 20 20 20 20 FF FF FF FF FF FF
+        installedMatNumberSFP:
+          type: string
+          description: Material number of the SFP module which is connected to an
+            Ethernet/PON port
+          example: 'OpticUserEeprom:'
+        shelf:
+          type: string
+          description: Number of the shelf
+        slot:
+          type: string
+          description: Number of the slot
+        port:
+          type: string
+          description: Number of the port
+    ComparableCard:
+      type: object
+      properties:
+        emsNbiName:
+          type: string
+        materialNumber:
+          type: string
+        serialNumber:
+          type: string
+        firmwareVersion:
+          type: string
+        resourceState:
+          type: string
+        equipmentNr:
+          type: string
+        cardType:
+          type: string
+        ports:
+          type: array
+          items:
+            $ref: '#/components/schemas/ComparablePort'
+    ComparableDevice:
+      type: object
+      properties:
+        emsNbiName:
+          type: string
+        materialNumber:
+          type: string
+        ipAddress:
+          type: string
+        resourceState:
+          type: string
+        communicationState:
+          type: string
+        firmwareVersion:
+          type: string
+        klsId:
+          type: integer
+          format: int64
+        asb:
+          type: integer
+          format: int64
+        technischerPlatz:
+          type: string
+        equipmentNr:
+          type: string
+    ComparablePort:
+      type: object
+      properties:
+        portNumber:
+          type: string
+        portType:
+          type: string
+    ComponentCompareResult:
+      type: object
+      properties:
+        id:
+          type: string
+        changeStatus:
+          $ref: '#/components/schemas/ComponentCompareResultChangeStatus'
+        networkInventory:
+          type: object
+          properties: {}
+        resourceInventory:
+          type: object
+          properties: {}
+        pslInventory:
+          type: object
+          properties: {}
+        action:
+          $ref: '#/components/schemas/ComponentCompareResultAction'
+        allowedActions:
+          type: array
+          items:
+            $ref: '#/components/schemas/ComponentCompareResultAction'
+        additionalInfo:
+          $ref: '#/components/schemas/ComponentCompareResultAdditionalInfo'
+    ComponentCompareResultAction:
+      type: string
+      enum:
+        - NONE
+        - IGNORE
+        - UPDATE
+        - USER_INTERVENTION
+    ComponentCompareResultChangeStatus:
+      type: string
+      enum:
+        - NONE
+        - ADDED
+        - REMOVED
+        - MODIFIED
+        - REPLACED
+    ComponentCompareResultComparableCard:
+      type: object
+      properties:
+        id:
+          type: string
+        changeStatus:
+          $ref: '#/components/schemas/ComponentCompareResultChangeStatus'
+        networkInventory:
+          $ref: '#/components/schemas/ComparableCard'
+        resourceInventory:
+          $ref: '#/components/schemas/ComparableCard'
+        pslInventory:
+          $ref: '#/components/schemas/ComparableCard'
+        action:
+          $ref: '#/components/schemas/ComponentCompareResultAction'
+        allowedActions:
+          type: array
+          items:
+            $ref: '#/components/schemas/ComponentCompareResultAction'
+        additionalInfo:
+          $ref: '#/components/schemas/ComponentCompareResultAdditionalInfo'
+    ComponentCompareResultAdditionalInfo:
+      type: string
+      enum:
+        - INCONSISTENCY_IN_PSL
+        - CARD_IS_PLANNED
+        - SCENARIO_NOT_SUPPORTED
+    ComponentCompareResultComparableDevice:
+      type: object
+      properties:
+        id:
+          type: string
+        changeStatus:
+          $ref: '#/components/schemas/ComponentCompareResultChangeStatus'
+        networkInventory:
+          $ref: '#/components/schemas/ComparableDevice'
+        resourceInventory:
+          $ref: '#/components/schemas/ComparableDevice'
+        pslInventory:
+          $ref: '#/components/schemas/ComparableDevice'
+        action:
+          $ref: '#/components/schemas/ComponentCompareResultAction'
+        allowedActions:
+          type: array
+          items:
+            $ref: '#/components/schemas/ComponentCompareResultAction'
+        additionalInfo:
+          $ref: '#/components/schemas/ComponentCompareResultAdditionalInfo'
+    DiscoveryResponseHolder:
+      type: object
+      properties:
+        error:
+          $ref: '#/components/schemas/CallbackError'
+        response:
+          $ref: '#/components/schemas/DiscoveryResponse'
+        success:
+          type: boolean
+      description: result of discovery device
+    DiscoveryResponse:
+      type: object
+    DiscoveryStatus:
+      type: object
+      properties:
+        discoveryId:
+          type: string
+        endsz:
+          type: string
+        startDateTime:
+          type: string
+          format: date-time
+        endDateTime:
+          type: string
+          format: date-time
+        status:
+          $ref: '#/components/schemas/DiscoveryStateEnum'
+        messageText:
+          type: string
+        type:
+          $ref: '#/components/schemas/DiscoveryType'
+        pslCallbackCorrelationId:
+          type: string
+        pslSessionId:
+          type: string
+        mode:
+          $ref: '#/components/schemas/DiscoveryMode'
+    DiscoveryMode:
+      type: string
+      default: MANUAL
+      enum:
+        - MANUAL
+        - AUTOMATIC
+    DiscoveryType:
+      type: string
+      default: SEAL_PSL
+      enum:
+        - SEAL
+        - SEAL_PSL
+    DiscoveryStateEnum:
+      type: string
+      enum:
+        - DISCOVERY_START
+        - SEAL_PROCESS_START
+        - SEAL_PROCESS_DONE
+        - DONE
+        - CANCEL
+        - ERROR
+        - TIMEOUT
+        - SEAL_AND_PSL_PROCESS_START
+        - PSL_PROCESS_DONE
+        - SEAL_AND_PSL_PROCESS_DONE
+    ErrorResponse:
+      type: object
+      properties:
+        errorCode:
+          type: string
+          description: Error code
+        message:
+          type: string
+          description: Message
+      description: Error response of 4xx and 5xx http statuses
+    InventoryCompareResult:
+      type: object
+      properties:
+        device:
+          $ref: '#/components/schemas/ComponentCompareResultComparableDevice'
+        slots:
+          type: array
+          items:
+            $ref: '#/components/schemas/ComponentCompareResultComparableCard'
+    NetworkInventoryDto:
+      type: object
+      properties:
+        id:
+          type: string
+        discoveryStart:
+          type: string
+          format: date-time
+        discoveryEnd:
+          type: string
+          format: date-time
+        endsz:
+          $ref: '#/components/schemas/EndszType'
+        inventoryData:
+          $ref: '#/components/schemas/CallbackgetaccessnodeinventoryrequestPayload'
+    AsyncResponse:
+      type: object
+      properties:
+        correlationId:
+          type: string
+        modifiedIndex:
+          type: integer
+          format: int32
+        message:
+          type: string
+    EndszType:
+      type: string
+      pattern: '[0-9]{1,6}\/[0-9]{1,6}\/[0-9]{1,6}\/[a-zA-Z0-9]{2,4}'
+      example: '49/8571/0/76HA'
+    Error:
+      required:
+        - code
+        - reason
+      type: object
+      properties:
+        code:
+          type: string
+          description: Application relevant detail, defined in the API or a common
+            list.
+        reason:
+          type: string
+          description: Explanation of the reason for the error which can be shown
+            to a client user.
+        message:
+          type: string
+          description: More details and corrective actions related to the error which
+            can be shown to a client user.
+        status:
+          type: string
+          description: HTTP Error code extension
+        referenceError:
+          type: string
+          description: URI of documentation describing the error.
+          format: uri
+        '@baseType':
+          type: string
+          description: When sub-classing, this defines the super-class.
+        '@schemaLocation':
+          type: string
+          description: A URI to a JSON-Schema file that defines additional attributes
+            and relationships
+          format: uri
+        '@type':
+          type: string
+          description: When sub-classing, this defines the sub-class entity name.
+          default: Error
+      description: Used when an API throws an Error, typically with a HTTP error response-code
+        (3xx, 4xx, 5xx)
+
+
+  parameters:
+    X-Callback-Id:
+      name: X-Callback-Id
+      in: header
+      description: Callback Id
+      schema:
+        type: string
+    X-Callback-Correlation-Id:
+      name: X-Callback-Correlation-Id
+      in: header
+      description: Correlation Id
+      schema:
+        type: string
+        format: uuid
+    X-Callback-Url:
+      name: X-Callback-Url
+      in: header
+      description: Callback url
+      schema:
+        type: string
+    X-Callback-Error-Url:
+      name: X-Callback-Error-Url
+      in: header
+      description: Error callback url
+      schema:
+        type: string
+    X-Callback-Method:
+      name: X-Callback-Method
+      in: header
+      description: Callback http method
+      schema:
+        type: string
+    X-Correlation-ID:
+      name: X-Correlation-ID
+      in: header
+      description: Value for identifying a single transaction across multiple services
+        up to the backend. Usually set by the originating consumer.Any service receiving
+        this header parameter MUST forward it unmodified to other services it invokes.
+        Non-REST technologies (e.g. SOABP) might use a different identifier for this
+        attribute. If this ID is not available (not supplied, empty or at origin),
+        the service MUST create it as a UUID. The maximum length of 256 characters
+        MUST NOT be exceeded (a standard UUID has 36 characters). The creator MAY
+        prefix the UUID with an application and/or instance defined string.
+      schema:
+        type: string
+    X-Request-ID:
+      name: X-Request-ID
+      in: header
+      description: Value to identify an individual request across consuming application,
+        middleware and service provider. This ID is to be generated for every single
+        request and not to be passed down (as X-Correlation-ID) to sub-services. Every
+        consuming application MUST create this value as UUID. The maximum length of
+        256 characters MUST NOT be exceeded (a standard UUID has 36 characters). The
+        creator MAY prefix the UUID with an application and/or instance defined string.
+      schema:
+        type: string
+    X-Business-Context:
+      name: X-Business-Context
+      in: header
+      description: The business context is a general classification for a larger number
+        of requests (types) usually set by the originating consumer. Any service receiving
+        this header parameter MUST forward it unmodified to other services it invokes.
+        Non-REST technologies (e.g. SOABP) might use a different identifier for this
+        attribute.
+      schema:
+        type: string
+  callbacks:
+    callbackDiscoveryStart:
+      '{$request.header.X-Callback-Url}':
+        post:
+          summary: Discovery callback
+          parameters:
+            - name: X-Callback-Correlation-Id
+              in: header
+              description: Value for identifying a single transaction across multiple services
+                up to the backend. Usually set by the originating consumer
+              required: true
+              schema:
+                type: string
+                format: uuid
+          requestBody:
+            description: Result of discovery device
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/DiscoveryResponseHolder'
+            required: true
+          responses:
+            200:
+              description: Discovery process done
+              content: { }

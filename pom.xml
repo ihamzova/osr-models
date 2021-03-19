@@ -10,7 +10,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>osr-models</artifactId>
-    <version>0.0.81</version>
+    <version>0.0.82</version>
 
     <properties>
         <framework.version>${project.parent.version}</framework.version>
@@ -412,6 +412,12 @@
                                         </inputSpec>
                                     </item>
                                     <item>
+                                        <name>olt.resource.inventory.external.v4_10_0.client</name>
+                                        <inputSpec>
+                                            ${project.basedir}/src/main/resources/swagger/olt-resource-inventory/olt-resource-inventory-external-4.10.0.yaml
+                                        </inputSpec>
+                                    </item>
+                                    <item>
                                         <name>area.data.management.external.client</name>
                                         <inputSpec>
                                             ${project.basedir}/src/main/resources/swagger/area-data-management/area-data-management-external.yaml
@@ -604,6 +610,24 @@
                                         <name>network.line.profile.management.v1_5_0.client</name>
                                         <inputSpec>
                                             ${project.basedir}/src/main/resources/swagger/network-line-profile-management/network-line-profile-management-v1.5.0.yaml
+                                        </inputSpec>
+                                    </item>
+                                    <item>
+                                        <name>ancp.configuration.v3_0_0.client</name>
+                                        <inputSpec>
+                                            ${project.basedir}/src/main/resources/swagger/ancp-configuration/ancp-configuration-3.0.0.yaml
+                                        </inputSpec>
+                                    </item>
+                                    <item>
+                                        <name>olt.discovery.v2_1_0.client</name>
+                                        <inputSpec>
+                                            ${project.basedir}/src/main/resources/swagger/olt-discovery/olt-discovery-2.1.0.yaml
+                                        </inputSpec>
+                                    </item>
+                                    <item>
+                                        <name>olt.discovery.callback.v1_0_0.client</name>
+                                        <inputSpec>
+                                            ${project.basedir}/src/main/resources/swagger/olt-discovery/olt-discovery-callback-template-1.0.0.yaml
                                         </inputSpec>
                                     </item>
                                 </items>

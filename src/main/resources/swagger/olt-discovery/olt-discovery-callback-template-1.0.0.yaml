@@ -1,0 +1,65 @@
+openapi: 3.0.0
+info:
+  title: OLT-Discovery Callback Template
+  description: This is a template of OLT-Discovery Callback methods for consumers of ANCP-Configuration.
+    Please make copy of this file and adapt paths accordingly to your needs.
+    Please do not change method signature.
+  version: 1.0.0
+servers:
+  - url: http://localhost:8080
+tags:
+  - name: OltDiscoveryCallback
+paths:
+  /callback/deviceDiscoveryStartDiscoveryTask:
+    post:
+      tags:
+        - OltDiscoveryCallback
+      operationId: deviceDiscoveryStartDiscoveryTaskCallback
+      summary: Discovery callback
+      parameters:
+        - name: X-Callback-Correlation-Id
+          in: header
+          description: Value for identifying a single transaction across multiple services
+            up to the backend. Usually set by the originating consumer
+          required: true
+          schema:
+            type: string
+            format: uuid
+      requestBody:
+        description: Result of discovery device
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DiscoveryResponseHolder'
+        required: true
+      responses:
+        200:
+          description: Discovery process done
+          content: { }
+components:
+  schemas:
+    DiscoveryResponseHolder:
+      type: object
+      properties:
+        error:
+          $ref: '#/components/schemas/CallbackError'
+        response:
+          $ref: '#/components/schemas/DiscoveryResponse'
+        success:
+          type: boolean
+      description: result of discovery device
+    DiscoveryResponse:
+      type: object
+    CallbackError:
+      type: object
+      properties:
+        message:
+          type: string
+        status:
+          type: integer
+          format: int32
+        code:
+          type: string
+
+
+  
