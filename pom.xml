@@ -612,12 +612,12 @@
                                             ${project.basedir}/src/main/resources/swagger/network-line-profile-management/network-line-profile-management-v1.5.0.yaml
                                         </inputSpec>
                                     </item>
-                                    <!--item>
+                                    <item>
                                         <name>ancp.configuration.v3_0_0.client</name>
                                         <inputSpec>
                                             ${project.basedir}/src/main/resources/swagger/ancp-configuration/ancp-configuration-3.0.0.yaml
                                         </inputSpec>
-                                    </item-->
+                                    </item>
                                     <!--item>
                                         <name>olt.discovery.v2_1_0.client</name>
                                         <inputSpec>
@@ -633,44 +633,6 @@
                                 </items>
                             </bulk>
                             <language/>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
-
-            <plugin>
-                <groupId>org.openapitools</groupId>
-                <artifactId>openapi-generator-maven-plugin</artifactId>
-                <version>4.2.3</version>
-                <configuration>
-                    <language>java</language>
-                    <generateApiTests>false</generateApiTests>
-                    <generateModelTests>false</generateModelTests>
-                    <skipValidateSpec>true</skipValidateSpec>
-                    <configOptions>
-                        <dateLibrary>java8</dateLibrary>
-                    </configOptions>
-                </configuration>
-                <executions>
-                    <execution>
-                        <id>generate-ancp-configuration-client</id>
-                        <phase>generate-sources</phase>
-                        <goals>
-                            <goal>generate</goal>
-                        </goals>
-                        <configuration>
-                            <inputSpec>${project.basedir}/src/main/resources/swagger/ancp-configuration/ancp-configuration-3.0.0.yaml</inputSpec>
-                            <language>java</language>
-                            <generateApiTests>false</generateApiTests>
-                            <generateModelTests>false</generateModelTests>
-                            <library>resttemplate</library>
-                            <modelPackage>${project.groupId}.ancp.client.model</modelPackage>
-                            <apiPackage>${project.groupId}.ancp.client.api</apiPackage>
-                            <invokerPackage>${project.groupId}.ancp.client.invoker</invokerPackage>
-                            <skipOverwrite>true</skipOverwrite>
-                            <configOptions>
-                                <dateLibrary>java8</dateLibrary>
-                            </configOptions>
                         </configuration>
                     </execution>
                 </executions>
