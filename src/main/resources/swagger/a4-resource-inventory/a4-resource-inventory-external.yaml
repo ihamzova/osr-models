@@ -2,7 +2,7 @@ swagger: '2.0'
 info:
   title: a4-resource-inventory
   description: This interface allows you to do CRUD-operations on the a4-resource-inventory
-  version: 5.2.1
+  version: 6.0.1
   contact:
     email: DL_Berlinium@telekom.de
 schemes:
@@ -716,8 +716,7 @@ paths:
         '200':
           description: get a rebellPortLabel or a logicalLabel(Functional Port Label) of MatNumberPortMapping - OK
           schema:
-            type: string
-            description: a rebellPortLabel or a logicalLabel(Functional Port Label) of MatNumberPortMapping
+            $ref: '#/definitions/PortLabel'
         '400':
           description: get a rebellPortLabel or a logicalLabel(Functional Port Label) of MatNumberPortMapping - Bad Request
           schema:
@@ -1659,6 +1658,42 @@ paths:
           description: get to NetworkServiceProfileL2BsaDto/ - Internal Server Error
           schema:
             $ref: '#/definitions/Error'
+  /networkElementDetails:
+    get:
+      description: This operation intended for search of details for NetworkElement
+      tags:
+        - NetworkElement Details
+      summary: Retrieve Network Element Details
+      operationId: getNetworkElementDetails
+      parameters:
+        - name: uuid
+          in: query
+          description: uuid of related NetworkElement item.
+          required: false
+          type: string
+      responses:
+        '200':
+          description: get list of NetworkElementDetails/ - OK
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/NetworkElementDetails'
+        '400':
+          description: get - Bad Request
+          schema:
+            $ref: '#/definitions/Error'
+        '403':
+          description: get - Forbidden
+          schema:
+            $ref: '#/definitions/Error'
+        '404':
+          description: get - Not Found
+          schema:
+            $ref: '#/definitions/Error'
+        '500':
+          description: get - Internal Server Error
+          schema:
+            $ref: '#/definitions/Error'
 definitions:
   GenericResourceDto:
     type: object
@@ -2190,6 +2225,12 @@ definitions:
         items:
           $ref: '#/definitions/ServiceBandwidthDto'
         description: ServiceBandwidth for this NetworkServiceProfileL2BsaDto item
+      dataRateDown:
+        type: string
+        description: dataRateDown of this ServiceBandwidth
+      dataRateUp:
+        type: string
+        description: dataRateUp of this ServiceBandwidth
       activeQosClasses:
         type: array
         items:
@@ -2269,3 +2310,47 @@ definitions:
       dataRateDown:
         type: integer
         description: dataRateDown of L2Bsa Nsp
+  PortLabel:
+    type: object
+    description: The PortLabel object for rebellPortLabel and logicalLabel(Functional Port Label) of MatNumberPortMapping
+    properties:
+      rebellPortLabel:
+        type: string
+        description: attributes of PortLabel
+      logicalLabel:
+        type: string
+        description: attributes of PortLabel
+  NetworkElementDetails:
+    type: object
+    description: The Network Element Details View
+    properties:
+      portUuid:
+        type: string
+        description: attributes of NetworkElementDetails
+      logicalLabel:
+        type: string
+        description: attributes of NetworkElementDetails
+      rebellPortlabel:
+        type: string
+        description: attributes of NetworkElementDetails
+      networkElementLinkUuid:
+        type: string
+        description: attributes of NetworkElementDetails
+      lsz:
+        type: string
+        description: attributes of NetworkElementDetails
+      ueWegeId:
+        type: string
+        description: attributes of NetworkElementDetails
+      leitungsBezeichnung:
+        type: string
+        description: attributes of NetworkElementDetails
+      networkElementGegenstelleUuid:
+        type: string
+        description: attributes of NetworkElementDetails
+      category:
+        type: string
+        description: attributes of NetworkElementDetails
+      vpsz:
+        type: string
+        description: attributes of NetworkElementDetails
