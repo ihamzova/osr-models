@@ -1,0 +1,348 @@
+openapi: 3.0.1
+info:
+  title: A4 Trigger Nemo Update Task API
+  description: This YAML describes a Service to trigger Tasks to update Resources
+    in A4 Resource Inventory to NEMO.
+  contact:
+    name: Team Berlinium
+    url: https://gard.telekom.de/gardwiki/pages/viewpage.action?pageId=238620194
+    email: DL_Berlinium@telekom.de
+  version: 2.0.0
+servers:
+  - url: /
+#SECURITY--------------------------------------------------------------------------------------------------
+security:
+  - OAuth2:
+      - giga:cga:all-area-access
+tags:
+  - name: NemoUpdateService
+    description: This service provides a functionality to trigger updates of Logical
+      Resources to NEMO from the A4 Resource Inventory.
+paths:
+  /resource-order-resource-inventory/v1/updateNemoTask:
+    post:
+      security:
+        - OAuth2:
+            - 'rori:updateNemoTask:post'
+            - 'giga:cga:all-area-access'
+      tags:
+        - NemoUpdateService
+      summary: Triggers a Resource Update to Nemo
+      description: Triggers a Resource Update to Nemo by UUID of the relevant Object
+      operationId: updateNemoTask
+      requestBody:
+        description: UUID of the Logical Resource which has to be updated in NEMO
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateNemoTask'
+        required: true
+      responses:
+        201:
+          description: trigger request successful created
+          content: {}
+        400:
+          description: post to NemoUpdateService - Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        403:
+          description: post to NemoUpdateService - Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        500:
+          description: post to NemoUpdateService - Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        502:
+          description: NEMO or A4-Resource-Inventory returned an error - Bad Gateway
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        503:
+          description: NEMO or A4-Resource-Inventory is not available - Service unavailable
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      x-codegen-request-body-name: UUID
+  /resource-order-resource-inventory/v1/asyncUpdateNemoTask:
+    post:
+      security:
+        - OAuth2:
+            - 'rori:asyncUpdateNemoTask:post'
+            - 'giga:cga:all-area-access'
+      tags:
+        - NemoUpdateServiceAsync
+      summary: Triggers a Resource Update to Nemo in asyn modus
+      description: Triggers a Resource Update to Nemo by a list of UUID of the relevant
+        Objects
+      operationId: updateNemoTaskAsync
+      requestBody:
+        description: list of UUIDs of the Logical Resource which has to be updated
+          in NEMO
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateNemoTaskAsync'
+        required: true
+      responses:
+        201:
+          description: trigger request successful created
+          content: {}
+        400:
+          description: post to NemoUpdateService - Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        403:
+          description: post to NemoUpdateService - Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        500:
+          description: post to NemoUpdateService - Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        502:
+          description: NEMO or A4-Resource-Inventory returned an error - Bad Gateway
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        503:
+          description: NEMO or A4-Resource-Inventory is not available - Service unavailable
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      x-codegen-request-body-name: UUIDS
+  /resource-order-resource-inventory/v1/a4Queues/{queueName}/queueElements:
+    get:
+      security:
+        - OAuth2:
+            - 'rori:a4Queues:get'
+            - 'giga:cga:all-area-access'
+      tags:
+        - QueueElements
+      summary: All elemnts of the specified Queue
+      description: Gives back all messages (UUIDs), which are in the the specified
+        Queue
+      operationId: queueElements
+      parameters:
+        - name: queueName
+          in: path
+          description: Queue name for filtering the QueueElements
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          description: list successfully returned
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/QueueElement'
+        400:
+          description: get to QueueElements - Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        403:
+          description: get to QueueElements - Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        500:
+          description: get to QueueElements - Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        502:
+          description: NEMO or A4-Resource-Inventory returned an error - Bad Gateway
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        503:
+          description: NEMO or A4-Resource-Inventory is not available - Service unavailable
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /resource-order-resource-inventory/v1/a4UnblockQueue:
+    post:
+      security:
+        - OAuth2:
+            - 'rori:a4UnblockQueue:post'
+            - 'giga:cga:all-area-access'
+      tags:
+        - NemoUpdateServiceAsync
+      summary: Triggers unblocking buffer of the NEMO Queue
+      description: Triggers that the next message ist send to DeadLetterQueue, if
+        it has a 5xx code and only the next one
+      operationId: unblockQueue
+      responses:
+        201:
+          description: trigger request successful created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Message'
+        400:
+          description: post to NemoUpdateService - Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        403:
+          description: post to NemoUpdateService - Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        500:
+          description: post to NemoUpdateService - Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        502:
+          description: NEMO or A4-Resource-Inventory returned an error - Bad Gateway
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        503:
+          description: NEMO or A4-Resource-Inventory is not available - Service unavailable
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /resource-order-resource-inventory/v1/a4MoveAllFromDeadLetterQueue:
+    post:
+      security:
+        - OAuth2:
+            - 'rori:a4MoveAllFromDeadLetterQueue:post'
+            - 'giga:cga:all-area-access'
+      tags:
+        - NemoUpdateServiceAsync
+      summary: Moves all elements from DeadLetterQueue to the NEMO Queue
+      description: All elements from DeadLetterQueue are added at the end of the NEMO
+        Queue and deleted in the DeadLetterQueue
+      operationId: moveAllFromDeadLetterQueue
+      responses:
+        200:
+          description: all elements are moved
+          content: {}
+        400:
+          description: post to NemoUpdateService - Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        403:
+          description: post to NemoUpdateService - Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        500:
+          description: post to NemoUpdateService - Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        502:
+          description: NEMO or A4-Resource-Inventory returned an error - Bad Gateway
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        503:
+          description: NEMO or A4-Resource-Inventory is not available - Service unavailable
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+components:
+  schemas:
+    UpdateNemoTask:
+      required:
+        - EntityUuid
+      type: object
+      properties:
+        EntityUuid:
+          pattern: '[0-9a-fA-F]{8}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{12}'
+          type: string
+          description: UUID of the entity (e.g. NetworkElementGroup, NetworkElement...)
+    UpdateNemoTaskAsync:
+      type: array
+      items:
+        type: string
+    QueueElement:
+      type: object
+      properties:
+        uuid:
+          pattern: '[0-9a-fA-F]{8}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{12}'
+          type: string
+          description: UUID of the Logical Resource which has to be updated in NEMO
+        entityType:
+          type: string
+          description: Type of the Logical Resource which has to be updated in NEMO
+        messageId:
+          type: string
+          description: MessageID of the QueueElement
+    Message:
+      type: object
+      properties:
+        message:
+          type: string
+          description: Text that provide more details and corrective actions related
+            to the error. This can be shown to a client user.
+          example: Please check your request
+    Error:
+      type: object
+      properties:
+        code:
+          type: string
+          description: Fehlerbildnummer
+        reason:
+          type: string
+          description: Text that explains the reason for error. This can be shown
+            to a client user.
+          example: Http Error
+        message:
+          type: string
+          description: Text that provide more details and corrective actions related
+            to the error. This can be shown to a client user.
+          example: Please check your request
+      description: Error model from the TMF OpenAPI
+  securitySchemes:
+    OAuth2:
+      type: oauth2
+      flows:
+        clientCredentials:
+          tokenUrl: 'https://rhsso-develop.magic.telekom.de/auth/realms/GigabitHub/protocol/openid-connect/token'
+          scopes:
+            'giga:cga:all-area-access': General Access Scope
+            'rori:updateNemoTask:post': POST Scope
+            'rori:asyncUpdateNemoTask:post': POST Scope
+            'rori:a4Queues:get': GET Scope
+            'rori:a4UnblockQueue:post': POST Scope
+            'rori:a4MoveAllFromDeadLetterQueue:post': POST Scope
