@@ -238,12 +238,6 @@
                                         </inputSpec>
                                     </item>
                                     <item>
-                                        <name>a4.nemo.updater.client</name>
-                                        <inputSpec>
-                                            ${project.basedir}/src/main/resources/swagger/a4-nemo-updater/a4-nemo-updater.yaml
-                                        </inputSpec>
-                                    </item>
-                                    <item>
                                         <name>wg.a4.provisioning.internal.client</name>
                                         <inputSpec>
                                             ${project.basedir}/src/main/resources/swagger/wg-a4-provisioning/wg-a4-provisioning-internal-v1.yaml
@@ -634,6 +628,12 @@
                                         <name>olt.discovery.callback.v1_0_0.client</name>
                                         <inputSpec>
                                             ${project.basedir}/src/main/resources/swagger/olt-discovery/olt-discovery-callback-template-1.0.0.yaml
+                                        </inputSpec>
+                                    </item>
+                                    <item>
+                                        <name>a4.nemo.updater.client</name>
+                                        <inputSpec>
+                                            ${project.basedir}/src/main/resources/swagger/a4-nemo-updater/a4-nemo-updater.yaml
                                         </inputSpec>
                                     </item>
                                 </items>
