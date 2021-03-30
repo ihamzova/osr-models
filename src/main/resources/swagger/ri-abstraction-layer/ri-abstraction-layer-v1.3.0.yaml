@@ -108,7 +108,7 @@ components:
         pattern: '^[0-9]{1,6}\/[0-9]{1,6}\/[0-9]{1,6}[\/a-zA-Z0-9]{0,4}'
         type: string
     DeviceType:
-      name: deviceType
+      name: devicetype
       in: query
       description: Type of element
       required: true
