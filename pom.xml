@@ -571,6 +571,12 @@
                                         </inputSpec>
                                     </item>
                                     <item>
+                                        <name>wg.access.provisioning.v2_0_0.client</name>
+                                        <inputSpec>
+                                            ${project.basedir}/src/main/resources/swagger/wg-access-provisioning/wg-access-provisioning-v2.0.0.yaml
+                                        </inputSpec>
+                                    </item>
+                                    <item>
                                         <name>wg.fttb.access.provisioning.v1_2_0.client</name>
                                         <inputSpec>
                                             ${project.basedir}/src/main/resources/swagger/wg-fttb-access-provisioning/wg-fttb-access-provisioning-v1.2.0.yaml
