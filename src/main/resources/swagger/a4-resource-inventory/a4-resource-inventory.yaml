@@ -1,0 +1,3054 @@
+openapi: 3.0.1
+info:
+  title: a4-resource-inventory
+  description: This interface allows you to do CRUD-operations on the a4-resource-inventory
+  contact:
+    email: DL_Berlinium@telekom.de
+  version: 7.0.0
+servers:
+  - url: /
+#SECURITY--------------------------------------------------------------------------------------------------
+security:
+  - OAuth2:
+      - giga:cga:all-area-access
+paths:
+  /resource-order-resource-inventory/v1/a4GenericResources/{uuid}:
+    get:
+      security:
+        - OAuth2:
+            - 'rori:a4GenericResources:read'
+            - 'giga:cga:all-area-access'
+      tags:
+        - GenericResources
+      summary: Retrieve a Generic Resource item based on provided UUID
+      description: This operation intended for search a Generic Resource by UUID.
+      operationId: findGenericResource
+      parameters:
+        - name: uuid
+          in: path
+          description: UUID of the Generic Resource item
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          description: get to GenericResources/{uuid} - OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GenericResourceDto'
+        400:
+          description: get to GenericResources/{uuid} - Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        403:
+          description: get to GenericResources/{uuid} - Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        404:
+          description: get to GenericResources/{uuid} - Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        500:
+          description: get to GenericResources/{uuid} - Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /resource-order-resource-inventory/v1/a4NetworkElements:
+    get:
+      security:
+        - OAuth2:
+            - 'rori:a4NetworkElements:full'
+            - 'giga:cga:all-area-access'
+      tags:
+        - NetworkElements
+      summary: Get a list of Network Element items based on provided VPSZ, FSZ, TYPE,
+        NEG-UUID
+      description: This operation intended for search a NetworkElements by EndSz (VPSZ
+        & FSZ),NE-Type or NetworkElementGroup-UUID.
+      operationId: listNetworkElements
+      parameters:
+        - name: vpsz
+          in: query
+          description: VPSZ for filtering the NetworkElements
+          schema:
+            type: string
+        - name: fsz
+          in: query
+          description: FSZ for filtering the NetworkElements
+          schema:
+            type: string
+        - name: type
+          in: query
+          description: NE-Type for filtering the NetworkElements
+          schema:
+            type: string
+        - name: category
+          in: query
+          description: NE-Category for filtering the NetworkElements
+          schema:
+            type: string
+        - name: networkElementGroupUuid
+          in: query
+          description: NEG-UUID for filtering the NetworkElements
+          schema:
+            type: string
+      responses:
+        200:
+          description: get to NetworkElements - OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/NetworkElementDto'
+        400:
+          description: get to NetworkElements - Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        403:
+          description: get to NetworkElements - Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        500:
+          description: get to NetworkElements - Internal Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      deprecated: false
+  /resource-order-resource-inventory/v1/a4NetworkElements/{uuid}:
+    get:
+      security:
+        - OAuth2:
+            - 'rori:a4NetworkElements:full'
+            - 'giga:cga:all-area-access'
+      tags:
+        - NetworkElements
+      summary: Retrieve a Network Element item based on provided UUID
+      description: This operation intended for search a NetworkElement by the UUID.
+      operationId: findNetworkElement
+      parameters:
+        - name: uuid
+          in: path
+          description: UUID of Network Element item to be retrieved
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          description: get to NetworkElements/{uuid} - OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NetworkElementDto'
+        400:
+          description: get to NetworkElements/{uuid} - Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        403:
+          description: get to NetworkElements/{uuid} - Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        404:
+          description: get to NetworkElements/{uuid} - Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        500:
+          description: get to NetworkElements/{uuid} - Internal Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    put:
+      security:
+        - OAuth2:
+            - 'rori:a4NetworkElements:full'
+            - 'giga:cga:all-area-access'
+      tags:
+        - NetworkElements
+      summary: Create or update a Network Element item based on provided UUID
+      description: This operation intended for create or update a NetworkElement.
+      operationId: createOrUpdateNetworkElement
+      parameters:
+        - name: uuid
+          in: path
+          description: UUID of Network Element item to be created or updated
+          required: true
+          schema:
+            type: string
+      requestBody:
+        description: attributes for Network Element item to be created or updated
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/NetworkElementDto'
+        required: true
+      responses:
+        200:
+          description: put to NetworkElements/{uuid} - OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NetworkElementDto'
+        400:
+          description: put to NetworkElements/{uuid} - Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        403:
+          description: put to NetworkElements/{uuid} - Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        404:
+          description: put to NetworkElements/{uuid} - Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        500:
+          description: put to NetworkElements/{uuid} - Internal Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      x-codegen-request-body-name: NetworkElementDto
+    delete:
+      security:
+        - OAuth2:
+            - 'rori:a4NetworkElements:full'
+            - 'giga:cga:all-area-access'
+      tags:
+        - NetworkElements
+      summary: Delete a Network Element item based on provided UUID
+      description: This operation intended for delete a NetworkElement.
+      operationId: deleteNetworkElement
+      parameters:
+        - name: uuid
+          in: path
+          description: UUID of Network Element item to be updated
+          required: true
+          schema:
+            type: string
+      responses:
+        204:
+          description: delete to NetworkElements/{uuid} - No Content
+          content: {}
+        400:
+          description: delete to NetworkElements/{uuid} - Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        403:
+          description: delete to NetworkElements/{uuid} - Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        404:
+          description: delete to NetworkElements/{uuid} - Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        500:
+          description: delete to NetworkElements/{uuid} - Internal Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /resource-order-resource-inventory/v1/a4NetworkElementGroups:
+    get:
+      security:
+        - OAuth2:
+            - 'rori:a4NetworkElementGroups:full'
+            - 'giga:cga:all-area-access'
+      tags:
+        - NetworkElementGroups
+      summary: Get a list of Network Element items based on provided name or lineId
+      description: This operation intended for search a NetworkElementGroup by the
+        name or lineId.
+      operationId: listNetworkElementGroups
+      parameters:
+        - name: name
+          in: query
+          description: name to get a list of NetworkElementGroups
+          schema:
+            type: string
+        - name: lineId
+          in: query
+          description: LineId of NSP-FTTH-Access
+          schema:
+            type: string
+      responses:
+        200:
+          description: get to NetworkElementGroups - OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/NetworkElementGroupDto'
+        400:
+          description: get to NetworkElementGroups - Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        403:
+          description: get to NetworkElementGroups - Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        500:
+          description: get to NetworkElementGroups - Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /resource-order-resource-inventory/v1/a4NetworkElementGroups/{uuid}:
+    get:
+      security:
+        - OAuth2:
+            - 'rori:a4NetworkElementGroups:full'
+            - 'giga:cga:all-area-access'
+      tags:
+        - NetworkElementGroups
+      summary: Retrieve a Network Element Group item based on provided UUID
+      description: This operation intended for search a NetworkElementGroup by the
+        UUID
+      operationId: findNetworkElementGroup
+      parameters:
+        - name: uuid
+          in: path
+          description: UUID to get a Network Element Group item
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          description: get to NetworkElementGroups/{uuid} - OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NetworkElementGroupDto'
+        400:
+          description: get to NetworkElementGroups/{uuid} - Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        403:
+          description: get to NetworkElementGroups/{uuid} - Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        404:
+          description: get to NetworkElementGroups/{uuid} - Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        500:
+          description: get to NetworkElementGroups/{uuid} - Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    put:
+      security:
+        - OAuth2:
+            - 'rori:a4NetworkElementGroups:full'
+            - 'giga:cga:all-area-access'
+      tags:
+        - NetworkElementGroups
+      summary: Create or update a Network Element Group item based on provided UUID
+      description: This operation intended for create or update a NetworkElementGroup.
+      operationId: createOrUpdateNetworkElementGroup
+      parameters:
+        - name: uuid
+          in: path
+          description: UUID to put a Network Element Group item
+          required: true
+          schema:
+            type: string
+      requestBody:
+        description: attributes of a Network Element Group item
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/NetworkElementGroupDto'
+        required: true
+      responses:
+        200:
+          description: put to NetworkElementGroups/{uuid} - OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NetworkElementGroupDto'
+        400:
+          description: put to NetworkElementGroups/{uuid} - Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        403:
+          description: put to NetworkElementGroups/{uuid} - Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        404:
+          description: put to NetworkElementGroups/{uuid} - Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        500:
+          description: put to NetworkElementGroups/{uuid} - Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      x-codegen-request-body-name: NetworkElementGroupDto
+    delete:
+      security:
+        - OAuth2:
+            - 'rori:a4NetworkElementGroups:full'
+            - 'giga:cga:all-area-access'
+      tags:
+        - NetworkElementGroups
+      summary: Delete a Network Element Group item based on provided UUID
+      description: This operation intended for delete a NetworkElementGroup.
+      operationId: deleteNetworkElementGroup
+      parameters:
+        - name: uuid
+          in: path
+          description: UUID to delete a Network Element Group item
+          required: true
+          schema:
+            type: string
+      responses:
+        204:
+          description: delete to NetworkElementGroups/{uuid} - No Content
+          content: {}
+        400:
+          description: delete to NetworkElementGroups/{uuid} - Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        403:
+          description: delete to NetworkElementGroups/{uuid} - Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        404:
+          description: delete to NetworkElementGroups/{uuid} - Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        500:
+          description: delete to NetworkElementGroups/{uuid} - Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /resource-order-resource-inventory/v1/a4NetworkElementPorts:
+    get:
+      security:
+        - OAuth2:
+            - 'rori:a4NetworkElementPorts:full'
+            - 'giga:cga:all-area-access'
+      tags:
+        - NetworkElementPorts
+      summary: Get a list of Network Element Ports based on provided logicalLabel(Functional
+        Port Label) & endSz or type & endSz or endSz or networkElementUuid or networkElementUuid
+        & logicalLabel(Functional Port Label)
+      description: This operation intended for search a NetworkElementPorts.
+      operationId: findNetworkElementPorts
+      parameters:
+        - name: logicalLabel
+          in: query
+          description: Logical Label(Functional Port Label) for getting NetworkElementPorts
+          schema:
+            type: string
+        - name: networkElementUuid
+          in: query
+          description: This is the uuid of the NetworkElementDto.
+          schema:
+            type: string
+        - name: type
+          in: query
+          description: This attribute is the type of NetworkElementPort.
+          schema:
+            type: string
+        - name: endSz
+          in: query
+          description: This attribute is to search by endSz of the NetworkElement
+          schema:
+            type: string
+        - name: portNumber
+          in: query
+          description: This attribute is to search by combination portType + portNumber
+            + endSz of the NetworkElementPort
+          schema:
+            type: string
+      responses:
+        200:
+          description: get to NetworkElementPorts - OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/NetworkElementPortDto'
+        400:
+          description: get to NetworkElementPorts - Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        403:
+          description: get to NetworkElementPorts - Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        500:
+          description: get to NetworkElementPorts - Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /resource-order-resource-inventory/v1/a4NetworkElementPorts/{uuid}:
+    get:
+      security:
+        - OAuth2:
+            - 'rori:a4NetworkElementPorts:full'
+            - 'giga:cga:all-area-access'
+      tags:
+        - NetworkElementPorts
+      summary: Retrieve a Network Element Port item based on provided UUID
+      description: This operation intended for search a NetworkElementPort by UUID
+      operationId: findNetworkElementPort
+      parameters:
+        - name: uuid
+          in: path
+          description: UUID of Network Element Port to be retrieved
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          description: get to NetworkElementPorts/{uuid} - OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NetworkElementPortDto'
+        400:
+          description: get to NetworkElementPorts/{uuid} - Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        403:
+          description: get to NetworkElementPorts/{uuid} - Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        404:
+          description: get to NetworkElementPorts/{uuid} - Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        500:
+          description: get to NetworkElementPorts/{uuid} - Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    put:
+      security:
+        - OAuth2:
+            - 'rori:a4NetworkElementPorts:full'
+            - 'giga:cga:all-area-access'
+      tags:
+        - NetworkElementPorts
+      summary: Create or update a NetworkElementPortDto item based on provided UUID
+      description: This operation intended for create or update a NetworkElementPort
+      operationId: createOrUpdateNetworkElementPort
+      parameters:
+        - name: uuid
+          in: path
+          description: UUID of Network Element Port to be updated
+          required: true
+          schema:
+            type: string
+      requestBody:
+        description: attributes of a Network Element Port item
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/NetworkElementPortDto'
+        required: true
+      responses:
+        200:
+          description: put to NetworkElementPorts/{uuid} - OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NetworkElementPortDto'
+        400:
+          description: put to NetworkElementPorts/{uuid} - Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        403:
+          description: put to NetworkElementPorts/{uuid} - Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        404:
+          description: put to NetworkElementPorts/{uuid} - Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        500:
+          description: put to NetworkElementPorts/{uuid} - Internal Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      x-codegen-request-body-name: UpddateNetworkElementPort
+    delete:
+      security:
+        - OAuth2:
+            - 'rori:a4NetworkElementPorts:full'
+            - 'giga:cga:all-area-access'
+      tags:
+        - NetworkElementPorts
+      summary: Delete a Network Element Port item based on provided UUID
+      description: This operation intended for delete a NetworkElementPort
+      operationId: deleteNetworkElementPort
+      parameters:
+        - name: uuid
+          in: path
+          description: UUID of Network Element Port to be deleted
+          required: true
+          schema:
+            type: string
+      responses:
+        204:
+          description: delete to NetworkElementPorts/{uuid} - No Content
+          content: {}
+        400:
+          description: delete to NetworkElementPorts/{uuid} - Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        403:
+          description: delete to NetworkElementPorts/{uuid} - Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        404:
+          description: delete to NetworkElementPorts/{uuid} - Unknown uuid
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        500:
+          description: delete to NetworkElementPorts/{uuid} - Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /resource-order-resource-inventory/v1/a4NetworkElementTypes:
+    get:
+      security:
+        - OAuth2:
+            - 'rori:a4NetworkElementTypes:full'
+            - 'giga:cga:all-area-access'
+      tags:
+        - NetworkElementTypes
+      summary: Retrieve a NetworkElementType item based on provided FSZ
+      description: This operation intended for search a Network Element Type by FSZ.
+      operationId: findNetworkElementTypes
+      parameters:
+        - name: fsz
+          in: query
+          description: fsz for filtering the NetworkElementType
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          description: get to networkElementTypes - OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/NetworkElementTypeDto'
+        400:
+          description: get to networkElementTypes- Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        403:
+          description: get to networkElementTypes - Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        404:
+          description: get to networkElementTypes - Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        500:
+          description: get to networkElementTypes - Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /resource-order-resource-inventory/v1/a4NetworkElementTypes/{uuid}:
+    get:
+      security:
+        - OAuth2:
+            - 'rori:a4NetworkElementTypes:full'
+            - 'giga:cga:all-area-access'
+      tags:
+        - NetworkElementTypes
+      summary: Retrieve a NetworkElementType item based on provided UUID
+      description: This operation intended for search a Network Element Type by UUID.
+      operationId: findNetworkElementType
+      parameters:
+        - name: uuid
+          in: path
+          description: fsz for filtering the NetworkElementType
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          description: get to networkElementTypes/{uuid} - OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NetworkElementTypeDto'
+        400:
+          description: get to networkElementTypes/{uuid} - Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        403:
+          description: get to networkElementTypes/{uuid} - Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        404:
+          description: get to networkElementTypes/{uuid} - Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        500:
+          description: get to networkElementTypes/{uuid} - Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    put:
+      security:
+        - OAuth2:
+            - 'rori:a4NetworkElementTypes:full'
+            - 'giga:cga:all-area-access'
+      tags:
+        - NetworkElementTypes
+      summary: Create or update a NetworkElementType item based on provided UUID
+      description: This operation intended for create or update a NetworkElementType.
+      operationId: createOrUpdateNetworkElementType
+      parameters:
+        - name: uuid
+          in: path
+          description: UUID of NetworkElementType item to be created or updated
+          required: true
+          schema:
+            type: string
+      requestBody:
+        description: attributes for NetworkElementType item to be created or updated
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/NetworkElementTypeDto'
+        required: true
+      responses:
+        200:
+          description: put to networkElementTypes/{uuid} - OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NetworkElementTypeDto'
+        400:
+          description: put to networkElementTypes/{uuid} - Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        403:
+          description: put to networkElementTypes/{uuid} - Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        404:
+          description: put to networkElementTypes/{uuid} - Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        500:
+          description: put to networkElementTypes/{uuid} - Internal Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      x-codegen-request-body-name: NetworkElementTypeDto
+  /resource-order-resource-inventory/v1/a4PortSpecs/{uuid}:
+    get:
+      security:
+        - OAuth2:
+            - 'rori:a4PortSpecs:full'
+            - 'giga:cga:all-area-access'
+      tags:
+        - PortSpecs
+      summary: Retrieve a PortSpec based on provided UUID of NetworkElementType
+      description: This operation intended for portSpec search by UUID of NetworkElementType.
+      operationId: findPortSpec
+      parameters:
+        - name: uuid
+          in: path
+          description: UUID of NetworkElementType item, that PortSpecs will be searched
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          description: get to portSpecs/{uuid} - OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/PortSpecDto'
+        400:
+          description: get to portSpecs/{uuid} - Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        403:
+          description: get to portSpecs/{uuid} - Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        404:
+          description: get to portSpecs/{uuid} - Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        500:
+          description: get to portSpecs/{uuid} - Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    put:
+      security:
+        - OAuth2:
+            - 'rori:a4PortSpecs:full'
+            - 'giga:cga:all-area-access'
+      tags:
+        - PortSpecs
+      summary: Create or update a PortSpec item based on provided UUID of NetworkElementType
+      description: This operation intended for create or update a PortSpec.
+      operationId: createOrUpdatePortSpec
+      parameters:
+        - name: uuid
+          in: path
+          description: UUID of NetworkElementType item, that Port Spec will be created
+            or updated
+          required: true
+          schema:
+            type: string
+      requestBody:
+        description: attributes for Port Spec item to be created or updated
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PortSpecDto'
+        required: true
+      responses:
+        200:
+          description: put to portSpecs/{uuid} - OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PortSpecDto'
+        400:
+          description: put to portSpecs/{uuid} - Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        403:
+          description: put to portSpecs/{uuid} - Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        404:
+          description: put to portSpecs/{uuid} - Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        500:
+          description: put to portSpecs/{uuid} - Internal Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      x-codegen-request-body-name: PortSpecDto
+  /resource-order-resource-inventory/v1/a4MatNumberPortMappings:
+    get:
+      security:
+        - OAuth2:
+            - 'rori:a4MatNumberPortMappings:full'
+            - 'giga:cga:all-area-access'
+      tags:
+        - MatNumberPortMappings
+      summary: Retrieve a rebellPortLabel or a logicalLabel(Functional Port Label)
+        of MatNumberPortMappings
+      description: This operation intended for search a rebellPortLabel or a logicalLabel(Functional
+        Port Label) of MatNumberPortMappings.
+      operationId: findLogicalLabelOrRebellPortLabel
+      parameters:
+        - name: logicalLabel
+          in: query
+          description: Logical Label(Functional Port Label) for getting rebellPortLabel
+          schema:
+            type: string
+        - name: rebellPortLabel
+          in: query
+          description: RebellPortLabel for getting Logical Label(Functional Port Label)
+          schema:
+            type: string
+        - name: networkElementTypeName
+          in: query
+          description: Network Element Type Name for search a rebellPortLabel or a logicalLabel(Functional
+            Port Label)
+          required: true
+          schema:
+            type: string
+        - name: matNumber
+          in: query
+          description: matNumberPortMappings for search a rebellPortLabel or a logicalLabel(Functional
+            Port Label).
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          description: get a rebellPortLabel or a logicalLabel(Functional Port Label)
+            of MatNumberPortMapping - OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PortLabel'
+        400:
+          description: get a rebellPortLabel or a logicalLabel(Functional Port Label)
+            of MatNumberPortMapping - Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        403:
+          description: get a rebellPortLabel or a logicalLabel(Functional Port Label)
+            of MatNumberPortMapping - Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        404:
+          description: get a rebellPortLabel or a logicalLabel(Functional Port Label)
+            of MatNumberPortMapping - Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        500:
+          description: get a rebellPortLabel or a logicalLabel(Functional Port Label)
+            of MatNumberPortMapping - Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /resource-order-resource-inventory/v1/a4MatNumberPortMappings/{uuid}:
+    get:
+      security:
+        - OAuth2:
+            - 'rori:a4MatNumberPortMappings:full'
+            - 'giga:cga:all-area-access'
+      tags:
+        - MatNumberPortMappings
+      summary: Retrieve a MatNumberPortMappings based on provided UUID of NetworkElementType
+      description: This operation intended for search by uuid .
+      operationId: findMatNumberPortMapping
+      parameters:
+        - name: uuid
+          in: path
+          description: UUID of NetworkElementType item, that MatNumberPortMappings will
+            be searched
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          description: get to matNumberPortMappings/{uuid} - OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/MatNumberPortMappingDto'
+        400:
+          description: get to matNumberPortMappings/{uuid} - Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        403:
+          description: get to matNumberPortMappings/{uuid} - Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        404:
+          description: get to matNumberPortMappings/{uuid} - Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        500:
+          description: get to matNumberPortMappings/{uuid} - Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    put:
+      security:
+        - OAuth2:
+            - 'rori:a4MatNumberPortMappings:full'
+            - 'giga:cga:all-area-access'
+      tags:
+        - MatNumberPortMappings
+      summary: Create or update a MatNumberPortMapping item based on provided UUID
+        of NetworkElementType
+      description: This operation intended for create or update a MatNumberPortMapping.
+      operationId: createOrUpdateMatNumberPortMapping
+      parameters:
+        - name: uuid
+          in: path
+          description: UUID of NetworkElementType item, that MatNumberPortMapping will
+            be created or updated
+          required: true
+          schema:
+            type: string
+      requestBody:
+        description: attributes for MatNumberPortMapping item to be created or updated
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MatNumberPortMappingDto'
+        required: true
+      responses:
+        200:
+          description: put to portSpecs/{uuid} - OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MatNumberPortMappingDto'
+        400:
+          description: put to portSpecs/{uuid} - Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        403:
+          description: put to portSpecs/{uuid} - Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        404:
+          description: put to portSpecs/{uuid} - Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        500:
+          description: put to portSpecs/{uuid} - Internal Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      x-codegen-request-body-name: MatNumberPortMappingDto
+  /resource-order-resource-inventory/v1/a4NetworkServiceProfilesFtthAccess/{uuid}:
+    get:
+      security:
+        - OAuth2:
+            - 'rori:a4NetworkServiceProfilesFtthAccess:full'
+            - 'giga:cga:all-area-access'
+      tags:
+        - NetworkServiceProfilesFtthAccess
+      summary: Retrieve a NetworkServiceProfileFtthAccess based on provided UUID.
+      description: This operation intended for search by uuid .
+      operationId: findNetworkServiceProfileFtthAccess
+      parameters:
+        - name: uuid
+          in: path
+          description: UUID of NetworkServiceProfileFtthAccess item.
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          description: get to NetworkServiceProfileFtthAccess/{uuid} - OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NetworkServiceProfileFtthAccessDto'
+        400:
+          description: get to NetworkServiceProfileFtthAccess/{uuid} - Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        403:
+          description: get to NetworkServiceProfileFtthAccess/{uuid} - Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        404:
+          description: get to NetworkServiceProfileFtthAccess/{uuid} - Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        500:
+          description: get to NetworkServiceProfileFtthAccess/{uuid} - Internal Server
+            Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    put:
+      security:
+        - OAuth2:
+            - 'rori:a4NetworkServiceProfilesFtthAccess:full'
+            - 'giga:cga:all-area-access'
+      tags:
+        - NetworkServiceProfilesFtthAccess
+      summary: Create or update a NetworkServiceProfileFtthAccess item based on provided
+        UUID.
+      description: This operation intended for create or update a NetworkServiceProfileFtthAccess.
+      operationId: createOrUpdateNetworkServiceProfileFtthAccess
+      parameters:
+        - name: uuid
+          in: path
+          description: UUID of NetworkServiceProfileFtthAccess item.
+          required: true
+          schema:
+            type: string
+      requestBody:
+        description: attributes for NetworkServiceProfileFtthAccess item to be created
+          or updated
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/NetworkServiceProfileFtthAccessDto'
+        required: true
+      responses:
+        200:
+          description: put to NetworkServiceProfileFtthAccess/{uuid} - OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NetworkServiceProfileFtthAccessDto'
+        400:
+          description: put to NetworkServiceProfileFtthAccess/{uuid} - Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        403:
+          description: put to NetworkServiceProfileFtthAccess/{uuid} - Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        404:
+          description: put to NetworkServiceProfileFtthAccess/{uuid} - Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        500:
+          description: put to NetworkServiceProfileFtthAccess/{uuid} - Internal Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      x-codegen-request-body-name: NetworkServiceProfileDto
+    delete:
+      security:
+        - OAuth2:
+            - 'rori:a4NetworkServiceProfilesFtthAccess:full'
+            - 'giga:cga:all-area-access'
+      tags:
+        - NetworkServiceProfilesFtthAccess
+      summary: Delete a NetworkServiceProfileFtthAccess item based on provided UUID
+      description: This operation intended for delete a NetworkServiceProfileFtthAccess
+      operationId: deleteNetworkServiceProfileFtthAccess
+      parameters:
+        - name: uuid
+          in: path
+          description: UUID of NetworkServiceProfileFtthAccess to be deleted
+          required: true
+          schema:
+            type: string
+      responses:
+        204:
+          description: delete to NetworkServiceProfileFtthAccess/{uuid} - No Content
+          content: {}
+        400:
+          description: delete to NetworkServiceProfileFtthAccess/{uuid} - Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        403:
+          description: delete to NetworkServiceProfileFtthAccess/{uuid} - Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        404:
+          description: delete to NetworkServiceProfileFtthAccess/{uuid} - Unknown
+            uuid
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        500:
+          description: delete to NetworkServiceProfileFtthAccess/{uuid} - Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /resource-order-resource-inventory/v1/a4NetworkServiceProfilesFtthAccess:
+    get:
+      security:
+        - OAuth2:
+            - 'rori:a4NetworkServiceProfilesFtthAccess:full'
+            - 'giga:cga:all-area-access'
+      tags:
+        - NetworkServiceProfilesFtthAccess
+      summary: Retrieve NetworkServiceProfilesFtthAccess based on related TerminationPoint
+        or LineId.
+      description: This operation intended for search by uuid of terminationPoint
+      operationId: findNetworkServiceProfilesFtthAccess
+      parameters:
+        - name: terminationPointUuid
+          in: query
+          description: UUID of related TerminationPoint item.
+          schema:
+            type: string
+        - name: lineId
+          in: query
+          description: LineId of NetworkServiceProfile
+          schema:
+            type: string
+        - name: ontSerialNumber
+          in: query
+          description: ontSerialNumber of NetworkServiceProfile
+          schema:
+            type: string
+      responses:
+        200:
+          description: get to NetworkServiceProfileFtthAccess/ - OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/NetworkServiceProfileFtthAccessDto'
+        400:
+          description: get to NetworkServiceProfileFtthAccess/ - Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        403:
+          description: get to NetworkServiceProfileFtthAccess/ - Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        404:
+          description: get to NetworkServiceProfileFtthAccess/ - Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        500:
+          description: get to NetworkServiceProfileFtthAccess/ - Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /resource-order-resource-inventory/v1/a4TerminationPoints/{uuid}:
+    get:
+      security:
+        - OAuth2:
+            - 'rori:a4TerminationPoints:full'
+            - 'giga:cga:all-area-access'
+      tags:
+        - TerminationPoints
+      summary: Retrieve a TerminationPoint based on provided UUID.
+      description: This operation intended for search by uuid .
+      operationId: findTerminationPoint
+      parameters:
+        - name: uuid
+          in: path
+          description: UUID of TerminationPoint item.
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          description: get to TerminationPoint/{uuid} - OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TerminationPointDto'
+        400:
+          description: get to TerminationPoint/{uuid} - Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        403:
+          description: get to TerminationPoint/{uuid} - Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        404:
+          description: get to TerminationPoint/{uuid} - Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        500:
+          description: get to TerminationPoint/{uuid} - Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    put:
+      security:
+        - OAuth2:
+            - 'rori:a4TerminationPoints:full'
+            - 'giga:cga:all-area-access'
+      tags:
+        - TerminationPoints
+      summary: Create or update a TerminationPoint item based on provided UUID.
+      description: This operation intended for create or update a TerminationPoint.
+      operationId: createOrUpdateTerminationPoint
+      parameters:
+        - name: uuid
+          in: path
+          description: UUID of TerminationPoint item.
+          required: true
+          schema:
+            type: string
+      requestBody:
+        description: attributes for TerminationPoint item to be created or updated
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TerminationPointDto'
+        required: true
+      responses:
+        200:
+          description: put to TerminationPoint/{uuid} - OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TerminationPointDto'
+        400:
+          description: put to TerminationPoint/{uuid} - Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        403:
+          description: put to TerminationPoint/{uuid} - Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        404:
+          description: put to TerminationPoint/{uuid} - Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        500:
+          description: put to TerminationPoint/{uuid} - Internal Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      x-codegen-request-body-name: TerminationPointDto
+    delete:
+      security:
+        - OAuth2:
+            - 'rori:a4TerminationPoints:full'
+            - 'giga:cga:all-area-access'
+      tags:
+        - TerminationPoints
+      summary: Delete a TerminationPoint item based on provided UUID
+      description: This operation intended for delete a TerminationPoint
+      operationId: deleteTerminationPoint
+      parameters:
+        - name: uuid
+          in: path
+          description: UUID of TerminationPoint to be deleted
+          required: true
+          schema:
+            type: string
+      responses:
+        204:
+          description: delete to TerminationPoint/{uuid} - No Content
+          content: {}
+        400:
+          description: delete to TerminationPoint/{uuid} - Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        403:
+          description: delete to TerminationPoint/{uuid} - Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        404:
+          description: delete to TerminationPoint/{uuid} - Unknown uuid
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        500:
+          description: delete to TerminationPoint/{uuid} - Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /resource-order-resource-inventory/v1/a4TerminationPoints:
+    get:
+      security:
+        - OAuth2:
+            - 'rori:a4TerminationPoints:full'
+            - 'giga:cga:all-area-access'
+      tags:
+        - TerminationPoints
+      summary: Retrieve TerminationPoints based on provided parentUuid.
+      description: This operation intended for search by parentUuid or lineId .
+      operationId: findTerminationPoints
+      parameters:
+        - name: parentUuid
+          in: query
+          description: UUID of parent item.
+          schema:
+            type: string
+      responses:
+        200:
+          description: get to TerminationPoint - OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/TerminationPointDto'
+        400:
+          description: get to TerminationPoint - Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        403:
+          description: get to TerminationPoint - Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        404:
+          description: get to TerminationPoint - Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        500:
+          description: get to TerminationPoint - Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /resource-order-resource-inventory/v1/a4NetworkElementLinks:
+    get:
+      security:
+        - OAuth2:
+            - 'rori:a4NetworkElementLinks:full'
+            - 'giga:cga:all-area-access'
+      tags:
+        - NetworkElementLinks
+      summary: Get a list of NetworkElementLinks based on provided NetworkElementPortUuid,
+        lbz, lsz or ueWegeId
+      description: This operation intended for searching a NetworkElementLink by NetworkElementPortUuid,
+        lbz or ueWegId.
+      operationId: listNetworkElementLinks
+      parameters:
+        - name: networkElementPortUuid
+          in: query
+          description: networkElementPortUuid for filtering the NetworkElementLinks
+            that are connected to a port. It can be the Port of A-side or B-side.
+          schema:
+            type: string
+        - name: lbz
+          in: query
+          description: Leitungsbezeichnung of NetworkElementLinks
+          schema:
+            type: string
+        - name: lsz
+          in: query
+          description: Leitungsschlüsselzahl of NetworkElementLinks
+          schema:
+            type: string
+        - name: ueWegId
+          in: query
+          description: ueWegeId of NetworkElementLinks
+          schema:
+            type: string
+        - name: endszA
+          in: query
+          description: endszA of networkElementPort for filtering the NetworkElementLinks
+            that are connected to a port
+          schema:
+            type: string
+        - name: endszB
+          in: query
+          description: endszB of networkElementPort for filtering the NetworkElementLinks
+            that are connected to b port
+          schema:
+            type: string
+      responses:
+        200:
+          description: get to NetworkElementLinks - OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/NetworkElementLinkDto'
+        400:
+          description: get to NetworkElementLinks - Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        403:
+          description: get to NetworkElementLinks - Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        500:
+          description: get to NetworkElementLinks - Internal Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      deprecated: false
+  /resource-order-resource-inventory/v1/a4NetworkElementLinks/{uuid}:
+    get:
+      security:
+        - OAuth2:
+            - 'rori:a4NetworkElementLinks:full'
+            - 'giga:cga:all-area-access'
+      tags:
+        - NetworkElementLinks
+      summary: Retrieve a Network Element item based on provided UUID
+      description: This operation intended for searching a NetworkElementLink by UUID.
+      operationId: findNetworkElementLink
+      parameters:
+        - name: uuid
+          in: path
+          description: UUID of NetworkElementLink to be retrieved
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          description: get to NetworkElementLinks/{uuid} - OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NetworkElementLinkDto'
+        400:
+          description: get to NetworkElementLinks/{uuid} - Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        403:
+          description: get to NetworkElementLinks/{uuid} - Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        404:
+          description: get to NetworkElementLinks/{uuid} - Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        500:
+          description: get to NetworkElementLinks/{uuid} - Internal Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    put:
+      security:
+        - OAuth2:
+            - 'rori:a4NetworkElementLinks:full'
+            - 'giga:cga:all-area-access'
+      tags:
+        - NetworkElementLinks
+      summary: Create or update a NetworkElementLink based on provided UUID
+      description: This operation intended for creating or updating a NetworkElementLink.
+      operationId: createOrUpdateNetworkElementLink
+      parameters:
+        - name: uuid
+          in: path
+          description: UUID of NetworkElementLink to be created or updated
+          required: true
+          schema:
+            type: string
+      requestBody:
+        description: attributes for NetworkElementLink to be created or updated
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/NetworkElementLinkDto'
+        required: true
+      responses:
+        200:
+          description: put to NetworkElementLinks/{uuid} - OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NetworkElementLinkDto'
+        400:
+          description: put to NetworkElementLinks/{uuid} - Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        403:
+          description: put to NetworkElementLinks/{uuid} - Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        404:
+          description: put to NetworkElementLinks/{uuid} - Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        500:
+          description: put to NetworkElementLinks/{uuid} - Internal Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      x-codegen-request-body-name: NetworkElementLinkDto
+    delete:
+      security:
+        - OAuth2:
+            - 'rori:a4NetworkElementLinks:full'
+            - 'giga:cga:all-area-access'
+      tags:
+        - NetworkElementLinks
+      summary: Delete a NetworkElementLink based on provided UUID
+      description: This operation intended for deleting a NetworkElementLink by UUID.
+      operationId: deleteNetworkElementLink
+      parameters:
+        - name: uuid
+          in: path
+          description: UUID of NetworkElementLink to be deleted
+          required: true
+          schema:
+            type: string
+      responses:
+        204:
+          description: delete to NetworkElementLinks/{uuid} - No Content
+          content: {}
+        400:
+          description: delete to NetworkElementLinks/{uuid} - Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        403:
+          description: delete to NetworkElementLinks/{uuid} - Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        404:
+          description: delete to NetworkElementLinks/{uuid} - Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        500:
+          description: delete to NetworkElementLinks/{uuid} - Internal Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /resource-order-resource-inventory/v1/a4NetworkServiceProfilesA10Nsp/{uuid}:
+    get:
+      security:
+        - OAuth2:
+            - 'rori:a4NetworkServiceProfilesA10Nsp:full'
+            - 'giga:cga:all-area-access'
+      tags:
+        - NetworkServiceProfilesA10Nsp
+      summary: Retrieve a NetworkServiceProfileA10NspDto based on provided UUID.
+      description: This operation intended for search by uuid .
+      operationId: findNetworkServiceProfileA10Nsp
+      parameters:
+        - name: uuid
+          in: path
+          description: UUID of NetworkServiceProfileA10NspDto item.
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          description: get to NetworkServiceProfileA10NspDto/{uuid} - OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NetworkServiceProfileA10NspDto'
+        400:
+          description: get to NetworkServiceProfileA10NspDto/{uuid} - Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        403:
+          description: get to NetworkServiceProfileA10NspDto/{uuid} - Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        404:
+          description: get to NetworkServiceProfileA10NspDto/{uuid} - Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        500:
+          description: get to NetworkServiceProfileA10NspDto/{uuid} - Internal Server
+            Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    put:
+      security:
+        - OAuth2:
+            - 'rori:a4NetworkServiceProfilesA10Nsp:full'
+            - 'giga:cga:all-area-access'
+      tags:
+        - NetworkServiceProfilesA10Nsp
+      summary: Create or update a NetworkServiceProfileA10NspDto item based on provided
+        UUID.
+      description: This operation intended for create or update a NetworkServiceProfileA10NspDto.
+      operationId: createOrUpdateNetworkServiceProfileA10Nsp
+      parameters:
+        - name: uuid
+          in: path
+          description: UUID of NetworkServiceProfileA10NspDto item.
+          required: true
+          schema:
+            type: string
+      requestBody:
+        description: attributes for NetworkServiceProfileA10NspDto item to be created
+          or updated
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/NetworkServiceProfileA10NspDto'
+        required: true
+      responses:
+        200:
+          description: put to NetworkServiceProfileA10NspDto/{uuid} - OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NetworkServiceProfileA10NspDto'
+        400:
+          description: put to NetworkServiceProfileA10NspDto/{uuid} - Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        403:
+          description: put to NetworkServiceProfileA10NspDto/{uuid} - Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        404:
+          description: put to NetworkServiceProfileA10NspDto/{uuid} - Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        500:
+          description: put to NetworkServiceProfileA10NspDto/{uuid} - Internal Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      x-codegen-request-body-name: NetworkServiceProfileA10NspDto
+    delete:
+      security:
+        - OAuth2:
+            - 'rori:a4NetworkServiceProfilesA10Nsp:full'
+            - 'giga:cga:all-area-access'
+      tags:
+        - NetworkServiceProfilesA10Nsp
+      summary: Delete a NetworkServiceProfileA10NspDto item based on provided UUID
+      description: This operation intended for delete a NetworkServiceProfileA10NspDto
+      operationId: deleteNetworkServiceProfileA10Nsp
+      parameters:
+        - name: uuid
+          in: path
+          description: UUID of NetworkServiceProfileA10NspDto to be deleted
+          required: true
+          schema:
+            type: string
+      responses:
+        204:
+          description: delete to NetworkServiceProfileA10NspDto/{uuid} - No Content
+          content: {}
+        400:
+          description: delete to NetworkServiceProfileA10NspDto/{uuid} - Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        403:
+          description: delete to NetworkServiceProfileA10NspDto/{uuid} - Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        404:
+          description: delete to NetworkServiceProfileA10NspDto/{uuid} - Unknown uuid
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        500:
+          description: delete to NetworkServiceProfileA10NspDto/{uuid} - Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /resource-order-resource-inventory/v1/a4NetworkServiceProfilesA10Nsp:
+    get:
+      security:
+        - OAuth2:
+            - 'rori:a4NetworkServiceProfilesA10Nsp:full'
+            - 'giga:cga:all-area-access'
+      tags:
+        - NetworkServiceProfilesA10Nsp
+      summary: Retrieve NetworkServiceProfileA10Nsp based on related TerminationPoint
+        or carrierBsaReference or itAccountingKey.
+      description: This operation intended for search by uuid of terminationPoint
+      operationId: findNetworkServiceProfilesA10Nsp
+      parameters:
+        - name: terminationPointUuid
+          in: query
+          description: UUID of related TerminationPoint item.
+          schema:
+            type: string
+        - name: carrierBsaReference
+          in: query
+          description: Rahmenvertragsnummer of NetworkServiceProfileA10Nsp
+          schema:
+            type: string
+        - name: itAccountingKey
+          in: query
+          description: itAccountingKey of NetworkServiceProfileA10Nsp
+          schema:
+            type: string
+      responses:
+        200:
+          description: get to NetworkServiceProfileA10NspDto/ - OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/NetworkServiceProfileA10NspDto'
+        400:
+          description: get to NetworkServiceProfileA10NspDto/ - Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        403:
+          description: get to NetworkServiceProfileA10NspDto/ - Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        404:
+          description: get to NetworkServiceProfileA10NspDto/ - Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        500:
+          description: get to NetworkServiceProfileA10NspDto/ - Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /resource-order-resource-inventory/v1/a4NetworkServiceProfilesL2Bsa/{uuid}:
+    get:
+      security:
+        - OAuth2:
+            - 'rori:a4NetworkServiceProfilesL2Bsa:full'
+            - 'giga:cga:all-area-access'
+      tags:
+        - NetworkServiceProfilesL2Bsa
+      summary: Retrieve a NetworkServiceProfileL2BsaDto based on provided UUID.
+      description: This operation intended for search by uuid .
+      operationId: findNetworkServiceProfileL2Bsa
+      parameters:
+        - name: uuid
+          in: path
+          description: UUID of NetworkServiceProfileL2BsaDto item.
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          description: get to NetworkServiceProfileL2BsaDto/{uuid} - OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NetworkServiceProfileL2BsaDto'
+        400:
+          description: get to NetworkServiceProfileL2BsaDto/{uuid} - Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        403:
+          description: get to NetworkServiceProfileL2BsaDto/{uuid} - Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        404:
+          description: get to NetworkServiceProfileL2BsaDto/{uuid} - Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        500:
+          description: get to NetworkServiceProfileL2BsaDto/{uuid} - Internal Server
+            Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    put:
+      security:
+        - OAuth2:
+            - 'rori:a4NetworkServiceProfilesL2Bsa:full'
+            - 'giga:cga:all-area-access'
+      tags:
+        - NetworkServiceProfilesL2Bsa
+      summary: Create or update a NetworkServiceProfileL2BsaDto item based on provided
+        UUID.
+      description: This operation intended for create or update a NetworkServiceProfileL2BsaDto.
+      operationId: createOrUpdateNetworkServiceProfileL2Bsa
+      parameters:
+        - name: uuid
+          in: path
+          description: UUID of NetworkServiceProfileL2BsaDto item.
+          required: true
+          schema:
+            type: string
+      requestBody:
+        description: attributes for NetworkServiceProfileL2BsaDto item to be created
+          or updated
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/NetworkServiceProfileL2BsaDto'
+        required: true
+      responses:
+        200:
+          description: put to NetworkServiceProfileL2BsaDto/{uuid} - OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NetworkServiceProfileL2BsaDto'
+        400:
+          description: put to NetworkServiceProfileL2BsaDto/{uuid} - Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        403:
+          description: put to NetworkServiceProfileL2BsaDto/{uuid} - Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        404:
+          description: put to NetworkServiceProfileL2BsaDto/{uuid} - Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        500:
+          description: put to NetworkServiceProfileL2BsaDto/{uuid} - Internal Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      x-codegen-request-body-name: NetworkServiceProfileL2BsaDto
+    delete:
+      security:
+        - OAuth2:
+            - 'rori:a4NetworkServiceProfilesL2Bsa:full'
+            - 'giga:cga:all-area-access'
+      tags:
+        - NetworkServiceProfilesL2Bsa
+      summary: Delete a NetworkServiceProfileL2BsaDto item based on provided UUID
+      description: This operation intended for delete a NetworkServiceProfileL2BsaDto
+      operationId: deleteNetworkServiceProfileL2Bsa
+      parameters:
+        - name: uuid
+          in: path
+          description: UUID of NetworkServiceProfileL2BsaDto to be deleted
+          required: true
+          schema:
+            type: string
+      responses:
+        204:
+          description: delete to NetworkServiceProfileL2BsaDto/{uuid} - No Content
+          content: {}
+        400:
+          description: delete to NetworkServiceProfileL2BsaDto/{uuid} - Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        403:
+          description: delete to NetworkServiceProfileL2BsaDto/{uuid} - Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        404:
+          description: delete to NetworkServiceProfileL2BsaDto/{uuid} - Unknown uuid
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        500:
+          description: delete to NetworkServiceProfileL2BsaDto/{uuid} - Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /resource-order-resource-inventory/v1/a4NetworkServiceProfilesL2Bsa:
+    get:
+      security:
+        - OAuth2:
+            - 'rori:a4NetworkServiceProfilesL2Bsa:full'
+            - 'giga:cga:all-area-access'
+      tags:
+        - NetworkServiceProfilesL2Bsa
+      summary: Retrieve NetworkServiceProfileL2Bsa based on related TerminationPoint
+        or lineId.
+      description: This operation intended for search by uuid of terminationPoint
+      operationId: findNetworkServiceProfilesL2Bsa
+      parameters:
+        - name: terminationPointUuid
+          in: query
+          description: UUID of related TerminationPoint item.
+          schema:
+            type: string
+        - name: lineId
+          in: query
+          description: LineId of NetworkServiceProfile
+          schema:
+            type: string
+      responses:
+        200:
+          description: get to NetworkServiceProfileL2BsaDto/ - OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/NetworkServiceProfileL2BsaDto'
+        400:
+          description: get to NetworkServiceProfileL2BsaDto/ - Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        403:
+          description: get to NetworkServiceProfileL2BsaDto/ - Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        404:
+          description: get to NetworkServiceProfileL2BsaDto/ - Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        500:
+          description: get to NetworkServiceProfileL2BsaDto/ - Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    patch:
+      security:
+        - OAuth2:
+            - 'rori:a4NetworkServiceProfilesL2Bsa:full'
+            - 'giga:cga:all-area-access'
+      tags:
+        - NetworkServiceProfilesL2Bsa
+      summary: Patch a NetworkServiceProfileL2BsaDto item based on provided lineId.
+      description: This operation intended for patch a NetworkServiceProfileL2BsaDto.
+      operationId: patchNetworkServiceProfileL2Bsa
+      requestBody:
+        description: Patch object of NetworkServiceProfileL2Bsa
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/L2BsaPatch'
+        required: true
+      responses:
+        200:
+          description: patch to NetworkServiceProfileL2BsaDto/ - OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NetworkServiceProfileL2BsaDto'
+        400:
+          description: patch to NetworkServiceProfileL2BsaDto/ - Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        403:
+          description: patch to NetworkServiceProfileL2BsaDto/ - Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        404:
+          description: patch to NetworkServiceProfileL2BsaDto/ - Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        500:
+          description: patch to NetworkServiceProfileL2BsaDto/ - Internal Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      x-codegen-request-body-name: L2BsaPatch
+  /resource-order-resource-inventory/v1/carrierBsaReferences:
+    get:
+      security:
+        - OAuth2:
+            - 'rori:carrierBsaReferences:read'
+            - 'giga:cga:all-area-access'
+      tags:
+        - CarrierBsaReferences
+      summary: Retrieve CarrierBsaReferences
+      description: This operation intended for search of carrierBsaReferences
+      operationId: findCarrierBsaReferences
+      parameters:
+        - name: uuidNEG
+          in: query
+          description: UUID of NetworkElementGroup.
+          schema:
+            type: string
+      responses:
+        200:
+          description: get list of carrierBsaReferences/ - OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: string
+        400:
+          description: get - Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        403:
+          description: get - Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        404:
+          description: get - Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        500:
+          description: get - Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /resource-order-resource-inventory/v1/freeNspL2Bsa:
+    get:
+      security:
+        - OAuth2:
+            - 'rori:freeNspL2Bsa:read'
+            - 'giga:cga:all-area-access'
+      tags:
+        - NetworkServiceProfilesL2Bsa
+      summary: Retrieve free NetworkServiceProfileL2Bsa based on negUuid and carrierBsareference.
+      description: This operation intended for search by negUuid and carrierBsareference
+        .
+      operationId: findFreeNspL2Bsa
+      parameters:
+        - name: uuidNEG
+          in: query
+          description: UUID of parent item.
+          schema:
+            type: string
+        - name: carrierBsaReference
+          in: query
+          description: carrierBsareference of the free NspL2Bsa to be find
+          schema:
+            type: string
+      responses:
+        200:
+          description: get to NetworkServiceProfileL2BsaDto/ - OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NetworkServiceProfileL2BsaDto'
+        400:
+          description: get to NetworkServiceProfileL2BsaDto/ - Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        403:
+          description: get to NetworkServiceProfileL2BsaDto/ - Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        404:
+          description: get to NetworkServiceProfileL2BsaDto/ - Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        500:
+          description: get to NetworkServiceProfileL2BsaDto/ - Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+components:
+  schemas:
+    GenericResourceDto:
+      title: GenericResourceDto
+      type: object
+      properties:
+        uuid:
+          type: string
+        entityType:
+          type: string
+      description: GenericResourceDto is the abstraction of all concrete resources
+    NetworkElementDto:
+      title: NetworkElementDto
+      type: object
+      properties:
+        uuid:
+          type: string
+          description: UUID of this Network Element item
+        creationTime:
+          type: string
+          description: Timestamp in UTC when this Network Element item was created.
+            Automatically filled when creating a new Network Element item
+          format: date-time
+        description:
+          type: string
+          description: attributes of this Network Element item
+        lastUpdateTime:
+          type: string
+          description: Timestamp in UTC when this Network Element item was last updated.
+            Automatically updated when updating a Network Element item
+          format: date-time
+        specificationVersion:
+          type: string
+          description: specificationVersion of a Network Element
+        address:
+          type: string
+          description: Address of this Network Element item
+        administrativeState:
+          type: string
+          description: Administrative State of this Network Element item. Must contain
+            one valid state value
+        fsz:
+          type: string
+          description: FSZ of this Network Element item. Must be unique in combination
+            with VPSZ
+        vpsz:
+          type: string
+          description: VPSZ of this Network Element item. Must be unique in combination
+            with FSZ
+        klsId:
+          type: string
+          description: KLS-ID of this Network Element item
+        lifecycleState:
+          type: string
+          description: Lifecycle State of this Network Element item. Must contain
+            one valid state value
+        operationalState:
+          type: string
+          description: Operational State of this Network Element item. Must contain
+            one valid state value
+        plannedMatNumber:
+          type: string
+          description: planned material number of this Network Element item
+        plannedRackId:
+          type: string
+          description: Planned Rack ID of this Network Element item
+        plannedRackPosition:
+          type: string
+          description: Planned Rack Position of this Network Element item
+        planningDeviceName:
+          type: string
+          description: Planning Device Name of this Network Element item
+        roles:
+          type: string
+          description: Roles of this Network Element item. Must contain one valid
+            role value XX
+        type:
+          type: string
+          description: Type of this Network Element item. Must contain one valid type
+            value
+        category:
+          type: string
+          description: NE-Category for filtering the NetworkElements
+        virtualServiceProvider:
+          type: string
+          description: Virtual Service Provider of this Network Element item
+        ztpIdent:
+          type: string
+          description: ZTP-Ident of this Network Element item
+        networkElementGroupUuid:
+          type: string
+          description: UUID of Network Element Group item to which this Network Element
+            item belongs. Must contain UUID of an existing Network Element Group
+        partyId:
+          type: string
+          description: Party ID of entity to which network elements belongs to
+        href:
+          type: string
+          description: References to NetworkElementGroup
+      description: Network Elements are one of several element types of A4 resources.
+        Needed for communication between A4 resource inventory and resource inventory
+        service.
+    NetworkElementGroupDto:
+      title: NetworkElementGroupDto
+      type: object
+      properties:
+        uuid:
+          type: string
+        name:
+          type: string
+        type:
+          type: string
+        lifecycleState:
+          type: string
+        operationalState:
+          type: string
+        centralOfficeNetworkOperator:
+          type: string
+        specificationVersion:
+          type: string
+          description: specificationVersion of NetworkElementGroup
+        creationTime:
+          type: string
+          description: Timestamp in UTC when this Network Element item was created.
+            Automatically filled when creating a new Network Element item
+          format: date-time
+        lastUpdateTime:
+          type: string
+          description: Timestamp in UTC when this Network Element item was last updated.
+            Automatically updated when updating a Network Element item
+          format: date-time
+        description:
+          type: string
+      description: The Network Element Group item itself
+    NetworkElementPortDto:
+      type: object
+      properties:
+        operationalState:
+          type: string
+        administrativeState:
+          type: string
+        logicalLabel:
+          type: string
+        accessNetworkOperator:
+          type: string
+        type:
+          type: string
+        portNumber:
+          type: string
+          description: portNumber of NetworkElementPort
+        uuid:
+          type: string
+        creationTime:
+          type: string
+          format: date-time
+        lastUpdateTime:
+          type: string
+          format: date-time
+        specificationVersion:
+          type: string
+          description: specificationVersion of NetworkElementPort
+        description:
+          type: string
+        networkElementUuid:
+          type: string
+          description: UUID of Network Element item to which this Network Element
+            Port item belongs. Must contain UUID of an existing Network Element
+        networkElementEndsz:
+          type: string
+          description: Endsz of Network Element item to which this Network Element
+            Port item belongs.
+        href:
+          type: string
+          description: References NetworkElement
+      description: The Network Element Port item itself
+    NetworkElementTypeDto:
+      title: NetworkElementTypeDto
+      type: object
+      properties:
+        specificationVersion:
+          type: string
+          description: specification Version of a Network Element Type
+        name:
+          type: string
+          description: name of this Network Element Type item. Must contain one valid
+            name value
+        category:
+          type: string
+          description: NE-Category for filtering the Network Element Types
+        state:
+          type: string
+          description: status of this Network Element Type item.
+        fszRanges:
+          type: array
+          description: fsz range list for this Network Element Type item.
+          items:
+            $ref: '#/components/schemas/FszRangeDto'
+        uuid:
+          type: string
+          description: UUID of Network Element Type item.
+        creationTime:
+          type: string
+          description: Timestamp in UTC when this Network Element Type item was created.
+            Automatically filled when creating a new Network Element Type item
+          format: date-time
+        description:
+          type: string
+          description: attributes of this Network Element Type item
+        lastUpdateTime:
+          type: string
+          description: Timestamp in UTC when this Network Element Type item was last
+            updated. Automatically updated when updating a Network Element Type item
+          format: date-time
+      description: Network Element Types are one of several element types of A4 identified
+        by FSZ
+    FszRangeDto:
+      type: object
+      properties:
+        fsz:
+          type: string
+          description: attributes of this Fsz Range item
+        networkElementTypeUuid:
+          type: string
+          description: UUID of Network Element Type item to which this Fsz Range item
+            belongs. Must contain UUID of an existing Network Element Type
+        href:
+          type: string
+          description: References NetworkElementType
+      description: The Network Element Port item itself
+    PortSpecDto:
+      type: object
+      properties:
+        isOptional:
+          type: boolean
+          description: attributes of this Port Spec item
+        logicalLabel:
+          type: string
+          description: attributes of this Port Spec item (Functional Port Label)
+        portType:
+          type: string
+          description: attributes of this Port Spec item
+        networkElementTypeUuid:
+          type: string
+          description: UUID of Network Element Type item to which this PortSpec item
+            belongs. Must contain UUID of an existing Network Element type
+        href:
+          type: string
+          description: References NetworkElementType
+      description: The Port Spec item itself
+    MatNumberPortMappingDto:
+      type: object
+      properties:
+        matnr:
+          type: string
+          description: attributes of this MatNumber Port Mapping item
+        description:
+          type: string
+          description: attributes of this MatNumber Port Mapping item
+        logicalLabel:
+          type: string
+          description: attributes of this MatNumber Port Mapping item (Functional
+            Port Label)
+        rebellPortLabel:
+          type: string
+          description: attributes of this MatNumber Port Mapping item
+        networkElementTypeUuid:
+          type: string
+          description: UUID of Network Element Type item to which this MatNumber Port
+            Mapping item belongs. Must contain UUID of an existing Network Element
+            type
+        href:
+          type: string
+          description: References NetworkElementType
+      description: The MatNumber Port Mapping item itself
+    NetworkServiceProfileFtthAccessDto:
+      type: object
+      properties:
+        uuid:
+          type: string
+          description: UUID of this NetworkServiceProfileFtthAccessDto
+        lifecycleState:
+          type: string
+          description: attributes of this NetworkServiceProfileFtthAccessDto item
+        operationalState:
+          type: string
+          description: attributes of this NetworkServiceProfileFtthAccessDto item
+        description:
+          type: string
+          description: attributes of this NetworkServiceProfileFtthAccessDto item
+        administrativeMode:
+          type: string
+          description: attributes of this NetworkServiceProfileFtthAccessDto item
+        virtualServiceProvider:
+          type: string
+          description: attributes of this NetworkServiceProfileFtthAccessDto item
+        specificationVersion:
+          type: string
+          description: attributes of this NetworkServiceProfileFtthAccessDto item
+        lineId:
+          type: string
+          description: attributes of this NetworkServiceProfileFtthAccessDto item
+        ontSerialNumber:
+          type: string
+          description: attributes of this NetworkServiceProfileFtthAccessDto item
+        lastUpdateTime:
+          type: string
+          description: Timestamp in UTC when this NetworkServiceProfileFtthAccessDto
+            item was last updated. Automatically updated when updating a NetworkServiceProfileFtthAccessDto
+            item
+          format: date-time
+        creationTime:
+          type: string
+          description: Timestamp in UTC when this NetworkServiceProfileFtthAccessDto
+            item was created. Automatically filled when creating a new NetworkServiceProfileFtthAccessDto
+            item
+          format: date-time
+        terminationPointFtthAccessUuid:
+          type: string
+          description: UUID of terminationPointFtthAccess item to which this NetworkServiceProfileFtthAccessDto
+            item belongs. Must contain UUID of an existing Termination Point
+        href:
+          type: string
+          description: References Termination Point
+      description: The NetworkServiceProfileFtthAccessDto item itself
+    TerminationPointDto:
+      type: object
+      properties:
+        uuid:
+          type: string
+          description: UUID of this TerminationPoint
+        lockedForNspUsage:
+          type: boolean
+          description: attributes of this TerminationPoint item
+        state:
+          type: string
+          description: attributes of this TerminationPoint item
+        description:
+          type: string
+          description: attributes of this TerminationPoint item
+        type:
+          type: string
+          description: attributes of this TerminationPoint item
+        lastUpdateTime:
+          type: string
+          description: Timestamp in UTC when this TerminationPoint item was last updated.
+            Automatically updated when updating a TerminationPoint item
+          format: date-time
+        creationTime:
+          type: string
+          description: Timestamp in UTC when this TerminationPoint item was created.
+            Automatically filled when creating a new TerminationPoint item
+          format: date-time
+        parentUuid:
+          type: string
+          description: UUID of NetworkElementGroup or NetworkElementPort that is related
+            to this TerminationPoint
+        supportedDiagnosesName:
+          type: string
+          description: comma-separated list of names of the kind of diagnoses
+        supportedDiagnosesSpecificationVersion:
+          type: string
+          description: comma-separated list of specification version of diagnoses
+        href:
+          type: string
+          description: References parent element
+        carrierBsaReference:
+          type: string
+          description: Rahmenvertragsnummer for L2Bsa termination point
+      description: The TerminationPoint item itself
+    NetworkElementLinkDto:
+      title: NetworkElementLinkDto
+      type: object
+      properties:
+        uuid:
+          type: string
+          description: UUID of this NetworkElementLink
+        creationTime:
+          type: string
+          description: Timestamp in UTC when this NetworkElementLink was created.
+            Automatically filled when creating a new NetworkElementLink
+          format: date-time
+        description:
+          type: string
+          description: additional information of this NetworkElementLink
+        lastUpdateTime:
+          type: string
+          description: Timestamp in UTC when this NetworkElementLink was last updated.
+            Automatically updated when updating a NetworkElementLink
+          format: date-time
+        specificationVersion:
+          type: string
+          description: specificationVersion of a NetworkElementLink
+        lsz:
+          type: string
+          description: Leitungsschlüsselzahl of the NetworkElementLink
+        lbz:
+          type: string
+          description: Leitungsbezeichnung of the NetworkElementLink. Is a unique
+            value
+        orderNumber:
+          type: string
+          description: orderNumber of NetworkElementLink
+        lifecycleState:
+          type: string
+          description: Lifecycle State of NetworkElementLink. Must contain one valid
+            state value
+        operationalState:
+          type: string
+          description: Operational State of NetworkElementLink. Must contain one valid
+            state value
+        ueWegId:
+          type: string
+          description: Uebertragungsweg-ID of NetworkElementLink. This is a unique
+            value
+        pluralId:
+          type: string
+          description: pluralId of this NetworkElementLink
+        networkElementPortAUuid:
+          type: string
+          description: UUID of NetworkElementPort on A-side to which this NetworkElementLink
+            is connected. Must contain UUID of an existing NetworkElementPort
+        networkElementPortBUuid:
+          type: string
+          description: UUID of NetworkElementPort on B-side to which this NetworkElementLink
+            is connected. Must contain UUID of an existing NetworkElementPort
+        endszA:
+          type: string
+          description: EndSz of NetworkElementPort on A-side to which this NetworkElementLink
+            is connected.
+        endszB:
+          type: string
+          description: EndSz of NetworkElementPort on B-side to which this NetworkElementLink
+            is connected.
+      description: Network Element Links are one of several element types of A4 resources.
+        Needed for communication between A4 resource inventory and resource inventory
+        service.
+    NetworkServiceProfileA10NspDto:
+      type: object
+      properties:
+        uuid:
+          type: string
+          description: UUID of this NetworkServiceProfileA10NspDto
+        lifecycleState:
+          type: string
+          description: attributes of this NetworkServiceProfileA10NspDto item
+        operationalState:
+          type: string
+          description: attributes of this NetworkServiceProfileA10NspDto item
+        description:
+          type: string
+          description: attributes of this NetworkServiceProfileA10NspDto item
+        administrativeMode:
+          type: string
+          description: attributes of this NetworkServiceProfileA10NspDto item
+        virtualServiceProvider:
+          type: string
+          description: attributes of this NetworkServiceProfileA10NspDto item
+        specificationVersion:
+          type: string
+          description: attributes of this NetworkServiceProfileA10NspDto item
+        carrierBsaReference:
+          type: string
+          description: attributes of this NetworkServiceProfileA10NspDto item
+        lagId:
+          type: string
+          description: attributes of this NetworkServiceProfileA10NspDto item
+        mtuSize:
+          type: string
+          description: attributes of this NetworkServiceProfileA10NspDto item
+        etherType:
+          type: string
+          description: attributes of this NetworkServiceProfileA10NspDto item
+        itAccountingKey:
+          type: string
+          description: attributes of this NetworkServiceProfileA10NspDto item
+        lacpActive:
+          type: boolean
+          description: attributes of this NetworkServiceProfileA10NspDto item
+        lacpMode:
+          type: string
+          description: attributes of this NetworkServiceProfileA10NspDto item
+        minActiveLagLinks:
+          type: string
+          description: attributes of this NetworkServiceProfileA10NspDto item
+        sVlanRange:
+          type: array
+          description: VlanRange list for this NetworkServiceProfileA10NspDto item
+          items:
+            $ref: '#/components/schemas/VlanRangeDto'
+        dataRate:
+          type: string
+          description: attributes of this NetworkServiceProfileA10NspDto item
+        qosClasses:
+          type: array
+          description: A10NspQos list for this NetworkServiceProfileA10NspDto item
+          items:
+            $ref: '#/components/schemas/A10NspQosDto'
+        qosMode:
+          type: string
+          description: attributes of this NetworkServiceProfileA10NspDto item
+        lastUpdateTime:
+          type: string
+          description: Timestamp in UTC when this NetworkServiceProfileA10NspDto item
+            was last updated. Automatically updated when updating a NetworkServiceProfileA10NspDto
+            item
+          format: date-time
+        creationTime:
+          type: string
+          description: Timestamp in UTC when this NetworkServiceProfileA10NspDto item
+            was created. Automatically filled when creating a new NetworkServiceProfileA10NspDto
+            item
+          format: date-time
+        terminationPointA10NspUuid:
+          type: string
+          description: UUID of terminationPointA10Nsp item to which this NetworkServiceProfileA10NspDto
+            item belongs. Must contain UUID of an existing Termination Point
+        href:
+          type: string
+          description: References TerminationPoint
+      description: The NetworkServiceProfileA10NspDto item itself
+    VlanRangeDto:
+      type: object
+      properties:
+        vlanRangeLower:
+          type: string
+          description: attributes of this VlanRange
+        vlanRangeUpper:
+          type: string
+          description: attributes of this VlanRange
+      description: The VlanRange list.
+    A10NspQosDto:
+      type: object
+      properties:
+        qosClass:
+          type: string
+          description: attributes of this A10NspQos
+        qosBandwidthUp:
+          type: string
+          description: attributes of this A10NspQos
+        qosBandwidthDown:
+          type: string
+          description: attributes of this A10NspQos
+      description: The A10NspQos list.
+    NetworkServiceProfileL2BsaDto:
+      type: object
+      properties:
+        uuid:
+          type: string
+          description: UUID of this NetworkServiceProfileL2BsaDto
+        lifecycleState:
+          type: string
+          description: attributes of this NetworkServiceProfileL2BsaDto item
+        operationalState:
+          type: string
+          description: attributes of this NetworkServiceProfileL2BsaDto item
+        description:
+          type: string
+          description: attributes of this NetworkServiceProfileL2BsaDto item
+        administrativeMode:
+          type: string
+          description: attributes of this NetworkServiceProfileL2BsaDto item
+        serviceBandwidth:
+          type: array
+          description: ServiceBandwidth for this NetworkServiceProfileL2BsaDto item
+          items:
+            $ref: '#/components/schemas/ServiceBandwidthDto'
+        dataRateDown:
+          type: string
+          description: dataRateDown of this ServiceBandwidth
+        dataRateUp:
+          type: string
+          description: dataRateUp of this ServiceBandwidth
+        activeQosClasses:
+          type: array
+          description: L2BsaQos list for this NetworkServiceProfileL2BsaDto item
+          items:
+            $ref: '#/components/schemas/L2BsaQosDto'
+        virtualServiceProvider:
+          type: string
+          description: attributes of this NetworkServiceProfileL2BsaDto item
+        specificationVersion:
+          type: string
+          description: attributes of this NetworkServiceProfileL2BsaDto item
+        lastUpdateTime:
+          type: string
+          description: Timestamp in UTC when this NetworkServiceProfileL2BsaDto item
+            was last updated. Automatically updated when updating a NetworkServiceProfileL2BsaDto
+            item
+          format: date-time
+        creationTime:
+          type: string
+          description: Timestamp in UTC when this NetworkServiceProfileL2BsaDto item
+            was created. Automatically filled when creating a new NetworkServiceProfileL2BsaDto
+            item
+          format: date-time
+        terminationPointL2BsaUuid:
+          type: string
+          description: UUID of terminationPointL2Bsa item to which this NetworkServiceProfileL2BsaDto
+            item belongs. Must contain UUID of an existing Termination Point
+        lineId:
+          type: string
+          description: attributes of this NetworkServiceProfileL2BsaDto item
+        href:
+          type: string
+          description: References TerminationPoint
+      description: The NetworkServiceProfileL2BsaDto item itself
+    L2BsaQosDto:
+      type: object
+      properties:
+        qosPbit:
+          type: string
+          description: attributes of this L2BsaQos
+        qosBandwidthUp:
+          type: string
+          description: attributes of this L2BsaQos
+        qosBandwidthDown:
+          type: string
+          description: attributes of this L2BsaQos
+      description: The L2BsaQos list.
+    ServiceBandwidthDto:
+      type: object
+      properties:
+        dataRateDown:
+          type: string
+          description: attributes of this ServiceBandwidth
+        dataRateUp:
+          type: string
+          description: attributes of this ServiceBandwidth
+      description: The ServiceBandwidth.
+    Error:
+      type: object
+      properties:
+        code:
+          type: string
+          description: the code of the Fehlerbildnummer
+        reason:
+          type: string
+          description: Text that explains the reason for error. This can be shown
+            to a client user.
+          example: Http Error
+        message:
+          type: string
+          description: Text that provide more details and corrective actions related
+            to the error. This can be shown to a client user.
+          example: Please check your request
+      description: Error model from the TMF OpenAPI
+    L2BsaPatch:
+      type: object
+      properties:
+        lineId:
+          type: string
+          description: lineId of L2Bsa Nsp
+        dataRateUp:
+          type: integer
+          description: dataRateUp of L2Bsa Nsp
+        dataRateDown:
+          type: integer
+          description: dataRateDown of L2Bsa Nsp
+      description: The L2BsaPatch understand
+    PortLabel:
+      type: object
+      properties:
+        rebellPortLabel:
+          type: string
+          description: attributes of PortLabel
+        logicalLabel:
+          type: string
+          description: attributes of PortLabel
+      description: The PortLabel object for rebellPortLabel and logicalLabel(Functional
+        Port Label) of MatNumberPortMapping
+  securitySchemes:
+    OAuth2:
+      type: oauth2
+      flows:
+        clientCredentials:
+          tokenUrl: 'https://rhsso-develop.magic.telekom.de/auth/realms/GigabitHub/protocol/openid-connect/token'
+          scopes:
+            'giga:cga:all-area-access': General Access Scope
+            'rori:a4GenericResources:read': READ a4GenericResources Scope
+            'rori:a4NetworkElements:full': FULL a4NetworkElements Scope
+            'rori:a4NetworkElementGroups:full': FULL a4NetworkElementGroups Scope
+            'rori:a4NetworkElementPorts:full': FULL a4NetworkElementPorts Scope
+            'rori:a4NetworkElementTypes:full': FULL a4NetworkElementTypes Scope
+            'rori:a4PortSpecs:full': FULL a4PortSpecs Scope
+            'rori:a4MatNumberPortMappings:full': FULL a4MatNumberPortMappings Scope
+            'rori:a4NetworkServiceProfilesFtthAccess:full': FULL a4NetworkServiceProfilesFtthAccess Scope
+            'rori:a4TerminationPoints:full': FULL a4TerminationPoints Scope
+            'rori:a4NetworkElementLinks:full': FULL a4NetworkElementLinks Scope
+            'rori:a4NetworkServiceProfilesA10Nsp:full': FULL a4NetworkServiceProfilesA10Nsp Scope
+            'rori:a4NetworkServiceProfilesL2Bsa:full': FULL a4NetworkServiceProfilesL2Bsa Scope
+            'rori:carrierBsaReferences:read': READ carrierBsaReferences Scope
+            'rori:freeNspL2Bsa:read': READ freeNspL2Bsa Scope
