@@ -207,6 +207,7 @@
                                             ${project.basedir}/src/main/resources/swagger/a10nsp-inventory/internal-swagger.yaml
                                         </inputSpec>
                                     </item>
+                                    <!--
                                     <item>
                                         <name>a4.resource.inventory.internal.client</name>
                                         <inputSpec>
@@ -217,6 +218,13 @@
                                         <name>a4.resource.inventory.external.client</name>
                                         <inputSpec>
                                             ${project.basedir}/src/main/resources/swagger/a4-resource-inventory/a4-resource-inventory-external.yaml
+                                        </inputSpec>
+                                    </item>
+                                    -->
+                                    <item>
+                                        <name>a4.resource.inventory.client</name>
+                                        <inputSpec>
+                                            ${project.basedir}/src/main/resources/swagger/a4-resource-inventory/a4-resource-inventory.yaml
                                         </inputSpec>
                                     </item>
                                     <item>
