@@ -5,12 +5,20 @@ info:
     for L2BSA NSP
   contact:
     email: DL_Berlinium@telekom.de
-  version: 1.0.0
+  version: 1.0.1
 servers:
   - url: 'http://localhost'
+#SECURITY--------------------------------------------------------------------------------------------------
+security:
+  - OAuth2:
+      - giga:cga:all-area-access
 paths:
   /resource-order-resource-inventory/v1/allocateL2BsaNspTask:
     post:
+      security:
+        - OAuth2:
+            - 'rori:allocateL2BsaNspTask:post'
+            - 'giga:cga:all-area-access'
       tags:
         - allocateL2BsaNspTask
       summary: allocate a free L2Bsa NSP with line id, CarrierBsReference, data rate down
@@ -59,6 +67,10 @@ paths:
       x-codegen-request-body-name: task
   /resource-order-resource-inventory/v1/releaseL2BsaNspTask:
     post:
+      security:
+        - OAuth2:
+            - 'rori:releaseL2BsaNspTask:post'
+            - 'giga:cga:all-area-access'
       tags:
         - releaseL2BsaNspTask
       summary: Releasing a L2Bsa NSP based on its UUID
@@ -105,6 +117,10 @@ paths:
       x-codegen-request-body-name: uuid
   /resource-order-resource-inventory/v1/negCarrierConnections:
     get:
+      security:
+        - OAuth2:
+            - 'rori:negCarrierConnections:get'
+            - 'giga:cga:all-area-access'
       tags:
         - negCarrierConnections
       summary: Find Carrier Connections based on provided Network Element Group UUID
@@ -242,3 +258,14 @@ components:
       pattern: '[0-9a-fA-F]{8}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{12}'
       type: string
       description: Validator for AllowedUuidCharacters
+  securitySchemes:
+    OAuth2:
+      type: oauth2
+      flows:
+        clientCredentials:
+          tokenUrl: 'https://rhsso-develop.magic.telekom.de/auth/realms/GigabitHub/protocol/openid-connect/token'
+          scopes:
+            'giga:cga:all-area-access': General Access Scope
+            'rori:allocateL2BsaNspTask:post': POST Scope
+            'rori:releaseL2BsaNspTask:post': POST Scope
+            'rori:negCarrierConnections:get': GET Scope
