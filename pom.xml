@@ -10,7 +10,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>osr-models</artifactId>
-    <version>0.0.92</version>
+    <version>0.0.93</version>
 
     <properties>
         <framework.version>${project.parent.version}</framework.version>
@@ -502,6 +502,12 @@
                                         <name>a4.resource.order.orchestrator.client</name>
                                         <inputSpec>
                                             ${project.basedir}/src/main/resources/swagger/a4-resource-order-orchestrator/a4-resource-order-orchestrator.yaml
+                                        </inputSpec>
+                                    </item>
+                                    <item>
+                                        <name>a4.resource.queue.dispatcher.client</name>
+                                        <inputSpec>
+                                            ${project.basedir}/src/main/resources/swagger/a4-queue-dispatcher/a4-tmf652.yaml
                                         </inputSpec>
                                     </item>
                                     <item>
