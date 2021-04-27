@@ -505,6 +505,12 @@
                                         </inputSpec>
                                     </item>
                                     <item>
+                                        <name>a4.resource.queue.dispatcher.client</name>
+                                        <inputSpec>
+                                            ${project.basedir}/src/main/resources/swagger/a4-queue-dispatcher/a4-tmf652.yaml
+                                        </inputSpec>
+                                    </item>
+                                    <item>
                                         <name>access.line.management.internal.client</name>
                                         <inputSpec>
                                             ${project.basedir}/src/main/resources/swagger/access-line-management/access-line-management-internal.1.2.0.yaml
