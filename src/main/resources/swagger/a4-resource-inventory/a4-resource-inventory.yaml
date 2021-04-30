@@ -4,7 +4,7 @@ info:
   description: This interface allows you to do CRUD-operations on the a4-resource-inventory
   contact:
     email: DL_Berlinium@telekom.de
-  version: 7.0.0
+  version: 8.0.0
 servers:
   - url: /
 #SECURITY--------------------------------------------------------------------------------------------------
@@ -2823,9 +2823,6 @@ components:
         carrierBsaReference:
           type: string
           description: attributes of this NetworkServiceProfileA10NspDto item
-        lagId:
-          type: string
-          description: attributes of this NetworkServiceProfileA10NspDto item
         mtuSize:
           type: string
           description: attributes of this NetworkServiceProfileA10NspDto item
@@ -2876,6 +2873,12 @@ components:
           type: string
           description: UUID of terminationPointA10Nsp item to which this NetworkServiceProfileA10NspDto
             item belongs. Must contain UUID of an existing Termination Point
+        numberOfAssociatedNsps:
+          type: string
+          description: attributes of this NetworkServiceProfileA10NspDto item
+        routingInstanceId:
+          type: string
+          description: attributes of this NetworkServiceProfileA10NspDto item
         href:
           type: string
           description: References TerminationPoint
@@ -2932,11 +2935,6 @@ components:
         dataRateUp:
           type: string
           description: dataRateUp of this ServiceBandwidth
-        activeQosClasses:
-          type: array
-          description: L2BsaQos list for this NetworkServiceProfileL2BsaDto item
-          items:
-            $ref: '#/components/schemas/L2BsaQosDto'
         virtualServiceProvider:
           type: string
           description: attributes of this NetworkServiceProfileL2BsaDto item
@@ -2962,23 +2960,13 @@ components:
         lineId:
           type: string
           description: attributes of this NetworkServiceProfileL2BsaDto item
+        l2CcId:
+          type: string
+          description: attributes of this NetworkServiceProfileL2BsaDto item
         href:
           type: string
           description: References TerminationPoint
       description: The NetworkServiceProfileL2BsaDto item itself
-    L2BsaQosDto:
-      type: object
-      properties:
-        qosPbit:
-          type: string
-          description: attributes of this L2BsaQos
-        qosBandwidthUp:
-          type: string
-          description: attributes of this L2BsaQos
-        qosBandwidthDown:
-          type: string
-          description: attributes of this L2BsaQos
-      description: The L2BsaQos list.
     ServiceBandwidthDto:
       type: object
       properties:
