@@ -838,7 +838,7 @@ components:
       properties:
         qosBandwidthDown:
           type: string
-        qosBandwidthUp:
+        qospBit:
           type: string
         qosClass:
           type: string
