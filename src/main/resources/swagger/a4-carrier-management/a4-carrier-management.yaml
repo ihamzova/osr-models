@@ -5,7 +5,7 @@ info:
     for L2BSA NSP
   contact:
     email: DL_Berlinium@telekom.de
-  version: 1.0.1
+  version: 1.1.0
 servers:
   - url: 'http://localhost'
 #SECURITY--------------------------------------------------------------------------------------------------
@@ -184,6 +184,8 @@ components:
         dataRateUp:
           type: integer
           description: data rate up
+        l2CcId:
+          $ref: '#/components/schemas/AllowedCharacters'
       description: Task object
     ReleaseL2BsaNspTask:
       required:
