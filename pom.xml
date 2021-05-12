@@ -565,6 +565,12 @@
                                         </inputSpec>
                                     </item>
                                     <item>
+                                        <name>access.line.resource.inventory.v5_14_0.client</name>
+                                        <inputSpec>
+                                            ${project.basedir}/src/main/resources/swagger/access-line-resource-inventory/access-line-resource-inventory-v5.14.0.yaml
+                                        </inputSpec>
+                                    </item>
+                                    <item>
                                         <name>access.line.resource.inventory.fill.db.v5_7_0.client</name>
                                         <inputSpec>
                                             ${project.basedir}/src/main/resources/swagger/access-line-resource-inventory/access-line-resource-inventory-fill-db-v5.7.0.yaml
