@@ -10,7 +10,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>osr-models</artifactId>
-    <version>0.0.98</version>
+    <version>0.0.99</version>
 
     <properties>
         <framework.version>${project.parent.version}</framework.version>
@@ -514,6 +514,12 @@
                                         <name>a4.inventory.importer.client</name>
                                         <inputSpec>
                                             ${project.basedir}/src/main/resources/swagger/a4-inventory-importer/a4-inventory-importer.yaml
+                                        </inputSpec>
+                                    </item>
+                                    <item>
+                                        <name>a4.rebell.sync.client</name>
+                                        <inputSpec>
+                                            ${project.basedir}/src/main/resources/swagger/a4-rebell-sync/a4-rebell-sync.yaml
                                         </inputSpec>
                                     </item>
                                     <item>

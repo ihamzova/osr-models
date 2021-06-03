@@ -1,0 +1,100 @@
+openapi: 3.0.1
+info:
+  title: a4-rebell-sync
+  description: API for start synchronisation with Rebell for create, update and delete of NetworkElementLinks
+  contact:
+    email: DL_Berlinium@telekom.de
+  version: 1.0.0
+servers:
+  - url: 'http://localhost'
+#SECURITY--------------------------------------------------------------------------------------------------
+security:
+  - OAuth2:
+      - giga:cga:all-area-access
+paths:
+  /resource-order-resource-inventory/v1/syncRebellLinks:
+    post:
+      security:
+        - OAuth2:
+            - 'rori:syncRebellLinks:post'
+            - 'giga:cga:all-area-access'
+      tags:
+        - syncRebellLinks
+      summary: start synchronisation with Rebell and create, update or delete of NetworkElementLinks in RI
+      description: This operation
+      operationId: syncRebellLinks
+      requestBody:
+        description: SyncRebellLinks object with vpsz and fsz
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SyncRebellLinks'
+        required: true
+      responses:
+        200:
+          description: successful operation
+        400:
+          description: SyncRebellLinks - Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        403:
+          description: SyncRebellLinks - Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        500:
+          description: SyncRebellLinks - Internal Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      deprecated: false
+      x-codegen-request-body-name: syncRebellLinks
+
+components:
+  schemas:
+    SyncRebellLinks:
+      required:
+        - vpsz
+        - fsz
+      type: object
+      properties:
+        vpsz:
+          $ref: '#/components/schemas/AllowedCharacters'
+        fsz:
+          $ref: '#/components/schemas/AllowedCharacters'
+      description: SyncRebellLinks object
+    Error:
+      type: object
+      properties:
+        code:
+          type: string
+          description: the code of the Fehlerbildnummer
+        reason:
+          type: string
+          description: Text that explains the reason for error. This can be shown
+            to a client user.
+          example: Http Error
+        message:
+          type: string
+          description: Text that provide more details and corrective actions related
+            to the error. This can be shown to a client user.
+          example: Please check your request
+      description: Error model from the TMF OpenAPI
+    AllowedCharacters:
+      title: AllowedCharacters
+      pattern: '[\w,/!=§#@€:µ.*+? \-\u00C0-\u017F]*'
+      type: string
+      description: Validator for AllowedCharacters
+  securitySchemes:
+    OAuth2:
+      type: oauth2
+      flows:
+        clientCredentials:
+          tokenUrl: 'https://rhsso-develop.magic.telekom.de/auth/realms/GigabitHub/protocol/openid-connect/token'
+          scopes:
+            'giga:cga:all-area-access': General Access Scope
+            'rori:syncRebellLinks:post': POST Scope
