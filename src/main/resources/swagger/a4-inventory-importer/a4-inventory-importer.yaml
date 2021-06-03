@@ -1,0 +1,368 @@
+openapi: 3.0.3
+info:
+  title: A4-Inventory-Importer API
+  version: 3.0.0
+  description: API for A4 Resource Inventory UI BFF communication
+  contact:
+    email: DL_Berlinium@telekom.de
+#SECURITY--------------------------------------------------------------------------------------------------
+security:
+  - OAuth2:
+      - giga:cga:all-area-access
+paths:
+  /networkElementLinks/findByVpszAndFsz:
+    get:
+      security:
+        - OAuth2:
+            - 'rori:networkElement*Links:get'
+            - 'giga:cga:all-area-access'
+      tags:
+        - NetworkElementLinks
+      operationId: findNetworkElementLinksByVpszAndFsz
+      parameters:
+        - name: vpsz
+          in: query
+          description: VPSZ for filtering the NetworkElementLinks
+          required: true
+          schema:
+            $ref: '#/components/schemas/AllowedCharacters'
+        - name: fsz
+          in: query
+          description: FSZ for filtering the NetworkElementLinks
+          required: false
+          schema:
+            $ref: '#/components/schemas/AllowedCharacters'
+      responses:
+        "200":
+          description: success
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/NetworkElementLink"
+        "400":
+          description: Bad Request
+        "404":
+          description: Not Found
+        "500":
+          description: Internal Server Error
+  /networkElements/findByVpsz:
+    get:
+      security:
+        - OAuth2:
+            - 'rori:networkElements:get'
+            - 'giga:cga:all-area-access'
+      tags:
+        - NetworkElements
+      operationId: findNetworkElementsByVpsz
+      parameters:
+        - name: vpsz
+          in: query
+          description: VPSZ for filtering the NetworkElements
+          required: true
+          schema:
+            $ref: '#/components/schemas/AllowedCharacters'
+        - name: fsz
+          in: query
+          description: FSZ for filtering the NetworkElements
+          required: false
+          schema:
+            $ref: '#/components/schemas/AllowedCharacters'
+        - name: category
+          in: query
+          description: Category for filtering the NetworkElements
+          required: false
+          schema:
+            $ref: '#/components/schemas/AllowedCharacters'
+        - name: lifecycleState
+          in: query
+          description: LifecycleState for filtering the NetworkElements
+          required: false
+          schema:
+            $ref: '#/components/schemas/AllowedCharacters'
+      responses:
+        "200":
+          description: success
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/NetworkElement"
+        "400":
+          description: Bad Request
+        "404":
+          description: Not Found
+        "500":
+          description: Internal Server Error
+  /networkElements/findByUuid:
+    get:
+      security:
+        - OAuth2:
+            - 'rori:networkElements:get'
+            - 'giga:cga:all-area-access'
+      tags:
+        - NetworkElements
+      operationId: findNetworkElementsByUuid
+      parameters:
+        - name: uuid
+          in: query
+          description: UUID of the NetworkElement
+          required: true
+          schema:
+            $ref: '#/components/schemas/AllowedUuidCharacters'
+      responses:
+        "200":
+          description: success
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/NetworkElement"
+        "400":
+          description: Bad Request
+        "404":
+          description: Not Found
+        "500":
+          description: Internal Server Error
+  /ztpIdent:
+    post:
+      security:
+        - OAuth2:
+            - 'rori:ztpIdent:post'
+            - 'giga:cga:all-area-access'
+      tags:
+        - NetworkElements
+      operationId: updateNetworkElement
+      parameters:
+        - name: uuid
+          in: query
+          description: UUID of the NetworkElement
+          required: true
+          schema:
+            $ref: '#/components/schemas/AllowedUuidCharacters'
+        - name: ztpIdent
+          in: query
+          description: The ztpIdent/Serialnumber of an NetworkElement
+          required: false
+          schema:
+            $ref: '#/components/schemas/AllowedCharacters'
+      responses:
+        "200":
+          description: success
+        "400":
+          description: Bad Request
+        "404":
+          description: Not Found
+        "500":
+          description: Internal Server Error
+  /uploadCsvFile:
+    post:
+      security:
+        - OAuth2:
+            - 'rori:uploadCsvFile:post'
+            - 'giga:cga:all-area-access'
+      tags:
+        - UploadCsvFile
+      operationId: uploadCsvFile
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                file:
+                  type: string
+                  format: binary
+      responses:
+        "200":
+          description: success
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CsvFileUploadResult"
+        "400":
+          description: Bad Request
+        "500":
+          description: Internal Server Error
+components:
+  schemas:
+    NetworkElementLink:
+      required:
+        - href
+        - id
+      type: object
+      properties:
+        id:
+          type: string
+          description: Identifier of an instance of the resource. Required to be unique
+            within the resource type.  Used in URIs as the identifier for specific
+            instances of a type.
+        href:
+          type: string
+          description: The URI for the object itself.
+          format: uri
+        creationTime:
+          type: string
+          description: This optional attribute identifies the DT material number of
+            a physical entity before it is installed. Set by OSS based on the retrieved
+            material number from the PSL system. This allows the OSS to convert/relate
+            the links retrieved from REBELL to functional network element links (NEL).
+        description:
+          type: string
+          description: free-text description of the resource
+        endszA:
+          type: string
+          description: Link to NE ENDSZ A
+        endszB:
+          type: string
+          description: Link to NE ENDSZ B
+        lastUpdateTime:
+          type: string
+          description: This optional attribute identifies the DT material number of
+            a physical entity before it is installed. Set by OSS based on the retrieved
+            material number from the PSL system. This allows the OSS to convert/relate
+            the links retrieved from REBELL to functional network element links (NEL).
+        lbz:
+          type: string
+          description: 'Leitungsbezeichnung in Rebell  Die Leitungsbezeichnung (LBZ)
+            bzw. die Leitungsbuchungsnummer (LBuNr) ist eine Zeichenkette, die sich
+            aus der LSZ (92Z), der OrdNr (1), der LSZ-Erg (EG), dem ZuBu, dem KennBu,
+            der EndSZ der Endstelle A und der EndSZ der Endstelle B zusammensetzt.
+            Beispiel: 92Z/1 EG 49/211/79/38 – 49/211/80/38 Langtext-Schreibweise:
+            92Z/1 EG Düsseldorf 79/38 – Düsseldorf 80/38 <LSZ> / <order number 10
+            digits with leading zeros> - <EndSzA> - <EndSzB> example: 4C1 / 0000000005-49
+            / 711/880001 / 7MC1-49 / 911/85 / 7ZJA'
+        lsz:
+          type: string
+          description: 'Leitungsschlüsselzahl This attribute defines the type of the
+            link. The lsz is part of the lbz (Leitungsbezeichnung). LSZ values used
+            in A4: https://gard.telekom.de/gardwiki/pages/viewpage.action?pageId=293228420
+            Note: A link in an FTTB PON tree does not have an lsz.'
+        orderNumber:
+          type: string
+          description: This attribute defines ...? The order number is part of the
+            lbz (Leitungsbezeichnung).
+        partyId:
+          type: string
+          description: This attribute defines the partyId of the requesting system.
+        pluralId:
+          type: string
+          description: This attribute contains the identifier of the link in Plural
+            (only FYI for user).
+        specificationVersion:
+          type: integer
+          description: This attribute contains the version of the class specification.
+        ueWegId:
+          type: string
+          description: Übertragungsweg-ID This attribute contains the unique identificator
+            of the link. (Line-ID?, LSZ?)
+        lifecycleState:
+          $ref: '#/components/schemas/LifecycleStateType'
+        operationalState:
+          $ref: '#/components/schemas/ResourceOperationalStateType'
+        '@baseType':
+          type: string
+          description: When sub-classing, this defines the super-class
+        '@schemaLocation':
+          type: string
+          description: A URI to a JSON-Schema file that defines additional attributes
+            and relationships
+          format: uri
+        '@type':
+          type: string
+          description: When sub-classing, this defines the sub-class entity name
+      description: |-
+        NetworkElementLink within Access 4.0 project
+        Skipped properties: activationFeature,attachment,note,place,resourceSpecification,value,startOperatingDate,endOperatingDate,administrativeState,resourceStatus,usageState,category,name,resourceVersion,relatedParty,networkElementPortUuid
+    LifecycleStateType:
+      type: string
+      description: LifecycleStateType enumerations for Access 4.0
+      enum:
+        - PLANNING
+        - INSTALLING
+        - OPERATING
+        - RETIRING
+    ResourceOperationalStateType:
+      type: string
+      description: OperationalStateType enumerations for Access 4.0
+      enum:
+        - FAILED
+        - INSTALLING
+        - NOT_MANAGEABLE
+        - WORKING
+        - NOT_WORKING
+    NetworkElement:
+      type: object
+      title: NetworkElement
+      description: Response an array of NetworkElements reduced to the needed fields
+      properties:
+        uuid:
+          $ref: '#/components/schemas/AllowedUuidCharacters'
+        vpsz:
+          $ref: '#/components/schemas/AllowedCharacters'
+        fsz:
+          $ref: '#/components/schemas/AllowedCharacters'
+        description:
+          $ref: '#/components/schemas/AllowedCharacters'
+        ztpIdent:
+          $ref: '#/components/schemas/AllowedCharacters'
+        plannedMatNumber:
+          $ref: '#/components/schemas/AllowedCharacters'
+        lifecycleState:
+          $ref: '#/components/schemas/AllowedCharacters'
+        operationalState:
+          $ref: '#/components/schemas/AllowedCharacters'
+        category:
+          $ref: '#/components/schemas/AllowedCharacters'
+        address:
+          $ref: '#/components/schemas/AllowedCharacters'
+        plannedRackId:
+          $ref: '#/components/schemas/AllowedCharacters'
+        plannedRackPosition:
+          $ref: '#/components/schemas/AllowedCharacters'
+        planningDeviceName:
+          $ref: '#/components/schemas/AllowedCharacters'
+        type:
+          $ref: '#/components/schemas/AllowedCharacters'
+    CsvFileUploadResult:
+      type: object
+      title: CsvFileUploadResult
+      description: Response CsvFileUploadResult Object
+      properties:
+        csvLineSize:
+          $ref: '#/components/schemas/AllowedCharacters'
+        numberCreatedNetworkElementGroups:
+          $ref: '#/components/schemas/AllowedCharacters'
+        numberCreatedNetworkElements:
+          $ref: '#/components/schemas/AllowedCharacters'
+        numberCreatedNetworkElementPorts:
+          $ref: '#/components/schemas/AllowedCharacters'
+        numberUpdatedNetworkElements:
+          $ref: '#/components/schemas/AllowedCharacters'
+        successLines:
+          $ref: '#/components/schemas/AllowedCharacters'
+        errorLines:
+          $ref: '#/components/schemas/AllowedCharacters'
+        numberNemoUpdateTasks:
+          $ref: '#/components/schemas/AllowedCharacters'
+    AllowedCharacters:
+      title: AllowedCharacters
+      pattern: '[\w,/!=§#@€:µ.*+? \-\u00C0-\u017F]*'
+      type: string
+      description: Validator for AllowedCharacters
+    AllowedUuidCharacters:
+      title: AllowedUuidCharacters
+      pattern: '[0-9a-fA-F]{8}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{12}'
+      type: string
+      description: Validator for AllowedUuidCharacters
+  securitySchemes:
+    OAuth2:
+      type: oauth2
+      flows:
+        clientCredentials:
+          tokenUrl: 'https://rhsso-develop.magic.telekom.de/auth/realms/GigabitHub/protocol/openid-connect/token'
+          scopes:
+            'giga:cga:all-area-access': General Access Scope
+            'rori:networkElements:get': GET Scope
+            'rori:ztpIdent:post': POST Scope
