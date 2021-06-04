@@ -10,7 +10,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>osr-models</artifactId>
-    <version>0.0.99</version>
+    <version>0.0.100</version>
 
     <properties>
         <framework.version>${project.parent.version}</framework.version>
@@ -205,12 +205,6 @@
                                         <name>a10nsp.inventory.internal.client</name>
                                         <inputSpec>
                                             ${project.basedir}/src/main/resources/swagger/a10nsp-inventory/internal-swagger.yaml
-                                        </inputSpec>
-                                    </item>
-                                    <item>
-                                        <name>a4.resource.inventory.service.client</name>
-                                        <inputSpec>
-                                            ${project.basedir}/src/main/resources/swagger/a4-resource-inventory-service/a4-resource-inventory-management.json
                                         </inputSpec>
                                     </item>
                                     <item>
@@ -483,7 +477,7 @@
                                     <item>
                                         <name>a4.resource.inventory.service.v4.client</name>
                                         <inputSpec>
-                                            ${project.basedir}/src/main/resources/swagger/a4-resource-inventory-service/a4-resource-inventory-service.json
+                                            ${project.basedir}/src/main/resources/swagger/a4-resource-inventory-service/a4-resource-inventory-service.yaml
                                         </inputSpec>
                                     </item>
                                     <item>
@@ -496,6 +490,12 @@
                                         <name>a4.resource.inventory.client</name>
                                         <inputSpec>
                                             ${project.basedir}/src/main/resources/swagger/a4-resource-inventory/a4-resource-inventory.yaml
+                                        </inputSpec>
+                                    </item>
+                                    <item>
+                                        <name>a4.resource.inventory.service.client</name>
+                                        <inputSpec>
+                                            ${project.basedir}/src/main/resources/swagger/a4-resource-inventory-service/a4-resource-inventory-management.yaml
                                         </inputSpec>
                                     </item>
                                     <item>
