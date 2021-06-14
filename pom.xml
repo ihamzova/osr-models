@@ -10,7 +10,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>osr-models</artifactId>
-    <version>0.0.101</version>
+    <version>0.0.102</version>
 
     <properties>
         <framework.version>${project.parent.version}</framework.version>
@@ -181,12 +181,6 @@
                                         <name>wg.fttb.access.provisioning.internal.v1.client</name>
                                         <inputSpec>
                                             ${project.basedir}/src/main/resources/swagger/wg-fttb-access-provisioning/wg-fttb-access-provisioning-internal-v1.yaml
-                                        </inputSpec>
-                                    </item>
-                                    <item>
-                                        <name>psl.adapter.client</name>
-                                        <inputSpec>
-                                            ${project.basedir}/src/main/resources/swagger/psl/psl.yaml
                                         </inputSpec>
                                     </item>
                                     <item>
@@ -520,6 +514,12 @@
                                         <name>a4.rebell.sync.client</name>
                                         <inputSpec>
                                             ${project.basedir}/src/main/resources/swagger/a4-rebell-sync/a4-rebell-sync.yaml
+                                        </inputSpec>
+                                    </item>
+                                    <item>
+                                        <name>psl.adapter.client</name>
+                                        <inputSpec>
+                                            ${project.basedir}/src/main/resources/swagger/psl/psl.yaml
                                         </inputSpec>
                                     </item>
                                     <item>
