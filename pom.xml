@@ -10,7 +10,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>osr-models</artifactId>
-    <version>0.0.102</version>
+    <version>0.0.103</version>
 
     <properties>
         <framework.version>${project.parent.version}</framework.version>
@@ -391,6 +391,12 @@
                                         <name>area.data.management.external.client</name>
                                         <inputSpec>
                                             ${project.basedir}/src/main/resources/swagger/area-data-management/area-data-management-external.yaml
+                                        </inputSpec>
+                                    </item>
+                                    <item>
+                                        <name>device.resource.inventory.management.client</name>
+                                        <inputSpec>
+                                            ${project.basedir}/src/main/resources/swagger/device-resource-inventory-management/device-resource-inventory-management.yaml
                                         </inputSpec>
                                     </item>
                                 </items>
