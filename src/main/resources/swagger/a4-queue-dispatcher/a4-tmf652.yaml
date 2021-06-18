@@ -7,7 +7,7 @@ info:
     catalog. A Resource candidate makes a Resource Specification available to a resource
     catalog. Resources can be logical (eg: MSISDN, IP-addresses) or physical (eg:
     cables, routers, firewalls).'
-  version: 4.0.1
+  version: 4.0.2
 servers:
   - url: 'http://localhost'
 #SECURITY--------------------------------------------------------------------------------------------------
@@ -384,6 +384,9 @@ components:
       required:
         - name
         - value
+        - valueType
+        - '@baseType'
+        - '@type'
       type: object
       properties:
         id:
@@ -985,6 +988,10 @@ components:
         - enable
         - disable
     ResourceOrder:
+      required:
+        - externalId
+        - '@baseType'
+        - '@type'
       type: object
       properties:
         id:
@@ -1097,6 +1104,10 @@ components:
         and physical) triggered by the request to provision a Service through a Service
         Order
     ResourceOrderItem:
+      required:
+        - id
+        - '@baseType'
+        - '@type'
       type: object
       properties:
         id:
@@ -1247,6 +1258,10 @@ components:
           type: string
           description: The actual type of the target instance when needed for disambiguation.
     ResourceRefOrValue:
+      required:
+        - name
+        - '@baseType'
+        - '@type'
       type: object
       properties:
         id:
