@@ -1,0 +1,1053 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "description": "## ONT Usage Inventory API",
+    "version": "1.0.0",
+    "title": "ONT Usage Inventory"
+  },
+  "host": "ont-usage-proxy-fiberbau-develop-01.support.magic.telekom.de",
+  "basePath": "/",
+  "tags": [
+  {
+    "name": "basic-error-controller",
+    "description": "Basic Error Controller"
+  },
+  {
+    "name": "database-initializer-controller",
+    "description": "Database Initializer Controller"
+  },
+  {
+    "name": "ont-usage-crud-operations-api-controller",
+    "description": "the OntUsageCrudOperations API"
+  },
+  {
+    "name": "ont-usage-search-api-controller",
+    "description": "the OntUsageSearch API"
+  }
+  ],
+  "paths": {
+    "/api/test/v1/initialize-database/": {
+      "get": {
+        "tags": [
+          "database-initializer-controller"
+        ],
+        "summary": "Initialize database",
+        "operationId": "initializeDatabaseUsingGET",
+        "produces": [
+          "*/*"
+        ],
+        "responses": {
+          "200": {
+            "description": "Database successfully initialized"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        },
+        "deprecated": false
+      }
+    },
+    "/error": {
+      "get": {
+        "tags": [
+          "basic-error-controller"
+        ],
+        "summary": "error",
+        "operationId": "errorUsingGET",
+        "produces": [
+          "*/*"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "object",
+              "additionalProperties": {
+                "type": "object"
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        },
+        "deprecated": false
+      },
+      "head": {
+        "tags": [
+          "basic-error-controller"
+        ],
+        "summary": "error",
+        "operationId": "errorUsingHEAD",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "*/*"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "object",
+              "additionalProperties": {
+                "type": "object"
+              }
+            }
+          },
+          "204": {
+            "description": "No Content"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          }
+        },
+        "deprecated": false
+      },
+      "post": {
+        "tags": [
+          "basic-error-controller"
+        ],
+        "summary": "error",
+        "operationId": "errorUsingPOST",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "*/*"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "object",
+              "additionalProperties": {
+                "type": "object"
+              }
+            }
+          },
+          "201": {
+            "description": "Created"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        },
+        "deprecated": false
+      },
+      "put": {
+        "tags": [
+          "basic-error-controller"
+        ],
+        "summary": "error",
+        "operationId": "errorUsingPUT",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "*/*"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "object",
+              "additionalProperties": {
+                "type": "object"
+              }
+            }
+          },
+          "201": {
+            "description": "Created"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        },
+        "deprecated": false
+      },
+      "delete": {
+        "tags": [
+          "basic-error-controller"
+        ],
+        "summary": "error",
+        "operationId": "errorUsingDELETE",
+        "produces": [
+          "*/*"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "object",
+              "additionalProperties": {
+                "type": "object"
+              }
+            }
+          },
+          "204": {
+            "description": "No Content"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          }
+        },
+        "deprecated": false
+      },
+      "options": {
+        "tags": [
+          "basic-error-controller"
+        ],
+        "summary": "error",
+        "operationId": "errorUsingOPTIONS",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "*/*"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "object",
+              "additionalProperties": {
+                "type": "object"
+              }
+            }
+          },
+          "204": {
+            "description": "No Content"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          }
+        },
+        "deprecated": false
+      },
+      "patch": {
+        "tags": [
+          "basic-error-controller"
+        ],
+        "summary": "error",
+        "operationId": "errorUsingPATCH",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "*/*"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "object",
+              "additionalProperties": {
+                "type": "object"
+              }
+            }
+          },
+          "204": {
+            "description": "No Content"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          }
+        },
+        "deprecated": false
+      }
+    },
+    "/resource-order-resource-inventory/v1/ontUsages": {
+      "get": {
+        "tags": [
+          "OntUsageCrudOperations"
+        ],
+        "summary": "Read ONT Usage.",
+        "description": "Only one optional value \"serialnumber\" as query parameter and we defined 2 permissions: <br><br>  <font font-family=\"monospace\" color=\"#61affe\"> __ONT_USAGE#GET__ <br> __ONT_USAGE#GETWITHSPECIALRIGHTS__ </font><br><br>  In case that role has permission <font font-family=\"monospace\" color=\"#61affe\">__ONT_USAGE#GET__</font> we read ever ONT Entry with partyID from ID Token and in case that Serialnumer is part of query parameter, then  only this entry. Please use in case of Serialnumer is not given,  SQL read via partyID. <br> In result we Filter to Serialnumber. Is Serialnumber not existing we answer with http error code 404  and message code *\"ONT with Serialnumber not existent\"*. <br> In case that role has permission  <font font-family=\"monospace\" color=\"#61affe\">__ONT_USAGE#GETWITHSPECIALRIGHTS__</font> with this permission we do not use partyID for SQL read  and we read all associated workorder_history entry. <br> In case that we have roles in ID Token that doe not have one of both permissions, service will reply with http 405 and message *\"Access to ONT Data is denied\"*. ",
+        "operationId": "getOntUsages",
+        "produces": [
+          "application/json",
+          "application/problem+json"
+        ],
+        "parameters": [
+        {
+          "name": "apm-principal-token",
+          "in": "header",
+          "description": "ID Token",
+          "required": false,
+          "type": "string"
+        },
+        {
+          "name": "serialNumber",
+          "in": "query",
+          "description": "serial number of ont",
+          "required": false,
+          "type": "string",
+          "allowEmptyValue": false
+        }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK. Request has succeeded.",
+            "schema": {
+              "type": "array",
+              "items": {
+                "originalRef": "OntUsageEntity",
+                "$ref": "#/definitions/OntUsageEntity"
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "ONT with the specified serial number is not found."
+          },
+          "500": {
+            "description": "Internal Server Error.",
+            "schema": {
+              "originalRef": "ProblemDetails",
+              "$ref": "#/definitions/ProblemDetails"
+            }
+          }
+        },
+        "deprecated": false
+      },
+      "post": {
+        "tags": [
+          "OntUsageCrudOperations"
+        ],
+        "summary": "Creates ONT Usage.",
+        "description": "We defined 2 permission object for this service: <br><br>  <font font-family=\"monospace\" color=\"#49cc90\"> __ONT_USAGE#POST__ <br> __ONT_USAGE#POSTWITHSPECIALRIGHTS__ </font><br><br>  With <font font-family=\"monospace\" color=\"#49cc90\">__ONT_USAGE#POST__</font>:<br> Create one instance with mandatory attribute. Attribut status_ont_usage will be set to \"created\" check if serialnumer is unique. When serialnumber exists service should create for http code 409 one message like _\"ONT already existing\"_ partyID should be taken from ID Token (partyID in query Parameter will be ignored). idm_last_user will be set with username in ID Token. fk_last_workorder_id will be set to null <br><br>  With <font font-family=\"monospace\" color=\"#49cc90\">__ONT_USAGE#POSTWITHSPECIALRIGHTS__</font>: <br> Only diffence: partyID from query parameter will be used to set partyID in instance. ",
+        "operationId": "postOntUsage",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json",
+          "application/problem+json"
+        ],
+        "parameters": [
+        {
+          "name": "apm-principal-token",
+          "in": "header",
+          "description": "ID Token",
+          "required": false,
+          "type": "string"
+        },
+        {
+          "in": "body",
+          "name": "ontUsagePostRequest",
+          "description": "Post request model",
+          "required": true,
+          "schema": {
+            "originalRef": "OntUsagePostRequest",
+            "$ref": "#/definitions/OntUsagePostRequest"
+          }
+        }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK. Request has succeeded.",
+            "schema": {
+              "originalRef": "OntUsageEntity",
+              "$ref": "#/definitions/OntUsageEntity"
+            }
+          },
+          "201": {
+            "description": "Created"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "409": {
+            "description": "ONT with the specified serial number has already exist."
+          },
+          "500": {
+            "description": "Internal Server Error.",
+            "schema": {
+              "originalRef": "ProblemDetails",
+              "$ref": "#/definitions/ProblemDetails"
+            }
+          }
+        },
+        "deprecated": false
+      }
+    },
+    "/resource-order-resource-inventory/v1/ontUsages/search": {
+      "post": {
+        "tags": [
+          "OntUsageSearch"
+        ],
+        "summary": "Search ONT usage.",
+        "description": "Search ONT usage with filtering, sorting and paging.",
+        "operationId": "searchOntUsage",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json",
+          "application/problem+json"
+        ],
+        "parameters": [
+        {
+          "name": "apm-principal-token",
+          "in": "header",
+          "description": "ID Token",
+          "required": false,
+          "type": "string"
+        },
+        {
+          "in": "body",
+          "name": "ontUsageSearchRequest",
+          "description": "Search request model",
+          "required": true,
+          "schema": {
+            "originalRef": "OntUsageSearchRequest",
+            "$ref": "#/definitions/OntUsageSearchRequest"
+          }
+        }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK. Request has succeeded.",
+            "schema": {
+              "originalRef": "PageDto",
+              "$ref": "#/definitions/PageDto"
+            }
+          },
+          "201": {
+            "description": "Created"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "ONT with specified parameters not found."
+          },
+          "500": {
+            "description": "Internal Server Error.",
+            "schema": {
+              "originalRef": "ProblemDetails",
+              "$ref": "#/definitions/ProblemDetails"
+            }
+          }
+        },
+        "deprecated": false
+      }
+    },
+    "/resource-order-resource-inventory/v1/ontUsages/{serialNumber}": {
+      "put": {
+        "tags": [
+          "OntUsageCrudOperations"
+        ],
+        "summary": "Updates ONT Usage.",
+        "description": "Updates for entry which is identified with serialnumber <br> Each change will update  value \"last_use_of_ont\" with actual systemtime and \"idm_last_user\" with user Name from ID Token. <br><br>  We defined 2 Permission Objects for this service: <br><br>  <font font-family=\"monospace\" color=\"#fca130\"> __ONT_USAGE#PUTWITHSPECIALRIGHTS__ <br> __ONT_USAGE#PUT__ </font><br><br>   With <font font-family=\"monospace\" color=\"#fca130\">__ONT_USAGE#PUTWITHSPECIALRIGHTS__</font>: <br> Will change each attribut for existing entry with give request values => use case: used for UI \"ont_usage_support_ui\". <br><br>  With <font font-family=\"monospace\" color=\"#fca130\">__ONT_USAGE#PUT__</font>: <br> <ul> changes either: <br> <li>status_ont_usage (in one case fk_last_workorder_id, see special rule for setting status to deregistered) => use case: api user from mobile client </li> or <br> <li>idm_name_of_employee / use_for_only_one_employee => use case: used for UI \"ont_usage_supplier_ui\" </li> or <br> <li>fk_last_workorder_id =>use case: api user from mobile client </li> </ul><br>  <p> status_ont_usage => given status in request attribut must be one allowed following state. see State Diagramm. <br> fk_last_workorder_id can ony be set to workorder_id from request value when fk_workorder_id is empty. </p>  <h2> Common behavior: </h2>  <p> fk_last_workorder_id will be set to empty when we set \"status_ont_usage\" to deregistered and fk_last_workorder_id wil be one new entry in workorder_history for this serialnumber. </p> ",
+        "operationId": "putOntUsage",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json",
+          "application/problem+json"
+        ],
+        "parameters": [
+        {
+          "name": "apm-principal-token",
+          "in": "header",
+          "description": "ID Token",
+          "required": false,
+          "type": "string"
+        },
+        {
+          "in": "body",
+          "name": "ontUsagePutRequest",
+          "description": "Put request model",
+          "required": true,
+          "schema": {
+            "originalRef": "OntUsagePutRequest",
+            "$ref": "#/definitions/OntUsagePutRequest"
+          }
+        },
+        {
+          "name": "serialNumber",
+          "in": "path",
+          "description": "Serial number - 12 or 16 digit alphanumeric digit.",
+          "required": true,
+          "type": "string"
+        }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK. Request has succeeded.",
+            "schema": {
+              "originalRef": "OntUsageEntity",
+              "$ref": "#/definitions/OntUsageEntity"
+            }
+          },
+          "201": {
+            "description": "Created"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "ONT with the specified serial number is not found."
+          },
+          "500": {
+            "description": "Internal Server Error.",
+            "schema": {
+              "originalRef": "ProblemDetails",
+              "$ref": "#/definitions/ProblemDetails"
+            }
+          }
+        },
+        "deprecated": false
+      },
+      "delete": {
+        "tags": [
+          "OntUsageCrudOperations"
+        ],
+        "summary": "Deletes ONT Usage.",
+        "description": "Deletes entry. <br><br> There are 2 variantes based on permission: <br><br> <font font-family=\"monospace\" color=\"#f93e3e\">__ONT_USAGE#DELETE__</font> => only possible when entry has status \"Created\" or \"Deregistered\". <br> <font font-family=\"monospace\" color=\"#f93e3e\">__ONT_USAGE#DELETEWITHSPECIALRIGHTS__</font> => can delete entry without dependency of actual status. ",
+        "operationId": "deleteOntUsage",
+        "produces": [
+          "application/problem+json"
+        ],
+        "parameters": [
+        {
+          "name": "apm-principal-token",
+          "in": "header",
+          "description": "ID Token",
+          "required": false,
+          "type": "string"
+        },
+        {
+          "name": "serialNumber",
+          "in": "path",
+          "description": "Serial number - 12 or 16 digit alphanumeric digit.",
+          "required": true,
+          "type": "string"
+        }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "204": {
+            "description": "No content. Resource was deleted."
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "ONT with the specified serial number is not found."
+          },
+          "409": {
+            "description": "ONT is not able to transition to the required status."
+          },
+          "500": {
+            "description": "Internal Server Error.",
+            "schema": {
+              "originalRef": "ProblemDetails",
+              "$ref": "#/definitions/ProblemDetails"
+            }
+          }
+        },
+        "deprecated": false
+      }
+    }
+  },
+  "definitions": {
+    "ModelAndView": {
+      "type": "object",
+      "properties": {
+        "empty": {
+          "type": "boolean"
+        },
+        "model": {
+          "type": "object"
+        },
+        "modelMap": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "object"
+          }
+        },
+        "reference": {
+          "type": "boolean"
+        },
+        "status": {
+          "type": "string",
+          "enum": [
+            "100 CONTINUE",
+            "101 SWITCHING_PROTOCOLS",
+            "102 PROCESSING",
+            "103 CHECKPOINT",
+            "200 OK",
+            "201 CREATED",
+            "202 ACCEPTED",
+            "203 NON_AUTHORITATIVE_INFORMATION",
+            "204 NO_CONTENT",
+            "205 RESET_CONTENT",
+            "206 PARTIAL_CONTENT",
+            "207 MULTI_STATUS",
+            "208 ALREADY_REPORTED",
+            "226 IM_USED",
+            "300 MULTIPLE_CHOICES",
+            "301 MOVED_PERMANENTLY",
+            "302 FOUND",
+            "302 MOVED_TEMPORARILY",
+            "303 SEE_OTHER",
+            "304 NOT_MODIFIED",
+            "305 USE_PROXY",
+            "307 TEMPORARY_REDIRECT",
+            "308 PERMANENT_REDIRECT",
+            "400 BAD_REQUEST",
+            "401 UNAUTHORIZED",
+            "402 PAYMENT_REQUIRED",
+            "403 FORBIDDEN",
+            "404 NOT_FOUND",
+            "405 METHOD_NOT_ALLOWED",
+            "406 NOT_ACCEPTABLE",
+            "407 PROXY_AUTHENTICATION_REQUIRED",
+            "408 REQUEST_TIMEOUT",
+            "409 CONFLICT",
+            "410 GONE",
+            "411 LENGTH_REQUIRED",
+            "412 PRECONDITION_FAILED",
+            "413 PAYLOAD_TOO_LARGE",
+            "413 REQUEST_ENTITY_TOO_LARGE",
+            "414 URI_TOO_LONG",
+            "414 REQUEST_URI_TOO_LONG",
+            "415 UNSUPPORTED_MEDIA_TYPE",
+            "416 REQUESTED_RANGE_NOT_SATISFIABLE",
+            "417 EXPECTATION_FAILED",
+            "418 I_AM_A_TEAPOT",
+            "419 INSUFFICIENT_SPACE_ON_RESOURCE",
+            "420 METHOD_FAILURE",
+            "421 DESTINATION_LOCKED",
+            "422 UNPROCESSABLE_ENTITY",
+            "423 LOCKED",
+            "424 FAILED_DEPENDENCY",
+            "425 TOO_EARLY",
+            "426 UPGRADE_REQUIRED",
+            "428 PRECONDITION_REQUIRED",
+            "429 TOO_MANY_REQUESTS",
+            "431 REQUEST_HEADER_FIELDS_TOO_LARGE",
+            "451 UNAVAILABLE_FOR_LEGAL_REASONS",
+            "500 INTERNAL_SERVER_ERROR",
+            "501 NOT_IMPLEMENTED",
+            "502 BAD_GATEWAY",
+            "503 SERVICE_UNAVAILABLE",
+            "504 GATEWAY_TIMEOUT",
+            "505 HTTP_VERSION_NOT_SUPPORTED",
+            "506 VARIANT_ALSO_NEGOTIATES",
+            "507 INSUFFICIENT_STORAGE",
+            "508 LOOP_DETECTED",
+            "509 BANDWIDTH_LIMIT_EXCEEDED",
+            "510 NOT_EXTENDED",
+            "511 NETWORK_AUTHENTICATION_REQUIRED"
+          ]
+        },
+        "view": {
+          "originalRef": "View",
+          "$ref": "#/definitions/View"
+        },
+        "viewName": {
+          "type": "string"
+        }
+      },
+      "title": "ModelAndView"
+    },
+    "OntUsageEntity": {
+      "type": "object",
+      "properties": {
+        "bid": {
+          "type": "integer",
+          "format": "int64",
+          "description": "Technical id of one instance."
+        },
+        "idmLastUser": {
+          "type": "string",
+          "description": "Idm last user - the last authorized user who has used it."
+        },
+        "idmNameOfEmployee": {
+          "type": "string",
+          "description": "The identifier of the mechanic who uses this ONT exclusively."
+        },
+        "lastUseOfOnt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Time of the last usage."
+        },
+        "lastWorkorderId": {
+          "type": "integer",
+          "format": "int64",
+          "description": "work order ID witch used ONT"
+        },
+        "partyId": {
+          "type": "integer",
+          "format": "int64",
+          "description": "partyId of the supplier. This ensures that only the ONT that the respective supplier uses is offered."
+        },
+        "serialNumber": {
+          "type": "string",
+          "example": "53434F4DF004614A",
+          "description": "Serial number - 12 or 16 digit alphanumeric digit."
+        },
+        "status": {
+          "type": "string",
+          "enum": [
+            "CREATED",
+            "REGISTERED",
+            "ONLINE",
+            "OFFLINE",
+            "DEREGISTERED"
+          ]
+        },
+        "useForOnlyOneEmployee": {
+          "type": "boolean",
+          "description": "Flag determines whether the ONT for partyID can be used by any party fitter. If false, the administrator must define the user who uses it exclusively."
+        },
+        "workOrderHistory": {
+          "type": "array",
+          "items": {
+            "originalRef": "WorkOrderHistoryItem",
+            "$ref": "#/definitions/WorkOrderHistoryItem"
+          }
+        }
+      },
+      "title": "OntUsageEntity"
+    },
+    "OntUsagePostRequest": {
+      "type": "object",
+      "properties": {
+        "idmNameOfEmployee": {
+          "type": "string",
+          "description": "The identifier of the mechanic who uses this ONT exclusively."
+        },
+        "partyId": {
+          "type": "integer",
+          "format": "int64",
+          "description": "partyId of the supplier. This ensures that only the ONT that the respective supplier uses is offered."
+        },
+        "serialNumber": {
+          "type": "string",
+          "example": "53434F4DF004614A",
+          "description": "Serial number - 12 or 16 digit alphanumeric digit."
+        },
+        "useForOnlyOneEmployee": {
+          "type": "boolean",
+          "description": "Flag determines whether the ONT for partyID can be used by any party fitter. If false, the administrator must define the user who uses it exclusively."
+        }
+      },
+      "title": "OntUsagePostRequest"
+    },
+    "OntUsagePutRequest": {
+      "type": "object",
+      "properties": {
+        "idmNameOfEmployee": {
+          "type": "string",
+          "description": "The identifier of the mechanic who uses this ONT exclusively."
+        },
+        "partyId": {
+          "type": "integer",
+          "format": "int64",
+          "description": "partyId of the supplier. This ensures that only the ONT that the respective supplier uses is offered."
+        },
+        "status": {
+          "type": "string",
+          "enum": [
+            "CREATED",
+            "REGISTERED",
+            "ONLINE",
+            "OFFLINE",
+            "DEREGISTERED"
+          ]
+        },
+        "useForOnlyOneEmployee": {
+          "type": "boolean",
+          "description": "Flag determines whether the ONT for partyID can be used by any party fitter. If false, the administrator must define the user who uses it exclusively."
+        },
+        "workOrderId": {
+          "type": "integer",
+          "format": "int64",
+          "description": "last work order ID in which the ONT was used"
+        }
+      },
+      "title": "OntUsagePutRequest"
+    },
+    "OntUsageSearchRequest": {
+      "type": "object",
+      "properties": {
+        "partyIds": {
+          "type": "array",
+          "items": {
+            "type": "integer",
+            "format": "int64"
+          }
+        },
+        "querySettings": {
+          "originalRef": "OntUsageSearchRequestQuerySettings",
+          "$ref": "#/definitions/OntUsageSearchRequestQuerySettings"
+        },
+        "queryString": {
+          "type": "string",
+          "description": "Query string."
+        }
+      },
+      "title": "OntUsageSearchRequest"
+    },
+    "OntUsageSearchRequestQuerySettings": {
+      "type": "object",
+      "properties": {
+        "pageNumber": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "pageSize": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "sortDirection": {
+          "type": "string",
+          "enum": [
+            "ASC",
+            "DESC"
+          ]
+        },
+        "sortField": {
+          "type": "string",
+          "enum": [
+            "serialNumber",
+            "partyId",
+            "status",
+            "idmUserName",
+            "lastUseOfOnt",
+            "idmNameOfEmployee",
+            "bid"
+          ]
+        }
+      },
+      "title": "OntUsageSearchRequestQuerySettings"
+    },
+    "PageDto": {
+      "type": "object",
+      "properties": {
+        "content": {
+          "type": "array",
+          "items": {
+            "originalRef": "OntUsageEntity",
+            "$ref": "#/definitions/OntUsageEntity"
+          }
+        },
+        "empty": {
+          "type": "boolean"
+        },
+        "first": {
+          "type": "boolean"
+        },
+        "last": {
+          "type": "boolean"
+        },
+        "number": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "numberOfElements": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "pageable": {
+          "originalRef": "Pageable",
+          "$ref": "#/definitions/Pageable"
+        },
+        "size": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "sort": {
+          "originalRef": "Sort",
+          "$ref": "#/definitions/Sort"
+        },
+        "totalElements": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "totalPages": {
+          "type": "integer",
+          "format": "int32"
+        }
+      },
+      "title": "PageDto"
+    },
+    "Pageable": {
+      "type": "object",
+      "properties": {
+        "offset": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "pageNumber": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "pageSize": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "paged": {
+          "type": "boolean"
+        },
+        "sort": {
+          "originalRef": "Sort",
+          "$ref": "#/definitions/Sort"
+        },
+        "unpaged": {
+          "type": "boolean"
+        }
+      },
+      "title": "Pageable"
+    },
+    "ProblemDetails": {
+      "type": "object",
+      "required": [
+        "title",
+        "type"
+      ],
+      "properties": {
+        "detail": {
+          "type": "string",
+          "description": "detail"
+        },
+        "embedded": {
+          "type": "object",
+          "description": "embedded"
+        },
+        "instance": {
+          "type": "string",
+          "description": "instance"
+        },
+        "status": {
+          "type": "integer",
+          "format": "int32",
+          "description": "status"
+        },
+        "title": {
+          "type": "string",
+          "description": "title"
+        },
+        "type": {
+          "type": "string",
+          "description": "type"
+        }
+      },
+      "title": "ProblemDetails",
+      "description": "Error response of 4xx and 5xx http statuses."
+    },
+    "Sort": {
+      "type": "object",
+      "properties": {
+        "empty": {
+          "type": "boolean"
+        },
+        "sorted": {
+          "type": "boolean"
+        },
+        "unsorted": {
+          "type": "boolean"
+        }
+      },
+      "title": "Sort"
+    },
+    "View": {
+      "type": "object",
+      "properties": {
+        "contentType": {
+          "type": "string"
+        }
+      },
+      "title": "View"
+    },
+    "WorkOrderHistoryItem": {
+      "type": "object",
+      "properties": {
+        "bid": {
+          "type": "integer",
+          "format": "int64",
+          "description": "Technical id of one instance."
+        },
+        "idmUserName": {
+          "type": "string",
+          "description": "Idm user name - authorized user who has used it."
+        },
+        "timestamp": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Time of creation"
+        },
+        "workOrderId": {
+          "type": "integer",
+          "format": "int64",
+          "description": "work order ID witch used ONT"
+        }
+      },
+      "title": "WorkOrderHistoryItem"
+    }
+  }
+}
