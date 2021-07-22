@@ -672,6 +672,12 @@
                                             ${project.basedir}/src/main/resources/swagger/a4-nemo-updater/a4-nemo-updater.yaml
                                         </inputSpec>
                                     </item>
+                                    <item>
+                                        <name>ont.usage.client</name>
+                                        <inputSpec>
+                                            ${project.basedir}/src/main/resources/swagger/ont-usage/ont-usage.yaml
+                                        </inputSpec>
+                                    </item>
                                 </items>
                             </bulk>
                             <language/>
