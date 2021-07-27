@@ -1,82 +1,265 @@
 openapi: 3.0.1
 info:
-  title: A4 Trigger resource-order-orchestrator Task API
-  description: This YAML describes a Service to trigger Tasks to process Resourceorders
-    in A4.
+  title: a4-resource-order-orchestrator
+  description: This interface allows you to do CRUD-operations on the a4-resource-order-orchestrator
   contact:
-    name: Team Berlinium
-    url: https://gard.telekom.de/gardwiki/display/DGHB/Fulfillment+-+A10NSP+interface
     email: DL_Berlinium@telekom.de
-  version: 1.0.0
+  version: 0.0.1
 servers:
   - url: /
 #SECURITY--------------------------------------------------------------------------------------------------
 security:
   - OAuth2:
       - giga:cga:all-area-access
-tags:
-  - name: ResourceOrderOrchestratorService
-    description: This service provides a functionality to trigger process Resourceorders in A4.
 paths:
-  /resouresource-order-resource-inventory/v1/a4ResourceOrder:
-    post:
+  /resource-order-resource-inventory/v1/a4ResourceOrders/{uuid}:
+    get:
       security:
         - OAuth2:
-            - 'rori:a4ResourceOrder:post'
+            - 'rori:resourceOrders:read'
             - 'giga:cga:all-area-access'
       tags:
-        - ResourceOrderOrchestratorService
-      summary: Triggers a RessourceOrder
-      description: Triggers a RessourceOrder Process by UUID of the relevant Object
-      operationId: a4ResourceOrder
-      requestBody:
-        description: UUID of the ResourceOrder which has to be processed
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/A4ResourceOrder'
-        required: true
+        - ResourceOrder
+      description: This operation intended to get a ResourceOrder by UUID.
+      operationId: getResourceOrder
+      parameters:
+        - name: uuid
+          in: path
+          required: true
+          schema:
+            type: string
       responses:
-        201:
-          description: trigger request successful created
-          content: {}
+        200:
+          description: get ResourceOrder/{uuid} - OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResourceOrderDto'
         400:
-          description: post to ResourceOrderOrchestratorService - Bad Request
+          description: get ResourceOrder/{uuid} - Bad Request
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
         403:
-          description: post to ResourceOrderOrchestratorService - Forbidden
+          description: get ResourceOrder/{uuid} - Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        404:
+          description: get ResourceOrder/{uuid} - Not Found
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
         500:
-          description: post to ResourceOrderOrchestratorService - Internal Server Error
+          description: get ResourceOrder/{uuid} - Internal Server Error
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
-      x-codegen-request-body-name: UUID
-
+  /resource-order-resource-inventory/v1/a4ResourceOrders:
+    get:
+      security:
+        - OAuth2:
+            - 'rori:resourceOrders:read'
+            - 'giga:cga:all-area-access'
+      tags:
+        - ResourceOrder
+      description: This operation intended to search all ResourceOrder.
+      operationId: listResourceOrders
+      parameters:
+        - name: vuepPublicReferenceNr
+          in: query
+          required: false
+          schema:
+            type: string
+      responses:
+        200:
+          description: list ResourceOrder - OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ResourceOrderDto'
+        400:
+          description: list ResourceOrder - Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        403:
+          description: list ResourceOrder - Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        404:
+          description: list ResourceOrder - Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        500:
+          description: list ResourceOrder - Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
 components:
   schemas:
-    A4ResourceOrder:
+    Any:
+      type: object
+    CharacteristicDto:
+      type: object
+      description: Describes a given characteristic of an object or entity through a name/value pair.
       required:
-        - uuid
+        - name
+        - value
+      properties:
+        id:
+          type: string
+          description: Unique identifier of the characteristic
+        name:
+          type: string
+          description: Name of the characteristic
+        valueType:
+          type: string
+          description: Data type of the value of the characteristic
+        value:
+          $ref: '#/components/schemas/Any'
+    NoteDto:
+      type: object
+      description: Extra information about a given entity
+      properties:
+        id:
+          type: string
+          description: 'Identifier of the note within its containing entity (may or may not be globally unique, depending on provider implementation)'
+        href:
+          type: string
+          description: Hyperlink to access the order
+        author:
+          type: string
+          description: Author of the note
+        date:
+          type: string
+          description: Date of the note
+        text:
+          type: string
+          description: Text of the note
+    QosClassDto:
       type: object
       properties:
-        uuid:
-          pattern: '[0-9a-fA-F]{8}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{12}'
+        qosBandwidthDown:
           type: string
-          description: UUID of the entity (RessourceOrder)
+        qospBit:
+          type: string
+        qosClass:
+          type: string
+      description: QosClass. within Access 4.0 project
+    QosListDto:
+      type: object
+      properties:
+        qosClasses:
+          type: array
+          items:
+            $ref: '#/components/schemas/QosClassDto'
+      description: QosClass. within Access 4.0 project
+    ResourceOrderDto:
+      type: object
+      description: A Resource Order is a request to provision a set of Resources (logical and physical) triggered by the request to provision a Service through a Service Order
+      properties:
+        id:
+          type: string
+          description: Identifier of an instance of the Resource Order. Required to be unique within the resource type.  Used in URIs as the identifier for specific instances of a type.
+        href:
+          type: string
+          description: Hyperlink to access the order
+        completionDate:
+          type: string
+          description: Date when the order was completed
+        externalId:
+          type: string
+          description: 'DEPRECATED: Use externalReference Instead. ID given by the consumer (to facilitate searches afterwards)'
+        orderDate:
+          type: string
+          description: Date when the order was created
+        startDate:
+          type: string
+          description: Date when the order was actually started
+        state:
+          type: string
+          description: The life cycle state of the resource.
+        note:
+          type: array
+          items:
+            $ref: '#/components/schemas/NoteDto'
+        orderItem:
+          type: array
+          items:
+            $ref: '#/components/schemas/ResourceOrderItemDto'
+    ResourceOrderItemDto:
+      type: object
+      description: An identified part of the order. A resource order is decomposed into one or more order items.
+      properties:
+        id:
+          type: string
+          description: 'Identifier of the line item (generally it is a sequence number 01, 02, 03, ...)'
+        href:
+          type: string
+          description: Hyperlink to access the order
+        action:
+          type: string
+          description: Can be "add" / "modify" / "no_change"/ "delete"
+        state:
+          type: string
+          description: 'State of the order item : described in the state machine diagram'
+        resource:
+          $ref: '#/components/schemas/ResourceRefOrValueDto'
+    ResourceRefOrValueDto:
+      type: object
+      description: 'Resource is an abstract entity that describes the common set of attributes shared by all concrete resources.'
+      required:
+        - href
+        - id
+      properties:
+        id:
+          type: string
+          description: Identifier of an instance of the resource. Required to be unique within the resource type.  Used in URIs as the identifier for specific instances of a type.
+        href:
+          type: string
+          description: The URI for the object itself.
+        name:
+          type: string
+          description: A string used to give a name to the resource
+        resourceCharacteristic:
+          type: array
+          items:
+            $ref: '#/components/schemas/CharacteristicDto'
+    VlanRangeDto:
+      type: object
+      properties:
+        vlanRangeLower:
+          type: string
+        vlanRangeUpper:
+          type: string
+      description: VlanRange. within Access 4.0 project
+    VlanRangeListDto:
+      type: object
+      properties:
+        VlanRanges:
+          type: array
+          items:
+            $ref: '#/components/schemas/VlanRangeDto'
+      description: VlanRangeList. within Access 4.0 project
     Error:
       type: object
       properties:
         code:
           type: string
-          description: Fehlerbildnummer
+          description: the code of the Fehlerbildnummer
         reason:
           type: string
           description: Text that explains the reason for error. This can be shown
@@ -96,4 +279,4 @@ components:
           tokenUrl: 'https://rhsso-develop.magic.telekom.de/auth/realms/GigabitHub/protocol/openid-connect/token'
           scopes:
             'giga:cga:all-area-access': General Access Scope
-            'rori:a4ResourceOrder:post': POST Scope
+            'rori:resourceOrders:read': READ resourceOrders Scope
