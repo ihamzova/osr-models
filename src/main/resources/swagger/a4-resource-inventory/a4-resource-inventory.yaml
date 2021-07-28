@@ -4,7 +4,7 @@ info:
   description: This interface allows you to do CRUD-operations on the a4-resource-inventory
   contact:
     email: DL_Berlinium@telekom.de
-  version: 8.0.0
+  version: 8.1.1
 servers:
   - url: /
 #SECURITY--------------------------------------------------------------------------------------------------
@@ -2443,9 +2443,6 @@ components:
         category:
           type: string
           description: NE-Category for filtering the NetworkElements
-        virtualServiceProvider:
-          type: string
-          description: Virtual Service Provider of this Network Element item
         ztpIdent:
           type: string
           description: ZTP-Ident of this Network Element item
@@ -2680,6 +2677,9 @@ components:
           type: string
           description: UUID of terminationPointFtthAccess item to which this NetworkServiceProfileFtthAccessDto
             item belongs. Must contain UUID of an existing Termination Point
+        oltPortOntLastRegisteredOn:
+          type: string
+          description: UUID of Network Element Port item the associated with ONT
         href:
           type: string
           description: References Termination Point
@@ -2716,6 +2716,13 @@ components:
           type: string
           description: UUID of NetworkElementGroup or NetworkElementPort that is related
             to this TerminationPoint
+        parentType:
+          type: string
+          description: NetworkElementGroup or NetworkElementPort type that is related
+            to this TerminationPoint
+        supportedDiagnoses:
+          type: string
+          description: comma-separated JSON like list with 1-n elements
         supportedDiagnosesName:
           type: string
           description: comma-separated list of names of the kind of diagnoses
@@ -2879,6 +2886,9 @@ components:
         routingInstanceId:
           type: string
           description: attributes of this NetworkServiceProfileA10NspDto item
+        networkElementLinkUuid:
+          type: string
+          description: UUID of NetworkElementLink related to this NetworkServiceProfileA10NspDto item
         href:
           type: string
           description: References TerminationPoint
