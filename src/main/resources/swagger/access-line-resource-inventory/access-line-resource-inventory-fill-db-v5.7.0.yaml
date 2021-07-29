@@ -71,8 +71,7 @@ paths:
       summary: Fills access line resource inventory database with Adtran Olt SDX 6320.
       description: 'Launches a script that fills access lines resource inventory database
         with Adtran Olt SDX 6320. Physical resource references have similar endsz,
-        slot, port but different port type.4 ports will be createdEach port has 31
-        ASSIGNED line and 1 WALLED_GARDEN. '
+        slot, port but different port type. 4 ports will be created.'
       operationId: fillDatabaseWithAdtranOlt
       parameters:
         - name: END_SZ
@@ -95,7 +94,15 @@ paths:
           description: Start lineId sequence
           required: true
           schema:
-            maximum: 9000000
+            maximum: 900000000
+            minimum: 0
+            type: integer
+            format: int32
+        - name: ASSIGNED
+          in: query
+          description: Number of ASSIGNED lines on each port. Default value is 20.
+          schema:
+            maximum: 32
             minimum: 0
             type: integer
             format: int32
@@ -226,7 +233,7 @@ paths:
           description: Start lineId sequence
           required: true
           schema:
-            maximum: 9000000
+            maximum: 900000000
             minimum: 0
             type: integer
             format: int32
