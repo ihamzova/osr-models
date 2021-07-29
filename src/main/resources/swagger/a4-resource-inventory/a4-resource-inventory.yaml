@@ -4,7 +4,7 @@ info:
   description: This interface allows you to do CRUD-operations on the a4-resource-inventory
   contact:
     email: DL_Berlinium@telekom.de
-  version: 8.1.1
+  version: 8.1.2
 servers:
   - url: /
 #SECURITY--------------------------------------------------------------------------------------------------
@@ -2881,9 +2881,6 @@ components:
           description: UUID of terminationPointA10Nsp item to which this NetworkServiceProfileA10NspDto
             item belongs. Must contain UUID of an existing Termination Point
         numberOfAssociatedNsps:
-          type: string
-          description: attributes of this NetworkServiceProfileA10NspDto item
-        routingInstanceId:
           type: string
           description: attributes of this NetworkServiceProfileA10NspDto item
         networkElementLinkUuid:
