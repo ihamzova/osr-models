@@ -10,7 +10,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>osr-models</artifactId>
-    <version>0.0.109</version>
+    <version>0.0.110</version>
 
     <properties>
         <framework.version>${project.parent.version}</framework.version>
@@ -586,6 +586,12 @@
                                         <name>access.line.resource.inventory.v5_14_0.client</name>
                                         <inputSpec>
                                             ${project.basedir}/src/main/resources/swagger/access-line-resource-inventory/access-line-resource-inventory-v5.14.0.yaml
+                                        </inputSpec>
+                                    </item>
+                                    <item>
+                                        <name>access.line.resource.inventory.v5_19_0.client</name>
+                                        <inputSpec>
+                                            ${project.basedir}/src/main/resources/swagger/access-line-resource-inventory/access-line-resource-inventory-v5.19.0.yaml
                                         </inputSpec>
                                     </item>
                                     <item>
