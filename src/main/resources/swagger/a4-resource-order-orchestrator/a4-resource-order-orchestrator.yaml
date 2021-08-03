@@ -4,7 +4,7 @@ info:
   description: This interface allows you to do CRUD-operations on the a4-resource-order-orchestrator
   contact:
     email: DL_Berlinium@telekom.de
-  version: 0.0.1
+  version: 0.0.2
 servers:
   - url: /
 #SECURITY--------------------------------------------------------------------------------------------------
@@ -152,7 +152,7 @@ components:
     QosClassDto:
       type: object
       properties:
-        qosBandwidthDown:
+        qosBandwidth:
           type: string
         qospBit:
           type: string

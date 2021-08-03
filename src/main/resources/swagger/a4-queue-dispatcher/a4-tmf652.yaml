@@ -7,7 +7,7 @@ info:
     catalog. A Resource candidate makes a Resource Specification available to a resource
     catalog. Resources can be logical (eg: MSISDN, IP-addresses) or physical (eg:
     cables, routers, firewalls).'
-  version: 4.0.2
+  version: 4.0.6
 servers:
   - url: 'http://localhost'
 #SECURITY--------------------------------------------------------------------------------------------------
@@ -30,16 +30,16 @@ paths:
         is the same in the callback and the request, so we summerized both.
       operationId: createResourceOrder
       parameters:
-        - name: X-Callback-Correlation-Id
+        - name: x-callback-correlation-id
           in: header
           required: true
           schema:
             type: string
-        - name: X-Callback-Url
+        - name: x-callback-url
           in: header
           schema:
             type: string
-        - name: X-Request-ID
+        - name: x-request-id
           in: header
           schema:
             type: string
@@ -91,11 +91,12 @@ paths:
                 $ref: '#/components/schemas/Error'
       callbacks:
         resourceOrderCallback:
-          '{$request.header.X-Callback-Url}':
+          '{$request.header.x-callback-url}':
             post:
               summary: ResourceOrder callback
+              operationId: resourceOrderCallback_Post
               parameters:
-                - name: X-Callback-Correlation-Id
+                - name: x-callback-correlation-id
                   in: header
                   description: Value for identifying a single transaction across multiple services
                     up to the backend. Usually set by the originating consumer
@@ -719,7 +720,7 @@ components:
     QosClass:
       type: object
       properties:
-        qosBandwidthDown:
+        qosBandwidth:
           type: string
         qospBit:
           type: string
