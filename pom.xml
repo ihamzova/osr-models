@@ -10,7 +10,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>osr-models</artifactId>
-    <version>0.0.112</version>
+    <version>0.0.113</version>
 
     <properties>
         <framework.version>${project.parent.version}</framework.version>
@@ -379,6 +379,12 @@
                                         <name>olt.resource.inventory.external.v4_6_0.client</name>
                                         <inputSpec>
                                             ${project.basedir}/src/main/resources/swagger/olt-resource-inventory/olt-resource-inventory-external.4.6.0.yaml
+                                        </inputSpec>
+                                    </item>
+                                    <item>
+                                        <name>olt.resource.inventory.external.v4_17_0.client</name>
+                                        <inputSpec>
+                                            ${project.basedir}/src/main/resources/swagger/olt-resource-inventory/olt-resource-inventory-external.4.17.0.yaml
                                         </inputSpec>
                                     </item>
                                     <item>
