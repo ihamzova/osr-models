@@ -1,0 +1,3237 @@
+---
+swagger: "2.0"
+info:
+  description: "## OLT Resource Inventory API"
+  version: "4.17.0"
+  title: "OLT Resource Inventory"
+host: "localhost:8080"
+tags:
+  - name: "AncpSessionExternalController"
+  - name: "DeviceExternalController"
+  - name: "DeviceExternalControllerV2"
+  - name: "DpuAtOltConfigurationExternalController"
+  - name: "DpuEmsConfigurationExternalController"
+  - name: "DpuPonConnectionExternalController"
+  - name: "EthernetLinkExternalController"
+  - name: "PortExternalController"
+schemes:
+  - "http"
+paths:
+  /resource-order-resource-inventory/v1/ancp/session:
+    post:
+      tags:
+        - "AncpSessionExternalController"
+      summary: "Create new ancp session"
+      description: ""
+      operationId: "createAncpSession"
+      consumes:
+        - "application/json"
+      produces:
+        - "application/json"
+      parameters:
+        - in: "body"
+          name: "body"
+          description: "AncpSession"
+          required: true
+          schema:
+            $ref: "#/definitions/AncpSessionDto"
+      responses:
+        200:
+          description: "successful operation"
+          schema:
+            $ref: "#/definitions/AncpSessionDto"
+        201:
+          description: "Successfully generated"
+        400:
+          description: "Can't perform operation"
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+      security:
+        - OauthSecurity:
+            - "rori:ancp:full"
+            - "giga:cga:all-area-access"
+      deprecated: true
+  /resource-order-resource-inventory/v1/ancp/session/endsz:
+    get:
+      tags:
+        - "AncpSessionExternalController"
+      summary: "Find ancp session by endsz"
+      description: ""
+      operationId: "findAncpSessionByEndsz"
+      produces:
+        - "application/json"
+      parameters:
+        - name: "endsz"
+          in: "query"
+          description: "Endsz of Device for which ANCP-Session should be delivered"
+          required: true
+          type: "string"
+          pattern: "[0-9]{1,6}\\/[0-9]{1,6}\\/[0-9]{1,6}\\/[a-zA-Z0-9]{2,4}"
+      responses:
+        200:
+          description: "Successfully found"
+          schema:
+            $ref: "#/definitions/AncpSessionDto"
+        400:
+          description: "Can't perform operation"
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+        404:
+          description: "Not present in database"
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+      security:
+        - OauthSecurity:
+            - "rori:ancp:full"
+            - "giga:cga:all-area-access"
+      deprecated: true
+  /resource-order-resource-inventory/v1/ancp/session/running:
+    get:
+      tags:
+        - "AncpSessionExternalController"
+      summary: "Find running ancp sessions"
+      description: ""
+      operationId: "findRunningAncpSessions"
+      produces:
+        - "application/json"
+      parameters: []
+      responses:
+        200:
+          description: "Successfully found"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/AncpSessionDto"
+        400:
+          description: "Can't perform operation"
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+      security:
+        - OauthSecurity:
+            - "rori:ancp:full"
+            - "giga:cga:all-area-access"
+      deprecated: true
+  /resource-order-resource-inventory/v1/ancp/session/{id}:
+    get:
+      tags:
+        - "AncpSessionExternalController"
+      summary: "Find ancp session by id"
+      description: ""
+      operationId: "getAncpSession"
+      produces:
+        - "application/json"
+      parameters:
+        - name: "id"
+          in: "path"
+          description: "ID of the ANCP-Session for which data should delivered."
+          required: true
+          type: "integer"
+          format: "int64"
+      responses:
+        200:
+          description: "Successfully found"
+          schema:
+            $ref: "#/definitions/AncpSessionDto"
+        400:
+          description: "Can't perform operation"
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+        404:
+          description: "Not present in database"
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+      security:
+        - OauthSecurity:
+            - "rori:ancp:full"
+            - "giga:cga:all-area-access"
+      deprecated: true
+    put:
+      tags:
+        - "AncpSessionExternalController"
+      summary: "Update existing ancp session"
+      description: ""
+      operationId: "updateAncpSession"
+      consumes:
+        - "application/json"
+      produces:
+        - "application/json"
+      parameters:
+        - name: "id"
+          in: "path"
+          description: "ID of the ANCP-Session which should be updated."
+          required: true
+          type: "integer"
+          format: "int64"
+        - in: "body"
+          name: "body"
+          description: "AncpSession"
+          required: true
+          schema:
+            $ref: "#/definitions/AncpSessionDto"
+      responses:
+        200:
+          description: "Successfully generated"
+          schema:
+            $ref: "#/definitions/AncpSessionDto"
+        400:
+          description: "Can't perform operation"
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+        404:
+          description: "Not present in database"
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+      security:
+        - OauthSecurity:
+            - "rori:ancp:full"
+            - "giga:cga:all-area-access"
+      deprecated: true
+    delete:
+      tags:
+        - "AncpSessionExternalController"
+      summary: "Delete ancp session by id"
+      description: ""
+      operationId: "deleteAncpSession"
+      produces:
+        - "application/json"
+      parameters:
+        - name: "id"
+          in: "path"
+          description: "ID of the ANCP-Session which should be deleted."
+          required: true
+          type: "integer"
+          format: "int64"
+      responses:
+        201:
+          description: "Successfully deleted"
+        400:
+          description: "Can't perform operation"
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+      security:
+        - OauthSecurity:
+            - "rori:ancp:full"
+            - "giga:cga:all-area-access"
+      deprecated: true
+  /resource-order-resource-inventory/v1/ancp/session/{id}/ipaddress/assign:
+    put:
+      tags:
+        - "AncpSessionExternalController"
+      summary: "Add free ip address to existing ancp session"
+      description: ""
+      operationId: "assignFreeIpAddressToAncpSession"
+      produces:
+        - "application/json"
+      parameters:
+        - name: "id"
+          in: "path"
+          description: "ID of the ANCP-Session which should be updated."
+          required: true
+          type: "integer"
+          format: "int64"
+      responses:
+        200:
+          description: "Successfully generated"
+          schema:
+            $ref: "#/definitions/AncpSessionDto"
+        400:
+          description: "Can't perform operation"
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+        404:
+          description: "Not present in database"
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+      security:
+        - OauthSecurity:
+            - "rori:ancp:full"
+            - "giga:cga:all-area-access"
+      deprecated: true
+  /resource-order-resource-inventory/v1/ancp/session/{id}/ipaddress/release:
+    put:
+      tags:
+        - "AncpSessionExternalController"
+      summary: "Release ip address from existing ancp session"
+      description: ""
+      operationId: "releaseAssignedIpAddressFromAncpSession"
+      produces:
+        - "application/json"
+      parameters:
+        - name: "id"
+          in: "path"
+          description: "ID of the ANCP-Session which should be updated."
+          required: true
+          type: "integer"
+          format: "int64"
+      responses:
+        200:
+          description: "Successfully generated"
+          schema:
+            $ref: "#/definitions/AncpSessionDto"
+        400:
+          description: "Can't perform operation"
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+        404:
+          description: "Not present in database"
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+      security:
+        - OauthSecurity:
+            - "rori:ancp:full"
+            - "giga:cga:all-area-access"
+      deprecated: true
+  /resource-order-resource-inventory/v1/device:
+    get:
+      tags:
+        - "DeviceExternalController"
+      summary: "Find device(s) by search criteria. In minimum one criteria must be\
+        \ delivered, otherwise request will fail."
+      description: ""
+      operationId: "findDeviceByCriteria"
+      produces:
+        - "application/json"
+      parameters:
+        - name: "distributionPointId"
+          in: "query"
+          description: "Search criteria to find one or multiple device. In minimum one\
+          \ criteria must be delivered. Otherwise request will fail."
+          required: false
+          type: "string"
+        - name: "endsz"
+          in: "query"
+          description: "Search criteria to find one or multiple device. In minimum one\
+          \ criteria must be delivered. Otherwise request will fail."
+          required: false
+          type: "string"
+        - name: "fiberOnLocationId"
+          in: "query"
+          description: "Search criteria to find one or multiple device. In minimum one\
+          \ criteria must be delivered. Otherwise request will fail."
+          required: false
+          type: "string"
+        - name: "klsId"
+          in: "query"
+          description: "Search criteria to find one or multiple device. In minimum one\
+          \ criteria must be delivered. Otherwise request will fail."
+          required: false
+          type: "integer"
+          format: "int64"
+        - name: "serialNumber"
+          in: "query"
+          description: "Search criteria to find one or multiple device. In minimum one\
+          \ criteria must be delivered. Otherwise request will fail."
+          required: false
+          type: "string"
+        - name: "vpsz"
+          in: "query"
+          description: "Search criteria to find one or multiple device. In minimum one\
+          \ criteria must be delivered. Otherwise request will fail."
+          required: false
+          type: "string"
+      responses:
+        200:
+          description: "Successfully found"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/Device"
+        400:
+          description: "Can't perform operation"
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+      security:
+        - OauthSecurity:
+            - "rori:device:read"
+            - "giga:cga:all-area-access"
+      deprecated: true
+    delete:
+      tags:
+        - "DeviceExternalController"
+      summary: "Delete a Device"
+      description: ""
+      operationId: "deleteDevice"
+      parameters:
+        - name: "endSZ"
+          in: "query"
+          description: "Properties of Device"
+          required: true
+          type: "string"
+          pattern: "[0-9]{1,6}\\/[0-9]{1,6}\\/[0-9]{1,6}\\/[a-zA-Z0-9]{2,4}"
+        - name: "X-Business-Context"
+          in: "header"
+          description: "The business context is a general classification for a larger\
+          \ number of requests (types) usually set by the originating consumer. Any\
+          \ service receiving this header parameter MUST forward it unmodified to\
+          \ other services it invokes. Non-REST technologies (e.g. SOABP) might use\
+          \ a different identifier for this attribute."
+          required: false
+          type: "string"
+        - name: "X-Correlation-ID"
+          in: "header"
+          description: "Value for identifying a single transaction across multiple services\
+          \ up to the backend. Usually set by the originating consumer.Any service\
+          \ receiving this header parameter MUST forward it unmodified to other services\
+          \ it invokes. Non-REST technologies (e.g. SOABP) might use a different identifier\
+          \ for this attribute. If this ID is not available (not supplied, empty or\
+          \ at origin), the service MUST create it as a UUID. The maximum length of\
+          \ 256 characters MUST NOT be exceeded (a standard UUID has 36 characters).\
+          \ The creator MAY prefix the UUID with an application and/or instance defined\
+          \ string."
+          required: false
+          type: "string"
+        - name: "X-Request-ID"
+          in: "header"
+          description: "Value to identify an individual request across consuming application,\
+          \ middleware and service provider. This ID is to be generated for every\
+          \ single request and not to be passed down (as X-Correlation-ID) to sub-services.\
+          \ Every consuming application MUST create this value as UUID. The maximum\
+          \ length of 256 characters MUST NOT be exceeded (a standard UUID has 36\
+          \ characters). The creator MAY prefix the UUID with an application and/or\
+          \ instance defined string."
+          required: false
+          type: "string"
+      responses:
+        200:
+          description: "Successfully deleted"
+        400:
+          description: "Can't perform operation"
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+        404:
+          description: "Not present in database"
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+        409:
+          description: "Precondition not met"
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+      security:
+        - OauthSecurity:
+            - "rori:device:delete"
+            - "giga:cga:all-area-access"
+  /resource-order-resource-inventory/v1/device/{id}:
+    patch:
+      tags:
+        - "DeviceExternalController"
+      summary: "Patch a existing device"
+      description: ""
+      operationId: "patchDevice"
+      consumes:
+        - "application/json-patch+json"
+      produces:
+        - "application/json"
+      parameters:
+        - name: "id"
+          in: "path"
+          description: "Id of device"
+          required: true
+          type: "integer"
+          format: "int64"
+        - in: "body"
+          name: "body"
+          description: "JSONPatch document as defined by RFC 6902 (https://tools.ietf.org/html/rfc6902)"
+          required: true
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/JsonPatchOperation"
+      responses:
+        200:
+          description: "Successfully updated"
+          schema:
+            $ref: "#/definitions/Device"
+        400:
+          description: "Can't perform operation"
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+        404:
+          description: "Not present in database"
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+        409:
+          description: "Entity already exists"
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+      security:
+        - OauthSecurity:
+            - "rori:device:write"
+            - "giga:cga:all-area-access"
+  /resource-order-resource-inventory/v1/dpu:
+    post:
+      tags:
+        - "DeviceExternalController"
+      summary: "Create new DPU"
+      description: ""
+      operationId: "createDPU"
+      consumes:
+        - "application/json"
+      produces:
+        - "application/json"
+      parameters:
+        - in: "body"
+          name: "body"
+          description: "Properties of new DPU"
+          required: false
+          schema:
+            $ref: "#/definitions/DpuCreateRequest"
+      responses:
+        200:
+          description: "Successfully found"
+          schema:
+            $ref: "#/definitions/Device"
+        400:
+          description: "Can't perform operation"
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+        409:
+          description: "Entity already exists"
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+      security:
+        - OauthSecurity:
+            - "rori:device:write"
+            - "giga:cga:all-area-access"
+      deprecated: true
+  /resource-order-resource-inventory/v1/dpu/dpuAtOltConfiguration:
+    get:
+      tags:
+        - "DpuAtOltConfigurationExternalController"
+      summary: "Find dpu at olt configuration by search criteria"
+      description: ""
+      operationId: "findDpuAtOltConfigurationByCriteria"
+      produces:
+        - "application/json"
+      parameters:
+        - name: "dpuEndsz"
+          in: "query"
+          description: "Search criteria to find one or multiple dpu at olt configurations.\
+          \ At least one search criteria must be provided. Otherwise request will\
+          \ fail."
+          required: false
+          type: "string"
+        - name: "oltEndsz"
+          in: "query"
+          description: "Search criteria to find one or multiple dpu at olt configurations.\
+          \ At least one search criteria must be provided. Otherwise request will\
+          \ fail."
+          required: false
+          type: "string"
+      responses:
+        200:
+          description: "Successfully found"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/DpuAtOltConfigurationDto"
+        400:
+          description: "Can't perform operation"
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+      security:
+        - OauthSecurity:
+            - "rori:dpuconfiguration:full"
+            - "rori:dpuconfiguration:read"
+            - "giga:cga:all-area-access"
+    post:
+      tags:
+        - "DpuAtOltConfigurationExternalController"
+      summary: "Create new dpu at olt configuration"
+      description: ""
+      operationId: "createDpuAtOltConfiguration"
+      consumes:
+        - "application/json"
+      produces:
+        - "application/json"
+      parameters:
+        - in: "body"
+          name: "body"
+          description: "DpuAtOltConfiguration"
+          required: true
+          schema:
+            $ref: "#/definitions/DpuAtOltConfigurationDto"
+      responses:
+        200:
+          description: "successful operation"
+          schema:
+            $ref: "#/definitions/DpuAtOltConfigurationDto"
+        201:
+          description: "Successfully generated"
+        400:
+          description: "Can't perform operation"
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+      security:
+        - OauthSecurity:
+            - "rori:dpuconfiguration:full"
+            - "giga:cga:all-area-access"
+  /resource-order-resource-inventory/v1/dpu/dpuAtOltConfiguration/{id}:
+    get:
+      tags:
+        - "DpuAtOltConfigurationExternalController"
+      summary: "Find dpu at olt configuration by id"
+      description: ""
+      operationId: "findDpuAtOltConfiguration"
+      produces:
+        - "application/json"
+      parameters:
+        - name: "id"
+          in: "path"
+          description: "ID of dpu at olt configuration for which data should delivered."
+          required: true
+          type: "integer"
+          format: "int64"
+      responses:
+        200:
+          description: "Successfully found"
+          schema:
+            $ref: "#/definitions/DpuAtOltConfigurationDto"
+        400:
+          description: "Can't perform operation"
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+        404:
+          description: "Not present in database"
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+      security:
+        - OauthSecurity:
+            - "rori:dpuconfiguration:full"
+            - "rori:dpuconfiguration:read"
+            - "giga:cga:all-area-access"
+    put:
+      tags:
+        - "DpuAtOltConfigurationExternalController"
+      summary: "Update existing dpu at olt configuration"
+      description: ""
+      operationId: "updateDpuAtOltConfiguration"
+      consumes:
+        - "application/json"
+      produces:
+        - "application/json"
+      parameters:
+        - name: "id"
+          in: "path"
+          description: "ID of dpu at olt configuration which should deleted"
+          required: true
+          type: "integer"
+          format: "int64"
+        - in: "body"
+          name: "body"
+          description: "DpuAtOltConfiguration"
+          required: true
+          schema:
+            $ref: "#/definitions/DpuAtOltConfigurationDto"
+      responses:
+        200:
+          description: "Successfully generated"
+          schema:
+            $ref: "#/definitions/DpuAtOltConfigurationDto"
+        400:
+          description: "Can't perform operation"
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+        404:
+          description: "Not present in database"
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+      security:
+        - OauthSecurity:
+            - "rori:dpuconfiguration:full"
+            - "giga:cga:all-area-access"
+    delete:
+      tags:
+        - "DpuAtOltConfigurationExternalController"
+      summary: "Delete dpu at olt configuration by id"
+      description: ""
+      operationId: "deleteDpuAtOltConfiguration"
+      produces:
+        - "application/json"
+      parameters:
+        - name: "id"
+          in: "path"
+          description: "ID of dpu at olt configuration which should deleted"
+          required: true
+          type: "integer"
+          format: "int64"
+      responses:
+        201:
+          description: "Successfully deleted"
+        400:
+          description: "Can't perform operation"
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+      security:
+        - OauthSecurity:
+            - "rori:dpuconfiguration:full"
+            - "giga:cga:all-area-access"
+  /resource-order-resource-inventory/v1/dpu/dpuEmsConfiguration:
+    get:
+      tags:
+        - "DpuEmsConfigurationExternalController"
+      summary: "Find dpu ems configuration by search criteria"
+      description: ""
+      operationId: "findDpuEmsConfigurationByCriteria"
+      produces:
+        - "application/json"
+      parameters:
+        - name: "dpuEndsz"
+          in: "query"
+          description: "Search criteria to find one or multiple dpu ems configurations.\
+          \ At least one search criteria must be provided. Otherwise request will\
+          \ fail."
+          required: true
+          type: "string"
+      responses:
+        200:
+          description: "Successfully found"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/DpuEmsConfigurationDto"
+        400:
+          description: "Can't perform operation"
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+      security:
+        - OauthSecurity:
+            - "rori:dpuconfiguration:full"
+            - "rori:dpuconfiguration:read"
+            - "giga:cga:all-area-access"
+    post:
+      tags:
+        - "DpuEmsConfigurationExternalController"
+      summary: "Create new dpu ems configuration"
+      description: ""
+      operationId: "createDpuEmsConfiguration"
+      consumes:
+        - "application/json"
+      produces:
+        - "application/json"
+      parameters:
+        - in: "body"
+          name: "body"
+          description: "DpuEmsConfiguration"
+          required: true
+          schema:
+            $ref: "#/definitions/DpuEmsConfigurationDto"
+      responses:
+        200:
+          description: "successful operation"
+          schema:
+            $ref: "#/definitions/DpuEmsConfigurationDto"
+        201:
+          description: "Successfully generated"
+        400:
+          description: "Can't perform operation"
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+      security:
+        - OauthSecurity:
+            - "rori:dpuconfiguration:full"
+            - "giga:cga:all-area-access"
+  /resource-order-resource-inventory/v1/dpu/dpuEmsConfiguration/{id}:
+    get:
+      tags:
+        - "DpuEmsConfigurationExternalController"
+      summary: "Find dpu ems configuration by id"
+      description: ""
+      operationId: "findDpuEmsConfiguration"
+      produces:
+        - "application/json"
+      parameters:
+        - name: "id"
+          in: "path"
+          description: "ID of dpu ems configuration for which data should delivered."
+          required: true
+          type: "integer"
+          format: "int64"
+      responses:
+        200:
+          description: "Successfully found"
+          schema:
+            $ref: "#/definitions/DpuEmsConfigurationDto"
+        400:
+          description: "Can't perform operation"
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+        404:
+          description: "Not present in database"
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+      security:
+        - OauthSecurity:
+            - "rori:dpuconfiguration:full"
+            - "rori:dpuconfiguration:read"
+            - "giga:cga:all-area-access"
+    put:
+      tags:
+        - "DpuEmsConfigurationExternalController"
+      summary: "Update existing dpu ems configuration"
+      description: ""
+      operationId: "updateDpuEmsConfiguration"
+      consumes:
+        - "application/json"
+      produces:
+        - "application/json"
+      parameters:
+        - name: "id"
+          in: "path"
+          description: "ID of dpu ems configuration for which data should delivered."
+          required: true
+          type: "integer"
+          format: "int64"
+        - in: "body"
+          name: "body"
+          description: "DpuEmsConfiguration"
+          required: true
+          schema:
+            $ref: "#/definitions/DpuEmsConfigurationDto"
+      responses:
+        200:
+          description: "Successfully generated"
+          schema:
+            $ref: "#/definitions/DpuEmsConfigurationDto"
+        400:
+          description: "Can't perform operation"
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+        404:
+          description: "Not present in database"
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+      security:
+        - OauthSecurity:
+            - "rori:dpuconfiguration:full"
+            - "giga:cga:all-area-access"
+    delete:
+      tags:
+        - "DpuEmsConfigurationExternalController"
+      summary: "Delete dpu ems configuration by id"
+      description: ""
+      operationId: "deleteDpuEmsConfiguration"
+      produces:
+        - "application/json"
+      parameters:
+        - name: "id"
+          in: "path"
+          description: "ID of dpu ems configuration which should deleted"
+          required: true
+          type: "integer"
+          format: "int64"
+      responses:
+        201:
+          description: "Successfully deleted"
+        400:
+          description: "Can't perform operation"
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+      security:
+        - OauthSecurity:
+            - "rori:dpuconfiguration:full"
+            - "giga:cga:all-area-access"
+  /resource-order-resource-inventory/v1/dpu/dpuPonConnection:
+    get:
+      tags:
+        - "DpuPonConnectionExternalController"
+      summary: "Find dpu pon connections by search criteria"
+      description: ""
+      operationId: "findDpuPonConnectionByCriteria"
+      produces:
+        - "application/json"
+      parameters:
+        - name: "dpuPonPortEndsz"
+          in: "query"
+          description: "Search criteria to find one or multiple dpu pon connections.\
+          \ At least one search criteria must be provided. Otherwise request will\
+          \ fail."
+          required: false
+          type: "string"
+        - name: "dpuPonPortNumber"
+          in: "query"
+          description: "Search criteria to find one or multiple dpu pon connections.\
+          \ At least one search criteria must be provided. Otherwise request will\
+          \ fail."
+          required: false
+          type: "string"
+        - name: "oltPonPortEndsz"
+          in: "query"
+          description: "Search criteria to find one or multiple dpu pon connections.\
+          \ At least one search criteria must be provided. Otherwise request will\
+          \ fail."
+          required: false
+          type: "string"
+      responses:
+        200:
+          description: "Successfully found"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/DpuPonConnectionDto"
+        400:
+          description: "Can't perform operation"
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+      security:
+        - OauthSecurity:
+            - "rori:dpuponconnection:full"
+            - "giga:cga:all-area-access"
+    post:
+      tags:
+        - "DpuPonConnectionExternalController"
+      summary: "Create new dpu pon connection"
+      description: ""
+      operationId: "createDpuPonConnection"
+      consumes:
+        - "application/json"
+      produces:
+        - "application/json"
+      parameters:
+        - in: "body"
+          name: "body"
+          description: "DpuPonConnection"
+          required: true
+          schema:
+            $ref: "#/definitions/DpuPonConnectionDto"
+      responses:
+        200:
+          description: "successful operation"
+          schema:
+            $ref: "#/definitions/DpuPonConnectionDto"
+        201:
+          description: "Successfully generated"
+        400:
+          description: "Can't perform operation"
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+      security:
+        - OauthSecurity:
+            - "rori:dpuponconnection:full"
+            - "giga:cga:all-area-access"
+  /resource-order-resource-inventory/v1/dpu/dpuPonConnection/{id}:
+    get:
+      tags:
+        - "DpuPonConnectionExternalController"
+      summary: "Find dpu pon connection by id"
+      description: ""
+      operationId: "findDpuPonConnection"
+      produces:
+        - "application/json"
+      parameters:
+        - name: "id"
+          in: "path"
+          description: "ID of dpu pon connection for which data should delivered."
+          required: true
+          type: "integer"
+          format: "int64"
+      responses:
+        200:
+          description: "Successfully found"
+          schema:
+            $ref: "#/definitions/DpuPonConnectionDto"
+        400:
+          description: "Can't perform operation"
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+        404:
+          description: "Not present in database"
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+      security:
+        - OauthSecurity:
+            - "rori:dpuponconnection:full"
+            - "giga:cga:all-area-access"
+    put:
+      tags:
+        - "DpuPonConnectionExternalController"
+      summary: "Update existing dpu pon connection"
+      description: ""
+      operationId: "updateDpuPonConnection"
+      consumes:
+        - "application/json"
+      produces:
+        - "application/json"
+      parameters:
+        - name: "id"
+          in: "path"
+          description: "ID of dpu pon connection for which data should delivered."
+          required: true
+          type: "integer"
+          format: "int64"
+        - in: "body"
+          name: "body"
+          description: "DpuPonConnection"
+          required: true
+          schema:
+            $ref: "#/definitions/DpuPonConnectionDto"
+      responses:
+        200:
+          description: "Successfully generated"
+          schema:
+            $ref: "#/definitions/DpuPonConnectionDto"
+        400:
+          description: "Can't perform operation"
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+        404:
+          description: "Not present in database"
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+      security:
+        - OauthSecurity:
+            - "rori:dpuponconnection:full"
+            - "giga:cga:all-area-access"
+    delete:
+      tags:
+        - "DpuPonConnectionExternalController"
+      summary: "Delete dpu pon connection by id"
+      description: ""
+      operationId: "deleteDpuPonConnection"
+      produces:
+        - "application/json"
+      parameters:
+        - name: "id"
+          in: "path"
+          description: "ID of dpu pon connection which should deleted"
+          required: true
+          type: "integer"
+          format: "int64"
+      responses:
+        201:
+          description: "Successfully deleted"
+        400:
+          description: "Can't perform operation"
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+      security:
+        - OauthSecurity:
+            - "rori:dpuponconnection:full"
+            - "giga:cga:all-area-access"
+  /resource-order-resource-inventory/v1/ethernetlink/ancp/{ancpSessionid}:
+    get:
+      tags:
+        - "EthernetLinkExternalController"
+      summary: "Find uplink by ancp session id"
+      description: ""
+      operationId: "findUplinkByAncpSessionId"
+      produces:
+        - "application/json"
+      parameters:
+        - name: "ancpSessionid"
+          in: "path"
+          description: "ID of the ancp session for which should determined corresponding\
+          \ ethernet link."
+          required: true
+          type: "integer"
+          format: "int64"
+      responses:
+        200:
+          description: "Successfully found"
+          schema:
+            $ref: "#/definitions/UplinkDTO"
+        404:
+          description: "Not present in database"
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+      security:
+        - OauthSecurity:
+            - "rori:uplink:full"
+            - "rori:uplink:read"
+            - "giga:cga:all-area-access"
+      deprecated: true
+  /resource-order-resource-inventory/v1/ethernetlink/deleteUplink:
+    delete:
+      tags:
+        - "EthernetLinkExternalController"
+      summary: "Delete Uplink"
+      description: ""
+      operationId: "deleteUpLink"
+      parameters:
+        - name: "id"
+          in: "query"
+          description: "uplink id"
+          required: true
+          type: "integer"
+          format: "int64"
+        - name: "X-Business-Context"
+          in: "header"
+          description: "The business context is a general classification for a larger\
+          \ number of requests (types) usually set by the originating consumer. Any\
+          \ service receiving this header parameter MUST forward it unmodified to\
+          \ other services it invokes. Non-REST technologies (e.g. SOABP) might use\
+          \ a different identifier for this attribute."
+          required: false
+          type: "string"
+        - name: "X-Correlation-ID"
+          in: "header"
+          description: "Value for identifying a single transaction across multiple services\
+          \ up to the backend. Usually set by the originating consumer.Any service\
+          \ receiving this header parameter MUST forward it unmodified to other services\
+          \ it invokes. Non-REST technologies (e.g. SOABP) might use a different identifier\
+          \ for this attribute. If this ID is not available (not supplied, empty or\
+          \ at origin), the service MUST create it as a UUID. The maximum length of\
+          \ 256 characters MUST NOT be exceeded (a standard UUID has 36 characters).\
+          \ The creator MAY prefix the UUID with an application and/or instance defined\
+          \ string."
+          required: false
+          type: "string"
+        - name: "X-Request-ID"
+          in: "header"
+          description: "Value to identify an individual request across consuming application,\
+          \ middleware and service provider. This ID is to be generated for every\
+          \ single request and not to be passed down (as X-Correlation-ID) to sub-services.\
+          \ Every consuming application MUST create this value as UUID. The maximum\
+          \ length of 256 characters MUST NOT be exceeded (a standard UUID has 36\
+          \ characters). The creator MAY prefix the UUID with an application and/or\
+          \ instance defined string."
+          required: false
+          type: "string"
+      responses:
+        200:
+          description: "Successfully found"
+        400:
+          description: "Can't perform operation"
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+        404:
+          description: "Not present in database"
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+        409:
+          description: "Precondition not met"
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+      security:
+        - OauthSecurity:
+            - "rori:uplink:full"
+            - "giga:cga:all-area-access"
+      deprecated: true
+  /resource-order-resource-inventory/v1/ethernetlink/findEthernetLinksByEndsz:
+    get:
+      tags:
+        - "EthernetLinkExternalController"
+      summary: "Find uplinks of olt by endsz"
+      description: ""
+      operationId: "findEthernetLinksByEndsz"
+      produces:
+        - "application/json"
+      parameters:
+        - name: "oltEndSz"
+          in: "query"
+          description: "OLT EndSz"
+          required: true
+          type: "string"
+          pattern: "[0-9]{1,6}\\/[0-9]{1,6}\\/[0-9]{1,6}\\/[a-zA-Z0-9]{2,4}"
+      responses:
+        200:
+          description: "Successfully found"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/UplinkDTO"
+        400:
+          description: "Can't perform operation"
+      security:
+        - OauthSecurity:
+            - "rori:uplink:full"
+            - "rori:uplink:read"
+            - "giga:cga:all-area-access"
+      deprecated: true
+  /resource-order-resource-inventory/v1/ethernetlink/updateUplink:
+    post:
+      tags:
+        - "EthernetLinkExternalController"
+      summary: "Update uplink"
+      description: ""
+      operationId: "updateUplink"
+      consumes:
+        - "application/json"
+      produces:
+        - "application/json"
+      parameters:
+        - in: "body"
+          name: "body"
+          description: "Uplink"
+          required: true
+          schema:
+            $ref: "#/definitions/UplinkDTO"
+        - name: "X-Business-Context"
+          in: "header"
+          description: "The business context is a general classification for a larger\
+          \ number of requests (types) usually set by the originating consumer. Any\
+          \ service receiving this header parameter MUST forward it unmodified to\
+          \ other services it invokes. Non-REST technologies (e.g. SOABP) might use\
+          \ a different identifier for this attribute."
+          required: false
+          type: "string"
+        - name: "X-Correlation-ID"
+          in: "header"
+          description: "Value for identifying a single transaction across multiple services\
+          \ up to the backend. Usually set by the originating consumer.Any service\
+          \ receiving this header parameter MUST forward it unmodified to other services\
+          \ it invokes. Non-REST technologies (e.g. SOABP) might use a different identifier\
+          \ for this attribute. If this ID is not available (not supplied, empty or\
+          \ at origin), the service MUST create it as a UUID. The maximum length of\
+          \ 256 characters MUST NOT be exceeded (a standard UUID has 36 characters).\
+          \ The creator MAY prefix the UUID with an application and/or instance defined\
+          \ string."
+          required: false
+          type: "string"
+        - name: "X-Request-ID"
+          in: "header"
+          description: "Value to identify an individual request across consuming application,\
+          \ middleware and service provider. This ID is to be generated for every\
+          \ single request and not to be passed down (as X-Correlation-ID) to sub-services.\
+          \ Every consuming application MUST create this value as UUID. The maximum\
+          \ length of 256 characters MUST NOT be exceeded (a standard UUID has 36\
+          \ characters). The creator MAY prefix the UUID with an application and/or\
+          \ instance defined string."
+          required: false
+          type: "string"
+      responses:
+        200:
+          description: "Successfully found"
+          schema:
+            $ref: "#/definitions/UplinkDTO"
+        400:
+          description: "Can't perform operation"
+        404:
+          description: "Not present in database"
+        409:
+          description: "Conflict"
+        500:
+          description: "Internal Server Error"
+      security:
+        - OauthSecurity:
+            - "rori:uplink:full"
+            - "giga:cga:all-area-access"
+      deprecated: true
+  /resource-order-resource-inventory/v1/ethernetlink/{id}:
+    get:
+      tags:
+        - "EthernetLinkExternalController"
+      summary: "Find uplink by id"
+      description: ""
+      operationId: "findUplinkById"
+      produces:
+        - "application/json"
+      parameters:
+        - name: "id"
+          in: "path"
+          description: "ID of ethernet link."
+          required: true
+          type: "integer"
+          format: "int64"
+      responses:
+        200:
+          description: "Successfully found"
+          schema:
+            $ref: "#/definitions/UplinkDTO"
+        404:
+          description: "Not present in database"
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+      security:
+        - OauthSecurity:
+            - "rori:uplink:full"
+            - "rori:uplink:read"
+            - "giga:cga:all-area-access"
+      deprecated: true
+  /resource-order-resource-inventory/v1/ethernetlink/{id}/active:
+    get:
+      tags:
+        - "EthernetLinkExternalController"
+      summary: "Find active uplink by id"
+      description: ""
+      operationId: "findActiveUplink"
+      produces:
+        - "application/json"
+      parameters:
+        - name: "id"
+          in: "path"
+          required: true
+          type: "integer"
+          format: "int64"
+        - name: "X-Business-Context"
+          in: "header"
+          description: "The business context is a general classification for a larger\
+          \ number of requests (types) usually set by the originating consumer. Any\
+          \ service receiving this header parameter MUST forward it unmodified to\
+          \ other services it invokes. Non-REST technologies (e.g. SOABP) might use\
+          \ a different identifier for this attribute."
+          required: false
+          type: "string"
+        - name: "X-Correlation-ID"
+          in: "header"
+          description: "Value for identifying a single transaction across multiple services\
+          \ up to the backend. Usually set by the originating consumer.Any service\
+          \ receiving this header parameter MUST forward it unmodified to other services\
+          \ it invokes. Non-REST technologies (e.g. SOABP) might use a different identifier\
+          \ for this attribute. If this ID is not available (not supplied, empty or\
+          \ at origin), the service MUST create it as a UUID. The maximum length of\
+          \ 256 characters MUST NOT be exceeded (a standard UUID has 36 characters).\
+          \ The creator MAY prefix the UUID with an application and/or instance defined\
+          \ string."
+          required: false
+          type: "string"
+        - name: "X-Request-ID"
+          in: "header"
+          description: "Value to identify an individual request across consuming application,\
+          \ middleware and service provider. This ID is to be generated for every\
+          \ single request and not to be passed down (as X-Correlation-ID) to sub-services.\
+          \ Every consuming application MUST create this value as UUID. The maximum\
+          \ length of 256 characters MUST NOT be exceeded (a standard UUID has 36\
+          \ characters). The creator MAY prefix the UUID with an application and/or\
+          \ instance defined string."
+          required: false
+          type: "string"
+      responses:
+        200:
+          description: "Successfully found"
+          schema:
+            $ref: "#/definitions/UplinkDTO"
+        400:
+          description: "Can't perform operation"
+        404:
+          description: "Not present in database"
+      security:
+        - OauthSecurity:
+            - "rori:uplink:full"
+            - "rori:uplink:read"
+            - "giga:cga:all-area-access"
+      deprecated: true
+  /resource-order-resource-inventory/v1/ethernetlink/{id}/ancp/add:
+    put:
+      tags:
+        - "EthernetLinkExternalController"
+      summary: "Add ancp session to existing ethernet link"
+      description: ""
+      operationId: "addAncpSessionToEthernetLink"
+      consumes:
+        - "application/json"
+      produces:
+        - "application/json"
+      parameters:
+        - name: "id"
+          in: "path"
+          description: "ID of the ethernet link which should be updated."
+          required: true
+          type: "integer"
+          format: "int64"
+        - in: "body"
+          name: "body"
+          description: "AncpSession"
+          required: true
+          schema:
+            $ref: "#/definitions/AncpSessionDto"
+      responses:
+        200:
+          description: "Successfully generated"
+          schema:
+            $ref: "#/definitions/UplinkDTO"
+        400:
+          description: "Can't perform operation"
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+        404:
+          description: "Not present in database"
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+      security:
+        - OauthSecurity:
+            - "rori:uplink:full"
+            - "giga:cga:all-area-access"
+      deprecated: true
+  /resource-order-resource-inventory/v1/ethernetlink/{id}/ancp/{ancpSessionid}/remove:
+    put:
+      tags:
+        - "EthernetLinkExternalController"
+      summary: "Remove ancp session from existing ethernet link"
+      description: ""
+      operationId: "removeAncpSessionFromEthernetLink"
+      produces:
+        - "application/json"
+      parameters:
+        - name: "id"
+          in: "path"
+          description: "ID of the ethernet link which should be updated."
+          required: true
+          type: "integer"
+          format: "int64"
+        - name: "ancpSessionid"
+          in: "path"
+          description: "ID of the ancp session which should be removed."
+          required: true
+          type: "integer"
+          format: "int64"
+      responses:
+        200:
+          description: "Successfully generated"
+          schema:
+            $ref: "#/definitions/UplinkDTO"
+        400:
+          description: "Can't perform operation"
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+        404:
+          description: "Not present in database"
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+      security:
+        - OauthSecurity:
+            - "rori:uplink:full"
+            - "giga:cga:all-area-access"
+      deprecated: true
+  /resource-order-resource-inventory/v1/ethernetlink/{id}/status:
+    put:
+      tags:
+        - "EthernetLinkExternalController"
+      summary: "Change status of uplink by id"
+      description: ""
+      operationId: "changeStatusOfUplink"
+      produces:
+        - "application/json"
+      parameters:
+        - name: "id"
+          in: "path"
+          description: "ID of ethernet link."
+          required: true
+          type: "integer"
+          format: "int64"
+        - name: "newStatus"
+          in: "query"
+          description: "New status of ethernet link"
+          required: true
+          type: "string"
+          enum:
+            - "ACTIVE"
+            - "PLANNED"
+            - "ACTIVATION_PROCESS"
+      responses:
+        200:
+          description: "Successfully found"
+          schema:
+            $ref: "#/definitions/UplinkDTO"
+        404:
+          description: "Not present in database"
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+      security:
+        - OauthSecurity:
+            - "rori:uplink:full"
+            - "giga:cga:all-area-access"
+      deprecated: true
+  /resource-order-resource-inventory/v1/olt:
+    get:
+      tags:
+        - "DeviceExternalController"
+      summary: "Get Device by EndSz"
+      description: ""
+      operationId: "getOltByEndSZ"
+      produces:
+        - "application/json"
+      parameters:
+        - name: "endSZ"
+          in: "query"
+          description: "endSZ"
+          required: true
+          type: "string"
+          pattern: "[0-9]{1,6}\\/[0-9]{1,6}\\/[0-9]{1,6}\\/[a-zA-Z0-9]{2,4}"
+        - name: "X-Business-Context"
+          in: "header"
+          description: "The business context is a general classification for a larger\
+          \ number of requests (types) usually set by the originating consumer. Any\
+          \ service receiving this header parameter MUST forward it unmodified to\
+          \ other services it invokes. Non-REST technologies (e.g. SOABP) might use\
+          \ a different identifier for this attribute."
+          required: false
+          type: "string"
+        - name: "X-Correlation-ID"
+          in: "header"
+          description: "Value for identifying a single transaction across multiple services\
+          \ up to the backend. Usually set by the originating consumer.Any service\
+          \ receiving this header parameter MUST forward it unmodified to other services\
+          \ it invokes. Non-REST technologies (e.g. SOABP) might use a different identifier\
+          \ for this attribute. If this ID is not available (not supplied, empty or\
+          \ at origin), the service MUST create it as a UUID. The maximum length of\
+          \ 256 characters MUST NOT be exceeded (a standard UUID has 36 characters).\
+          \ The creator MAY prefix the UUID with an application and/or instance defined\
+          \ string."
+          required: false
+          type: "string"
+        - name: "X-Request-ID"
+          in: "header"
+          description: "Value to identify an individual request across consuming application,\
+          \ middleware and service provider. This ID is to be generated for every\
+          \ single request and not to be passed down (as X-Correlation-ID) to sub-services.\
+          \ Every consuming application MUST create this value as UUID. The maximum\
+          \ length of 256 characters MUST NOT be exceeded (a standard UUID has 36\
+          \ characters). The creator MAY prefix the UUID with an application and/or\
+          \ instance defined string."
+          required: false
+          type: "string"
+        - name: "CompositePartyId"
+          in: "query"
+          description: "correct values are 10000, 10001"
+          required: false
+          type: "string"
+      responses:
+        200:
+          description: "Successfully found"
+          schema:
+            $ref: "#/definitions/Device"
+        400:
+          description: "Can't perform operation"
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+        404:
+          description: "Not present in database"
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+      security:
+        - OauthSecurity:
+            - "rori:device:read"
+            - "giga:cga:all-area-access"
+      deprecated: true
+    post:
+      tags:
+        - "DeviceExternalController"
+      summary: "Create OLT by EndSz"
+      description: ""
+      operationId: "createOltByEndSZ"
+      produces:
+        - "application/json"
+      parameters:
+        - name: "endSZ"
+          in: "query"
+          description: "endSZ"
+          required: true
+          type: "string"
+          pattern: "[0-9]{1,6}\\/[0-9]{1,6}\\/[0-9]{1,6}\\/[a-zA-Z0-9]{2,4}"
+        - name: "X-Business-Context"
+          in: "header"
+          description: "The business context is a general classification for a larger\
+          \ number of requests (types) usually set by the originating consumer. Any\
+          \ service receiving this header parameter MUST forward it unmodified to\
+          \ other services it invokes. Non-REST technologies (e.g. SOABP) might use\
+          \ a different identifier for this attribute."
+          required: false
+          type: "string"
+        - name: "X-Correlation-ID"
+          in: "header"
+          description: "Value for identifying a single transaction across multiple services\
+          \ up to the backend. Usually set by the originating consumer.Any service\
+          \ receiving this header parameter MUST forward it unmodified to other services\
+          \ it invokes. Non-REST technologies (e.g. SOABP) might use a different identifier\
+          \ for this attribute. If this ID is not available (not supplied, empty or\
+          \ at origin), the service MUST create it as a UUID. The maximum length of\
+          \ 256 characters MUST NOT be exceeded (a standard UUID has 36 characters).\
+          \ The creator MAY prefix the UUID with an application and/or instance defined\
+          \ string."
+          required: false
+          type: "string"
+        - name: "X-Request-ID"
+          in: "header"
+          description: "Value to identify an individual request across consuming application,\
+          \ middleware and service provider. This ID is to be generated for every\
+          \ single request and not to be passed down (as X-Correlation-ID) to sub-services.\
+          \ Every consuming application MUST create this value as UUID. The maximum\
+          \ length of 256 characters MUST NOT be exceeded (a standard UUID has 36\
+          \ characters). The creator MAY prefix the UUID with an application and/or\
+          \ instance defined string."
+          required: false
+          type: "string"
+      responses:
+        200:
+          description: "Successfully found"
+          schema:
+            $ref: "#/definitions/Device"
+        400:
+          description: "Can't perform operation"
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+        404:
+          description: "Not present in database"
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+        409:
+          description: "Entity already exists"
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+      security:
+        - OauthSecurity:
+            - "rori:device:write"
+            - "giga:cga:all-area-access"
+    put:
+      tags:
+        - "DeviceExternalController"
+      summary: "Create a OLT"
+      description: ""
+      operationId: "saveDevice"
+      produces:
+        - "application/json"
+      parameters:
+        - in: "body"
+          name: "body"
+          description: "Properties of Olt"
+          required: false
+          schema:
+            $ref: "#/definitions/Device"
+        - name: "X-Business-Context"
+          in: "header"
+          description: "The business context is a general classification for a larger\
+          \ number of requests (types) usually set by the originating consumer. Any\
+          \ service receiving this header parameter MUST forward it unmodified to\
+          \ other services it invokes. Non-REST technologies (e.g. SOABP) might use\
+          \ a different identifier for this attribute."
+          required: false
+          type: "string"
+        - name: "X-Correlation-ID"
+          in: "header"
+          description: "Value for identifying a single transaction across multiple services\
+          \ up to the backend. Usually set by the originating consumer.Any service\
+          \ receiving this header parameter MUST forward it unmodified to other services\
+          \ it invokes. Non-REST technologies (e.g. SOABP) might use a different identifier\
+          \ for this attribute. If this ID is not available (not supplied, empty or\
+          \ at origin), the service MUST create it as a UUID. The maximum length of\
+          \ 256 characters MUST NOT be exceeded (a standard UUID has 36 characters).\
+          \ The creator MAY prefix the UUID with an application and/or instance defined\
+          \ string."
+          required: false
+          type: "string"
+        - name: "X-Request-ID"
+          in: "header"
+          description: "Value to identify an individual request across consuming application,\
+          \ middleware and service provider. This ID is to be generated for every\
+          \ single request and not to be passed down (as X-Correlation-ID) to sub-services.\
+          \ Every consuming application MUST create this value as UUID. The maximum\
+          \ length of 256 characters MUST NOT be exceeded (a standard UUID has 36\
+          \ characters). The creator MAY prefix the UUID with an application and/or\
+          \ instance defined string."
+          required: false
+          type: "string"
+        - name: "CompositePartyId"
+          in: "query"
+          description: "correct values are 10000, 10001"
+          required: false
+          type: "string"
+      responses:
+        200:
+          description: "Successfully added"
+          schema:
+            $ref: "#/definitions/Device"
+        400:
+          description: "Can't perform operation"
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+        404:
+          description: "Not present in database"
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+        409:
+          description: "Entity already exists"
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+      security:
+        - OauthSecurity:
+            - "rori:device:write"
+            - "giga:cga:all-area-access"
+  /resource-order-resource-inventory/v1/olt/findBngByOltEndSz:
+    post:
+      tags:
+        - "DeviceExternalController"
+      summary: "Find bng by olt endSz"
+      description: ""
+      operationId: "findBngByOltEndSz"
+      produces:
+        - "application/json"
+      parameters:
+        - name: "oltEndSz"
+          in: "query"
+          description: "OLT EndSz"
+          required: true
+          type: "string"
+          pattern: "[0-9]{1,6}\\/[0-9]{1,6}\\/[0-9]{1,6}\\/[a-zA-Z0-9]{2,4}"
+        - name: "X-Business-Context"
+          in: "header"
+          description: "The business context is a general classification for a larger\
+          \ number of requests (types) usually set by the originating consumer. Any\
+          \ service receiving this header parameter MUST forward it unmodified to\
+          \ other services it invokes. Non-REST technologies (e.g. SOABP) might use\
+          \ a different identifier for this attribute."
+          required: false
+          type: "string"
+        - name: "X-Correlation-ID"
+          in: "header"
+          description: "Value for identifying a single transaction across multiple services\
+          \ up to the backend. Usually set by the originating consumer.Any service\
+          \ receiving this header parameter MUST forward it unmodified to other services\
+          \ it invokes. Non-REST technologies (e.g. SOABP) might use a different identifier\
+          \ for this attribute. If this ID is not available (not supplied, empty or\
+          \ at origin), the service MUST create it as a UUID. The maximum length of\
+          \ 256 characters MUST NOT be exceeded (a standard UUID has 36 characters).\
+          \ The creator MAY prefix the UUID with an application and/or instance defined\
+          \ string."
+          required: false
+          type: "string"
+        - name: "X-Request-ID"
+          in: "header"
+          description: "Value to identify an individual request across consuming application,\
+          \ middleware and service provider. This ID is to be generated for every\
+          \ single request and not to be passed down (as X-Correlation-ID) to sub-services.\
+          \ Every consuming application MUST create this value as UUID. The maximum\
+          \ length of 256 characters MUST NOT be exceeded (a standard UUID has 36\
+          \ characters). The creator MAY prefix the UUID with an application and/or\
+          \ instance defined string."
+          required: false
+          type: "string"
+      responses:
+        200:
+          description: "Successfully found"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/Device"
+        400:
+          description: "Can't perform operation"
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+        404:
+          description: "Not present in database"
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+      security:
+        - OauthSecurity:
+            - "rori:device:read"
+            - "giga:cga:all-area-access"
+  /resource-order-resource-inventory/v1/olt/findDeviceByPortId:
+    post:
+      tags:
+        - "DeviceExternalController"
+      summary: "Find device by port id"
+      description: ""
+      operationId: "findDeviceByPortId"
+      produces:
+        - "application/json"
+      parameters:
+        - name: "portId"
+          in: "query"
+          description: "Port id"
+          required: true
+          type: "integer"
+          format: "int64"
+        - name: "type"
+          in: "query"
+          description: "device type"
+          required: false
+          type: "string"
+          enum:
+            - "OLT"
+            - "BNG"
+            - "DPU"
+        - name: "X-Business-Context"
+          in: "header"
+          description: "The business context is a general classification for a larger\
+          \ number of requests (types) usually set by the originating consumer. Any\
+          \ service receiving this header parameter MUST forward it unmodified to\
+          \ other services it invokes. Non-REST technologies (e.g. SOABP) might use\
+          \ a different identifier for this attribute."
+          required: false
+          type: "string"
+        - name: "X-Correlation-ID"
+          in: "header"
+          description: "Value for identifying a single transaction across multiple services\
+          \ up to the backend. Usually set by the originating consumer.Any service\
+          \ receiving this header parameter MUST forward it unmodified to other services\
+          \ it invokes. Non-REST technologies (e.g. SOABP) might use a different identifier\
+          \ for this attribute. If this ID is not available (not supplied, empty or\
+          \ at origin), the service MUST create it as a UUID. The maximum length of\
+          \ 256 characters MUST NOT be exceeded (a standard UUID has 36 characters).\
+          \ The creator MAY prefix the UUID with an application and/or instance defined\
+          \ string."
+          required: false
+          type: "string"
+        - name: "X-Request-ID"
+          in: "header"
+          description: "Value to identify an individual request across consuming application,\
+          \ middleware and service provider. This ID is to be generated for every\
+          \ single request and not to be passed down (as X-Correlation-ID) to sub-services.\
+          \ Every consuming application MUST create this value as UUID. The maximum\
+          \ length of 256 characters MUST NOT be exceeded (a standard UUID has 36\
+          \ characters). The creator MAY prefix the UUID with an application and/or\
+          \ instance defined string."
+          required: false
+          type: "string"
+      responses:
+        200:
+          description: "Successfully found"
+          schema:
+            $ref: "#/definitions/Device"
+        400:
+          description: "Can't perform operation"
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+        404:
+          description: "Not present in database"
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+      security:
+        - OauthSecurity:
+            - "rori:device:read"
+            - "giga:cga:all-area-access"
+  /resource-order-resource-inventory/v1/olt/findEndSzByDeviceType:
+    post:
+      tags:
+        - "DeviceExternalController"
+      summary: "Find EndSz's by Device-Type"
+      description: ""
+      operationId: "findEndSzByDeviceType"
+      produces:
+        - "application/json"
+      parameters:
+        - name: "type"
+          in: "query"
+          description: "Device-Type"
+          required: true
+          type: "string"
+          enum:
+            - "OLT"
+            - "BNG"
+            - "DPU"
+        - name: "X-Business-Context"
+          in: "header"
+          description: "The business context is a general classification for a larger\
+          \ number of requests (types) usually set by the originating consumer. Any\
+          \ service receiving this header parameter MUST forward it unmodified to\
+          \ other services it invokes. Non-REST technologies (e.g. SOABP) might use\
+          \ a different identifier for this attribute."
+          required: false
+          type: "string"
+        - name: "X-Correlation-ID"
+          in: "header"
+          description: "Value for identifying a single transaction across multiple services\
+          \ up to the backend. Usually set by the originating consumer.Any service\
+          \ receiving this header parameter MUST forward it unmodified to other services\
+          \ it invokes. Non-REST technologies (e.g. SOABP) might use a different identifier\
+          \ for this attribute. If this ID is not available (not supplied, empty or\
+          \ at origin), the service MUST create it as a UUID. The maximum length of\
+          \ 256 characters MUST NOT be exceeded (a standard UUID has 36 characters).\
+          \ The creator MAY prefix the UUID with an application and/or instance defined\
+          \ string."
+          required: false
+          type: "string"
+        - name: "X-Request-ID"
+          in: "header"
+          description: "Value to identify an individual request across consuming application,\
+          \ middleware and service provider. This ID is to be generated for every\
+          \ single request and not to be passed down (as X-Correlation-ID) to sub-services.\
+          \ Every consuming application MUST create this value as UUID. The maximum\
+          \ length of 256 characters MUST NOT be exceeded (a standard UUID has 36\
+          \ characters). The creator MAY prefix the UUID with an application and/or\
+          \ instance defined string."
+          required: false
+          type: "string"
+      responses:
+        200:
+          description: "Successfully found"
+          schema:
+            type: "array"
+            items:
+              type: "string"
+        400:
+          description: "Can't perform operation"
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+        404:
+          description: "Not present in database"
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+      security:
+        - OauthSecurity:
+            - "rori:device:read"
+            - "giga:cga:all-area-access"
+  /resource-order-resource-inventory/v1/olt/findFlatOltByEndsz:
+    get:
+      tags:
+        - "DeviceExternalController"
+      summary: "Find flat OLT (without related objects) by Endsz"
+      description: ""
+      operationId: "findFlatOltbyEndsz"
+      produces:
+        - "application/json"
+      parameters:
+        - name: "endsz"
+          in: "query"
+          description: "OLT EndSz"
+          required: true
+          type: "string"
+          pattern: "[0-9]{1,6}\\/[0-9]{1,6}\\/[0-9]{1,6}\\/[a-zA-Z0-9]{2,4}"
+      responses:
+        200:
+          description: "Successfully found"
+          schema:
+            $ref: "#/definitions/FlatDeviceDto"
+        400:
+          description: "Can't perform operation"
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+        404:
+          description: "Not present in database"
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+      security:
+        - OauthSecurity:
+            - "rori:device:read"
+            - "giga:cga:all-area-access"
+  /resource-order-resource-inventory/v1/olt/removeSlotFromDevice:
+    post:
+      tags:
+        - "DeviceExternalController"
+      summary: "Remove Equipmentholder by id"
+      description: ""
+      operationId: "removeSlotFromDevice"
+      produces:
+        - "application/json"
+      parameters:
+        - name: "equipmentHolderId"
+          in: "query"
+          description: "Id of the equipmentholder"
+          required: true
+          type: "integer"
+          format: "int64"
+        - name: "X-Business-Context"
+          in: "header"
+          description: "The business context is a general classification for a larger\
+          \ number of requests (types) usually set by the originating consumer. Any\
+          \ service receiving this header parameter MUST forward it unmodified to\
+          \ other services it invokes. Non-REST technologies (e.g. SOABP) might use\
+          \ a different identifier for this attribute."
+          required: false
+          type: "string"
+        - name: "X-Correlation-ID"
+          in: "header"
+          description: "Value for identifying a single transaction across multiple services\
+          \ up to the backend. Usually set by the originating consumer.Any service\
+          \ receiving this header parameter MUST forward it unmodified to other services\
+          \ it invokes. Non-REST technologies (e.g. SOABP) might use a different identifier\
+          \ for this attribute. If this ID is not available (not supplied, empty or\
+          \ at origin), the service MUST create it as a UUID. The maximum length of\
+          \ 256 characters MUST NOT be exceeded (a standard UUID has 36 characters).\
+          \ The creator MAY prefix the UUID with an application and/or instance defined\
+          \ string."
+          required: false
+          type: "string"
+        - name: "X-Request-ID"
+          in: "header"
+          description: "Value to identify an individual request across consuming application,\
+          \ middleware and service provider. This ID is to be generated for every\
+          \ single request and not to be passed down (as X-Correlation-ID) to sub-services.\
+          \ Every consuming application MUST create this value as UUID. The maximum\
+          \ length of 256 characters MUST NOT be exceeded (a standard UUID has 36\
+          \ characters). The creator MAY prefix the UUID with an application and/or\
+          \ instance defined string."
+          required: false
+          type: "string"
+      responses:
+        200:
+          description: "Successfully found"
+        400:
+          description: "Can't perform operation"
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+        404:
+          description: "Not present in database"
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+      security:
+        - OauthSecurity:
+            - "rori:device:write"
+            - "giga:cga:all-area-access"
+      deprecated: true
+  /resource-order-resource-inventory/v1/olt/updateKlsId:
+    put:
+      tags:
+        - "DeviceExternalController"
+      summary: "Update Kls Id of OLT"
+      description: ""
+      operationId: "updateKlsId"
+      produces:
+        - "application/json"
+      parameters:
+        - name: "endSZ"
+          in: "query"
+          description: "endSZ"
+          required: true
+          type: "string"
+          pattern: "[0-9]{1,6}\\/[0-9]{1,6}\\/[0-9]{1,6}\\/[a-zA-Z0-9]{2,4}"
+        - name: "klsID"
+          in: "query"
+          description: "klsID"
+          required: true
+          type: "integer"
+          format: "int64"
+        - name: "X-Business-Context"
+          in: "header"
+          description: "The business context is a general classification for a larger\
+          \ number of requests (types) usually set by the originating consumer. Any\
+          \ service receiving this header parameter MUST forward it unmodified to\
+          \ other services it invokes. Non-REST technologies (e.g. SOABP) might use\
+          \ a different identifier for this attribute."
+          required: false
+          type: "string"
+        - name: "X-Correlation-ID"
+          in: "header"
+          description: "Value for identifying a single transaction across multiple services\
+          \ up to the backend. Usually set by the originating consumer.Any service\
+          \ receiving this header parameter MUST forward it unmodified to other services\
+          \ it invokes. Non-REST technologies (e.g. SOABP) might use a different identifier\
+          \ for this attribute. If this ID is not available (not supplied, empty or\
+          \ at origin), the service MUST create it as a UUID. The maximum length of\
+          \ 256 characters MUST NOT be exceeded (a standard UUID has 36 characters).\
+          \ The creator MAY prefix the UUID with an application and/or instance defined\
+          \ string."
+          required: false
+          type: "string"
+        - name: "X-Request-ID"
+          in: "header"
+          description: "Value to identify an individual request across consuming application,\
+          \ middleware and service provider. This ID is to be generated for every\
+          \ single request and not to be passed down (as X-Correlation-ID) to sub-services.\
+          \ Every consuming application MUST create this value as UUID. The maximum\
+          \ length of 256 characters MUST NOT be exceeded (a standard UUID has 36\
+          \ characters). The creator MAY prefix the UUID with an application and/or\
+          \ instance defined string."
+          required: false
+          type: "string"
+      responses:
+        200:
+          description: "Successfully added"
+          schema:
+            $ref: "#/definitions/Device"
+        400:
+          description: "Can't perform operation"
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+        404:
+          description: "Not present in database"
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+      security:
+        - OauthSecurity:
+            - "rori:device:write"
+            - "giga:cga:all-area-access"
+  /resource-order-resource-inventory/v1/olt/vpszlookup:
+    get:
+      tags:
+        - "DeviceExternalController"
+      summary: "Returns all EndSz's based on the DeviceType and VPSZ based on EndSz\
+        \ Like% search."
+      description: ""
+      operationId: "getOltsByEndSzSegment"
+      produces:
+        - "application/json"
+      parameters:
+        - name: "vpsz"
+          in: "query"
+          description: "Part of Endsz"
+          required: true
+          type: "string"
+          pattern: "^[0-9]{1,6}\\/[0-9]{1,6}\\/[0-9]{1,6}[\\/a-zA-Z0-9]{0,5}"
+        - name: "devicetype"
+          in: "query"
+          description: "Type of element"
+          required: true
+          type: "string"
+          enum:
+            - "OLT"
+            - "BNG"
+            - "DPU"
+        - name: "X-Business-Context"
+          in: "header"
+          description: "The business context is a general classification for a larger\
+          \ number of requests (types) usually set by the originating consumer. Any\
+          \ service receiving this header parameter MUST forward it unmodified to\
+          \ other services it invokes. Non-REST technologies (e.g. SOABP) might use\
+          \ a different identifier for this attribute."
+          required: false
+          type: "string"
+        - name: "X-Correlation-ID"
+          in: "header"
+          description: "Value for identifying a single transaction across multiple services\
+          \ up to the backend. Usually set by the originating consumer.Any service\
+          \ receiving this header parameter MUST forward it unmodified to other services\
+          \ it invokes. Non-REST technologies (e.g. SOABP) might use a different identifier\
+          \ for this attribute. If this ID is not available (not supplied, empty or\
+          \ at origin), the service MUST create it as a UUID. The maximum length of\
+          \ 256 characters MUST NOT be exceeded (a standard UUID has 36 characters).\
+          \ The creator MAY prefix the UUID with an application and/or instance defined\
+          \ string."
+          required: false
+          type: "string"
+        - name: "X-Request-ID"
+          in: "header"
+          description: "Value to identify an individual request across consuming application,\
+          \ middleware and service provider. This ID is to be generated for every\
+          \ single request and not to be passed down (as X-Correlation-ID) to sub-services.\
+          \ Every consuming application MUST create this value as UUID. The maximum\
+          \ length of 256 characters MUST NOT be exceeded (a standard UUID has 36\
+          \ characters). The creator MAY prefix the UUID with an application and/or\
+          \ instance defined string."
+          required: false
+          type: "string"
+      responses:
+        200:
+          description: "Successfully found"
+          schema:
+            type: "array"
+            items:
+              type: "string"
+        400:
+          description: "Can't perform operation"
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+      security:
+        - OauthSecurity:
+            - "rori:device:read"
+            - "giga:cga:all-area-access"
+      deprecated: true
+  /resource-order-resource-inventory/v1/olt/vpszlookupbycriteria:
+    get:
+      tags:
+        - "DeviceExternalController"
+      summary: "Returns all EndSz's based on the criteria. A valid VPSZ, FIBERONLOCTIONID\
+        \ or ENDSZ must provided"
+      description: ""
+      operationId: "getEndSzsByCriteria"
+      produces:
+        - "application/json"
+      parameters:
+        - name: "deviceType"
+          in: "query"
+          description: "Search criteria to find one or multiple endsz based on criteria."
+          required: false
+          type: "string"
+          enum:
+            - "OLT"
+            - "BNG"
+            - "DPU"
+        - name: "fiberOnLocationId"
+          in: "query"
+          description: "Search criteria to find one or multiple endsz based on criteria."
+          required: false
+          type: "string"
+        - name: "vpsz"
+          in: "query"
+          description: "Search criteria to find one or multiple endsz based on criteria."
+          required: false
+          type: "string"
+      responses:
+        200:
+          description: "Successfully executed"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/VpszLookUpResponseDto"
+        400:
+          description: "Can't perform operation"
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+      security:
+        - OauthSecurity:
+            - "rori:device:read"
+            - "giga:cga:all-area-access"
+  /resource-order-resource-inventory/v1/port:
+    get:
+      tags:
+        - "PortExternalController"
+      summary: "Search port by endsz, portNumber, slotNumber"
+      description: ""
+      operationId: "findPortByDeviceEndSzSlotNumPortNum"
+      produces:
+        - "application/json"
+      parameters:
+        - name: "endSz"
+          in: "query"
+          description: "endSz"
+          required: true
+          type: "string"
+          pattern: "[0-9]{1,6}\\/[0-9]{1,6}\\/[0-9]{1,6}\\/[a-zA-Z0-9]{2,4}"
+        - name: "slotNumber"
+          in: "query"
+          description: "slotNumber"
+          required: false
+          type: "string"
+        - name: "portNumber"
+          in: "query"
+          description: "portNumber"
+          required: true
+          type: "string"
+        - name: "portType"
+          in: "query"
+          required: false
+          type: "string"
+          enum:
+            - "PON"
+            - "ETHERNET"
+            - "GFAST"
+        - name: "X-Business-Context"
+          in: "header"
+          description: "The business context is a general classification for a larger\
+          \ number of requests (types) usually set by the originating consumer. Any\
+          \ service receiving this header parameter MUST forward it unmodified to\
+          \ other services it invokes. Non-REST technologies (e.g. SOABP) might use\
+          \ a different identifier for this attribute."
+          required: false
+          type: "string"
+        - name: "X-Correlation-ID"
+          in: "header"
+          description: "Value for identifying a single transaction across multiple services\
+          \ up to the backend. Usually set by the originating consumer.Any service\
+          \ receiving this header parameter MUST forward it unmodified to other services\
+          \ it invokes. Non-REST technologies (e.g. SOABP) might use a different identifier\
+          \ for this attribute. If this ID is not available (not supplied, empty or\
+          \ at origin), the service MUST create it as a UUID. The maximum length of\
+          \ 256 characters MUST NOT be exceeded (a standard UUID has 36 characters).\
+          \ The creator MAY prefix the UUID with an application and/or instance defined\
+          \ string."
+          required: false
+          type: "string"
+        - name: "X-Request-ID"
+          in: "header"
+          description: "Value to identify an individual request across consuming application,\
+          \ middleware and service provider. This ID is to be generated for every\
+          \ single request and not to be passed down (as X-Correlation-ID) to sub-services.\
+          \ Every consuming application MUST create this value as UUID. The maximum\
+          \ length of 256 characters MUST NOT be exceeded (a standard UUID has 36\
+          \ characters). The creator MAY prefix the UUID with an application and/or\
+          \ instance defined string."
+          required: false
+          type: "string"
+      responses:
+        200:
+          description: "Successfully added"
+          schema:
+            $ref: "#/definitions/Port"
+        400:
+          description: "Can't perform operation"
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+        404:
+          description: "Not present in database"
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+      security:
+        - OauthSecurity:
+            - "rori:port:full"
+            - "rori:port:read"
+            - "giga:cga:all-area-access"
+      deprecated: true
+  /resource-order-resource-inventory/v1/port/{id}:
+    patch:
+      tags:
+        - "PortExternalController"
+      summary: "Patch a existing port"
+      description: ""
+      operationId: "patchPort"
+      consumes:
+        - "application/json-patch+json"
+      produces:
+        - "application/json"
+      parameters:
+        - name: "id"
+          in: "path"
+          description: "Id of port"
+          required: true
+          type: "integer"
+          format: "int64"
+        - in: "body"
+          name: "body"
+          description: "JSONPatch document as defined by RFC 6902 (https://tools.ietf.org/html/rfc6902)"
+          required: true
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/JsonPatchOperation"
+      responses:
+        200:
+          description: "Successfully updated"
+          schema:
+            $ref: "#/definitions/Port"
+        400:
+          description: "Can't perform operation"
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+        404:
+          description: "Not present in database"
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+      security:
+        - OauthSecurity:
+            - "rori:port:full"
+            - "giga:cga:all-area-access"
+  /resource-order-resource-inventory/v2/dpu:
+    post:
+      tags:
+        - "DeviceExternalControllerV2"
+      summary: "Create new DPU"
+      description: ""
+      operationId: "createDPUV2"
+      consumes:
+        - "application/json"
+      produces:
+        - "application/json"
+      parameters:
+        - in: "body"
+          name: "body"
+          description: "Properties of new DPU"
+          required: false
+          schema:
+            $ref: "#/definitions/DpuCreateRequestV2"
+      responses:
+        200:
+          description: "Successfully found"
+          schema:
+            $ref: "#/definitions/Device"
+        400:
+          description: "Can't perform operation"
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+        409:
+          description: "Entity already exists"
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+      security:
+        - OauthSecurity:
+            - "rori:device:write"
+            - "giga:cga:all-area-access"
+securityDefinitions:
+  OauthSecurity:
+    type: "oauth2"
+    tokenUrl: "https://oauth.simple.api/token"
+    flow: "application"
+    scopes:
+      giga:cga:all-area-access: "Default Scope"
+      rori:device:read: "Device Read Scope"
+      rori:device:write: "Device Write Scope"
+      rori:device:delete: "Device Delete Scope"
+      rori:dpuconfiguration:full: "DPU Full Scope"
+      rori:dpuconfiguration:read: "DPU Read Scope"
+      rori:dpuponconnection:full: "PON Full Scope"
+      rori:uplink:full: "Uplink Full Scope"
+      rori:uplink:read: "Uplink Read Scope"
+      rori:port:full: "Port Full Scope"
+      rori:port:read: "Port read Scope"
+      rori:card:full: "Card Full Scope"
+      rori:card:read: "Card Read Scope"
+      rori:fszcarriercode:read: "FSZ Read Scope"
+      rori:ipsubnet:full: "IP Subnet Full Scope"
+      rori:partymanagement:read: "Party Management Read Scope"
+      rori:ancp:full: "ANCP Full Scope"
+definitions:
+  ANCPSession:
+    type: "object"
+    properties:
+      id:
+        type: "integer"
+        format: "int64"
+      vlan:
+        type: "integer"
+        format: "int32"
+      partitionId:
+        type: "integer"
+        format: "int32"
+      sessionId:
+        type: "integer"
+        format: "int32"
+      sessionType:
+        type: "string"
+        enum:
+          - "OLT"
+          - "DPU"
+      rmkEndpointId:
+        type: "string"
+      sealConfigurationId:
+        type: "string"
+      ipSubnet:
+        $ref: "#/definitions/IPSubnet"
+      sessionStatus:
+        type: "string"
+        enum:
+          - "ACTIVE"
+          - "IN_CONFIGURATION"
+          - "IN_DECONFIGURATION"
+          - "ERROR"
+      endsz:
+        type: "string"
+      allocatedIPAddress:
+        $ref: "#/definitions/AllocatedIPAddresses"
+      configurationStep:
+        type: "string"
+        enum:
+          - "CREATE_IP_RANGE_ASSIGNMENT"
+          - "CREATE_ANCP_ENDPOINT"
+          - "CREATE_ANCP_CONFIGURATION"
+          - "DELETE_ANCP_CONFIGURATION"
+          - "DEACTIVATE_ANCP_ENDPOINT"
+          - "DELETE_IP_RANGE_ASSIGNMENT"
+      additionalInfo:
+        type: "string"
+      lastActivity:
+        type: "string"
+        format: "date-time"
+      port:
+        $ref: "#/definitions/Port"
+      lastAncpStatus:
+        type: "string"
+      creationDate:
+        type: "string"
+        format: "date-time"
+      modificationDate:
+        type: "string"
+        format: "date-time"
+  AllocatedIPAddresses:
+    type: "object"
+    properties:
+      id:
+        type: "integer"
+        format: "int64"
+      ipAddress:
+        type: "string"
+  AllocatedIPAddressesDto:
+    type: "object"
+    properties:
+      id:
+        type: "integer"
+        format: "int64"
+      ipAddress:
+        type: "string"
+        minLength: 0
+        maxLength: 50
+  AncpSessionDto:
+    type: "object"
+    required:
+      - "sessionStatus"
+    properties:
+      id:
+        type: "integer"
+        format: "int64"
+      vlan:
+        type: "integer"
+        format: "int32"
+      partitionId:
+        type: "integer"
+        format: "int32"
+      sessionId:
+        type: "integer"
+        format: "int32"
+      sessionType:
+        type: "string"
+        enum:
+          - "OLT"
+          - "DPU"
+      rmkEndpointId:
+        type: "string"
+        minLength: 0
+        maxLength: 256
+      sealConfigurationId:
+        type: "string"
+        minLength: 0
+        maxLength: 256
+      ipSubnet:
+        $ref: "#/definitions/IpSubnetDto"
+      sessionStatus:
+        type: "string"
+        enum:
+          - "ACTIVE"
+          - "IN_CONFIGURATION"
+          - "IN_DECONFIGURATION"
+          - "ERROR"
+      endsz:
+        type: "string"
+        pattern: "[0-9]{1,6}\\/[0-9]{1,6}\\/[0-9]{1,6}\\/[a-zA-Z0-9]{2,4}"
+      allocatedIPAddress:
+        $ref: "#/definitions/AllocatedIPAddressesDto"
+      configurationStep:
+        type: "string"
+        enum:
+          - "CREATE_IP_RANGE_ASSIGNMENT"
+          - "CREATE_ANCP_ENDPOINT"
+          - "CREATE_ANCP_CONFIGURATION"
+          - "DELETE_ANCP_CONFIGURATION"
+          - "DEACTIVATE_ANCP_ENDPOINT"
+          - "DELETE_IP_RANGE_ASSIGNMENT"
+      additionalInfo:
+        type: "string"
+        minLength: 0
+        maxLength: 200
+      lastActivity:
+        type: "string"
+        format: "date-time"
+      slotNumber:
+        type: "string"
+        minLength: 0
+        maxLength: 50
+      portNumber:
+        type: "string"
+        minLength: 0
+        maxLength: 50
+      portId:
+        type: "integer"
+        format: "int64"
+      lastAncpStatus:
+        type: "string"
+        minLength: 0
+        maxLength: 50
+      creationDate:
+        type: "string"
+        format: "date-time"
+      modificationDate:
+        type: "string"
+        format: "date-time"
+  Card:
+    type: "object"
+    properties:
+      shortName:
+        type: "string"
+      materialNumber:
+        type: "string"
+      emsNbiName:
+        type: "string"
+      tkz1:
+        type: "string"
+      tkz2:
+        type: "string"
+      descriptionUrl:
+        type: "string"
+      lastDiscovery:
+        type: "string"
+        format: "date-time"
+      id:
+        type: "integer"
+        format: "int64"
+      resourceId:
+        type: "string"
+      name:
+        type: "string"
+      description:
+        type: "string"
+      serialNumber:
+        type: "string"
+      serviceState:
+        type: "string"
+      resourceState:
+        type: "string"
+      firmwareVersion:
+        type: "string"
+      cardType:
+        type: "string"
+        enum:
+          - "GPON"
+          - "UPLINK_CARD"
+          - "MANAGEMENT_CARD"
+          - "SUPPORT_MODULE"
+          - "PROCESSING_BOARD"
+      equipmentNumber:
+        type: "string"
+      manufacturer:
+        type: "string"
+      ports:
+        type: "array"
+        items:
+          $ref: "#/definitions/Port"
+      creationDate:
+        type: "string"
+        format: "date-time"
+      modificationDate:
+        type: "string"
+        format: "date-time"
+      compositePartyId:
+        type: "integer"
+        format: "int64"
+  Device:
+    type: "object"
+    properties:
+      shortName:
+        type: "string"
+      materialNumber:
+        type: "string"
+      emsNbiName:
+        type: "string"
+      tkz1:
+        type: "string"
+      tkz2:
+        type: "string"
+      descriptionUrl:
+        type: "string"
+      lastDiscovery:
+        type: "string"
+        format: "date-time"
+      id:
+        type: "integer"
+        format: "int64"
+      resourceId:
+        type: "string"
+      deviceName:
+        type: "string"
+      endSz:
+        type: "string"
+        pattern: "[0-9]{1,6}\\/[0-9]{1,6}\\/[0-9]{1,6}\\/[a-zA-Z0-9]{2,4}"
+      fachSz:
+        type: "string"
+        pattern: "(76[HZG]|71G)[0-9A-Z]"
+      klsId:
+        type: "integer"
+        format: "int64"
+      ipAddress:
+        type: "string"
+      firmwareVersion:
+        type: "string"
+      resourceState:
+        type: "string"
+        enum:
+          - "NON_WORKING"
+          - "WORKING"
+      communicationState:
+        type: "string"
+        enum:
+          - "CS_AVAILABLE"
+          - "CS_UNAVAILABLE"
+      serialNumber:
+        type: "string"
+      importState:
+        type: "string"
+        enum:
+          - "PLANNED"
+          - "DISCOVERED"
+      type:
+        type: "string"
+        enum:
+          - "OLT"
+          - "BNG"
+          - "DPU"
+      importDate:
+        type: "string"
+        format: "date-time"
+      equipmentHolders:
+        type: "array"
+        items:
+          $ref: "#/definitions/EquipmentHolder"
+      description:
+        type: "string"
+      asb:
+        type: "integer"
+        format: "int64"
+      technicalLocation:
+        type: "string"
+      equipmentNumber:
+        type: "string"
+      manufacturer:
+        type: "string"
+      distributionPointId:
+        type: "string"
+      lifeCycleState:
+        type: "string"
+        enum:
+          - "NOT_OPERATING"
+          - "INSTALLING"
+          - "OPERATING"
+          - "RETIRING"
+          - "PLANNING"
+      fiberOnLocationId:
+        type: "string"
+        pattern: "^\\d{0,19}$"
+      ports:
+        type: "array"
+        items:
+          $ref: "#/definitions/Port"
+      creationDate:
+        type: "string"
+        format: "date-time"
+      modificationDate:
+        type: "string"
+        format: "date-time"
+      accessTransmissionMedium:
+        type: "string"
+        enum:
+          - "FIBER"
+          - "COAX"
+          - "TWISTED_PAIR"
+      compositePartyId:
+        type: "integer"
+        format: "int64"
+  DpuAtOltConfigurationDto:
+    type: "object"
+    properties:
+      id:
+        type: "integer"
+        format: "int64"
+      dpuEndsz:
+        type: "string"
+        minLength: 8
+        maxLength: 25
+        pattern: "[0-9]{1,6}\\/[0-9]{1,6}\\/[0-9]{1,6}\\/[a-zA-Z0-9]{2,4}"
+      backhaulId:
+        type: "string"
+        minLength: 1
+        maxLength: 32
+      onuId:
+        type: "integer"
+        format: "int32"
+      configurationState:
+        type: "string"
+        minLength: 1
+        maxLength: 50
+      serialNumber:
+        type: "string"
+        minLength: 1
+        maxLength: 50
+      oltEndsz:
+        type: "string"
+        minLength: 8
+        maxLength: 25
+        pattern: "[0-9]{1,6}\\/[0-9]{1,6}\\/[0-9]{1,6}\\/[a-zA-Z0-9]{2,4}"
+      oltPonSlot:
+        type: "string"
+        minLength: 1
+        maxLength: 50
+      oltPonPort:
+        type: "string"
+        minLength: 1
+        maxLength: 50
+      oltUplinkSlot:
+        type: "string"
+        minLength: 1
+        maxLength: 50
+      oltUplinkPort:
+        type: "string"
+        minLength: 1
+        maxLength: 50
+  DpuCreateRequest:
+    type: "object"
+    required:
+      - "endsz"
+      - "ge"
+      - "klsId"
+      - "oltEndsz"
+      - "oltPort"
+      - "oltSlot"
+      - "serialNumber"
+      - "type"
+      - "we"
+    properties:
+      endsz:
+        type: "string"
+        description: "EndSz of DPU"
+        pattern: "[0-9]{1,6}\\/[0-9]{1,6}\\/[0-9]{1,6}\\/[a-zA-Z0-9]{2,4}"
+      klsId:
+        type: "integer"
+        format: "int64"
+        description: "KLS-ID"
+      type:
+        type: "string"
+        description: "Type (emsNbiName)"
+      distributionPointId:
+        type: "string"
+        description: "specifies the building on an address, e.g. with an \"A\" for\
+          \ Vorderhaus and \"B\" for Hinterhaus. \"Hinterhaus\" would be the name\
+          \ of the distributionPoint (stored only in fiber installation) and \"B\"\
+          \ is the ID which is a business parameter which shall be unique on postal\
+          \ address (KLS-ID)"
+      serialNumber:
+        type: "string"
+        description: "Serial Number"
+      we:
+        type: "integer"
+        format: "int32"
+        description: "Number of Wohneinheiten"
+      ge:
+        type: "integer"
+        format: "int32"
+        description: "Number of Geschäftseinheiten"
+      oltEndsz:
+        type: "string"
+        description: "EndSz of OLT where DPU is connected"
+        pattern: "[0-9]{1,6}\\/[0-9]{1,6}\\/[0-9]{1,6}\\/[a-zA-Z0-9]{2,4}"
+      oltSlot:
+        type: "string"
+        description: "Slot number of OLT were DPU is connected"
+      oltPort:
+        type: "string"
+        description: "Port number of OLT where DPU is connected"
+      fiberOnLocationId:
+        type: "string"
+        description: "FiberOnLocation ID of DPU"
+        pattern: "^\\d{0,19}$"
+  DpuCreateRequestV2:
+    type: "object"
+    required:
+      - "endsz"
+      - "fiberOnLocationId"
+      - "klsId"
+      - "type"
+    properties:
+      endsz:
+        type: "string"
+        description: "EndSz of DPU"
+        pattern: "[0-9]{1,6}\\/[0-9]{1,6}\\/[0-9]{1,6}\\/[a-zA-Z0-9]{2,4}"
+      klsId:
+        type: "integer"
+        format: "int64"
+        description: "KLS-ID"
+      type:
+        type: "string"
+        description: "Type (emsNbiName)"
+      serialNumber:
+        type: "string"
+        description: "Serial Number"
+      fiberOnLocationId:
+        type: "string"
+        description: "FiberOnLocation ID of DPU"
+        pattern: "^\\d{0,19}$"
+  DpuEmsConfigurationDto:
+    type: "object"
+    properties:
+      id:
+        type: "integer"
+        format: "int64"
+      ancpBngIpAddress:
+        type: "string"
+        minLength: 1
+        maxLength: 15
+      ancpIpAddressSubnetMask:
+        type: "string"
+        minLength: 1
+        maxLength: 3
+      ancpOwnIpAddress:
+        type: "string"
+        minLength: 1
+        maxLength: 15
+      backhaulId:
+        type: "string"
+        minLength: 1
+        maxLength: 32
+      configurationState:
+        type: "string"
+        minLength: 1
+        maxLength: 50
+      emsNbiName:
+        type: "string"
+        minLength: 1
+        maxLength: 50
+      dpuEndsz:
+        type: "string"
+        minLength: 8
+        maxLength: 25
+        pattern: "[0-9]{1,6}\\/[0-9]{1,6}\\/[0-9]{1,6}\\/[a-zA-Z0-9]{2,4}"
+      managementDomain:
+        type: "string"
+        minLength: 1
+        maxLength: 100
+      serialNumber:
+        type: "string"
+        minLength: 1
+        maxLength: 50
+  DpuPonConnectionDto:
+    type: "object"
+    properties:
+      id:
+        type: "integer"
+        format: "int64"
+      oltPonPortEndsz:
+        type: "string"
+        minLength: 8
+        maxLength: 25
+        pattern: "[0-9]{1,6}\\/[0-9]{1,6}\\/[0-9]{1,6}\\/[a-zA-Z0-9]{2,4}"
+      oltPonPortNumber:
+        type: "string"
+        minLength: 1
+        maxLength: 50
+      oltPonSlotNumber:
+        type: "string"
+        minLength: 1
+        maxLength: 50
+      dpuPonPortEndsz:
+        type: "string"
+        pattern: "[0-9]{1,6}\\/[0-9]{1,6}\\/[0-9]{1,6}\\/[a-zA-Z0-9]{2,4}"
+      dpuPonPortNumber:
+        type: "string"
+        minLength: 1
+        maxLength: 50
+      dpuPonPortWe:
+        type: "integer"
+        format: "int32"
+      dpuPonPortGe:
+        type: "integer"
+        format: "int32"
+  EquipmentHolder:
+    type: "object"
+    properties:
+      id:
+        type: "integer"
+        format: "int64"
+      slotNumber:
+        type: "string"
+      card:
+        $ref: "#/definitions/Card"
+  ErrorResponse:
+    type: "object"
+    properties:
+      errorCode:
+        type: "string"
+        description: "Error code"
+      message:
+        type: "string"
+        description: "Message"
+    description: "Error response of 4xx and 5xx http statuses"
+  FlatDeviceDto:
+    type: "object"
+    properties:
+      shortName:
+        type: "string"
+        minLength: 0
+        maxLength: 50
+      materialNumber:
+        type: "string"
+        minLength: 0
+        maxLength: 50
+      emsNbiName:
+        type: "string"
+        minLength: 0
+        maxLength: 50
+      tkz1:
+        type: "string"
+        minLength: 0
+        maxLength: 50
+      tkz2:
+        type: "string"
+        minLength: 0
+        maxLength: 50
+      descriptionUrl:
+        type: "string"
+        minLength: 0
+        maxLength: 250
+      lastDiscovery:
+        type: "string"
+        format: "date-time"
+      id:
+        type: "integer"
+        format: "int64"
+      deviceName:
+        type: "string"
+        minLength: 0
+        maxLength: 256
+      endSz:
+        type: "string"
+        pattern: "[0-9]{1,6}\\/[0-9]{1,6}\\/[0-9]{1,6}\\/[a-zA-Z0-9]{2,4}"
+      fachSz:
+        type: "string"
+        minLength: 4
+        maxLength: 4
+        pattern: "(76[HZG]|71G)[0-9A-Z]"
+      klsId:
+        type: "integer"
+        format: "int64"
+      ipAddress:
+        type: "string"
+        minLength: 0
+        maxLength: 50
+      firmwareVersion:
+        type: "string"
+        minLength: 0
+        maxLength: 50
+      resourceState:
+        type: "string"
+        enum:
+          - "NON_WORKING"
+          - "WORKING"
+      communicationState:
+        type: "string"
+        enum:
+          - "CS_AVAILABLE"
+          - "CS_UNAVAILABLE"
+      serialNumber:
+        type: "string"
+        minLength: 0
+        maxLength: 50
+      importState:
+        type: "string"
+        enum:
+          - "PLANNED"
+          - "DISCOVERED"
+      type:
+        type: "string"
+        enum:
+          - "OLT"
+          - "BNG"
+          - "DPU"
+      importDate:
+        type: "string"
+        format: "date-time"
+      description:
+        type: "string"
+        minLength: 0
+        maxLength: 50
+      asb:
+        type: "integer"
+        format: "int64"
+      technicalLocation:
+        type: "string"
+      equipmentNumber:
+        type: "string"
+      manufacturer:
+        type: "string"
+      compositePartyId:
+        type: "integer"
+        format: "int64"
+      fiberOnLocationId:
+        type: "string"
+        pattern: "^\\d{0,19}$"
+  IPSubnet:
+    type: "object"
+    properties:
+      id:
+        type: "integer"
+        format: "int64"
+      subnetMask:
+        type: "string"
+      ipAddressLoopback:
+        type: "string"
+      ipAddressBng:
+        type: "string"
+      ipAddressBroadcast:
+        type: "string"
+      rmkAccessId:
+        type: "string"
+      allocatedIPAddresses:
+        type: "array"
+        items:
+          $ref: "#/definitions/AllocatedIPAddresses"
+      creationDate:
+        type: "string"
+        format: "date-time"
+      modificationDate:
+        type: "string"
+        format: "date-time"
+      subnetType:
+        type: "string"
+        enum:
+          - "OLT"
+          - "DPU"
+  IpSubnetDto:
+    type: "object"
+    properties:
+      id:
+        type: "integer"
+        format: "int64"
+      subnetMask:
+        type: "string"
+        minLength: 0
+        maxLength: 50
+      ipAddressLoopback:
+        type: "string"
+        minLength: 0
+        maxLength: 50
+      ipAddressBng:
+        type: "string"
+        minLength: 0
+        maxLength: 50
+      ipAddressBroadcast:
+        type: "string"
+        minLength: 0
+        maxLength: 50
+      rmkAccessId:
+        type: "string"
+        minLength: 0
+        maxLength: 50
+      allocatedIPAddresses:
+        type: "array"
+        items:
+          $ref: "#/definitions/AllocatedIPAddressesDto"
+      creationDate:
+        type: "string"
+        format: "date-time"
+      modificationDate:
+        type: "string"
+        format: "date-time"
+  JsonPatchOperation:
+    type: "object"
+    required:
+      - "op"
+      - "path"
+    properties:
+      op:
+        type: "string"
+        description: "The operation to be performed"
+        enum:
+          - "add"
+          - "remove"
+          - "replace"
+          - "move"
+          - "copy"
+          - "test"
+      path:
+        type: "string"
+        description: "JSON-Pointer"
+      value:
+        type: "object"
+        description: "Value to be used within the operations."
+      from:
+        type: "string"
+        description: "String containing a JSON Pointer value."
+    description: "A JSONPatch operation as defined by RFC 6902"
+  OpticalModule:
+    type: "object"
+    properties:
+      shortName:
+        type: "string"
+      materialNumber:
+        type: "string"
+      emsNbiName:
+        type: "string"
+      tkz1:
+        type: "string"
+      tkz2:
+        type: "string"
+      descriptionUrl:
+        type: "string"
+      lastDiscovery:
+        type: "string"
+        format: "date-time"
+      id:
+        type: "integer"
+        format: "int64"
+      resourceId:
+        type: "string"
+      name:
+        type: "string"
+      description:
+        type: "string"
+      manufacturer:
+        type: "string"
+      creationDate:
+        type: "string"
+        format: "date-time"
+      modificationDate:
+        type: "string"
+        format: "date-time"
+      compositePartyId:
+        type: "integer"
+        format: "int64"
+  Port:
+    type: "object"
+    properties:
+      id:
+        type: "integer"
+        format: "int64"
+      resourceId:
+        type: "string"
+      lifeCycleState:
+        type: "string"
+        enum:
+          - "NOT_OPERATING"
+          - "INSTALLING"
+          - "OPERATING"
+          - "RETIRING"
+          - "PLANNING"
+      portType:
+        type: "string"
+        enum:
+          - "PON"
+          - "ETHERNET"
+          - "GFAST"
+      portNumber:
+        type: "string"
+      opticalModule:
+        $ref: "#/definitions/OpticalModule"
+      creationDate:
+        type: "string"
+        format: "date-time"
+      modificationDate:
+        type: "string"
+        format: "date-time"
+      compositePartyId:
+        type: "integer"
+        format: "int64"
+  UplinkDTO:
+    type: "object"
+    required:
+      - "orderNumber"
+    properties:
+      id:
+        type: "integer"
+        format: "int64"
+      oltEndSz:
+        type: "string"
+        pattern: "[0-9]{1,6}\\/[0-9]{1,6}\\/[0-9]{1,6}\\/[a-zA-Z0-9]{2,4}"
+      oltSlot:
+        type: "string"
+      oltPortNumber:
+        type: "string"
+      bngEndSz:
+        type: "string"
+        pattern: "[0-9]{1,6}\\/[0-9]{1,6}\\/[0-9]{1,6}\\/[a-zA-Z0-9]{2,4}"
+      bngSlot:
+        type: "string"
+      bngPortNumber:
+        type: "string"
+      ancpSessions:
+        type: "array"
+        items:
+          $ref: "#/definitions/ANCPSession"
+      lsz:
+        type: "string"
+        example: "4C1"
+        description: "This attribute specifies Lsz of the ethernet link"
+        enum:
+          - "4C1"
+          - "4C2"
+          - "4Z2"
+      orderNumber:
+        type: "integer"
+        format: "int32"
+        minimum: 0
+      uewegId:
+        type: "string"
+        pattern: "^[A-Z/a-z][0-9]{9}$"
+      pluralId:
+        type: "string"
+        pattern: "^[A-Z/a-z/0-9]{9}$"
+      versionId:
+        type: "string"
+        pattern: "^102\\/1\\/[0-9]{4}\\/[0-9]{1,14}$"
+      version:
+        type: "string"
+      ipStatus:
+        type: "string"
+        enum:
+          - "ACTIVE"
+          - "PLANNED"
+          - "ACTIVATION_PROCESS"
+      ancpStatus:
+        type: "string"
+        enum:
+          - "ACTIVE"
+          - "INACTIVE"
+      activeAncpSession:
+        type: "boolean"
+      ipManagedAddress:
+        type: "string"
+      compositePartyId:
+        type: "integer"
+        format: "int64"
+  VpszLookUpResponseDto:
+    type: "object"
+    required:
+      - "type"
+    properties:
+      endsz:
+        type: "string"
+        description: "EndSz of device"
+        pattern: "[0-9]{1,6}\\/[0-9]{1,6}\\/[0-9]{1,6}\\/[a-zA-Z0-9]{2,4}"
+      type:
+        type: "string"
+        description: "The type of the device. Eg. OLT, DPU, BNG"
+        enum:
+          - "OLT"
+          - "BNG"
+          - "DPU"
