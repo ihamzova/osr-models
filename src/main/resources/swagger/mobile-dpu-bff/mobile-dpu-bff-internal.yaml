@@ -2,7 +2,7 @@
 swagger: "2.0"
 info:
   description: "Backend-For-Frontend for Mobile DPU UI"
-  version: "0.7.0"
+  version: "0.7.2"
   title: "mobile-dpu-bff"
 host: "localhost:8080"
 tags:
@@ -72,7 +72,7 @@ paths:
       description: "Determine a DPUCommissioning (not DeComm) process."
       operationId: "getDpuCommProcessDetails"
       produces:
-        - "application/json;charset=UTF-8"
+        - "application/json"
       parameters:
         - name: "endSZ"
           in: "query"
@@ -332,6 +332,7 @@ paths:
           description: "Workorder NotFound."
         500:
           description: "Internal Error."
+securityDefinitions: {}
 definitions:
   ACidResponse:
     type: "object"
@@ -426,6 +427,7 @@ definitions:
   DpuResponse:
     type: "object"
     required:
+      - "accessTransmissionMedium"
       - "endSZ"
       - "fiberOnLocationId"
       - "lifeCycleState"
@@ -459,6 +461,14 @@ definitions:
           - "RETIRING"
           - "NOT_OPERATING"
           - "PLANNING"
+      accessTransmissionMedium:
+        type: "string"
+        example: "COAX"
+        description: "distinguish between DPU Types, can be \"TWISTED_PAIR\" or \"\
+          COAX\" at the moment"
+        enum:
+          - "COAX"
+          - "TWISTED_PAIR"
     description: "DpuResponse"
   MarkDpuAsOperatingRequest:
     type: "object"
