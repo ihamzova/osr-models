@@ -461,6 +461,14 @@ definitions:
           - "RETIRING"
           - "NOT_OPERATING"
           - "PLANNING"
+      deviceName:
+        type: "string"
+        example: "ETSI Service Shelf H8-MABC"
+        description: "device name of DPU"
+      shortName:
+        type: "string"
+        example: "MABC VB"
+        description: "short name of DPU"
       accessTransmissionMedium:
         type: "string"
         example: "COAX"
