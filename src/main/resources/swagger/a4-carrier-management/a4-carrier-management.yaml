@@ -5,7 +5,7 @@ info:
     for L2BSA NSP
   contact:
     email: DL_Berlinium@telekom.de
-  version: 1.1.0
+  version: 2.0.0
 servers:
   - url: 'http://localhost'
 #SECURITY--------------------------------------------------------------------------------------------------
@@ -172,6 +172,7 @@ components:
         - carrierBsaReference
         - dataRateDown
         - dataRateUp
+        - l2CcId
       type: object
       properties:
         lineId:
