@@ -3,7 +3,7 @@ info:
   title: Resource Inventory Management
   description: This is Swagger UI environment generated for the TMF Resource Inventory
     Management specification
-  version: "3.0.0"
+  version: "3.1.0"
 servers:
   - url: https://biologeek.orange-labs.fr/tmf-api/resourceInventoryManagement
 #SECURITY--------------------------------------------------------------------------------------------------
@@ -895,6 +895,93 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/PhysicalResource'
+        400:
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        404:
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        500:
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    put:
+      security:
+        - OAuth2:
+            - 'rori:physicalResource:full'
+            - 'giga:cga:all-area-access'
+      tags:
+        - physicalResource
+      summary: Updates a 'PhysicalResource' by Id
+      operationId: updatePhysicalResourcePut
+      parameters:
+        - name: id
+          in: path
+          description: Identifier of the Physical Resource
+          required: true
+          schema:
+            type: string
+      requestBody:
+        description: The Physical Resource to be updated
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PhysicalResource_Update'
+        required: true
+      responses:
+        201:
+          description: Updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PhysicalResource'
+        400:
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        404:
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        500:
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      x-codegen-request-body-name: physicalResource
+    delete:
+      security:
+        - OAuth2:
+            - 'rori:physicalResource:full'
+            - 'giga:cga:all-area-access'
+      tags:
+        - physicalResource
+      summary: Deletes a 'PhysicalResource' by Id
+      operationId: deletePhysicalResource
+      parameters:
+        - name: id
+          in: path
+          description: Identifier of the Physical Resource
+          required: true
+          schema:
+            type: string
+      responses:
+        204:
+          description: Deleted
+          content: { }
         400:
           description: Bad Request
           content:
