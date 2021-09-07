@@ -1,0 +1,177 @@
+openapi: 3.0.1
+info:
+  title: line-id-generator
+  description: |-
+    ## line-id-generator API
+
+    Generator API supports single lineId and batch lineId generation
+    Generator V2 supports partyId out of box:
+
+    | PartyId | Country Code | Prefix | Generation algorithm |
+    | ------- | -------- | -------- | -------- |
+    | 10100 | DEU | | RMK_AVOIDANCE |
+    | 10001 | DEU | | RMK_AVOIDANCE |
+    | 10000 | DEU | 1 | SYSTEM_PREFIX |
+    Carrier Code is taken from organization characteristic "carrierCode"
+  version: 2.2.1
+servers:
+  - url: 'http://localhost:8129/'
+tags:
+  - name: LineIdGenerator
+paths:
+  /api/lineId/v2/generator:
+    post:
+      tags:
+        - LineIdGenerator
+      summary: Generates new LineId
+      description: Generates new LineId.
+      operationId: generateLineId
+      security:
+        - OAuth2:
+            - 'rori:lineId:write'
+            - 'giga:cga:all-area-access'
+      parameters:
+        - $ref: '#/components/parameters/PartyId'
+      responses:
+        '201':
+          description: New LineId generated
+          content:
+            application/json;charset=UTF-8:
+              schema:
+                $ref: '#/components/schemas/SingleLineId'
+        '400':
+          description: Bad request
+          content:
+            application/json;charset=UTF-8:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+        '500':
+          description: Internal error during generating of LineId
+          content:
+            application/json;charset=UTF-8:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+  /api/lineId/v2/generator/batch:
+    post:
+      tags:
+        - LineIdGenerator
+      summary: Generates list of new LineIds
+      description: Generates list of new LineIds.
+      operationId: generateLineIdsBatch
+      security:
+        - OAuth2:
+            - 'rori:lineId:write'
+            - 'giga:cga:all-area-access'
+      parameters:
+        - $ref: '#/components/parameters/PartyId'
+        - $ref: '#/components/parameters/NumberLineIds'
+      responses:
+        '201':
+          description: List of new LineIds generated
+          content:
+            application/json;charset=UTF-8:
+              schema:
+                $ref: '#/components/schemas/PoolLineId'
+        '400':
+          description: Bad request
+          content:
+            application/json;charset=UTF-8:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+        '500':
+          description: Internal error during creating of LineId
+          content:
+            application/json;charset=UTF-8:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+components:
+  securitySchemes:
+    OAuth2:
+      type: oauth2
+      flows:
+        clientCredentials:
+          tokenUrl: 'https://rhsso-develop.magic.telekom.de/auth/realms/GigabitHub/protocol/openid-connect/token'
+          scopes:
+            'rori:lineId:write': Write scope
+            'giga:cga:all-area-access': General Access Scope
+  parameters:
+    PartyId:
+      name: partyId
+      in: query
+      description: partyId
+      required: true
+      schema:
+        type: integer
+        format: int64
+    NumberLineIds:
+      name: numberLineIds
+      in: query
+      description: Number of lineIds which should be created
+      schema:
+        maximum: 32
+        minimum: 0
+        type: integer
+        format: int32
+  schemas:
+    PoolLineId:
+      type: object
+      properties:
+        lineIds:
+          type: array
+          description: Generated pool of new LineIds
+          items:
+            type: string
+      description: Generated pool LineIds
+    ProblemDetails:
+      required:
+        - title
+        - type
+      type: object
+      properties:
+        type:
+          type: string
+          description: type
+          format: uri
+        title:
+          type: string
+          description: title
+        status:
+          type: integer
+          description: status
+          format: int32
+        detail:
+          type: string
+          description: detail
+        instance:
+          type: string
+          description: instance
+        embedded:
+          $ref: '#/components/schemas/SpecificProblemDetails'
+      description: Error response of 4xx and 5xx http statuses.
+    SingleLineId:
+      type: object
+      properties:
+        lineId:
+          type: string
+          description: Generated new LineId
+      description: Generated LineId
+    SpecificProblemDetails:
+      required:
+        - code
+        - reason
+      type: object
+      properties:
+        code:
+          type: string
+          description: code
+        reason:
+          type: string
+          description: reason
+        message:
+          type: string
+          description: message
+        status:
+          type: integer
+          description: status
+          format: int32
+      description: Specific problem details(including fehlerbuildnummer code).
