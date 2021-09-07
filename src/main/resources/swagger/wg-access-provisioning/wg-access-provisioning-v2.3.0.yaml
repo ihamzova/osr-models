@@ -1,0 +1,1233 @@
+openapi: 3.0.0
+info:
+  title: WG access provisioning
+  description: '## WG access provisioning API'
+  version: 2.3.0
+servers:
+  - url: http://localhost:8091/
+tags:
+  - name: DeprovisioningProcess
+  - name: ProvisioningProcess
+  - name: PostProvisioningProcessController
+  - name: PostProvisioningCallbackController
+  - name: callback
+paths:
+  /resource-order-resource-inventory/v1/deprovisioning/accessLine:
+    post:
+      tags:
+        - DeprovisioningProcess
+      summary: Access line deprovisioning process
+      description: Starts WG access deprovisioning process for access line
+      operationId: startAccessLineDeprovisioning
+      security:
+        - apmToken: []
+        - OAuth2:
+            - 'rori:provisioningProcess:write'
+            - 'giga:cga:all-area-access'
+      parameters:
+        - $ref: '#/components/parameters/X-Callback-Id'
+        - $ref: '#/components/parameters/X-Callback-Correlation-Id'
+        - $ref: '#/components/parameters/X-Callback-Url'
+        - $ref: '#/components/parameters/X-Callback-Error-Url'
+        - $ref: '#/components/parameters/X-Callback-Method'
+        - $ref: '#/components/parameters/businessKey'
+      requestBody:
+        description: Access line info
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AccessLineRequestDto'
+        required: true
+      responses:
+        202:
+          description: Process started
+          content:
+            application/json;charset=UTF-8:
+              schema:
+                $ref: '#/components/schemas/ProcessDto'
+        400:
+          description: Bad request
+          content:
+            application/json;charset=UTF-8:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+        500:
+          description: Can't perform operation
+          content:
+            application/json;charset=UTF-8:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+      callbacks:
+        ErrorCallback:
+          $ref: '#/components/callbacks/ErrorCallback'
+        DeprovisioningCallback:
+          $ref: '#/components/callbacks/DeprovisioningCallback'
+  /resource-order-resource-inventory/v1/deprovisioning/cards:
+    post:
+      deprecated: true
+      tags:
+        - DeprovisioningProcess
+      summary: Cards deprovisioning process
+      description: Starts WG access deprovisioning process for list of cards
+      operationId: startCardsDeprovisioning
+      security:
+        - apmToken: []
+        - OAuth2:
+            - 'rori:provisioningProcess:write'
+            - 'giga:cga:all-area-access'
+      parameters:
+        - $ref: '#/components/parameters/X-Callback-Id'
+        - $ref: '#/components/parameters/X-Callback-Correlation-Id'
+        - $ref: '#/components/parameters/X-Callback-Url'
+        - $ref: '#/components/parameters/X-Callback-Error-Url'
+        - $ref: '#/components/parameters/X-Callback-Method'
+        - $ref: '#/components/parameters/businessKey'
+        - $ref: '#/components/parameters/NoDeconfigInSEAL'
+      requestBody:
+        description: List of cards
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: '#/components/schemas/CardRequestDto'
+        required: true
+      responses:
+        202:
+          description: Process started
+          content:
+            application/json;charset=UTF-8:
+              schema:
+                $ref: '#/components/schemas/ProcessDto'
+        400:
+          description: Bad request
+          content:
+            application/json;charset=UTF-8:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+        500:
+          description: Can't perform operation
+          content:
+            application/json;charset=UTF-8:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+      callbacks:
+        ErrorCallback:
+          $ref: '#/components/callbacks/ErrorCallback'
+        DeprovisioningCallback:
+          $ref: '#/components/callbacks/DeprovisioningCallback'
+  /resource-order-resource-inventory/v2/deprovisioning/cards:
+    post:
+      tags:
+        - DeprovisioningProcess
+      summary: Card deprovisioning process
+      description: Starts WG access deprovisioning process for one card
+      operationId: startCardDeprovisioning
+      security:
+        - apmToken: [ ]
+        - OAuth2:
+            - 'rori:provisioningProcess:write'
+            - 'giga:cga:all-area-access'
+      parameters:
+        - $ref: '#/components/parameters/X-Callback-Id'
+        - $ref: '#/components/parameters/X-Callback-Correlation-Id'
+        - $ref: '#/components/parameters/X-Callback-Url'
+        - $ref: '#/components/parameters/X-Callback-Error-Url'
+        - $ref: '#/components/parameters/X-Callback-Method'
+        - $ref: '#/components/parameters/businessKey'
+        - $ref: '#/components/parameters/NoDeconfigInSEAL'
+      requestBody:
+        description: Card info
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CardRequestDto'
+        required: true
+      responses:
+        202:
+          description: Process started
+          content:
+            application/json;charset=UTF-8:
+              schema:
+                $ref: '#/components/schemas/ProcessDto'
+        400:
+          description: Bad request
+          content:
+            application/json;charset=UTF-8:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+        500:
+          description: Can't perform operation
+          content:
+            application/json;charset=UTF-8:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+      callbacks:
+        ErrorCallback:
+          $ref: '#/components/callbacks/ErrorCallback'
+        DeprovisioningCallback:
+          $ref: '#/components/callbacks/DeprovisioningCallback'
+  /resource-order-resource-inventory/v1/deprovisioning/device:
+    post:
+      tags:
+        - DeprovisioningProcess
+      summary: Device deprovisioning process
+      description: Starts WG access deprovisioning process for device
+      operationId: startDeviceDeprovisioning
+      security:
+        - apmToken: []
+        - OAuth2:
+            - 'rori:provisioningProcess:write'
+            - 'giga:cga:all-area-access'
+      parameters:
+        - $ref: '#/components/parameters/X-Callback-Id'
+        - $ref: '#/components/parameters/X-Callback-Correlation-Id'
+        - $ref: '#/components/parameters/X-Callback-Url'
+        - $ref: '#/components/parameters/X-Callback-Error-Url'
+        - $ref: '#/components/parameters/X-Callback-Method'
+        - $ref: '#/components/parameters/businessKey'
+        - $ref: '#/components/parameters/NoDeconfigInSEAL'
+      requestBody:
+        description: OLT device info
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DeviceDto'
+        required: true
+      responses:
+        202:
+          description: Process started
+          content:
+            application/json;charset=UTF-8:
+              schema:
+                $ref: '#/components/schemas/ProcessDto'
+        400:
+          description: Bad request
+          content:
+            application/json;charset=UTF-8:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+        500:
+          description: Can't perform operation
+          content:
+            application/json;charset=UTF-8:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+      callbacks:
+        ErrorCallback:
+          $ref: '#/components/callbacks/ErrorCallback'
+        DeprovisioningCallback:
+          $ref: '#/components/callbacks/DeprovisioningCallback'
+  /resource-order-resource-inventory/v1/deprovisioning/port:
+    post:
+      tags:
+        - DeprovisioningProcess
+      summary: Port deprovisioning process
+      description: Starts WG access deprovisioning process for port
+      operationId: startPortDeprovisioning
+      security:
+        - apmToken: []
+        - OAuth2:
+            - 'rori:provisioningProcess:write'
+            - 'giga:cga:all-area-access'
+      parameters:
+        - $ref: '#/components/parameters/X-Callback-Id'
+        - $ref: '#/components/parameters/X-Callback-Correlation-Id'
+        - $ref: '#/components/parameters/X-Callback-Url'
+        - $ref: '#/components/parameters/X-Callback-Error-Url'
+        - $ref: '#/components/parameters/X-Callback-Method'
+        - $ref: '#/components/parameters/businessKey'
+        - $ref: '#/components/parameters/deprovisioningForDpu'
+        - $ref: '#/components/parameters/NoDeconfigInSEAL'
+      requestBody:
+        description: Port info
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PortDto'
+        required: true
+      responses:
+        202:
+          description: Process started
+          content:
+            application/json;charset=UTF-8:
+              schema:
+                $ref: '#/components/schemas/ProcessDto'
+        400:
+          description: Bad request
+          content:
+            application/json;charset=UTF-8:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+        500:
+          description: Can't perform operation
+          content:
+            application/json;charset=UTF-8:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+      callbacks:
+        ErrorCallback:
+          $ref: '#/components/callbacks/ErrorCallback'
+        DeprovisioningCallback:
+          $ref: '#/components/callbacks/DeprovisioningCallback'
+  /resource-order-resource-inventory/v1/provisioning/cards:
+    post:
+      deprecated: true
+      tags:
+        - ProvisioningProcess
+      summary: Cards provisioning process
+      description: Starts WG access provisioning process for slot
+      operationId: startCardsProvisioning
+      security:
+        - apmToken: []
+        - OAuth2:
+            - 'rori:provisioningProcess:write'
+            - 'giga:cga:all-area-access'
+      parameters:
+        - $ref: '#/components/parameters/X-Callback-Id'
+        - $ref: '#/components/parameters/X-Callback-Correlation-Id'
+        - $ref: '#/components/parameters/X-Callback-Url'
+        - $ref: '#/components/parameters/X-Callback-Error-Url'
+        - $ref: '#/components/parameters/X-Callback-Method'
+        - $ref: '#/components/parameters/businessKey'
+      requestBody:
+        description: List of cards
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: '#/components/schemas/CardRequestDto'
+        required: true
+      responses:
+        202:
+          description: Process started
+          content:
+            application/json;charset=UTF-8:
+              schema:
+                $ref: '#/components/schemas/ProcessDto'
+        400:
+          description: Bad request
+          content:
+            application/json;charset=UTF-8:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+        500:
+          description: Can't perform operation
+          content:
+            application/json;charset=UTF-8:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+      callbacks:
+        ErrorCallback:
+          $ref: '#/components/callbacks/ErrorCallback'
+        ProvisioningCallback:
+          $ref: '#/components/callbacks/ProvisioningCallback'
+  /resource-order-resource-inventory/v2/provisioning/cards:
+    post:
+      tags:
+        - ProvisioningProcess
+      summary: Card provisioning process
+      description: Starts WG access provisioning process for slot
+      operationId: startCardProvisioning
+      security:
+        - apmToken: []
+        - OAuth2:
+            - 'rori:provisioningProcess:write'
+            - 'giga:cga:all-area-access'
+      parameters:
+        - $ref: '#/components/parameters/X-Callback-Id'
+        - $ref: '#/components/parameters/X-Callback-Correlation-Id'
+        - $ref: '#/components/parameters/X-Callback-Url'
+        - $ref: '#/components/parameters/X-Callback-Error-Url'
+        - $ref: '#/components/parameters/X-Callback-Method'
+        - $ref: '#/components/parameters/businessKey'
+      requestBody:
+        description: Card info
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CardRequestDto'
+        required: true
+      responses:
+        202:
+          description: Process started
+          content:
+            application/json;charset=UTF-8:
+              schema:
+                $ref: '#/components/schemas/ProcessDto'
+        400:
+          description: Bad request
+          content:
+            application/json;charset=UTF-8:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+        500:
+          description: Can't perform operation
+          content:
+            application/json;charset=UTF-8:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+      callbacks:
+        ErrorCallback:
+          $ref: '#/components/callbacks/ErrorCallback'
+        ProvisioningCallback:
+          $ref: '#/components/callbacks/ProvisioningCallback'
+  /resource-order-resource-inventory/v1/provisioning/device:
+    post:
+      tags:
+        - ProvisioningProcess
+      summary: Device provisioning process
+      description: Starts WG access provisioning process for device
+      operationId: startDeviceProvisioning
+      security:
+        - apmToken: []
+        - OAuth2:
+            - 'rori:provisioningProcess:write'
+            - 'giga:cga:all-area-access'
+      parameters:
+        - $ref: '#/components/parameters/X-Callback-Id'
+        - $ref: '#/components/parameters/X-Callback-Correlation-Id'
+        - $ref: '#/components/parameters/X-Callback-Url'
+        - $ref: '#/components/parameters/X-Callback-Error-Url'
+        - $ref: '#/components/parameters/X-Callback-Method'
+        - $ref: '#/components/parameters/businessKey'
+      requestBody:
+        description: OLT device info
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DeviceDto'
+        required: true
+      responses:
+        202:
+          description: Process started
+          content:
+            application/json;charset=UTF-8:
+              schema:
+                $ref: '#/components/schemas/ProcessDto'
+        400:
+          description: Bad request
+          content:
+            application/json;charset=UTF-8:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+        500:
+          description: Can't perform operation
+          content:
+            application/json;charset=UTF-8:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+      callbacks:
+        ErrorCallback:
+          $ref: '#/components/callbacks/ErrorCallback'
+        ProvisioningCallback:
+          $ref: '#/components/callbacks/ProvisioningCallback'
+  /resource-order-resource-inventory/v1/provisioning/lineProfiles:
+    post:
+      tags:
+        - ProvisioningProcess
+      summary: Update access line profiles
+      description: Start update of access line profiles
+      operationId: startUpdateLineProfiles
+      security:
+        - apmToken: []
+        - OAuth2:
+            - 'rori:provisioningProcess:write'
+            - 'giga:cga:all-area-access'
+      parameters:
+        - $ref: '#/components/parameters/X-Callback-Id'
+        - $ref: '#/components/parameters/X-Callback-Correlation-Id'
+        - $ref: '#/components/parameters/X-Callback-Url'
+        - $ref: '#/components/parameters/X-Callback-Error-Url'
+        - $ref: '#/components/parameters/X-Callback-Method'
+      requestBody:
+        description: Access line id
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AccessLineIdDto'
+        required: true
+      responses:
+        202:
+          description: Process started
+          content:
+            application/json;charset=UTF-8:
+              schema:
+                $ref: '#/components/schemas/ProcessDto'
+        400:
+          description: Bad request
+          content:
+            application/json;charset=UTF-8:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+        500:
+          description: Can't perform operation
+          content:
+            application/json;charset=UTF-8:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+      callbacks:
+        ErrorCallback:
+          $ref: '#/components/callbacks/ErrorCallback'
+        UpdateLineProfilesgCallback:
+          $ref: '#/components/callbacks/UpdateLineProfilesCallback'
+  /resource-order-resource-inventory/v1/provisioning/port:
+    post:
+      tags:
+        - ProvisioningProcess
+      summary: Port provisioning process
+      description: Starts WG access provisioning process for port
+      operationId: startPortProvisioning
+      security:
+        - apmToken: []
+        - OAuth2:
+            - 'rori:provisioningProcess:write'
+            - 'giga:cga:all-area-access'
+      parameters:
+        - $ref: '#/components/parameters/X-Callback-Id'
+        - $ref: '#/components/parameters/X-Callback-Correlation-Id'
+        - $ref: '#/components/parameters/X-Callback-Url'
+        - $ref: '#/components/parameters/X-Callback-Error-Url'
+        - $ref: '#/components/parameters/X-Callback-Method'
+        - $ref: '#/components/parameters/businessKey'
+      requestBody:
+        description: Port info
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PortDto'
+        required: true
+      responses:
+        202:
+          description: Process started
+          content:
+            application/json;charset=UTF-8:
+              schema:
+                $ref: '#/components/schemas/ProcessDto'
+        400:
+          description: Bad request
+          content:
+            application/json;charset=UTF-8:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+        500:
+          description: Can't perform operation
+          content:
+            application/json;charset=UTF-8:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+      callbacks:
+        ErrorCallback:
+          $ref: '#/components/callbacks/ErrorCallback'
+        ProvisioningCallback:
+          $ref: '#/components/callbacks/ProvisioningCallback'
+  /resource-order-resource-inventory/v1/postProvisioning:
+    post:
+      tags:
+        - PostProvisioningProcessController
+      summary: Post provisioning process
+      description: Creates access lines for port
+      operationId: postProvisioning
+      security:
+        - OAuth2:
+            - 'rori:provisioningProcess:write'
+            - 'giga:cga:all-area-access'
+      parameters:
+        - $ref: '#/components/parameters/X-Callback-Id'
+        - $ref: '#/components/parameters/X-Callback-Correlation-Id-Required'
+        - $ref: '#/components/parameters/X-Callback-Url-Required'
+        - $ref: '#/components/parameters/X-Callback-Error-Url'
+        - $ref: '#/components/parameters/X-Callback-Method'
+      requestBody:
+        description: Port info
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PortDto'
+        required: true
+      responses:
+        202:
+          description: Access Line create request is accepted
+          content: { }
+        400:
+          description: Bad Request (Sync Response on POST Request)
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+      callbacks:
+        ErrorCallback:
+          $ref: '#/components/callbacks/ErrorCallback'
+        PostProvisioningCallback:
+          $ref: '#/components/callbacks/PostProvisioningCallback'
+  /resource-order-resource-inventory/v1/ftthProvisioningProcesses/{processId}/restore:
+    post:
+      tags:
+        - Process
+      summary: Restores failed process
+      description: Restores failed process
+      operationId: restore
+      security:
+        - OAuth2:
+            - 'rori:provisioningProcess:write'
+            - 'giga:cga:all-area-access'
+      parameters:
+        - $ref: '#/components/parameters/X-Callback-Correlation-Id'
+        - $ref: '#/components/parameters/processId'
+      responses:
+        202:
+          description: Process restored
+          content: { }
+        400:
+          description: Bad Request
+          content: { }
+        404:
+          description: Process instance not found
+          content: { }
+  /callback/wgAccessProvisioning/v1/postProvisioning:
+    post:
+      tags:
+        - PostProvisioningCallbackController
+      summary: Post provisioning callback
+      description: Sends to a consumer a notification with result of WG access post-provisioning
+      operationId: callbackPostProvisioning
+      security:
+        - OAuth2:
+            - 'giga:callback:full'
+            - 'giga:cga:all-area-access'
+      parameters:
+        - $ref: '#/components/parameters/X-Callback-Correlation-Id-Required'
+      requestBody:
+        description: Result of creation Access line (lineId of created line)
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PostProvisioningResponseHolder'
+        required: true
+      responses:
+        200:
+          description: Create access line request is processed
+          content: { }
+        400:
+          description: Bad Request (Sync Response on POST Request)
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+      x-async-responses:
+        reference-operation-id: startPostProvisioning
+      x-codegen-request-body-name: body
+  /callback/wgAccessProvisioning/v1/postProvisioning/error:
+    post:
+      tags:
+        - PostProvisioningCallbackController
+      summary: Endpoint to receive error from 3scale in case of technical failure
+      description: Receives error from 3scale in case of technical failure. The endpoint
+        is used only for unexpected errors which could not be processed by the provider
+        itself. Like HTTP 404 Not Found, HTTP 503 Service Unavailable.
+      operationId: receivePostProvisioningError
+      security:
+        - OAuth2:
+            - 'giga:callback:full'
+            - 'giga:cga:all-area-access'
+      parameters:
+        - $ref: '#/components/parameters/X-Callback-Correlation-Id-Required'
+        - $ref: '#/components/parameters/X-Callback-Request-Id'
+        - $ref: '#/components/parameters/X-Callback-Error-Id'
+        - $ref: '#/components/parameters/X-Callback-Error-HTTP-Code'
+      requestBody:
+        content:
+          '*/*':
+            schema:
+              type: object
+        required: false
+      responses:
+        202:
+          description: Your callback API implementation should return this HTTP status
+            code if the data was received successfully
+          content: { }
+      x-codegen-request-body-name: body
+  /callback/wgAccessProvisioning/v1/deprovisioning:
+    post:
+      tags:
+        - callback
+      summary: WG access deprovisioning callback
+      description: Sends to a consumer a notification with result of WG access deprovisioning.
+      operationId: callbackDeprovisioning
+      security:
+        - OAuth2:
+            - 'giga:callback:full'
+            - 'giga:cga:all-area-access'
+            - 'rori:actAccCallback:post'
+      parameters:
+        - $ref: '#/components/parameters/X-Callback-Correlation-Id-Required'
+      requestBody:
+        description: ONT Creation Result
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DeprovisioningResponseHolder'
+        required: true
+      responses:
+        200:
+          description: WG access deprovisioning  is processed
+          content: { }
+        400:
+          description: Bad request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+      x-async-responses:
+        reference-operation-id: startAccessLineDeprovisioning
+      x-codegen-request-body-name: body
+  /callback/wgAccessProvisioning/v1/deprovisioning/error:
+    post:
+      tags:
+        - callback
+      summary: Endpoint to receive error from 3scale in case of technical failure
+      description: Receives error from 3scale in case of technical failure. The endpoint
+        is used only for unexpected errors which could not be processed by the provider
+        itself. Like HTTP 404 Not Found, HTTP 503 Service Unavailable.
+      operationId: receiveDeprovisioningError
+      security:
+        - OAuth2:
+            - 'giga:callback:full'
+            - 'giga:cga:all-area-access'
+            - 'rori:actAccCallback:post'
+      parameters:
+        - $ref: '#/components/parameters/X-Callback-Correlation-Id-Required'
+        - $ref: '#/components/parameters/X-Callback-Request-Id'
+        - $ref: '#/components/parameters/X-Callback-Error-Id'
+        - $ref: '#/components/parameters/X-Callback-Error-HTTP-Code'
+      requestBody:
+        content:
+          '*/*':
+            schema:
+              type: object
+        required: false
+      responses:
+        202:
+          description: Your callback API implementation should return this HTTP status
+            code if the data was received successfully
+          content: { }
+      x-codegen-request-body-name: body
+  /callback/wgAccessProvisioning/v1/provisioning:
+    post:
+      tags:
+        - callback
+      summary: WG access provisioning callback
+      description: Sends to a consumer a notification with result of WG access provisioning.
+      operationId: callbackProvisioning
+      security:
+        - OAuth2:
+            - 'giga:callback:full'
+            - 'giga:cga:all-area-access'
+            - 'rori:actAccCallback:post'
+      parameters:
+        - $ref: '#/components/parameters/X-Callback-Correlation-Id-Required'
+      requestBody:
+        description: Provisioning response holder
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ProvisioningResponseHolder'
+        required: true
+      responses:
+        200:
+          description: WG access provisioning is processed
+          content: { }
+        400:
+          description: Bad request
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+      x-async-responses:
+        reference-operation-id: startPortProvisioning
+      x-codegen-request-body-name: body
+  /callback/wgAccessProvisioning/v1/provisioning/error:
+    post:
+      tags:
+        - callback
+      summary: Endpoint to receive error from 3scale in case of technical failure
+      description: Receives error from 3scale in case of technical failure. The endpoint
+        is used only for unexpected errors which could not be processed by the provider
+        itself. Like HTTP 404 Not Found, HTTP 503 Service Unavailable.
+      operationId: receiveProvisioningError
+      security:
+        - OAuth2:
+            - 'giga:callback:full'
+            - 'giga:cga:all-area-access'
+            - 'rori:actAccCallback:post'
+      parameters:
+        - $ref: '#/components/parameters/X-Callback-Correlation-Id-Required'
+        - $ref: '#/components/parameters/X-Callback-Request-Id'
+        - $ref: '#/components/parameters/X-Callback-Error-Id'
+        - $ref: '#/components/parameters/X-Callback-Error-HTTP-Code'
+      requestBody:
+        content:
+          '*/*':
+            schema:
+              type: object
+        required: false
+      responses:
+        202:
+          description: Your callback API implementation should return this HTTP status
+            code if the data was received successfully
+          content: { }
+      x-codegen-request-body-name: body
+components:
+  securitySchemes:
+    apmToken:
+      type: apiKey
+      in: header
+      name: apm-principal-token
+    OAuth2:
+      type: oauth2
+      flows:
+        clientCredentials:
+          tokenUrl: 'https://rhsso-develop.magic.telekom.de/auth/realms/GigabitHub/protocol/openid-connect/token'
+          scopes:
+            'rori:provisioningProcess:write': Write scope
+            'giga:callback:full': Full scope
+            'giga:cga:all-area-access': General access scope
+  schemas:
+    AccessLineIdDto:
+      required:
+        - lineId
+      type: object
+      properties:
+        lineId:
+          pattern: '[A-Z0-9]{3}\.[A-Z0-9]{1,6}\.[A-Z0-9]{1,10}'
+          type: string
+    AccessLineRequestDto:
+      type: object
+      properties:
+        endSz:
+          pattern: '[0-9]{1,6}\/[0-9]{1,6}\/[0-9]{1,6}\/[a-zA-Z0-9]{2,4}'
+          type: string
+        slotNumber:
+          type: string
+        portNumber:
+          type: string
+        lineId:
+          pattern: '[A-Z0-9]{3}\.[A-Z0-9]{1,6}\.[A-Z0-9]{1,10}'
+          type: string
+    CallbackError:
+      type: object
+      properties:
+        message:
+          type: string
+        status:
+          type: integer
+          format: int32
+        code:
+          type: string
+    CardRequestDto:
+      required:
+        - endSz
+        - slotNumber
+      type: object
+      properties:
+        endSz:
+          pattern: '[0-9]{1,6}\/[0-9]{1,6}\/[0-9]{1,6}\/[a-zA-Z0-9]{2,4}'
+          type: string
+        slotNumber:
+          type: string
+    DeprovisioningResponseHolder:
+      type: object
+      properties:
+        error:
+          $ref: '#/components/schemas/CallbackError'
+        response:
+          type: object
+          properties: { }
+          description: Result of successful operation.
+        success:
+          type: boolean
+      description: Deprovisioning response
+    DeviceDto:
+      required:
+        - endSz
+      type: object
+      properties:
+        endSz:
+          pattern: '[0-9]{1,6}\/[0-9]{1,6}\/[0-9]{1,6}\/[a-zA-Z0-9]{2,4}'
+          type: string
+    PortDto:
+      required:
+        - endSz
+        - portNumber
+      type: object
+      properties:
+        endSz:
+          pattern: '[0-9]{1,6}\/[0-9]{1,6}\/[0-9]{1,6}\/[a-zA-Z0-9]{2,4}'
+          type: string
+        slotNumber:
+          maxLength: 50
+          minLength: 0
+          type: string
+        portNumber:
+          maxLength: 50
+          minLength: 0
+          type: string
+        portType:
+          $ref: '#/components/schemas/PortTypeDto'
+    PortTypeDto:
+      type: string
+      description: Type of port
+      enum:
+        - PON
+        - GFAST
+        - ETHERNET
+        - GPON
+    ProblemDetails:
+      required:
+        - title
+        - type
+      type: object
+      properties:
+        type:
+          type: string
+          description: type
+        title:
+          type: string
+          description: title
+        status:
+          type: integer
+          description: status
+          format: int32
+        detail:
+          type: string
+          description: detail
+        instance:
+          type: string
+          description: instance
+        embedded:
+          $ref: '#/components/schemas/SpecificProblemDetails'
+      description: Error response of 4xx and 5xx http statuses.
+    ProcessDto:
+      type: object
+      properties:
+        source:
+          type: string
+        id:
+          type: string
+          format: uuid
+        businessKey:
+          type: string
+        index:
+          type: integer
+          format: int32
+    ProvisioningResponseHolder:
+      type: object
+      properties:
+        error:
+          $ref: '#/components/schemas/CallbackError'
+        response:
+          type: object
+          properties: { }
+          description: Result of successful operation.
+        success:
+          type: boolean
+      description: Provisioning response
+    PostProvisioningResponseHolder:
+      type: object
+      properties:
+        error:
+          $ref: '#/components/schemas/CallbackError'
+        response:
+          type: object
+          properties: { }
+          description: Result of successful operation.
+        success:
+          type: boolean
+      description: Post provisioning response
+    UpdateLineProfilesResponseHolder:
+      type: object
+      properties:
+        error:
+          $ref: '#/components/schemas/CallbackError'
+        response:
+          type: object
+          properties: { }
+          description: Result of successful operation.
+        success:
+          type: boolean
+      description: Update line profiles response
+    SpecificProblemDetails:
+      required:
+        - code
+        - reason
+      type: object
+      properties:
+        code:
+          type: string
+          description: code
+        reason:
+          type: string
+          description: reason
+        message:
+          type: string
+          description: message
+        status:
+          type: integer
+          description: status
+          format: int32
+      description: Specific problem details(including fehlerbuildnummer code).
+
+  parameters:
+    X-Callback-Correlation-Id:
+      name: X-Callback-Correlation-Id
+      in: header
+      description: -|
+        UUID V4 generated identifier. Needs to be unique for each request
+        overall all systems. With this the callback URL is identified internally.
+        If not provided in request it will be generated by the integration layer
+        and will be returned in response. The asynchronous callback will provide
+        this ID for correlation of request and callback.
+      schema:
+        type: string
+        format: uuid
+    X-Callback-Correlation-Id-Required:
+      name: X-Callback-Correlation-Id
+      in: header
+      description: -|
+        UUID V4 generated identifier. Needs to be unique for each request
+        overall all systems. With this the callback URL is identified internally.
+        If not provided in request it will be generated by the integration layer
+        and will be returned in response. The asynchronous callback will provide
+        this ID for correlation of request and callback.
+      required: true
+      schema:
+        type: string
+        format: uuid
+    X-Callback-Request-Id:
+      name: X-Callback-Request-Id
+      in: header
+      description: Unique consumerID from request.
+      required: true
+      schema:
+        type: string
+        format: uuid
+    X-Callback-Error-Id:
+      name: X-Callback-Error-Id
+      in: header
+      description: UUID V4 generated error identifier.
+      required: true
+      schema:
+        type: string
+        format: uuid
+    X-Callback-Error-HTTP-Code:
+      name: X-Callback-Error-HTTP-Code
+      in: header
+      description: Http error code such as 404, 503.
+      required: true
+      schema:
+        type: string
+    X-Callback-Id:
+      name: X-Callback-Id
+      in: header
+      description: Unique consumerID used to identify the request consumer within
+        FUSE and provide support for maintenance.
+      schema:
+        type: string
+    X-Callback-Url:
+      name: X-Callback-Url
+      in: header
+      description: The provided Rest Interface from the consumer where the expected
+        callback is sent to.
+      schema:
+        type: string
+    X-Callback-Url-Required:
+      name: X-Callback-Url
+      in: header
+      description: The provided Rest Interface from the consumer where the expected
+        callback is sent to.
+      required: true
+      schema:
+        type: string
+    X-Callback-Error-Url:
+      name: X-Callback-Error-Url
+      in: header
+      description: On 3Scale or provider errors FUSE will try to deliver an error
+        on Error Callback URL to the Consumer.
+      schema:
+        type: string
+    X-Callback-Method:
+      name: X-Callback-Method
+      in: header
+      description: Default method if not specified is POST.
+      schema:
+        type: string
+    businessKey:
+      name: businessKey
+      in: query
+      description: Process business key
+      schema:
+        type: string
+    NoDeconfigInSEAL:
+      name: NoDeconfigInSEAL
+      in: query
+      description: No deconfiguration in SEAL flag
+      required: false
+      default: false
+      schema:
+        type: boolean
+    deprovisioningForDpu:
+      name: deprovisioningForDpu
+      in: query
+      description: Deprovisioning for DPU flag
+      schema:
+        type: boolean
+    processId:
+      name: processId
+      in: path
+      description: Process instance id
+      required: true
+      schema:
+        type: string
+        format: uuid
+
+  callbacks:
+    DeprovisioningCallback:
+      '{$request.header#/X-Callback-Url}':
+        post:
+          summary: WG access deprovisioning callback
+          description: Sends to a consumer a notification with result of WG access deprovisioning.
+          security:
+            - OAuth2:
+                - 'giga:callback:full'
+                - 'giga:cga:all-area-access'
+          parameters:
+            - $ref: '#/components/parameters/X-Callback-Correlation-Id-Required'
+          requestBody:
+            description: ONT Creation Result
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/DeprovisioningResponseHolder'
+            required: true
+          responses:
+            200:
+              description: WG access deprovisioning  is processed
+              content: { }
+            400:
+              description: Bad request
+              content:
+                '*/*':
+                  schema:
+                    $ref: '#/components/schemas/ProblemDetails'
+    ProvisioningCallback:
+      '{$request.header#/X-Callback-Url}':
+        post:
+          summary: WG access provisioning callback
+          description: Sends to a consumer a notification with result of WG access provisioning.
+          security:
+            - OAuth2:
+                - 'giga:callback:full'
+                - 'giga:cga:all-area-access'
+          parameters:
+            - $ref: '#/components/parameters/X-Callback-Correlation-Id-Required'
+          requestBody:
+            description: Provisioning response holder
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/ProvisioningResponseHolder'
+            required: true
+          responses:
+            200:
+              description: WG access provisioning is processed
+              content: { }
+            400:
+              description: Bad request
+              content:
+                '*/*':
+                  schema:
+                    $ref: '#/components/schemas/ProblemDetails'
+    PostProvisioningCallback:
+      '{$request.header#/X-Callback-Url}':
+        post:
+          summary: Post provisioning callback
+          description: Sends to a consumer a notification with result of WG access post-provisioning
+          security:
+            - OAuth2:
+                - 'giga:callback:full'
+                - 'giga:cga:all-area-access'
+          parameters:
+            - $ref: '#/components/parameters/X-Callback-Correlation-Id-Required'
+          requestBody:
+            description: Result of creation Access line (lineId of created line)
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/PostProvisioningResponseHolder'
+            required: true
+          responses:
+            200:
+              description: Create access line request is processed
+              content: { }
+            400:
+              description: Bad Request (Sync Response on POST Request)
+              content:
+                '*/*':
+                  schema:
+                    $ref: '#/components/schemas/ProblemDetails'
+    UpdateLineProfilesCallback:
+      '{$request.header#/X-Callback-Url}':
+        post:
+          summary: Update line profiles callback
+          description: Sends to a consumer a notification with result of update of line profiles
+          security:
+            - OAuth2:
+                - 'giga:callback:full'
+                - 'giga:cga:all-area-access'
+          parameters:
+            - $ref: '#/components/parameters/X-Callback-Correlation-Id-Required'
+          requestBody:
+            description: Result of line profiles update
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/UpdateLineProfilesResponseHolder'
+            required: true
+          responses:
+            200:
+              description: Update line profiles request is processed
+              content: { }
+            400:
+              description: Bad Request (Sync Response on POST Request)
+              content:
+                '*/*':
+                  schema:
+                    $ref: '#/components/schemas/ProblemDetails'
+    ErrorCallback:
+      '{$request.header.X-Callback-Error-Url}':
+        post:
+          summary: Endpoint to receive error from 3scale in case of technical failure
+          description: Receives error from 3scale in case of technical failure. The endpoint
+            is used only for unexpected errors which could not be processed by the provider
+            itself. Like HTTP 404 Not Found, HTTP 503 Service Unavailable.
+          security:
+            - OAuth2:
+                - 'giga:callback:full'
+                - 'giga:cga:all-area-access'
+          parameters:
+            - $ref: '#/components/parameters/X-Callback-Correlation-Id-Required'
+            - $ref: '#/components/parameters/X-Callback-Request-Id'
+            - $ref: '#/components/parameters/X-Callback-Error-Id'
+            - $ref: '#/components/parameters/X-Callback-Error-HTTP-Code'
+          requestBody:
+            content:
+              '*/*':
+                schema:
+                  type: object
+            required: false
+          responses:
+            202:
+              description: Your callback API implementation should return this HTTP status
+                code if the data was received successfully
+              content: { }

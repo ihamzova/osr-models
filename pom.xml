@@ -10,7 +10,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>osr-models</artifactId>
-    <version>0.0.118</version>
+    <version>0.0.119</version>
 
     <properties>
         <framework.version>${project.parent.version}</framework.version>
@@ -592,6 +592,12 @@
                                         <name>wg.access.provisioning.v2_0_0.client</name>
                                         <inputSpec>
                                             ${project.basedir}/src/main/resources/swagger/wg-access-provisioning/wg-access-provisioning-v2.0.0.yaml
+                                        </inputSpec>
+                                    </item>
+                                    <item>
+                                        <name>wg.access.provisioning.v2_3_0.client</name>
+                                        <inputSpec>
+                                            ${project.basedir}/src/main/resources/swagger/wg-access-provisioning/wg-access-provisioning-v2.3.0.yaml
                                         </inputSpec>
                                     </item>
                                     <item>
