@@ -4,7 +4,7 @@ info:
   description: This interface allows you to do CRUD-operations on the a4-resource-order-orchestrator
   contact:
     email: DL_Berlinium@telekom.de
-  version: 0.0.2
+  version: 0.2.0
 servers:
   - url: /
 #SECURITY--------------------------------------------------------------------------------------------------
@@ -59,6 +59,49 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
+    delete:
+      security:
+        - OAuth2:
+            - 'rori:resourceOrders:full'
+            - 'giga:cga:all-area-access'
+      tags:
+        - ResourceOrder
+      description: This operation intended to delete a ResourceOrder by UUID.
+      operationId: deleteResourceOrder
+      parameters:
+        - name: uuid
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        204:
+          description: delete to ResourceOrder/{uuid} - No Content
+          content: {}
+        400:
+          description: delete to ResourceOrder/{uuid} - Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        403:
+          description: delete to ResourceOrder/{uuid} - Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        404:
+          description: delete to ResourceOrder/{uuid} - Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        500:
+          description: delete to ResourceOrder/{uuid} - Internal Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
   /resource-order-resource-inventory/v1/a4ResourceOrders:
     get:
       security:
@@ -108,6 +151,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
+
 components:
   schemas:
     Any:
@@ -192,6 +236,15 @@ components:
         state:
           type: string
           description: The life cycle state of the resource.
+        vuep:
+          type: string
+          description: The VUEP Public Refenz Nr of the resource.
+        rahmenvertragsnummer:
+          type: string
+          description: The Rahmenvertragsnummer of the resource.
+        carrierAnschlussBsaReferenz:
+          type: string
+          description: The CarrierAnschlussBSA Referenz of the resource.
         note:
           type: array
           items:
@@ -216,6 +269,12 @@ components:
         state:
           type: string
           description: 'State of the order item : described in the state machine diagram'
+        networkElementLinkUuid:
+          type: string
+          description: 'UUID of the NetworkElementLink related to the order item : described in the state machine diagram'
+        nspA10NspUuid:
+          type: string
+          description: 'UUID of the NetworkServiceProfileA10Nsp related to the order item : described in the state machine diagram'
         resource:
           $ref: '#/components/schemas/ResourceRefOrValueDto'
     ResourceRefOrValueDto:
@@ -280,3 +339,4 @@ components:
           scopes:
             'giga:cga:all-area-access': General Access Scope
             'rori:resourceOrders:read': READ resourceOrders Scope
+            'rori:resourceOrders:full': FULL resourceOrders Scope
