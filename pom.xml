@@ -10,7 +10,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>osr-models</artifactId>
-    <version>0.0.121</version>
+    <version>0.0.122</version>
 
     <properties>
         <framework.version>${project.parent.version}</framework.version>
@@ -400,6 +400,18 @@
                                         </inputSpec>
                                     </item>
                                     <item>
+                                        <name>device.resource.inventory.management.v5_6_0.client</name>
+                                        <inputSpec>
+                                            ${project.basedir}/src/main/resources/swagger/olt-resource-inventory/device-resource-inventory-management-5.6.0.json
+                                        </inputSpec>
+                                    </item>
+                                    <item>
+                                        <name>device.resource.device.test.data.management.v2_0_0.client</name>
+                                        <inputSpec>
+                                            ${project.basedir}/src/main/resources/swagger/olt-resource-inventory/device-test-data-management-2.0.0.json
+                                        </inputSpec>
+                                    </item>
+                                    <item>
                                         <name>area.data.management.external.client</name>
                                         <inputSpec>
                                             ${project.basedir}/src/main/resources/swagger/area-data-management/area-data-management-external.yaml
@@ -652,6 +664,12 @@
                                         <name>ancp.configuration.v3_0_0.client</name>
                                         <inputSpec>
                                             ${project.basedir}/src/main/resources/swagger/ancp-configuration/ancp-configuration-3.0.0.yaml
+                                        </inputSpec>
+                                    </item>
+                                    <item>
+                                        <name>ancp.configuration.v3_4_1.client</name>
+                                        <inputSpec>
+                                            ${project.basedir}/src/main/resources/swagger/ancp-configuration/ancp-configuration-3.4.1.yaml
                                         </inputSpec>
                                     </item>
                                     <item>

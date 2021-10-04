@@ -1,0 +1,308 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "Device Test Data Management",
+    "description": "Create and delete device data for test purposes",
+    "version": "2.0.0"
+  },
+  "host": "localhost:8080",
+  "basePath": "/resource-order-resource-inventory/v2/device-test-data-management",
+  "schemes": [
+    "https"
+  ],
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json",
+    "text/plain",
+    "application/sql"
+  ],
+  "tags": [
+    {
+      "name": "DeviceTestDataManagement"
+    }
+  ],
+  "securityDefinitions": {
+    "OauthSecurity": {
+      "type": "oauth2",
+      "flow": "application",
+      "tokenUrl": "https://example.org/token",
+      "scopes": {
+        "rori:device:write": "Device Write Scope",
+        "rori:device:delete": "Device Delete Scope",
+        "giga:cga:all-area-access": "Default Scope"
+      }
+    }
+  },
+  "paths": {
+    "/device": {
+      "post": {
+        "security": [
+          {
+            "OauthSecurity": [
+              "rori:device:write",
+              "giga:cga:all-area-access"
+            ]
+          }
+        ],
+        "operationId": "createTestData",
+        "summary": "Creates test data and returns sqls for later execution",
+        "description": "Creates test data and returns sqls for later execution",
+        "tags": [
+          "DeviceTestDataManagement"
+        ],
+        "parameters": [
+          {
+            "name": "device_emsNbiName",
+            "description": "emsNbiName of to be created OLT or DPU",
+            "required": true,
+            "in": "query",
+            "type": "string",
+            "enum": [
+              "MA5600T",
+              "MA5800-X7",
+              "SDX 6320-16",
+              "SDX2221-04-TP",
+              "SDX2221-08-TP",
+              "SDX2221-16-TP",
+              "SDX2221-04-CX",
+              "SDX2221-08-CX",
+              "SDX2221-16-CX"
+            ]
+          },
+          {
+            "name": "device_endSz",
+            "description": "EndSz of to be created device",
+            "required": true,
+            "in": "query",
+            "type": "string",
+            "pattern": "[0-9]{1,6}\\/[0-9]{1,6}\\/[0-9]{1,6}\\/[a-zA-Z0-9]{2,4}"
+          },
+          {
+            "name": "device_slotNumbers",
+            "description": "Comma-seperated list of slotnumbers for which cards have to be created",
+            "required": false,
+            "in": "query",
+            "type": "string"
+          },
+          {
+            "name": "device_GponSelect",
+            "description": "GPON card selection strategy",
+            "required": false,
+            "in": "query",
+            "type": "string",
+            "enum": [
+              "RND",
+              "RORO",
+              "SPEC"
+            ]
+          },
+          {
+            "name": "device_GponEmsNbiName",
+            "description": "emsNbiName for GPON Card selection in case of strategy SPEC",
+            "required": false,
+            "in": "query",
+            "type": "string"
+          },
+          {
+            "name": "device_KlsId",
+            "description": "KLS ID for to be created device",
+            "required": true,
+            "in": "query",
+            "type": "string",
+            "pattern": "[0-9]{1,12}"
+          },
+          {
+            "name": "device_compositePartyId",
+            "description": "Composite Party ID { 10000 - GFNW, 10001 - DTAG, 10100 - FMM } for to be created device",
+            "required": true,
+            "in": "query",
+            "type": "string",
+            "pattern": "1[0-9]{4}"
+          },
+          {
+            "name": "device_fiberOnLocationId",
+            "description": "FiberOnLocationId for DPU",
+            "required": false,
+            "in": "query",
+            "type": "string",
+            "pattern": "^\\d{0,19}$"
+          },
+          {
+            "name": "device_createOpticalModules",
+            "description": "If 1, create Optical Modules for all created Ports",
+            "required": false,
+            "in": "query",
+            "type": "integer"
+          },
+          {
+            "name": "uplink_endSz",
+            "description": "EndSz of uplink device (either BNG or OLT)",
+            "required": false,
+            "in": "query",
+            "type": "string",
+            "pattern": "[0-9]{1,6}\\/[0-9]{1,6}\\/[0-9]{1,6}\\/[a-zA-Z0-9]{2,4}"
+          },
+          {
+            "name": "uplink_targetPort",
+            "description": "target port on which uplink terminates (format in case OLT-BNG: ge-a/b/c or xe-a/b/c; format in case DPU-OLT: a/b where a is SlotNumber and b is PortNumber)",
+            "required": false,
+            "in": "query",
+            "type": "string"
+          },
+          {
+            "name": "uplink_AncpConfiguration",
+            "description": "ANCP on Uplink (OLT-BNG or DPU-OLT) configured (1) or not (0); ignored, if no uplink defined",
+            "required": false,
+            "in": "query",
+            "type": "integer"
+          },
+          {
+            "name": "execute_sql",
+            "description": "When 1, execute created SQL directly on DB",
+            "required": false,
+            "in": "query",
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successfully created",
+            "schema": {
+              "$ref": "#/definitions/CreatedDevice"
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        }
+      },
+      "delete": {
+        "security": [
+          {
+            "OauthSecurity": [
+              "rori:device:delete",
+              "giga:cga:all-area-access"
+            ]
+          }
+        ],
+        "operationId": "deleteTestData",
+        "summary": "Deletes test data by EndSz",
+        "description": "Deletes test data by EndSz",
+        "tags": [
+          "DeviceTestDataManagement"
+        ],
+        "parameters": [
+          {
+            "name": "device_endSz",
+            "description": "EndSz of to be deleted OLT or DPU",
+            "required": true,
+            "in": "query",
+            "type": "string",
+            "pattern": "[0-9]{1,6}\\/[0-9]{1,6}\\/[0-9]{1,6}\\/[a-zA-Z0-9]{2,4}"
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Successfully deleted"
+          },
+          "400": {
+            "description": "Bad Request",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "Error": {
+      "description": "Used when an API throws an Error, typically with a HTTP error response-code (3xx, 4xx, 5xx)",
+      "type": "object",
+      "required": [
+        "code",
+        "reason"
+      ],
+      "properties": {
+        "code": {
+          "type": "string",
+          "description": "Application relevant detail, defined in the API or a common list."
+        },
+        "reason": {
+          "type": "string",
+          "description": "Explanation of the reason for the error which can be shown to a client user."
+        },
+        "message": {
+          "type": "string",
+          "description": "More details and corrective actions related to the error which can be shown to a client user."
+        },
+        "status": {
+          "type": "string",
+          "description": "HTTP Error code extension"
+        },
+        "referenceError": {
+          "type": "string",
+          "format": "uri",
+          "description": "URI of documentation describing the error."
+        },
+        "@baseType": {
+          "type": "string",
+          "description": "When sub-classing, this defines the super-class."
+        },
+        "@schemaLocation": {
+          "type": "string",
+          "format": "uri",
+          "description": "A URI to a JSON-Schema file that defines additional attributes and relationships"
+        },
+        "@type": {
+          "type": "string",
+          "description": "When sub-classing, this defines the sub-class entity name."
+        }
+      }
+    },
+    "CreatedDevice": {
+      "type": "object",
+      "description": "Returned object which contains (to be) executed SQLs and created Device in case that Device creation SQL was already executed",
+      "required": [
+        "sqlDevice",
+        "sqlAncp",
+        "sqlUplink"
+      ],
+      "properties": {
+        "sqlDevice": {
+          "type": "string",
+          "description": "SQL for Device creation which was either already executed or can be executed later on"
+        },
+        "sqlAncp": {
+          "type": "string",
+          "description": "SQL for ANCP Configuration creation which was either already executed or can be executed later on"
+        },
+        "sqlUplink": {
+          "type": "string",
+          "description": "SQL for Uplink creation which was either already executed or can be executed later on"
+        },
+        "device": {
+          "$ref": "./device-resource-inventory-management-5.6.0.json#/definitions/Device",
+          "description": "contains the device which was created when SQL was already executed"
+        }
+      }
+    }
+  }
+}
