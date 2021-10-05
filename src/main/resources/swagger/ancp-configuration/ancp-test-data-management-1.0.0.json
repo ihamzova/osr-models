@@ -1,0 +1,224 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "Ancp Test Data Management",
+    "description": "Create and delete data for test purposes",
+    "version": "1.0.0"
+  },
+  "host": "localhost:8099",
+  "basePath": "/resource-order-resource-inventory/v1/ancp-test-data-management",
+  "schemes": [
+    "https"
+  ],
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json",
+    "text/plain",
+    "application/sql"
+  ],
+  "tags": [
+    {
+      "name": "AncpTestDataManagement"
+    }
+  ],
+  "securityDefinitions": {
+    "OauthSecurity": {
+      "type": "oauth2",
+      "flow": "application",
+      "tokenUrl": "https://example.org/token",
+      "scopes": {
+        "rori:ancp:full": "Ancp Full Scope",
+        "giga:cga:all-area-access": "Default Scope"
+      }
+    }
+  },
+  "paths": {
+    "/ancp": {
+      "post": {
+        "security": [
+          {
+            "OauthSecurity": [
+              "rori:ancp:write",
+              "giga:cga:all-area-access"
+            ]
+          }
+        ],
+        "operationId": "createTestData",
+        "summary": "Creates test data and returns sqls for later execution",
+        "description": "Creates test data and returns sqls for later execution",
+        "tags": [
+          "AncpTestDataManagement"
+        ],
+        "parameters": [
+          {
+            "name": "ancpSessionAndIpSubnet",
+            "description": "The AncpSession with the Ip Subnet to be created",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/AncpSessionAndIpSubnet"
+            },
+            "in": "body"
+          },
+          {
+            "name": "execute_sql",
+            "description": "When 1, execute created SQL directly on DB",
+            "required": false,
+            "in": "query",
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successfully created",
+            "schema": {
+              "$ref": "#/definitions/CreatedAncpSession"
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        }
+      },
+      "delete": {
+        "security": [
+          {
+            "OauthSecurity": [
+              "rori:ancp:full",
+              "giga:cga:all-area-access"
+            ]
+          }
+        ],
+        "operationId": "deleteTestData",
+        "summary": "Deletes test data by EndSz and DeviceType",
+        "description": "Deletes test data by EndSz and DeviceType",
+        "tags": [
+          "AncpTestDataManagement"
+        ],
+        "parameters": [
+          {
+            "name": "device_endSz",
+            "description": "EndSz of to be deleted OLT or DPU Ancp Configuration",
+            "required": true,
+            "in": "query",
+            "type": "string",
+            "pattern": "[0-9]{1,6}\\/[0-9]{1,6}\\/[0-9]{1,6}\\/[a-zA-Z0-9]{2,4}"
+          },
+          {
+            "name": "device_type",
+            "description": "Type of the device for which Ancp Configuration has to be deleted",
+            "required": true,
+            "in": "query",
+            "type": "string",
+            "enum": [
+              "OLT",
+              "DPU"
+            ]
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Successfully deleted"
+          },
+          "400": {
+            "description": "Bad Request",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "Error": {
+      "description": "Used when an API throws an Error, typically with a HTTP error response-code (3xx, 4xx, 5xx)",
+      "type": "object",
+      "required": [
+        "code",
+        "reason"
+      ],
+      "properties": {
+        "code": {
+          "type": "string",
+          "description": "Application relevant detail, defined in the API or a common list."
+        },
+        "reason": {
+          "type": "string",
+          "description": "Explanation of the reason for the error which can be shown to a client user."
+        },
+        "message": {
+          "type": "string",
+          "description": "More details and corrective actions related to the error which can be shown to a client user."
+        },
+        "status": {
+          "type": "string",
+          "description": "HTTP Error code extension"
+        },
+        "referenceError": {
+          "type": "string",
+          "format": "uri",
+          "description": "URI of documentation describing the error."
+        },
+        "@baseType": {
+          "type": "string",
+          "description": "When sub-classing, this defines the super-class."
+        },
+        "@schemaLocation": {
+          "type": "string",
+          "format": "uri",
+          "description": "A URI to a JSON-Schema file that defines additional attributes and relationships"
+        },
+        "@type": {
+          "type": "string",
+          "description": "When sub-classing, this defines the sub-class entity name."
+        }
+      }
+    },
+    "AncpSessionAndIpSubnet": {
+      "type": "object",
+      "description": "Contains both - the AncpSession object to be created and the related Ip Subnet",
+      "properties": {
+        "ancpSession": {
+          "$ref": "./ancp-resource-inventory-management-5.0.0.json#/definitions/AncpSession_Create"
+        },
+        "ancpIpSubnet": {
+          "$ref": "./ancp-resource-inventory-management-5.0.0.json#/definitions/AncpIpSubnet_Create"
+        }
+      }
+    },
+    "CreatedAncpSession": {
+      "type": "object",
+      "description": "Returned object which contains (to be) executed SQL and created AncpSession with AncpIpSubnet in case that SQL was already executed",
+      "required": [
+        "sql"
+      ],
+      "properties": {
+        "sql": {
+          "type": "string",
+          "description": "SQL which was already executed or can be executed later on"
+        },
+        "ancpSession": {
+          "$ref": "./ancp-resource-inventory-management-5.0.0.json#/definitions/AncpSession",
+          "description": "contains the AncpSession entity which was created when SQL was already executed"
+        }
+      }
+    }
+  }
+}
