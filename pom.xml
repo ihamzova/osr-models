@@ -406,7 +406,7 @@
                                         </inputSpec>
                                     </item>
                                     <item>
-                                        <name>device.resource.device.test.data.management.v2_0_0.client</name>
+                                        <name>device.test.data.management.v2_0_0.client</name>
                                         <inputSpec>
                                             ${project.basedir}/src/main/resources/swagger/olt-resource-inventory/device-test-data-management-2.0.0.json
                                         </inputSpec>
