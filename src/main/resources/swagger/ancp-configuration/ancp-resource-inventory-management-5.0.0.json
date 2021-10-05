@@ -1,0 +1,3338 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "title": "ANCP Resource Inventory Management",
+        "description": "This is TMF ANCP Resource Inventory Management API specification",
+        "version": "5.0.0"
+    },
+    "host": "localhost:8099",
+    "basePath": "/resource-order-resource-inventory/v5",
+    "schemes": [
+        "https"
+    ],
+    "consumes": [
+        "application/json"
+    ],
+    "produces": [
+        "application/json"
+    ],
+    "tags": [
+        {
+            "name": "ancpSession"
+        },
+        {
+            "name": "ancpIpSubnet"
+        }
+    ],
+    "securityDefinitions": {
+        "OauthSecurity":{
+            "type": "oauth2",
+            "flow": "application",
+            "tokenUrl": "https://example.org/token",
+            "scopes": {
+                "rori:ancp:full": "ANCP Full Scope",
+                "rori:ipsubnet:full": "IP Subnet Full Scope",
+                "giga:cga:all-area-access": "Default Scope"
+            }
+        }
+    },
+    "paths": {
+        "/ancpSession": {
+            "get": {
+                "security": [
+                    {
+                        "OauthSecurity": [
+                            "rori:ancp:full",
+                            "giga:cga:all-area-access"
+                        ]
+                    }
+                ],
+                "operationId": "listAncpSession",
+                "summary": "List or find AncpSession objects",
+                "description": "This operation list or find AncpSession entities",
+                "tags": [
+                    "ancpSession"
+                ],
+                "parameters": [
+                    {
+                        "name": "fields",
+                        "description": "Comma-separated properties to be provided in response",
+                        "required": false,
+                        "in": "query",
+                        "type": "string"
+                    },
+                    {
+                        "name": "offset",
+                        "description": "Requested index for start of resources to be provided in response",
+                        "required": false,
+                        "in": "query",
+                        "type": "integer"
+                    },
+                    {
+                        "name": "limit",
+                        "description": "Requested number of resources to be provided in response",
+                        "required": false,
+                        "in": "query",
+                        "type": "integer"
+                    },
+                    {
+                        "name": "accessNodeEquipmentBusinessRef.endSz",
+                        "description": "For filtering on the base of 'accessNodeEquipmentBusinessRef.endSz' field (equality)",
+                        "in": "query",
+                        "type": "string"
+                    },
+                    {
+                        "name": "accessNodeEquipmentBusinessRef.portName",
+                        "description": "For filtering on the base of 'accessNodeEquipmentBusinessRef.portName' field (equality)",
+                        "in": "query",
+                        "type": "string"
+                    },
+                    {
+                        "name": "accessNodeEquipmentBusinessRef.slotName",
+                        "description": "For filtering on the base of 'accessNodeEquipmentBusinessRef.slotName' field (equality)",
+                        "in": "query",
+                        "type": "string"
+                    },
+                    {
+                        "name": "bngDownlinkPortEquipmentBusinessRef.endSz",
+                        "description": "For filtering on the base of 'bngDownlinkPortEquipmentBusinessRef.endSz' field (equality)",
+                        "in": "query",
+                        "type": "string"
+                    },
+                    {
+                        "name": "bngDownlinkPortEquipmentBusinessRef.portName",
+                        "description": "For filtering on the base of 'bngDownlinkPortEquipmentBusinessRef.portName' field (equality)",
+                        "in": "query",
+                        "type": "string"
+                    },
+                    {
+                        "name": "bngDownlinkPortEquipmentBusinessRef.slotName",
+                        "description": "For filtering on the base of 'bngDownlinkPortEquipmentBusinessRef.slotName' field (equality)",
+                        "in": "query",
+                        "type": "string"
+                    },
+                    {
+                        "name": "configurationStatus",
+                        "description": "For filtering on the base of 'configurationStatus' field (equality)",
+                        "in": "query",
+                        "type": "string"
+                    },
+                    {
+                        "name": "creationDate",
+                        "description": "For filtering on the base of 'creationDate' field (equality)",
+                        "in": "query",
+                        "format": "date-time",
+                        "type": "string"
+                    },
+                    {
+                        "name": "creationDate.gt",
+                        "description": "For filtering on the base of 'creationDate' field (great than)",
+                        "type": "string",
+                        "format": "date-time",
+                        "in": "query"
+                    },
+                    {
+                        "name": "creationDate.lt",
+                        "description": "For filtering on the base of 'creationDate' field (less than)",
+                        "type": "string",
+                        "format": "date-time",
+                        "in": "query"
+                    },
+                    {
+                        "name": "ipAddressAccessNode",
+                        "description": "For filtering on the base of 'ipAddressAccessNode' field (equality)",
+                        "in": "query",
+                        "type": "string"
+                    },
+                    {
+                        "name": "ipAddressBng",
+                        "description": "For filtering on the base of 'ipAddressBng' field (equality)",
+                        "in": "query",
+                        "type": "string"
+                    },
+                    {
+                        "name": "modificationDate",
+                        "description": "For filtering on the base of 'modificationDate' field (equality)",
+                        "in": "query",
+                        "format": "date-time",
+                        "type": "string"
+                    },
+                    {
+                        "name": "modificationDate.gt",
+                        "description": "For filtering on the base of 'modificationDate' field (great than)",
+                        "type": "string",
+                        "format": "date-time",
+                        "in": "query"
+                    },
+                    {
+                        "name": "modificationDate.lt",
+                        "description": "For filtering on the base of 'modificationDate' field (less than)",
+                        "type": "string",
+                        "format": "date-time",
+                        "in": "query"
+                    },
+                    {
+                        "name": "oltUplinkPortEquipmentBusinessRef.endSz",
+                        "description": "For filtering on the base of 'oltUplinkPortEquipmentBusinessRef.endSz' field (equality)",
+                        "in": "query",
+                        "type": "string"
+                    },
+                    {
+                        "name": "oltUplinkPortEquipmentBusinessRef.portName",
+                        "description": "For filtering on the base of 'oltUplinkPortEquipmentBusinessRef.portName' field (equality)",
+                        "in": "query",
+                        "type": "string"
+                    },
+                    {
+                        "name": "oltUplinkPortEquipmentBusinessRef.slotName",
+                        "description": "For filtering on the base of 'oltUplinkPortEquipmentBusinessRef.slotName' field (equality)",
+                        "in": "query",
+                        "type": "string"
+                    },
+                    {
+                        "name": "rmkEndpointId",
+                        "description": "For filtering on the base of 'rmkEndpointId' field (equality)",
+                        "in": "query",
+                        "type": "string"
+                    },
+                    {
+                        "name": "sealConfigurationId",
+                        "description": "For filtering on the base of 'sealConfigurationId' field (equality)",
+                        "in": "query",
+                        "type": "string"
+                    },
+                    {
+                        "name": "sessionType",
+                        "description": "For filtering on the base of 'sessionType' field (equality)",
+                        "in": "query",
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "headers": {
+                            "X-Result-Count": {
+                                "description": "Actual number of items returned in the response body",
+                                "type": "integer"
+                            },
+                            "X-Total-Count": {
+                                "description": "Total number of items matching criteria",
+                                "type": "integer"
+                            }
+                        },
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/AncpSession"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    },
+                    "403": {
+                        "description": "Forbidden",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    },
+                    "405": {
+                        "description": "Method Not allowed",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    },
+                    "409": {
+                        "description": "Conflict",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    }
+                }
+            },
+            "post": {
+                "security": [
+                    {
+                        "OauthSecurity": [
+                            "rori:ancp:full",
+                            "giga:cga:all-area-access"
+                        ]
+                    }
+                ],
+                "operationId": "createAncpSession",
+                "summary": "Creates a AncpSession",
+                "description": "This operation creates a AncpSession entity.",
+                "tags": [
+                    "ancpSession"
+                ],
+                "parameters": [
+                    {
+                        "name": "ancpSession",
+                        "description": "The AncpSession to be created",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/AncpSession_Create"
+                        },
+                        "in": "body"
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "schema": {
+                            "$ref": "#/definitions/AncpSession"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    },
+                    "403": {
+                        "description": "Forbidden",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    },
+                    "405": {
+                        "description": "Method Not allowed",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    },
+                    "409": {
+                        "description": "Conflict",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    }
+                }
+            }
+        },
+        "/ancpSession/{id}": {
+            "get": {
+                "security": [
+                    {
+                        "OauthSecurity": [
+                            "rori:ancp:full",
+                            "giga:cga:all-area-access"
+                        ]
+                    }
+                ],
+                "operationId": "retrieveAncpSession",
+                "summary": "Retrieves a AncpSession by ID",
+                "description": "This operation retrieves a AncpSession entity. Attribute selection is enabled for all first level attributes.",
+                "tags": [
+                    "ancpSession"
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "description": "Identifier of the AncpSession",
+                        "required": true,
+                        "type": "string",
+                        "in": "path"
+                    },
+                    {
+                        "name": "fields",
+                        "description": "Comma-separated properties to provide in response",
+                        "required": false,
+                        "type": "string",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "schema": {
+                            "$ref": "#/definitions/AncpSession"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    },
+                    "403": {
+                        "description": "Forbidden",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    },
+                    "405": {
+                        "description": "Method Not allowed",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    },
+                    "409": {
+                        "description": "Conflict",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    }
+                }
+            },
+            "patch": {
+                "security": [
+                    {
+                        "OauthSecurity": [
+                            "rori:ancp:full",
+                            "giga:cga:all-area-access"
+                        ]
+                    }
+                ],
+                "operationId": "patchAncpSession",
+                "summary": "Updates partially a AncpSession",
+                "description": "This operation updates partially a AncpSession entity.",
+                "tags": [
+                    "ancpSession"
+                ],
+                "consumes": [
+                    "application/json-patch+json"
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "description": "Identifier of the AncpSession",
+                        "required": true,
+                        "type": "string",
+                        "in": "path"
+                    },
+                    {
+                        "name": "JsonPatchOperation",
+                        "description": "List of JSONPatch operation as defined by RFC 6902",
+                        "required": true,
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/JsonPatchOperation"
+                            }
+                        },
+                        "in": "body"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Updated",
+                        "schema": {
+                            "$ref": "#/definitions/AncpSession"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    },
+                    "403": {
+                        "description": "Forbidden",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    },
+                    "405": {
+                        "description": "Method Not allowed",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    },
+                    "409": {
+                        "description": "Conflict",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "security": [
+                    {
+                        "OauthSecurity": [
+                            "rori:ancp:full",
+                            "giga:cga:all-area-access"
+                        ]
+                    }
+                ],
+                "operationId": "deleteAncpSession",
+                "summary": "Deletes a AncpSession",
+                "description": "This operation deletes a AncpSession entity.",
+                "tags": [
+                    "ancpSession"
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "description": "Identifier of the AncpSession",
+                        "required": true,
+                        "type": "string",
+                        "in": "path"
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "Deleted"
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    },
+                    "403": {
+                        "description": "Forbidden",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    },
+                    "405": {
+                        "description": "Method Not allowed",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    },
+                    "409": {
+                        "description": "Conflict",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    }
+                }
+            }
+        },
+        "/ancpIpSubnet": {
+            "get": {
+                "security": [
+                    {
+                        "OauthSecurity": [
+                            "rori:ipsubnet:full",
+                            "giga:cga:all-area-access"
+                        ]
+                    }
+                ],
+                "operationId": "listAncpIpSubnet",
+                "summary": "List or find AncpIpSubnet objects",
+                "description": "This operation list or find AncpIpSubnet entities",
+                "tags": [
+                    "ancpIpSubnet"
+                ],
+                "parameters": [
+                    {
+                        "name": "fields",
+                        "description": "Comma-separated properties to be provided in response",
+                        "required": false,
+                        "in": "query",
+                        "type": "string"
+                    },
+                    {
+                        "name": "offset",
+                        "description": "Requested index for start of resources to be provided in response",
+                        "required": false,
+                        "in": "query",
+                        "type": "integer"
+                    },
+                    {
+                        "name": "limit",
+                        "description": "Requested number of resources to be provided in response",
+                        "required": false,
+                        "in": "query",
+                        "type": "integer"
+                    },
+                    {
+                        "name": "ancpIpSubnetType",
+                        "description": "For filtering on the base of 'ancpIpSubnetType' field (equality)",
+                        "in": "query",
+                        "type": "string"
+                    },
+                    {
+                        "name": "bngDownlinkPortEquipmentBusinessRef.endSz",
+                        "description": "For filtering on the base of 'bngDownlinkPortEquipmentBusinessRef.endSz' field (equality)",
+                        "in": "query",
+                        "type": "string"
+                    },
+                    {
+                        "name": "bngDownlinkPortEquipmentBusinessRef.portName",
+                        "description": "For filtering on the base of 'bngDownlinkPortEquipmentBusinessRef.portName' field (equality)",
+                        "in": "query",
+                        "type": "string"
+                    },
+                    {
+                        "name": "bngDownlinkPortEquipmentBusinessRef.slotName",
+                        "description": "For filtering on the base of 'bngDownlinkPortEquipmentBusinessRef.slotName' field (equality)",
+                        "in": "query",
+                        "type": "string"
+                    },
+                    {
+                        "name": "creationDate",
+                        "description": "For filtering on the base of 'creationDate' field (equality)",
+                        "in": "query",
+                        "format": "date-time",
+                        "type": "string"
+                    },
+                    {
+                        "name": "creationDate.gt",
+                        "description": "For filtering on the base of 'creationDate' field (great than)",
+                        "type": "string",
+                        "format": "date-time",
+                        "in": "query"
+                    },
+                    {
+                        "name": "creationDate.lt",
+                        "description": "For filtering on the base of 'creationDate' field (less than)",
+                        "type": "string",
+                        "format": "date-time",
+                        "in": "query"
+                    },
+                    {
+                        "name": "ipAddressBng",
+                        "description": "For filtering on the base of 'ipAddressBng' field (equality)",
+                        "in": "query",
+                        "type": "string"
+                    },
+                    {
+                        "name": "ipAddressBroadcast",
+                        "description": "For filtering on the base of 'ipAddressBroadcast' field (equality)",
+                        "in": "query",
+                        "type": "string"
+                    },
+                    {
+                        "name": "ipAddressLoopback",
+                        "description": "For filtering on the base of 'ipAddressLoopback' field (equality)",
+                        "in": "query",
+                        "type": "string"
+                    },
+                    {
+                        "name": "modificationDate",
+                        "description": "For filtering on the base of 'modificationDate' field (equality)",
+                        "in": "query",
+                        "format": "date-time",
+                        "type": "string"
+                    },
+                    {
+                        "name": "modificationDate.gt",
+                        "description": "For filtering on the base of 'modificationDate' field (great than)",
+                        "type": "string",
+                        "format": "date-time",
+                        "in": "query"
+                    },
+                    {
+                        "name": "modificationDate.lt",
+                        "description": "For filtering on the base of 'modificationDate' field (less than)",
+                        "type": "string",
+                        "format": "date-time",
+                        "in": "query"
+                    },
+                    {
+                        "name": "rmkAccessId",
+                        "description": "For filtering on the base of 'rmkAccessId' field (equality)",
+                        "in": "query",
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "headers": {
+                            "X-Result-Count": {
+                                "description": "Actual number of items returned in the response body",
+                                "type": "integer"
+                            },
+                            "X-Total-Count": {
+                                "description": "Total number of items matching criteria",
+                                "type": "integer"
+                            }
+                        },
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/AncpIpSubnet"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    },
+                    "403": {
+                        "description": "Forbidden",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    },
+                    "405": {
+                        "description": "Method Not allowed",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    },
+                    "409": {
+                        "description": "Conflict",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    }
+                }
+            },
+            "post": {
+                "security": [
+                    {
+                        "OauthSecurity": [
+                            "rori:ipsubnet:full",
+                            "giga:cga:all-area-access"
+                        ]
+                    }
+                ],
+                "operationId": "createAncpIpSubnet",
+                "summary": "Creates a AncpIpSubnet",
+                "description": "This operation creates a AncpIpSubnet entity.",
+                "tags": [
+                    "ancpIpSubnet"
+                ],
+                "parameters": [
+                    {
+                        "name": "ancpIpSubnet",
+                        "description": "The AncpIpSubnet to be created",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/AncpIpSubnet_Create"
+                        },
+                        "in": "body"
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "schema": {
+                            "$ref": "#/definitions/AncpIpSubnet"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    },
+                    "403": {
+                        "description": "Forbidden",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    },
+                    "405": {
+                        "description": "Method Not allowed",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    },
+                    "409": {
+                        "description": "Conflict",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    }
+                }
+            }
+        },
+        "/ancpIpSubnet/{id}": {
+            "get": {
+                "security": [
+                    {
+                        "OauthSecurity": [
+                            "rori:ipsubnet:full",
+                            "giga:cga:all-area-access"
+                        ]
+                    }
+                ],
+                "operationId": "retrieveAncpIpSubnet",
+                "summary": "Retrieves a AncpIpSubnet by ID",
+                "description": "This operation retrieves a AncpIpSubnet entity. Attribute selection is enabled for all first level attributes.",
+                "tags": [
+                    "ancpIpSubnet"
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "description": "Identifier of the AncpIpSubnet",
+                        "required": true,
+                        "type": "string",
+                        "in": "path"
+                    },
+                    {
+                        "name": "fields",
+                        "description": "Comma-separated properties to provide in response",
+                        "required": false,
+                        "type": "string",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "schema": {
+                            "$ref": "#/definitions/AncpIpSubnet"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    },
+                    "403": {
+                        "description": "Forbidden",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    },
+                    "405": {
+                        "description": "Method Not allowed",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    },
+                    "409": {
+                        "description": "Conflict",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    }
+                }
+            },
+            "patch": {
+                "security": [
+                    {
+                        "OauthSecurity": [
+                            "rori:ipsubnet:full",
+                            "giga:cga:all-area-access"
+                        ]
+                    }
+                ],
+                "operationId": "patchAncpIpSubnet",
+                "summary": "Updates partially a AncpIpSubnet",
+                "description": "This operation updates partially a AncpIpSubnet entity.",
+                "tags": [
+                    "ancpIpSubnet"
+                ],
+                "consumes": [
+                    "application/json-patch+json"
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "description": "Identifier of the AncpIpSubnet",
+                        "required": true,
+                        "type": "string",
+                        "in": "path"
+                    },
+                    {
+                        "name": "JsonPatchOperation",
+                        "description": "List of JSONPatch operation as defined by RFC 6902",
+                        "required": true,
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/JsonPatchOperation"
+                            }
+                        },
+                        "in": "body"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Updated",
+                        "schema": {
+                            "$ref": "#/definitions/AncpIpSubnet"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    },
+                    "403": {
+                        "description": "Forbidden",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    },
+                    "405": {
+                        "description": "Method Not allowed",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    },
+                    "409": {
+                        "description": "Conflict",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "security": [
+                    {
+                        "OauthSecurity": [
+                            "rori:ipsubnet:full",
+                            "giga:cga:all-area-access"
+                        ]
+                    }
+                ],
+                "operationId": "deleteAncpIpSubnet",
+                "summary": "Deletes a AncpIpSubnet",
+                "description": "This operation deletes a AncpIpSubnet entity.",
+                "tags": [
+                    "ancpIpSubnet"
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "description": "Identifier of the AncpIpSubnet",
+                        "required": true,
+                        "type": "string",
+                        "in": "path"
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "Deleted"
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    },
+                    "403": {
+                        "description": "Forbidden",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    },
+                    "405": {
+                        "description": "Method Not allowed",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    },
+                    "409": {
+                        "description": "Conflict",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "JsonPatchOperation": {
+            "type": "object",
+            "description": "A JSONPatch operation as defined by RFC 6902",
+            "properties": {
+                "op": {
+                    "type": "string",
+                    "description": "The operation to be performed",
+                    "enum": [
+                        "add",
+                        "remove",
+                        "replace",
+                        "move",
+                        "copy",
+                        "test"
+                    ]
+                },
+                "path": {
+                    "type": "string",
+                    "description": "JSON-Pointer"
+                },
+                "value": {
+                    "type": "object",
+                    "description": "Value to be used within the operations"
+                },
+                "from": {
+                    "type": "string",
+                    "description": "String containing a JSON Pointer value"
+                }
+            },
+            "required": [
+                "op",
+                "path"
+            ]
+        },
+        "Addressable": {
+            "type": "object",
+            "description": "Base schema for adressable entities",
+            "properties": {
+                "id": {
+                    "type": "string",
+                    "description": "unique identifier"
+                },
+                "href": {
+                    "format": "uri",
+                    "type": "string",
+                    "description": "Hyperlink reference"
+                },
+                "@baseType": {
+                    "type": "string",
+                    "description": "When sub-classing, this defines the super-class"
+                },
+                "@schemaLocation": {
+                    "type": "string",
+                    "format": "uri",
+                    "description": "A URI to a JSON-Schema file that defines additional attributes and relationships"
+                },
+                "@type": {
+                    "type": "string",
+                    "description": "When sub-classing, this defines the sub-class entity name"
+                }
+            }
+        },
+        "AllocatedAncpIpAddress": {
+            "type": "object",
+            "description": "AllocatedAncpIpAddress\nSkipped properties: category,description,endOperatingDate,name,resourceVersion,startOperatingDate,value,activationFeature,administrativeState,attachment,note,operationalState,place,relatedParty,resourceCharacteristic,resourceRelationship,resourceSpecification,resourceStatus,usageState",
+            "properties": {
+                "id": {
+                    "type": "string",
+                    "description": "Identifier of an instance of the resource. Required to be unique within the resource type.  Used in URIs as the identifier for specific instances of a type."
+                },
+                "ipAddress": {
+                    "example": "192.168.0.1",
+                    "type": "string",
+                    "description": "Allocated IP address (IPv4)"
+                },
+                "@baseType": {
+                    "type": "string",
+                    "description": "When sub-classing, this defines the super-class"
+                },
+                "@schemaLocation": {
+                    "type": "string",
+                    "format": "uri",
+                    "description": "A URI to a JSON-Schema file that defines additional attributes and relationships"
+                },
+                "@type": {
+                    "type": "string",
+                    "description": "When sub-classing, this defines the sub-class entity name"
+                }
+            }
+        },
+        "AncpIpSubnet": {
+            "type": "object",
+            "description": "AncpIpSubnet\nSkipped properties: category,description,endOperatingDate,name,resourceVersion,startOperatingDate,value,activationFeature,administrativeState,attachment,note,operationalState,place,relatedParty,resourceCharacteristic,resourceRelationship,resourceSpecification,resourceStatus,usageState",
+            "required": [
+                "href",
+                "id"
+            ],
+            "properties": {
+                "id": {
+                    "type": "string",
+                    "description": "Identifier of an instance of the resource. Required to be unique within the resource type.  Used in URIs as the identifier for specific instances of a type."
+                },
+                "href": {
+                    "format": "uri",
+                    "type": "string",
+                    "description": "The URI for the object itself."
+                },
+                "ancpIpSubnetType": {
+                    "example": "OLT",
+                    "type": "string",
+                    "description": "Type of subnet. Possible values are: OLT, DPU"
+                },
+                "creationDate": {
+                    "example": "2021-01-22T15:21:27.19554+01:00",
+                    "format": "date-time",
+                    "type": "string",
+                    "description": "Date of creation (ISO-8601)"
+                },
+                "ipAddressBng": {
+                    "example": "10.150.240.102",
+                    "type": "string",
+                    "description": "IP address of BNG (IPv4)"
+                },
+                "ipAddressBroadcast": {
+                    "example": "10.150.240.103",
+                    "type": "string",
+                    "description": "Broadcast IP address (IPv4)"
+                },
+                "ipAddressLoopback": {
+                    "example": "10.150.240.100",
+                    "type": "string",
+                    "description": "Loopback IP address (IPv4)"
+                },
+                "modificationDate": {
+                    "example": "2021-01-22T15:21:27.19554+01:00",
+                    "format": "date-time",
+                    "type": "string",
+                    "description": "Date of modification (ISO-8601)"
+                },
+                "rmkAccessId": {
+                    "example": "1341434323",
+                    "type": "string",
+                    "description": "ID of RMK Access A/T"
+                },
+                "subnetMask": {
+                    "example": "/30",
+                    "type": "string",
+                    "description": "Subnet mask"
+                },
+                "allocatedIpAddresses": {
+                    "example": "10.150.240.106",
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/AllocatedAncpIpAddress"
+                    },
+                    "description": "Allocated IP addresses (IPv4)"
+                },
+                "bngDownlinkPortEquipmentBusinessRef": {
+                    "$ref": "#/definitions/EquipmentBusinessRef",
+                    "description": "The BNG port the ANCP session is configured(!) on. The current physical connection can be different."
+                },
+                "@baseType": {
+                    "type": "string",
+                    "description": "When sub-classing, this defines the super-class"
+                },
+                "@schemaLocation": {
+                    "type": "string",
+                    "format": "uri",
+                    "description": "A URI to a JSON-Schema file that defines additional attributes and relationships"
+                },
+                "@type": {
+                    "type": "string",
+                    "description": "When sub-classing, this defines the sub-class entity name"
+                }
+            }
+        },
+        "AncpIpSubnet_Create": {
+            "type": "object",
+            "description": "AncpIpSubnet\nSkipped properties: category,description,endOperatingDate,name,resourceVersion,startOperatingDate,value,activationFeature,administrativeState,attachment,note,operationalState,place,relatedParty,resourceCharacteristic,resourceRelationship,resourceSpecification,resourceStatus,usageState,id,href",
+            "required": [
+                "subnetMask",
+                "ipAddressLoopback",
+                "ipAddressBng",
+                "ipAddressBroadcast"
+            ],
+            "properties": {
+                "ancpIpSubnetType": {
+                    "example": "OLT",
+                    "type": "string",
+                    "description": "Type of subnet. Possible values are: OLT, DPU"
+                },
+                "creationDate": {
+                    "example": "2021-01-22T15:21:27.19554+01:00",
+                    "format": "date-time",
+                    "type": "string",
+                    "description": "Date of creation (ISO-8601)"
+                },
+                "ipAddressBng": {
+                    "example": "10.150.240.102",
+                    "type": "string",
+                    "description": "IP address of BNG (IPv4)"
+                },
+                "ipAddressBroadcast": {
+                    "example": "10.150.240.103",
+                    "type": "string",
+                    "description": "Broadcast IP address (IPv4)"
+                },
+                "ipAddressLoopback": {
+                    "example": "10.150.240.100",
+                    "type": "string",
+                    "description": "Loopback IP address (IPv4)"
+                },
+                "modificationDate": {
+                    "example": "2021-01-22T15:21:27.19554+01:00",
+                    "format": "date-time",
+                    "type": "string",
+                    "description": "Date of modification (ISO-8601)"
+                },
+                "rmkAccessId": {
+                    "example": "1341434323",
+                    "type": "string",
+                    "description": "ID of RMK Access A/T"
+                },
+                "subnetMask": {
+                    "example": "/30",
+                    "type": "string",
+                    "description": "Subnet mask"
+                },
+                "allocatedIpAddresses": {
+                    "example": "10.150.240.106",
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/AllocatedAncpIpAddress"
+                    },
+                    "description": "Allocated IP addresses (IPv4)"
+                },
+                "bngDownlinkPortEquipmentBusinessRef": {
+                    "$ref": "#/definitions/EquipmentBusinessRef",
+                    "description": "The BNG port the ANCP session is configured(!) on. The current physical connection can be different."
+                },
+                "@baseType": {
+                    "type": "string",
+                    "description": "When sub-classing, this defines the super-class"
+                },
+                "@schemaLocation": {
+                    "type": "string",
+                    "format": "uri",
+                    "description": "A URI to a JSON-Schema file that defines additional attributes and relationships"
+                },
+                "@type": {
+                    "type": "string",
+                    "description": "When sub-classing, this defines the sub-class entity name"
+                }
+            }
+        },
+        "AncpIpSubnet_Update": {
+            "type": "object",
+            "description": "AncpIpSubnet\nSkipped properties: category,description,endOperatingDate,name,resourceVersion,startOperatingDate,value,activationFeature,administrativeState,attachment,note,operationalState,place,relatedParty,resourceCharacteristic,resourceRelationship,resourceSpecification,resourceStatus,usageState,id,href",
+            "properties": {
+                "ancpIpSubnetType": {
+                    "example": "OLT",
+                    "type": "string",
+                    "description": "Type of subnet. Possible values are: OLT, DPU"
+                },
+                "creationDate": {
+                    "example": "2021-01-22T15:21:27.19554+01:00",
+                    "format": "date-time",
+                    "type": "string",
+                    "description": "Date of creation (ISO-8601)"
+                },
+                "ipAddressBng": {
+                    "example": "10.150.240.102",
+                    "type": "string",
+                    "description": "IP address of BNG (IPv4)"
+                },
+                "ipAddressBroadcast": {
+                    "example": "10.150.240.103",
+                    "type": "string",
+                    "description": "Broadcast IP address (IPv4)"
+                },
+                "ipAddressLoopback": {
+                    "example": "10.150.240.100",
+                    "type": "string",
+                    "description": "Loopback IP address (IPv4)"
+                },
+                "modificationDate": {
+                    "example": "2021-01-22T15:21:27.19554+01:00",
+                    "format": "date-time",
+                    "type": "string",
+                    "description": "Date of modification (ISO-8601)"
+                },
+                "rmkAccessId": {
+                    "example": "1341434323",
+                    "type": "string",
+                    "description": "ID of RMK Access A/T"
+                },
+                "subnetMask": {
+                    "example": "/30",
+                    "type": "string",
+                    "description": "Subnet mask"
+                },
+                "allocatedIpAddresses": {
+                    "example": "10.150.240.106",
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/AllocatedAncpIpAddress"
+                    },
+                    "description": "Allocated IP addresses (IPv4)"
+                },
+                "bngDownlinkPortEquipmentBusinessRef": {
+                    "$ref": "#/definitions/EquipmentBusinessRef",
+                    "description": "The BNG port the ANCP session is configured(!) on. The current physical connection can be different."
+                },
+                "@baseType": {
+                    "type": "string",
+                    "description": "When sub-classing, this defines the super-class"
+                },
+                "@schemaLocation": {
+                    "type": "string",
+                    "format": "uri",
+                    "description": "A URI to a JSON-Schema file that defines additional attributes and relationships"
+                },
+                "@type": {
+                    "type": "string",
+                    "description": "When sub-classing, this defines the sub-class entity name"
+                }
+            }
+        },
+        "AncpSession": {
+            "type": "object",
+            "description": "AncpSession\nSkipped properties: category,endOperatingDate,administrativeState,operationalState,resourceStatus,usageState,note,place,resourceRelationship,resourceCharacteristic,attachment,resourceSpecification,startOperatingDate,resourceVersion,activationFeature,manufactureDate,powerState,versionNumber,value,shortName,materialNumber,emsNbiName,descriptionUrl,lastDiscovery,description,manufacturer,name,serialNumber,equipmentNumber,relatedParty",
+            "required": [
+                "href",
+                "id"
+            ],
+            "properties": {
+                "id": {
+                    "type": "string",
+                    "description": "Identifier of an instance of the resource. Required to be unique within the resource type.  Used in URIs as the identifier for specific instances of a type."
+                },
+                "href": {
+                    "format": "uri",
+                    "type": "string",
+                    "description": "The URI for the object itself."
+                },
+                "additionalInfo": {
+                    "example": "",
+                    "type": "string",
+                    "description": "Additional info"
+                },
+                "configurationStatus": {
+                    "example": "ACTIVE",
+                    "type": "string",
+                    "description": "The status of current configuration. Allowed values are: ACTIVE, IN_CONFIGURATION, IN_DECONFIGURATION, ERROR"
+                },
+                "configurationStep": {
+                    "example": "CREATE_IP_RANGE_ASSIGNMENT",
+                    "type": "string",
+                    "description": "Step of configuration. Allowed values are: CREATE_IP_RANGE_ASSIGNMENT, CREATE_ANCP_ENDPOINT, CREATE_ANCP_CONFIGURATION, DELETE_ANCP_CONFIGURATION, DEACTIVATE_ANCP_ENDPOINT, DELETE_IP_RANGE_ASSIGNMENT"
+                },
+                "creationDate": {
+                    "example": "2021-01-22T15:21:27.19554+01:00",
+                    "format": "date-time",
+                    "type": "string",
+                    "description": "Date of creation (ISO-8601)"
+                },
+                "ipAddressAccessNode": {
+                    "example": "10.150.240.101",
+                    "type": "string",
+                    "description": "IP address of OLT (IPv4)"
+                },
+                "ipAddressBng": {
+                    "example": "10.150.240.102",
+                    "type": "string",
+                    "description": "IP address of BNG (IPv4)"
+                },
+                "lastActivity": {
+                    "example": "2021-01-22T15:21:27.19554+01:00",
+                    "format": "date-time",
+                    "type": "string",
+                    "description": "Timestamp of last activity (ISO-8601)"
+                },
+                "lastAncpStatus": {
+                    "type": "string",
+                    "description": "Last known status of ancp session"
+                },
+                "modificationDate": {
+                    "example": "2021-01-22T15:21:27.19554+01:00",
+                    "format": "date-time",
+                    "type": "string",
+                    "description": "Date of modification (ISO-8601)"
+                },
+                "partitionId": {
+                    "example": "2",
+                    "type": "integer",
+                    "description": "Identifier of Access Node partition"
+                },
+                "rmkEndpointId": {
+                    "example": "1341abc434323",
+                    "type": "string",
+                    "description": "identifier of RMK A/T"
+                },
+                "sealConfigurationId": {
+                    "example": "0-19-1-2-16",
+                    "type": "string",
+                    "description": "Identifier of SEAL"
+                },
+                "sessionId": {
+                    "example": "2",
+                    "type": "string",
+                    "description": "Unique id of ancp session"
+                },
+                "sessionType": {
+                    "example": "OLT",
+                    "type": "string",
+                    "description": "Type of ANCP session. Possible values are: OLT, DPU"
+                },
+                "vlan": {
+                    "example": "16",
+                    "type": "integer",
+                    "description": "Virtual LAN Identifier used by ANCP link"
+                },
+                "accessNodeEquipmentBusinessRef": {
+                    "$ref": "#/definitions/EquipmentBusinessRef",
+                    "description": "The device for which the ANCP Session has been configured. Can be DPU or OLT depending on Session type."
+                },
+                "ancpIpSubnetRef": {
+                    "$ref": "#/definitions/EntityRef"
+                },
+                "bngDownlinkPortEquipmentBusinessRef": {
+                    "$ref": "#/definitions/EquipmentBusinessRef",
+                    "description": "The BNG port the ANCP session is configured(!) on. The current physical connection can be different."
+                },
+                "oltUplinkPortEquipmentBusinessRef": {
+                    "$ref": "#/definitions/EquipmentBusinessRef",
+                    "description": "The OLT port the ANCP session is configured(!) on (OLT ANCP) or is relayed over (DPU ANCP). The current physical connection can be different."
+                },
+                "@baseType": {
+                    "type": "string",
+                    "description": "When sub-classing, this defines the super-class"
+                },
+                "@schemaLocation": {
+                    "type": "string",
+                    "format": "uri",
+                    "description": "A URI to a JSON-Schema file that defines additional attributes and relationships"
+                },
+                "@type": {
+                    "type": "string",
+                    "description": "When sub-classing, this defines the sub-class entity name"
+                }
+            }
+        },
+        "AncpSession_Create": {
+            "type": "object",
+            "description": "AncpSession\nSkipped properties: category,endOperatingDate,administrativeState,operationalState,resourceStatus,usageState,note,place,resourceRelationship,resourceCharacteristic,attachment,resourceSpecification,startOperatingDate,resourceVersion,activationFeature,manufactureDate,powerState,versionNumber,value,shortName,materialNumber,emsNbiName,descriptionUrl,lastDiscovery,description,manufacturer,name,serialNumber,equipmentNumber,relatedParty,id,href",
+            "required": [
+                "sessionType",
+                "configurationStatus",
+                "accessNodeEquipmentBusinessRef",
+                "bngDownlinkPortEquipmentBusinessRef",
+                "oltUplinkPortEquipmentBusinessRef"
+            ],
+            "properties": {
+                "additionalInfo": {
+                    "example": "",
+                    "type": "string",
+                    "description": "Additional info"
+                },
+                "configurationStatus": {
+                    "example": "ACTIVE",
+                    "type": "string",
+                    "description": "The status of current configuration. Allowed values are: ACTIVE, IN_CONFIGURATION, IN_DECONFIGURATION, ERROR"
+                },
+                "configurationStep": {
+                    "example": "CREATE_IP_RANGE_ASSIGNMENT",
+                    "type": "string",
+                    "description": "Step of configuration. Allowed values are: CREATE_IP_RANGE_ASSIGNMENT, CREATE_ANCP_ENDPOINT, CREATE_ANCP_CONFIGURATION, DELETE_ANCP_CONFIGURATION, DEACTIVATE_ANCP_ENDPOINT, DELETE_IP_RANGE_ASSIGNMENT"
+                },
+                "creationDate": {
+                    "example": "2021-01-22T15:21:27.19554+01:00",
+                    "format": "date-time",
+                    "type": "string",
+                    "description": "Date of creation (ISO-8601)"
+                },
+                "ipAddressAccessNode": {
+                    "example": "10.150.240.101",
+                    "type": "string",
+                    "description": "IP address of OLT (IPv4)"
+                },
+                "ipAddressBng": {
+                    "example": "10.150.240.102",
+                    "type": "string",
+                    "description": "IP address of BNG (IPv4)"
+                },
+                "lastActivity": {
+                    "example": "2021-01-22T15:21:27.19554+01:00",
+                    "format": "date-time",
+                    "type": "string",
+                    "description": "Timestamp of last activity (ISO-8601)"
+                },
+                "lastAncpStatus": {
+                    "type": "string",
+                    "description": "Last known status of ancp session"
+                },
+                "modificationDate": {
+                    "example": "2021-01-22T15:21:27.19554+01:00",
+                    "format": "date-time",
+                    "type": "string",
+                    "description": "Date of modification (ISO-8601)"
+                },
+                "partitionId": {
+                    "example": "2",
+                    "type": "integer",
+                    "description": "Identifier of Access Node partition"
+                },
+                "rmkEndpointId": {
+                    "example": "1341abc434323",
+                    "type": "string",
+                    "description": "identifier of RMK A/T"
+                },
+                "sealConfigurationId": {
+                    "example": "0-19-1-2-16",
+                    "type": "string",
+                    "description": "Identifier of SEAL"
+                },
+                "sessionId": {
+                    "example": "2",
+                    "type": "string",
+                    "description": "Unique id of ancp session"
+                },
+                "sessionType": {
+                    "example": "OLT",
+                    "type": "string",
+                    "description": "Type of ANCP session. Possible values are: OLT, DPU"
+                },
+                "vlan": {
+                    "example": "16",
+                    "type": "integer",
+                    "description": "Virtual LAN Identifier used by ANCP link"
+                },
+                "accessNodeEquipmentBusinessRef": {
+                    "$ref": "#/definitions/EquipmentBusinessRef",
+                    "description": "The device for which the ANCP Session has been configured. Can be DPU or OLT depending on Session type."
+                },
+                "ancpIpSubnetRef": {
+                    "$ref": "#/definitions/EntityRef"
+                },
+                "bngDownlinkPortEquipmentBusinessRef": {
+                    "$ref": "#/definitions/EquipmentBusinessRef",
+                    "description": "The BNG port the ANCP session is configured(!) on. The current physical connection can be different."
+                },
+                "oltUplinkPortEquipmentBusinessRef": {
+                    "$ref": "#/definitions/EquipmentBusinessRef",
+                    "description": "The OLT port the ANCP session is configured(!) on (OLT ANCP) or is relayed over (DPU ANCP). The current physical connection can be different."
+                },
+                "@baseType": {
+                    "type": "string",
+                    "description": "When sub-classing, this defines the super-class"
+                },
+                "@schemaLocation": {
+                    "type": "string",
+                    "format": "uri",
+                    "description": "A URI to a JSON-Schema file that defines additional attributes and relationships"
+                },
+                "@type": {
+                    "type": "string",
+                    "description": "When sub-classing, this defines the sub-class entity name"
+                }
+            }
+        },
+        "AncpSession_Update": {
+            "type": "object",
+            "description": "AncpSession\nSkipped properties: category,endOperatingDate,administrativeState,operationalState,resourceStatus,usageState,note,place,resourceRelationship,resourceCharacteristic,attachment,resourceSpecification,startOperatingDate,resourceVersion,activationFeature,manufactureDate,powerState,versionNumber,value,shortName,materialNumber,emsNbiName,descriptionUrl,lastDiscovery,description,manufacturer,name,serialNumber,equipmentNumber,relatedParty,id,href",
+            "properties": {
+                "additionalInfo": {
+                    "example": "",
+                    "type": "string",
+                    "description": "Additional info"
+                },
+                "configurationStatus": {
+                    "example": "ACTIVE",
+                    "type": "string",
+                    "description": "The status of current configuration. Allowed values are: ACTIVE, IN_CONFIGURATION, IN_DECONFIGURATION, ERROR"
+                },
+                "configurationStep": {
+                    "example": "CREATE_IP_RANGE_ASSIGNMENT",
+                    "type": "string",
+                    "description": "Step of configuration. Allowed values are: CREATE_IP_RANGE_ASSIGNMENT, CREATE_ANCP_ENDPOINT, CREATE_ANCP_CONFIGURATION, DELETE_ANCP_CONFIGURATION, DEACTIVATE_ANCP_ENDPOINT, DELETE_IP_RANGE_ASSIGNMENT"
+                },
+                "creationDate": {
+                    "example": "2021-01-22T15:21:27.19554+01:00",
+                    "format": "date-time",
+                    "type": "string",
+                    "description": "Date of creation (ISO-8601)"
+                },
+                "ipAddressAccessNode": {
+                    "example": "10.150.240.101",
+                    "type": "string",
+                    "description": "IP address of OLT (IPv4)"
+                },
+                "ipAddressBng": {
+                    "example": "10.150.240.102",
+                    "type": "string",
+                    "description": "IP address of BNG (IPv4)"
+                },
+                "lastActivity": {
+                    "example": "2021-01-22T15:21:27.19554+01:00",
+                    "format": "date-time",
+                    "type": "string",
+                    "description": "Timestamp of last activity (ISO-8601)"
+                },
+                "lastAncpStatus": {
+                    "type": "string",
+                    "description": "Last known status of ancp session"
+                },
+                "modificationDate": {
+                    "example": "2021-01-22T15:21:27.19554+01:00",
+                    "format": "date-time",
+                    "type": "string",
+                    "description": "Date of modification (ISO-8601)"
+                },
+                "partitionId": {
+                    "example": "2",
+                    "type": "integer",
+                    "description": "Identifier of Access Node partition"
+                },
+                "rmkEndpointId": {
+                    "example": "1341abc434323",
+                    "type": "string",
+                    "description": "identifier of RMK A/T"
+                },
+                "sealConfigurationId": {
+                    "example": "0-19-1-2-16",
+                    "type": "string",
+                    "description": "Identifier of SEAL"
+                },
+                "sessionId": {
+                    "example": "2",
+                    "type": "string",
+                    "description": "Unique id of ancp session"
+                },
+                "sessionType": {
+                    "example": "OLT",
+                    "type": "string",
+                    "description": "Type of ANCP session. Possible values are: OLT, DPU"
+                },
+                "vlan": {
+                    "example": "16",
+                    "type": "integer",
+                    "description": "Virtual LAN Identifier used by ANCP link"
+                },
+                "accessNodeEquipmentBusinessRef": {
+                    "$ref": "#/definitions/EquipmentBusinessRef",
+                    "description": "The device for which the ANCP Session has been configured. Can be DPU or OLT depending on Session type."
+                },
+                "ancpIpSubnetRef": {
+                    "$ref": "#/definitions/EntityRef"
+                },
+                "bngDownlinkPortEquipmentBusinessRef": {
+                    "$ref": "#/definitions/EquipmentBusinessRef",
+                    "description": "The BNG port the ANCP session is configured(!) on. The current physical connection can be different."
+                },
+                "oltUplinkPortEquipmentBusinessRef": {
+                    "$ref": "#/definitions/EquipmentBusinessRef",
+                    "description": "The OLT port the ANCP session is configured(!) on (OLT ANCP) or is relayed over (DPU ANCP). The current physical connection can be different."
+                },
+                "@baseType": {
+                    "type": "string",
+                    "description": "When sub-classing, this defines the super-class"
+                },
+                "@schemaLocation": {
+                    "type": "string",
+                    "format": "uri",
+                    "description": "A URI to a JSON-Schema file that defines additional attributes and relationships"
+                },
+                "@type": {
+                    "type": "string",
+                    "description": "When sub-classing, this defines the sub-class entity name"
+                }
+            }
+        },
+        "Any": {},
+        "Attachment": {
+            "type": "object",
+            "description": "Complements the description of an element (for instance a product) through video, pictures...",
+            "properties": {
+                "id": {
+                    "example": "4aafacbd-11ff-4dc8-b445-305f2215715f",
+                    "type": "string",
+                    "description": "Unique identifier for this particular attachment"
+                },
+                "href": {
+                    "example": "http://host/Attachment/4aafacbd-11ff-4dc8-b445-305f2215715f",
+                    "format": "uri",
+                    "type": "string",
+                    "description": "URI for this Attachment"
+                },
+                "attachmentType": {
+                    "example": "video",
+                    "type": "string",
+                    "description": "Attachment type such as video, picture"
+                },
+                "content": {
+                    "format": "base64",
+                    "type": "string",
+                    "description": "The actual contents of the attachment object, if embedded, encoded as base64"
+                },
+                "description": {
+                    "example": "Photograph of the Product",
+                    "type": "string",
+                    "description": "A narrative text describing the content of the attachment"
+                },
+                "mimeType": {
+                    "type": "string",
+                    "description": "Attachment mime type such as extension file for video, picture and document"
+                },
+                "name": {
+                    "type": "string",
+                    "description": "The name of the attachment"
+                },
+                "url": {
+                    "example": "http://host/Content/4aafacbd-11ff-4dc8-b445-305f2215715f",
+                    "format": "uri",
+                    "type": "string",
+                    "description": "Uniform Resource Locator, is a web page address (a subset of URI)"
+                },
+                "size": {
+                    "$ref": "#/definitions/Quantity",
+                    "description": "The size of the attachment."
+                },
+                "validFor": {
+                    "$ref": "#/definitions/TimePeriod",
+                    "description": "The period of time for which the attachment is valid"
+                },
+                "@baseType": {
+                    "type": "string",
+                    "description": "When sub-classing, this defines the super-class"
+                },
+                "@schemaLocation": {
+                    "type": "string",
+                    "format": "uri",
+                    "description": "A URI to a JSON-Schema file that defines additional attributes and relationships"
+                },
+                "@type": {
+                    "type": "string",
+                    "description": "When sub-classing, this defines the sub-class entity name"
+                }
+            }
+        },
+        "AttachmentRef": {
+            "type": "object",
+            "description": "Attachment reference. An attachment complements the description of an element (for instance a product) through video, pictures",
+            "properties": {
+                "id": {
+                    "type": "string",
+                    "description": "Unique-Identifier for this attachment"
+                },
+                "href": {
+                    "format": "uri",
+                    "type": "string",
+                    "description": "URL serving as reference for the attachment resource"
+                },
+                "description": {
+                    "type": "string",
+                    "description": "A narrative text describing the content of the attachment"
+                },
+                "name": {
+                    "type": "string",
+                    "description": "Name of the related entity."
+                },
+                "url": {
+                    "format": "uri",
+                    "type": "string",
+                    "description": "Link to the attachment media/content"
+                },
+                "@baseType": {
+                    "type": "string",
+                    "description": "When sub-classing, this defines the super-class"
+                },
+                "@schemaLocation": {
+                    "format": "uri",
+                    "type": "string",
+                    "description": "A URI to a JSON-Schema file that defines additional attributes and relationships"
+                },
+                "@type": {
+                    "type": "string",
+                    "description": "When sub-classing, this defines the sub-class Extensible name"
+                },
+                "@referredType": {
+                    "type": "string",
+                    "description": "The actual type of the target instance when needed for disambiguation."
+                }
+            },
+            "required": [
+                "id"
+            ]
+        },
+        "AttachmentRefOrValue": {
+            "type": "object",
+            "description": "An attachment by value or by reference. An attachment complements the description of an element, for example through a document, a video, a picture.",
+            "properties": {
+                "id": {
+                    "example": "4aafacbd-11ff-4dc8-b445-305f2215715f",
+                    "type": "string",
+                    "description": "Unique identifier for this particular attachment"
+                },
+                "href": {
+                    "example": "http://host/Attachment/4aafacbd-11ff-4dc8-b445-305f2215715f",
+                    "format": "uri",
+                    "type": "string",
+                    "description": "URI for this Attachment"
+                },
+                "attachmentType": {
+                    "example": "video",
+                    "type": "string",
+                    "description": "Attachment type such as video, picture"
+                },
+                "content": {
+                    "format": "base64",
+                    "type": "string",
+                    "description": "The actual contents of the attachment object, if embedded, encoded as base64"
+                },
+                "description": {
+                    "example": "Photograph of the Product",
+                    "type": "string",
+                    "description": "A narrative text describing the content of the attachment"
+                },
+                "mimeType": {
+                    "type": "string",
+                    "description": "Attachment mime type such as extension file for video, picture and document"
+                },
+                "name": {
+                    "type": "string",
+                    "description": "The name of the attachment"
+                },
+                "url": {
+                    "example": "http://host/Content/4aafacbd-11ff-4dc8-b445-305f2215715f",
+                    "format": "uri",
+                    "type": "string",
+                    "description": "Uniform Resource Locator, is a web page address (a subset of URI)"
+                },
+                "size": {
+                    "$ref": "#/definitions/Quantity",
+                    "description": "The size of the attachment."
+                },
+                "validFor": {
+                    "$ref": "#/definitions/TimePeriod",
+                    "description": "The period of time for which the attachment is valid"
+                },
+                "@baseType": {
+                    "type": "string",
+                    "description": "When sub-classing, this defines the super-class"
+                },
+                "@schemaLocation": {
+                    "format": "uri",
+                    "type": "string",
+                    "description": "A URI to a JSON-Schema file that defines additional attributes and relationships"
+                },
+                "@type": {
+                    "type": "string",
+                    "description": "When sub-classing, this defines the sub-class Extensible name"
+                },
+                "@referredType": {
+                    "type": "string",
+                    "description": "The actual type of the target instance when needed for disambiguation."
+                }
+            }
+        },
+        "AttachmentRefOrValue_Create": {
+            "type": "object",
+            "description": "An attachment by value or by reference. An attachment complements the description of an element, for example through a document, a video, a picture.",
+            "properties": {
+                "id": {
+                    "example": "4aafacbd-11ff-4dc8-b445-305f2215715f",
+                    "type": "string",
+                    "description": "Unique identifier for this particular attachment"
+                },
+                "href": {
+                    "example": "http://host/Attachment/4aafacbd-11ff-4dc8-b445-305f2215715f",
+                    "format": "uri",
+                    "type": "string",
+                    "description": "URI for this Attachment"
+                },
+                "attachmentType": {
+                    "example": "video",
+                    "type": "string",
+                    "description": "Attachment type such as video, picture"
+                },
+                "content": {
+                    "format": "base64",
+                    "type": "string",
+                    "description": "The actual contents of the attachment object, if embedded, encoded as base64"
+                },
+                "description": {
+                    "example": "Photograph of the Product",
+                    "type": "string",
+                    "description": "A narrative text describing the content of the attachment"
+                },
+                "mimeType": {
+                    "type": "string",
+                    "description": "Attachment mime type such as extension file for video, picture and document"
+                },
+                "name": {
+                    "type": "string",
+                    "description": "The name of the attachment"
+                },
+                "url": {
+                    "example": "http://host/Content/4aafacbd-11ff-4dc8-b445-305f2215715f",
+                    "format": "uri",
+                    "type": "string",
+                    "description": "Uniform Resource Locator, is a web page address (a subset of URI)"
+                },
+                "size": {
+                    "$ref": "#/definitions/Quantity",
+                    "description": "The size of the attachment."
+                },
+                "validFor": {
+                    "$ref": "#/definitions/TimePeriod",
+                    "description": "The period of time for which the attachment is valid"
+                },
+                "@baseType": {
+                    "type": "string",
+                    "description": "When sub-classing, this defines the super-class"
+                },
+                "@schemaLocation": {
+                    "format": "uri",
+                    "type": "string",
+                    "description": "A URI to a JSON-Schema file that defines additional attributes and relationships"
+                },
+                "@type": {
+                    "type": "string",
+                    "description": "When sub-classing, this defines the sub-class Extensible name"
+                },
+                "@referredType": {
+                    "type": "string",
+                    "description": "The actual type of the target instance when needed for disambiguation."
+                }
+            }
+        },
+        "Characteristic": {
+            "type": "object",
+            "description": "Describes a given characteristic of an object or entity through a name/value pair.",
+            "required": [
+                "name",
+                "value"
+            ],
+            "properties": {
+                "id": {
+                    "type": "string",
+                    "description": "Unique identifier of the characteristic"
+                },
+                "name": {
+                    "type": "string",
+                    "description": "Name of the characteristic"
+                },
+                "valueType": {
+                    "type": "string",
+                    "description": "Data type of the value of the characteristic"
+                },
+                "characteristicRelationship": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/CharacteristicRelationship"
+                    }
+                },
+                "value": {
+                    "$ref": "#/definitions/Any",
+                    "description": "The value of the characteristic"
+                },
+                "@baseType": {
+                    "type": "string",
+                    "description": "When sub-classing, this defines the super-class"
+                },
+                "@schemaLocation": {
+                    "format": "uri",
+                    "type": "string",
+                    "description": "A URI to a JSON-Schema file that defines additional attributes and relationships"
+                },
+                "@type": {
+                    "type": "string",
+                    "description": "When sub-classing, this defines the sub-class Extensible name"
+                }
+            }
+        },
+        "CharacteristicRelationship": {
+            "type": "object",
+            "description": "Another Characteristic that is related to the current Characteristic;",
+            "properties": {
+                "id": {
+                    "type": "string",
+                    "description": "Unique identifier of the characteristic"
+                },
+                "relationshipType": {
+                    "type": "string",
+                    "description": "The type of relationship"
+                },
+                "@baseType": {
+                    "type": "string",
+                    "description": "When sub-classing, this defines the super-class"
+                },
+                "@schemaLocation": {
+                    "type": "string",
+                    "format": "uri",
+                    "description": "A URI to a JSON-Schema file that defines additional attributes and relationships"
+                },
+                "@type": {
+                    "type": "string",
+                    "description": "When sub-classing, this defines the sub-class entity name"
+                }
+            }
+        },
+        "ConstraintRef": {
+            "type": "object",
+            "description": "Constraint reference. The Constraint resource represents a policy/rule applied to an entity or entity spec.",
+            "properties": {
+                "id": {
+                    "type": "string",
+                    "description": "reference id to the target constraint"
+                },
+                "href": {
+                    "format": "uri",
+                    "type": "string",
+                    "description": "Hyperlink reference to the target constraint"
+                },
+                "name": {
+                    "type": "string",
+                    "description": "Name given to the constraint"
+                },
+                "version": {
+                    "type": "string",
+                    "description": "constraint version"
+                },
+                "@baseType": {
+                    "type": "string",
+                    "description": "When sub-classing, this defines the super-class"
+                },
+                "@schemaLocation": {
+                    "type": "string",
+                    "format": "uri",
+                    "description": "A URI to a JSON-Schema file that defines additional attributes and relationships"
+                },
+                "@type": {
+                    "type": "string",
+                    "description": "When sub-classing, this defines the sub-class entity name"
+                },
+                "@referredType": {
+                    "type": "string",
+                    "description": "The (class) type of the referred constraint"
+                }
+            },
+            "required": [
+                "id"
+            ]
+        },
+        "EntityRef": {
+            "type": "object",
+            "description": "Entity reference schema to be use for all entityRef class.",
+            "properties": {
+                "id": {
+                    "type": "string",
+                    "description": "unique identifier"
+                },
+                "href": {
+                    "format": "uri",
+                    "type": "string",
+                    "description": "Hyperlink reference"
+                },
+                "name": {
+                    "type": "string",
+                    "description": "Name of the related entity."
+                },
+                "@baseType": {
+                    "type": "string",
+                    "description": "When sub-classing, this defines the super-class"
+                },
+                "@schemaLocation": {
+                    "format": "uri",
+                    "type": "string",
+                    "description": "A URI to a JSON-Schema file that defines additional attributes and relationships"
+                },
+                "@type": {
+                    "type": "string",
+                    "description": "When sub-classing, this defines the sub-class Extensible name"
+                },
+                "@referredType": {
+                    "type": "string",
+                    "description": "The actual type of the target instance when needed for disambiguation."
+                }
+            },
+            "required": [
+                "id"
+            ]
+        },
+        "EquipmentBusinessRef": {
+            "type": "object",
+            "description": "business equipment data for use as reference",
+            "properties": {
+                "deviceType": {
+                    "example": "OLT, BNG, DPU",
+                    "type": "string",
+                    "description": "Type of device"
+                },
+                "endSz": {
+                    "example": "49/8571/0/76H1",
+                    "pattern": "[0-9]{1,6}/[0-9]{1,6}/[0-9]{1,6}/[a-zA-Z0-9]{2,4}",
+                    "maxLength": 25,
+                    "minLength": 8,
+                    "type": "string",
+                    "description": "EEndstellenschl\u00fcsselzahl of device"
+                },
+                "portName": {
+                    "example": "2",
+                    "type": "string",
+                    "description": "Name of port"
+                },
+                "portType": {
+                    "example": "PON, ETHERNET, GFAST",
+                    "type": "string",
+                    "description": "Type of port"
+                },
+                "slotName": {
+                    "example": "1",
+                    "type": "string",
+                    "description": "Name of slot"
+                },
+                "@baseType": {
+                    "type": "string",
+                    "description": "When sub-classing, this defines the super-class"
+                },
+                "@schemaLocation": {
+                    "type": "string",
+                    "format": "uri",
+                    "description": "A URI to a JSON-Schema file that defines additional attributes and relationships"
+                },
+                "@type": {
+                    "type": "string",
+                    "description": "When sub-classing, this defines the sub-class entity name"
+                },
+                "@referredType": {
+                    "type": "string",
+                    "format": "uri",
+                    "description": "The type of the referred entity"
+                }
+            },
+            "required": [
+                "id"
+            ]
+        },
+        "Extensible": {
+            "type": "object",
+            "description": "Base Extensible schema for use in TMForum Open-APIs",
+            "properties": {
+                "@baseType": {
+                    "type": "string",
+                    "description": "When sub-classing, this defines the super-class"
+                },
+                "@schemaLocation": {
+                    "format": "uri",
+                    "type": "string",
+                    "description": "A URI to a JSON-Schema file that defines additional attributes and relationships"
+                },
+                "@type": {
+                    "type": "string",
+                    "description": "When sub-classing, this defines the sub-class Extensible name"
+                }
+            }
+        },
+        "Feature": {
+            "type": "object",
+            "description": "Configuration feature.",
+            "required": [
+                "featureCharacteristic",
+                "name"
+            ],
+            "properties": {
+                "id": {
+                    "type": "string",
+                    "description": "Unique identifier of the feature."
+                },
+                "isBundle": {
+                    "type": "boolean",
+                    "description": "True if this is a feature group. Default is false."
+                },
+                "isEnabled": {
+                    "type": "boolean",
+                    "description": "True if this feature is enabled. Default is true."
+                },
+                "name": {
+                    "type": "string",
+                    "description": "This is the name for the feature."
+                },
+                "constraint": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/ConstraintRef"
+                    },
+                    "description": "This is a list of feature constraints."
+                },
+                "featureCharacteristic": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/Characteristic"
+                    },
+                    "minItems": 1,
+                    "description": "This is a list of Characteristics for a particular feature."
+                },
+                "featureRelationship": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/FeatureRelationship"
+                    }
+                },
+                "@baseType": {
+                    "type": "string",
+                    "description": "When sub-classing, this defines the super-class"
+                },
+                "@schemaLocation": {
+                    "type": "string",
+                    "format": "uri",
+                    "description": "A URI to a JSON-Schema file that defines additional attributes and relationships"
+                },
+                "@type": {
+                    "type": "string",
+                    "description": "When sub-classing, this defines the sub-class entity name"
+                }
+            }
+        },
+        "FeatureRelationship": {
+            "type": "object",
+            "description": "Configuration feature",
+            "required": [
+                "name",
+                "relationshipType"
+            ],
+            "properties": {
+                "id": {
+                    "type": "string",
+                    "description": "Unique identifier of the target feature."
+                },
+                "name": {
+                    "type": "string",
+                    "description": "This is the name of the target feature."
+                },
+                "relationshipType": {
+                    "type": "string",
+                    "description": "This is the type of the feature relationship."
+                },
+                "validFor": {
+                    "$ref": "#/definitions/TimePeriod",
+                    "description": "The period for which this feature relationship is valid."
+                },
+                "@baseType": {
+                    "type": "string",
+                    "description": "When sub-classing, this defines the super-class"
+                },
+                "@schemaLocation": {
+                    "type": "string",
+                    "format": "uri",
+                    "description": "A URI to a JSON-Schema file that defines additional attributes and relationships"
+                },
+                "@type": {
+                    "type": "string",
+                    "description": "When sub-classing, this defines the sub-class entity name"
+                }
+            }
+        },
+        "LogicalResource": {
+            "type": "object",
+            "description": "Logic resource is a type of resource that describes the common set of attributes shared by all concrete logical resources (e.g. TPE, MSISDN, IP Addresses) in the inventory.",
+            "required": [
+                "href",
+                "id"
+            ],
+            "properties": {
+                "id": {
+                    "type": "string",
+                    "description": "Identifier of an instance of the resource. Required to be unique within the resource type.  Used in URIs as the identifier for specific instances of a type."
+                },
+                "href": {
+                    "format": "uri",
+                    "type": "string",
+                    "description": "The URI for the object itself."
+                },
+                "category": {
+                    "type": "string",
+                    "description": "Category of the concrete resource. e.g Gold, Silver for MSISDN concrete resource"
+                },
+                "description": {
+                    "type": "string",
+                    "description": "free-text description of the resource"
+                },
+                "endOperatingDate": {
+                    "format": "date-time",
+                    "type": "string",
+                    "description": "A date time( DateTime). The date till the resource is operating"
+                },
+                "name": {
+                    "type": "string",
+                    "description": "A string used to give a name to the resource"
+                },
+                "resourceVersion": {
+                    "type": "string",
+                    "description": "A field that identifies the specific version of an instance of a resource."
+                },
+                "startOperatingDate": {
+                    "format": "date-time",
+                    "type": "string",
+                    "description": "A date time( DateTime). The date from which the resource is operating"
+                },
+                "value": {
+                    "type": "string",
+                    "description": "the value of the logical resource. E.g '0746712345' for  MSISDN's"
+                },
+                "activationFeature": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/Feature"
+                    },
+                    "description": "Configuration features"
+                },
+                "administrativeState": {
+                    "$ref": "#/definitions/ResourceAdministrativeStateType",
+                    "description": "Tracks the lifecycle status of the resource, such as planning, installing, opereating, retiring and so on."
+                },
+                "attachment": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/AttachmentRefOrValue"
+                    }
+                },
+                "note": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/Note"
+                    }
+                },
+                "operationalState": {
+                    "$ref": "#/definitions/ResourceOperationalStateType",
+                    "description": "Tracks the lifecycle status of the resource, such as planning, installing, opereating, retiring and so on."
+                },
+                "place": {
+                    "$ref": "#/definitions/RelatedPlaceRefOrValue"
+                },
+                "relatedParty": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/RelatedParty"
+                    }
+                },
+                "resourceCharacteristic": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/Characteristic"
+                    }
+                },
+                "resourceRelationship": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/ResourceRelationship"
+                    }
+                },
+                "resourceSpecification": {
+                    "$ref": "#/definitions/ResourceSpecificationRef"
+                },
+                "resourceStatus": {
+                    "$ref": "#/definitions/ResourceStatusType",
+                    "description": "Tracks the lifecycle status of the resource, such as planning, installing, opereating, retiring and so on."
+                },
+                "usageState": {
+                    "$ref": "#/definitions/ResourceUsageStateType",
+                    "description": "Tracks the lifecycle status of the resource, such as planning, installing, opereating, retiring and so on."
+                },
+                "@baseType": {
+                    "type": "string",
+                    "description": "When sub-classing, this defines the super-class"
+                },
+                "@schemaLocation": {
+                    "type": "string",
+                    "format": "uri",
+                    "description": "A URI to a JSON-Schema file that defines additional attributes and relationships"
+                },
+                "@type": {
+                    "type": "string",
+                    "description": "When sub-classing, this defines the sub-class entity name"
+                }
+            }
+        },
+        "Note": {
+            "type": "object",
+            "description": "Extra information about a given entity",
+            "properties": {
+                "id": {
+                    "type": "string",
+                    "description": "Identifier of the note within its containing entity (may or may not be globally unique, depending on provider implementation)"
+                },
+                "author": {
+                    "type": "string",
+                    "description": "Author of the note"
+                },
+                "date": {
+                    "format": "date-time",
+                    "type": "string",
+                    "description": "Date of the note"
+                },
+                "text": {
+                    "type": "string",
+                    "description": "Text of the note"
+                },
+                "@baseType": {
+                    "type": "string",
+                    "description": "When sub-classing, this defines the super-class"
+                },
+                "@schemaLocation": {
+                    "type": "string",
+                    "format": "uri",
+                    "description": "A URI to a JSON-Schema file that defines additional attributes and relationships"
+                },
+                "@type": {
+                    "type": "string",
+                    "description": "When sub-classing, this defines the sub-class entity name"
+                }
+            }
+        },
+        "Place": {
+            "type": "object",
+            "description": "Place reference. Place defines the places where the products are sold or delivered.",
+            "properties": {
+                "id": {
+                    "type": "string",
+                    "description": "Unique identifier of the place"
+                },
+                "href": {
+                    "format": "uri",
+                    "type": "string",
+                    "description": "Unique reference of the place"
+                },
+                "name": {
+                    "type": "string",
+                    "description": "A user-friendly name for the place, such as [Paris Store], [London Store], [Main Home]"
+                },
+                "@baseType": {
+                    "type": "string",
+                    "description": "When sub-classing, this defines the super-class"
+                },
+                "@schemaLocation": {
+                    "type": "string",
+                    "format": "uri",
+                    "description": "A URI to a JSON-Schema file that defines additional attributes and relationships"
+                },
+                "@type": {
+                    "type": "string",
+                    "description": "When sub-classing, this defines the sub-class entity name"
+                }
+            }
+        },
+        "PlaceRef": {
+            "type": "object",
+            "description": "Place reference. PlaceRef defines the placeRefs where the products are sold or delivered.",
+            "properties": {
+                "id": {
+                    "type": "string",
+                    "description": "unique identifier"
+                },
+                "href": {
+                    "format": "uri",
+                    "type": "string",
+                    "description": "Hyperlink reference"
+                },
+                "name": {
+                    "type": "string",
+                    "description": "Name of the related entity."
+                },
+                "@baseType": {
+                    "type": "string",
+                    "description": "When sub-classing, this defines the super-class"
+                },
+                "@schemaLocation": {
+                    "format": "uri",
+                    "type": "string",
+                    "description": "A URI to a JSON-Schema file that defines additional attributes and relationships"
+                },
+                "@type": {
+                    "type": "string",
+                    "description": "When sub-classing, this defines the sub-class Extensible name"
+                },
+                "@referredType": {
+                    "type": "string",
+                    "description": "The actual type of the target instance when needed for disambiguation."
+                }
+            },
+            "required": [
+                "id"
+            ]
+        },
+        "Quantity": {
+            "type": "object",
+            "description": "An amount in a given unit",
+            "properties": {
+                "amount": {
+                    "default": 1,
+                    "format": "float",
+                    "type": "number",
+                    "description": "Numeric value in a given unit"
+                },
+                "units": {
+                    "type": "string",
+                    "description": "Unit"
+                },
+                "@baseType": {
+                    "type": "string",
+                    "description": "When sub-classing, this defines the super-class"
+                },
+                "@schemaLocation": {
+                    "type": "string",
+                    "format": "uri",
+                    "description": "A URI to a JSON-Schema file that defines additional attributes and relationships"
+                },
+                "@type": {
+                    "type": "string",
+                    "description": "When sub-classing, this defines the sub-class entity name"
+                }
+            }
+        },
+        "RelatedParty": {
+            "type": "object",
+            "description": "Related Entity reference. A related party defines party or party role linked to a specific entity.",
+            "required": [
+                "@referredType",
+                "id"
+            ],
+            "properties": {
+                "id": {
+                    "type": "string",
+                    "description": "unique identifier"
+                },
+                "href": {
+                    "format": "uri",
+                    "type": "string",
+                    "description": "Hyperlink reference"
+                },
+                "name": {
+                    "type": "string",
+                    "description": "Name of the related entity."
+                },
+                "role": {
+                    "type": "string",
+                    "description": "Role played by the related party"
+                },
+                "@baseType": {
+                    "type": "string",
+                    "description": "When sub-classing, this defines the super-class"
+                },
+                "@schemaLocation": {
+                    "format": "uri",
+                    "type": "string",
+                    "description": "A URI to a JSON-Schema file that defines additional attributes and relationships"
+                },
+                "@type": {
+                    "type": "string",
+                    "description": "When sub-classing, this defines the sub-class Extensible name"
+                },
+                "@referredType": {
+                    "type": "string",
+                    "description": "The actual type of the target instance when needed for disambiguation."
+                }
+            }
+        },
+        "RelatedPlaceRefOrValue": {
+            "type": "object",
+            "description": "Related Entity reference. A related place defines a place described by reference or by value linked to a specific entity. The polymorphic attributes @type, @schemaLocation & @referredType are related to the place entity and not the RelatedPlaceRefOrValue class itself",
+            "required": [
+                "role"
+            ],
+            "properties": {
+                "id": {
+                    "type": "string",
+                    "description": "Unique identifier of the place"
+                },
+                "href": {
+                    "format": "uri",
+                    "type": "string",
+                    "description": "Unique reference of the place"
+                },
+                "name": {
+                    "type": "string",
+                    "description": "A user-friendly name for the place, such as [Paris Store], [London Store], [Main Home]"
+                },
+                "role": {
+                    "type": "string"
+                },
+                "@baseType": {
+                    "type": "string",
+                    "description": "When sub-classing, this defines the super-class"
+                },
+                "@schemaLocation": {
+                    "format": "uri",
+                    "type": "string",
+                    "description": "A URI to a JSON-Schema file that defines additional attributes and relationships"
+                },
+                "@type": {
+                    "type": "string",
+                    "description": "When sub-classing, this defines the sub-class Extensible name"
+                },
+                "@referredType": {
+                    "type": "string",
+                    "description": "The actual type of the target instance when needed for disambiguation."
+                }
+            }
+        },
+        "RelatedPlaceRefOrValue_Create": {
+            "type": "object",
+            "description": "Related Entity reference. A related place defines a place described by reference or by value linked to a specific entity. The polymorphic attributes @type, @schemaLocation & @referredType are related to the place entity and not the RelatedPlaceRefOrValue class itself",
+            "required": [
+                "role"
+            ],
+            "properties": {
+                "id": {
+                    "type": "string",
+                    "description": "Unique identifier of the place"
+                },
+                "href": {
+                    "format": "uri",
+                    "type": "string",
+                    "description": "Unique reference of the place"
+                },
+                "name": {
+                    "type": "string",
+                    "description": "A user-friendly name for the place, such as [Paris Store], [London Store], [Main Home]"
+                },
+                "role": {
+                    "type": "string"
+                },
+                "@baseType": {
+                    "type": "string",
+                    "description": "When sub-classing, this defines the super-class"
+                },
+                "@schemaLocation": {
+                    "format": "uri",
+                    "type": "string",
+                    "description": "A URI to a JSON-Schema file that defines additional attributes and relationships"
+                },
+                "@type": {
+                    "type": "string",
+                    "description": "When sub-classing, this defines the sub-class Extensible name"
+                },
+                "@referredType": {
+                    "type": "string",
+                    "description": "The actual type of the target instance when needed for disambiguation."
+                }
+            }
+        },
+        "Resource": {
+            "type": "object",
+            "description": "Resource is an abstract entity that describes the common set of attributes shared by all concrete resources (e.g. TPE, EQUIPMENT) in the inventory.",
+            "required": [
+                "href",
+                "id"
+            ],
+            "properties": {
+                "id": {
+                    "type": "string",
+                    "description": "Identifier of an instance of the resource. Required to be unique within the resource type.  Used in URIs as the identifier for specific instances of a type."
+                },
+                "href": {
+                    "format": "uri",
+                    "type": "string",
+                    "description": "The URI for the object itself."
+                },
+                "category": {
+                    "type": "string",
+                    "description": "Category of the concrete resource. e.g Gold, Silver for MSISDN concrete resource"
+                },
+                "description": {
+                    "type": "string",
+                    "description": "free-text description of the resource"
+                },
+                "endOperatingDate": {
+                    "format": "date-time",
+                    "type": "string",
+                    "description": "A date time( DateTime). The date till the resource is operating"
+                },
+                "name": {
+                    "type": "string",
+                    "description": "A string used to give a name to the resource"
+                },
+                "resourceVersion": {
+                    "type": "string",
+                    "description": "A field that identifies the specific version of an instance of a resource."
+                },
+                "startOperatingDate": {
+                    "format": "date-time",
+                    "type": "string",
+                    "description": "A date time( DateTime). The date from which the resource is operating"
+                },
+                "activationFeature": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/Feature"
+                    },
+                    "description": "Configuration features"
+                },
+                "administrativeState": {
+                    "$ref": "#/definitions/ResourceAdministrativeStateType",
+                    "description": "Tracks the lifecycle status of the resource, such as planning, installing, opereating, retiring and so on."
+                },
+                "attachment": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/AttachmentRefOrValue"
+                    }
+                },
+                "note": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/Note"
+                    }
+                },
+                "operationalState": {
+                    "$ref": "#/definitions/ResourceOperationalStateType",
+                    "description": "Tracks the lifecycle status of the resource, such as planning, installing, opereating, retiring and so on."
+                },
+                "place": {
+                    "$ref": "#/definitions/RelatedPlaceRefOrValue"
+                },
+                "relatedParty": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/RelatedParty"
+                    }
+                },
+                "resourceCharacteristic": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/Characteristic"
+                    }
+                },
+                "resourceRelationship": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/ResourceRelationship"
+                    }
+                },
+                "resourceSpecification": {
+                    "$ref": "#/definitions/ResourceSpecificationRef"
+                },
+                "resourceStatus": {
+                    "$ref": "#/definitions/ResourceStatusType",
+                    "description": "Tracks the lifecycle status of the resource, such as planning, installing, opereating, retiring and so on."
+                },
+                "usageState": {
+                    "$ref": "#/definitions/ResourceUsageStateType",
+                    "description": "Tracks the lifecycle status of the resource, such as planning, installing, opereating, retiring and so on."
+                },
+                "@baseType": {
+                    "type": "string",
+                    "description": "When sub-classing, this defines the super-class"
+                },
+                "@schemaLocation": {
+                    "type": "string",
+                    "format": "uri",
+                    "description": "A URI to a JSON-Schema file that defines additional attributes and relationships"
+                },
+                "@type": {
+                    "type": "string",
+                    "description": "When sub-classing, this defines the sub-class entity name"
+                }
+            }
+        },
+        "ResourceAdministrativeStateType": {
+            "type": "string",
+            "description": "ResourceAdministrativeStateType enumerations",
+            "enum": [
+                "locked",
+                "unlocked",
+                "shutdown"
+            ]
+        },
+        "ResourceOperationalStateType": {
+            "type": "string",
+            "description": "ResourceOperationalStateType enumerations",
+            "enum": [
+                "enable",
+                "disable"
+            ]
+        },
+        "ResourceRef": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "string",
+                    "description": "unique identifier"
+                },
+                "href": {
+                    "format": "uri",
+                    "type": "string",
+                    "description": "Hyperlink reference"
+                },
+                "name": {
+                    "type": "string",
+                    "description": "Name of the related entity."
+                },
+                "@baseType": {
+                    "type": "string",
+                    "description": "When sub-classing, this defines the super-class"
+                },
+                "@schemaLocation": {
+                    "format": "uri",
+                    "type": "string",
+                    "description": "A URI to a JSON-Schema file that defines additional attributes and relationships"
+                },
+                "@type": {
+                    "type": "string",
+                    "description": "When sub-classing, this defines the sub-class Extensible name"
+                },
+                "@referredType": {
+                    "type": "string",
+                    "description": "The actual type of the target instance when needed for disambiguation."
+                }
+            },
+            "required": [
+                "id"
+            ]
+        },
+        "ResourceRefOrValue": {
+            "type": "object",
+            "description": "Resource is an abstract entity that describes the common set of attributes shared by all concrete resources. The polymorphic attributes @type, @schemaLocation & @referredType are related to the Resource entity and not the related ResourceRefOrValue class itself",
+            "required": [
+                "href",
+                "id"
+            ],
+            "properties": {
+                "id": {
+                    "type": "string",
+                    "description": "Identifier of an instance of the resource. Required to be unique within the resource type.  Used in URIs as the identifier for specific instances of a type."
+                },
+                "href": {
+                    "format": "uri",
+                    "type": "string",
+                    "description": "The URI for the object itself."
+                },
+                "category": {
+                    "type": "string",
+                    "description": "Category of the concrete resource. e.g Gold, Silver for MSISDN concrete resource"
+                },
+                "description": {
+                    "type": "string",
+                    "description": "free-text description of the resource"
+                },
+                "endOperatingDate": {
+                    "format": "date-time",
+                    "type": "string",
+                    "description": "A date time( DateTime). The date till the resource is operating"
+                },
+                "name": {
+                    "type": "string",
+                    "description": "A string used to give a name to the resource"
+                },
+                "resourceVersion": {
+                    "type": "string",
+                    "description": "A field that identifies the specific version of an instance of a resource."
+                },
+                "startOperatingDate": {
+                    "format": "date-time",
+                    "type": "string",
+                    "description": "A date time( DateTime). The date from which the resource is operating"
+                },
+                "activationFeature": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/Feature"
+                    },
+                    "description": "Configuration features"
+                },
+                "administrativeState": {
+                    "$ref": "#/definitions/ResourceAdministrativeStateType",
+                    "description": "Tracks the lifecycle status of the resource, such as planning, installing, opereating, retiring and so on."
+                },
+                "attachment": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/AttachmentRefOrValue"
+                    }
+                },
+                "note": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/Note"
+                    }
+                },
+                "operationalState": {
+                    "$ref": "#/definitions/ResourceOperationalStateType",
+                    "description": "Tracks the lifecycle status of the resource, such as planning, installing, opereating, retiring and so on."
+                },
+                "place": {
+                    "$ref": "#/definitions/RelatedPlaceRefOrValue"
+                },
+                "relatedParty": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/RelatedParty"
+                    }
+                },
+                "resourceCharacteristic": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/Characteristic"
+                    }
+                },
+                "resourceRelationship": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/ResourceRelationship"
+                    }
+                },
+                "resourceSpecification": {
+                    "$ref": "#/definitions/ResourceSpecificationRef"
+                },
+                "resourceStatus": {
+                    "$ref": "#/definitions/ResourceStatusType",
+                    "description": "Tracks the lifecycle status of the resource, such as planning, installing, opereating, retiring and so on."
+                },
+                "usageState": {
+                    "$ref": "#/definitions/ResourceUsageStateType",
+                    "description": "Tracks the lifecycle status of the resource, such as planning, installing, opereating, retiring and so on."
+                },
+                "@baseType": {
+                    "type": "string",
+                    "description": "When sub-classing, this defines the super-class"
+                },
+                "@schemaLocation": {
+                    "format": "uri",
+                    "type": "string",
+                    "description": "A URI to a JSON-Schema file that defines additional attributes and relationships"
+                },
+                "@type": {
+                    "type": "string",
+                    "description": "When sub-classing, this defines the sub-class Extensible name"
+                },
+                "@referredType": {
+                    "type": "string",
+                    "description": "The actual type of the target instance when needed for disambiguation."
+                }
+            }
+        },
+        "ResourceRefOrValue_Create": {
+            "type": "object",
+            "description": "Resource is an abstract entity that describes the common set of attributes shared by all concrete resources. The polymorphic attributes @type, @schemaLocation & @referredType are related to the Resource entity and not the related ResourceRefOrValue class itself",
+            "properties": {
+                "id": {
+                    "type": "string",
+                    "description": "Identifier of an instance of the resource. Required to be unique within the resource type.  Used in URIs as the identifier for specific instances of a type."
+                },
+                "href": {
+                    "format": "uri",
+                    "type": "string",
+                    "description": "The URI for the object itself."
+                },
+                "category": {
+                    "type": "string",
+                    "description": "Category of the concrete resource. e.g Gold, Silver for MSISDN concrete resource"
+                },
+                "description": {
+                    "type": "string",
+                    "description": "free-text description of the resource"
+                },
+                "endOperatingDate": {
+                    "format": "date-time",
+                    "type": "string",
+                    "description": "A date time( DateTime). The date till the resource is operating"
+                },
+                "name": {
+                    "type": "string",
+                    "description": "A string used to give a name to the resource"
+                },
+                "resourceVersion": {
+                    "type": "string",
+                    "description": "A field that identifies the specific version of an instance of a resource."
+                },
+                "startOperatingDate": {
+                    "format": "date-time",
+                    "type": "string",
+                    "description": "A date time( DateTime). The date from which the resource is operating"
+                },
+                "activationFeature": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/Feature"
+                    },
+                    "description": "Configuration features"
+                },
+                "administrativeState": {
+                    "$ref": "#/definitions/ResourceAdministrativeStateType",
+                    "description": "Tracks the lifecycle status of the resource, such as planning, installing, opereating, retiring and so on."
+                },
+                "attachment": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/AttachmentRefOrValue_Create"
+                    }
+                },
+                "note": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/Note"
+                    }
+                },
+                "operationalState": {
+                    "$ref": "#/definitions/ResourceOperationalStateType",
+                    "description": "Tracks the lifecycle status of the resource, such as planning, installing, opereating, retiring and so on."
+                },
+                "place": {
+                    "$ref": "#/definitions/RelatedPlaceRefOrValue_Create"
+                },
+                "relatedParty": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/RelatedParty"
+                    }
+                },
+                "resourceCharacteristic": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/Characteristic"
+                    }
+                },
+                "resourceRelationship": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/ResourceRelationship"
+                    }
+                },
+                "resourceSpecification": {
+                    "$ref": "#/definitions/ResourceSpecificationRef"
+                },
+                "resourceStatus": {
+                    "$ref": "#/definitions/ResourceStatusType",
+                    "description": "Tracks the lifecycle status of the resource, such as planning, installing, opereating, retiring and so on."
+                },
+                "usageState": {
+                    "$ref": "#/definitions/ResourceUsageStateType",
+                    "description": "Tracks the lifecycle status of the resource, such as planning, installing, opereating, retiring and so on."
+                },
+                "@baseType": {
+                    "type": "string",
+                    "description": "When sub-classing, this defines the super-class"
+                },
+                "@schemaLocation": {
+                    "format": "uri",
+                    "type": "string",
+                    "description": "A URI to a JSON-Schema file that defines additional attributes and relationships"
+                },
+                "@type": {
+                    "type": "string",
+                    "description": "When sub-classing, this defines the sub-class Extensible name"
+                },
+                "@referredType": {
+                    "type": "string",
+                    "description": "The actual type of the target instance when needed for disambiguation."
+                }
+            }
+        },
+        "ResourceRelationship": {
+            "type": "object",
+            "description": "Linked resources to the one instantiate, such as [bundled] if the resource is a bundle and you want to describe the bundled resources inside this bundle; [reliesOn] if the resource needs another already owned resource to rely on (e.g. an option on an already owned mobile access resource) [targets] or [isTargeted] (depending on the way of expressing the link) for any other kind of links that may be useful",
+            "required": [
+                "relationshipType",
+                "resource"
+            ],
+            "properties": {
+                "relationshipType": {
+                    "example": "bundled",
+                    "type": "string",
+                    "description": "Type of the resource relationship, such as [bundled] if the resource is a bundle and you want to describe the bundled resources inside this bundle; [reliesOn] if the resource needs another already owned resource to rely on (eg: an option on an already owned mobile access resource) [targets] or [isTargeted] (depending on the way of expressing the link) for any other kind of links that may be useful"
+                },
+                "resource": {
+                    "$ref": "#/definitions/ResourceRefOrValue"
+                },
+                "@baseType": {
+                    "type": "string",
+                    "description": "When sub-classing, this defines the super-class"
+                },
+                "@schemaLocation": {
+                    "type": "string",
+                    "format": "uri",
+                    "description": "A URI to a JSON-Schema file that defines additional attributes and relationships"
+                },
+                "@type": {
+                    "type": "string",
+                    "description": "When sub-classing, this defines the sub-class entity name"
+                }
+            }
+        },
+        "ResourceSpecificationRef": {
+            "type": "object",
+            "description": "Resources are physical or non-physical components (or some combination of these) within an enterprise's infrastructure or inventory. They are typically consumed or used by services (for example a physical port assigned to a service) or contribute to the realization of a Product (for example, a SIM card). They can be drawn from the Application, Computing and Network domains, and include, for example, Network Elements, software, IT systems, content and information, and technology components.\nA ResourceSpecification is an abstract base class for representing a generic means for implementing a particular type of Resource. In essence, a ResourceSpecification defines the common attributes and relationships of a set of related Resources, while Resource defines a specific instance that is based on a particular ResourceSpecification.",
+            "properties": {
+                "id": {
+                    "type": "string",
+                    "description": "unique identifier"
+                },
+                "href": {
+                    "format": "uri",
+                    "type": "string",
+                    "description": "Hyperlink reference"
+                },
+                "name": {
+                    "type": "string",
+                    "description": "Name of the related entity."
+                },
+                "version": {
+                    "type": "string",
+                    "description": "Resource Specification version"
+                },
+                "@baseType": {
+                    "type": "string",
+                    "description": "When sub-classing, this defines the super-class"
+                },
+                "@schemaLocation": {
+                    "format": "uri",
+                    "type": "string",
+                    "description": "A URI to a JSON-Schema file that defines additional attributes and relationships"
+                },
+                "@type": {
+                    "type": "string",
+                    "description": "When sub-classing, this defines the sub-class Extensible name"
+                },
+                "@referredType": {
+                    "type": "string",
+                    "description": "The actual type of the target instance when needed for disambiguation."
+                }
+            },
+            "required": [
+                "id"
+            ]
+        },
+        "ResourceStatusType": {
+            "type": "string",
+            "description": "ResourceStatusType enumerations",
+            "enum": [
+                "standby",
+                "alarm",
+                "available",
+                "reserved",
+                "unknown",
+                "suspended"
+            ]
+        },
+        "ResourceUsageStateType": {
+            "type": "string",
+            "description": "ResourceUsageStateType enumerations",
+            "enum": [
+                "idle",
+                "active",
+                "busy"
+            ]
+        },
+        "TimePeriod": {
+            "type": "object",
+            "description": "A period of time, either as a deadline (endDateTime only) a startDateTime only, or both",
+            "properties": {
+                "endDateTime": {
+                    "example": "1985-04-12T23:20:50.52Z",
+                    "format": "date-time",
+                    "type": "string",
+                    "description": "End of the time period, using IETC-RFC-3339 format"
+                },
+                "startDateTime": {
+                    "example": "1985-04-12T23:20:50.52Z",
+                    "format": "date-time",
+                    "type": "string",
+                    "description": "Start of the time period, using IETC-RFC-3339 format"
+                },
+                "@baseType": {
+                    "type": "string",
+                    "description": "When sub-classing, this defines the super-class"
+                },
+                "@schemaLocation": {
+                    "type": "string",
+                    "format": "uri",
+                    "description": "A URI to a JSON-Schema file that defines additional attributes and relationships"
+                },
+                "@type": {
+                    "type": "string",
+                    "description": "When sub-classing, this defines the sub-class entity name"
+                }
+            }
+        },
+        "Error": {
+            "description": "Used when an API throws an Error, typically with a HTTP error response-code (3xx, 4xx, 5xx)",
+            "type": "object",
+            "required": [
+                "code",
+                "reason"
+            ],
+            "properties": {
+                "code": {
+                    "type": "string",
+                    "description": "Application relevant detail, defined in the API or a common list."
+                },
+                "reason": {
+                    "type": "string",
+                    "description": "Explanation of the reason for the error which can be shown to a client user."
+                },
+                "message": {
+                    "type": "string",
+                    "description": "More details and corrective actions related to the error which can be shown to a client user."
+                },
+                "status": {
+                    "type": "string",
+                    "description": "HTTP Error code extension"
+                },
+                "referenceError": {
+                    "type": "string",
+                    "format": "uri",
+                    "description": "URI of documentation describing the error."
+                },
+                "@baseType": {
+                    "type": "string",
+                    "description": "When sub-classing, this defines the super-class."
+                },
+                "@schemaLocation": {
+                    "type": "string",
+                    "format": "uri",
+                    "description": "A URI to a JSON-Schema file that defines additional attributes and relationships"
+                },
+                "@type": {
+                    "type": "string",
+                    "description": "When sub-classing, this defines the sub-class entity name."
+                }
+            }
+        }
+    }
+}
