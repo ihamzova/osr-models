@@ -4,9 +4,7 @@ info:
   description: This interface allows you to do CRUD-operations on the a4-resource-order-orchestrator
   contact:
     email: DL_Berlinium@telekom.de
-  version: 0.2.0
-servers:
-  - url: /
+  version: 0.4.0
 #SECURITY--------------------------------------------------------------------------------------------------
 security:
   - OAuth2:
@@ -16,7 +14,7 @@ paths:
     get:
       security:
         - OAuth2:
-            - 'rori:resourceOrders:read'
+            - 'rori:a4ResourceOrders:full'
             - 'giga:cga:all-area-access'
       tags:
         - ResourceOrder
@@ -62,7 +60,7 @@ paths:
     delete:
       security:
         - OAuth2:
-            - 'rori:resourceOrders:full'
+            - 'rori:a4ResourceOrders:full'
             - 'giga:cga:all-area-access'
       tags:
         - ResourceOrder
@@ -77,7 +75,7 @@ paths:
       responses:
         204:
           description: delete to ResourceOrder/{uuid} - No Content
-          content: {}
+          content: { }
         400:
           description: delete to ResourceOrder/{uuid} - Bad Request
           content:
@@ -106,7 +104,7 @@ paths:
     get:
       security:
         - OAuth2:
-            - 'rori:resourceOrders:read'
+            - 'rori:a4ResourceOrders:full'
             - 'giga:cga:all-area-access'
       tags:
         - ResourceOrder
@@ -126,7 +124,7 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/ResourceOrderDto'
+                  $ref: '#/components/schemas/ResourceOrderMainDataDto'
         400:
           description: list ResourceOrder - Bad Request
           content:
@@ -151,7 +149,6 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
-
 components:
   schemas:
     Any:
@@ -211,6 +208,28 @@ components:
           items:
             $ref: '#/components/schemas/QosClassDto'
       description: QosClass. within Access 4.0 project
+    ResourceOrderMainDataDto:
+      type: object
+      description: A Resource Order is a request to provision a set of Resources (logical and physical) triggered by the request to provision a Service through a Service Order
+      properties:
+        id:
+          type: string
+          description: Identifier of an instance of the Resource Order. Required to be unique within the resource type.  Used in URIs as the identifier for specific instances of a type.
+        completionDate:
+          type: string
+          description: Date when the order was completed
+        externalId:
+          type: string
+          description: 'DEPRECATED: Use externalReference Instead. ID given by the consumer (to facilitate searches afterwards)'
+        orderDate:
+          type: string
+          description: Date when the order was created
+        state:
+          type: string
+          description: The life cycle state of the resource.
+        vuep:
+          type: string
+          description: The VUEP Public Refenz Nr of the resource.
     ResourceOrderDto:
       type: object
       description: A Resource Order is a request to provision a set of Resources (logical and physical) triggered by the request to provision a Service through a Service Order
@@ -245,7 +264,7 @@ components:
         carrierAnschlussBsaReferenz:
           type: string
           description: The CarrierAnschlussBSA Referenz of the resource.
-        note:
+        notes:
           type: array
           items:
             $ref: '#/components/schemas/NoteDto'
@@ -275,28 +294,16 @@ components:
         nspA10NspUuid:
           type: string
           description: 'UUID of the NetworkServiceProfileA10Nsp related to the order item : described in the state machine diagram'
-        resource:
-          $ref: '#/components/schemas/ResourceRefOrValueDto'
-    ResourceRefOrValueDto:
-      type: object
-      description: 'Resource is an abstract entity that describes the common set of attributes shared by all concrete resources.'
-      required:
-        - href
-        - id
-      properties:
-        id:
-          type: string
-          description: Identifier of an instance of the resource. Required to be unique within the resource type.  Used in URIs as the identifier for specific instances of a type.
-        href:
-          type: string
-          description: The URI for the object itself.
-        name:
-          type: string
-          description: A string used to give a name to the resource
-        resourceCharacteristic:
+        resourceCharacteristics:
           type: array
           items:
             $ref: '#/components/schemas/CharacteristicDto'
+        resourceRefOrValueId:
+          type: string
+          description: Identifier of an instance of the resource. Required to be unique within the resource type.  Used in URIs as the identifier for specific instances of a type.
+        resourceRefOrValueName:
+          type: string
+          description: A string used to give a name to the resource
     VlanRangeDto:
       type: object
       properties:
@@ -338,5 +345,4 @@ components:
           tokenUrl: 'https://rhsso-develop.magic.telekom.de/auth/realms/GigabitHub/protocol/openid-connect/token'
           scopes:
             'giga:cga:all-area-access': General Access Scope
-            'rori:resourceOrders:read': READ resourceOrders Scope
-            'rori:resourceOrders:full': FULL resourceOrders Scope
+            'rori:a4ResourceOrders:full': FULL a4ResourceOrders Scope
