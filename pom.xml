@@ -10,7 +10,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>osr-models</artifactId>
-    <version>0.0.123</version>
+    <version>0.0.124</version>
 
     <properties>
         <framework.version>${project.parent.version}</framework.version>
@@ -109,6 +109,12 @@
                                         <name>dpu.commissioning</name>
                                         <inputSpec>
                                             ${project.basedir}/src/main/resources/swagger/dpu-commissioning/dpu-commissioning-internal.yaml
+                                        </inputSpec>
+                                    </item>
+                                    <item>
+                                        <name>dpu.commissioning.external.client</name>
+                                        <inputSpec>
+                                            ${project.basedir}/src/main/resources/swagger/dpu-commissioning/dpu-commissioning-external.yaml
                                         </inputSpec>
                                     </item>
                                     <item>
