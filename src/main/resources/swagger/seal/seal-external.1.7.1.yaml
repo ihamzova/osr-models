@@ -1,0 +1,2835 @@
+swagger: '2.0'
+info:
+  title: SEAL REST API
+  description: 'This document describes the operations and structures of the SEAL REST API endpoints. You find general basics which were considered during the design of the interface and further information in the [Service Specification SEAL REST API](https://gard.telekom.de/gardwiki/display/DGHB/SEAL). '
+  contact:
+    name: SEAL_DesignTeam
+    email: sven.schugart@telekom.de
+  version: '1.7.1'
+paths:
+  '/resource-order-resource-inventory/v1/inventory-retrieval/{accessNodeId}':
+    get:
+      tags:
+        - Configuration
+      description: Retrieval of an Access Node inventory
+      operationId: v1-get-accessnode-inventory
+      parameters:
+        - $ref: '#/parameters/X-Callback-Url'
+        - $ref: '#/parameters/X-Callback-Correlation-Id'
+        - $ref: '#/parameters/X-Callback-Method'
+        - $ref: '#/parameters/X-Business-Context'
+        - $ref: '#/parameters/X-Correlation-ID'
+        - $ref: '#/parameters/X-Request-ID'
+        - $ref: '#/parameters/accessNodeId'
+      responses:
+        '202':
+          $ref: '#/responses/202'
+      x-operation-type: async
+  '/resource-order-resource-inventory/v1/access-line-configuration/{accessNodeId}/accessLines':
+    post:
+      tags:
+        - Configuration
+      description: Creates one Access-Line-configuration on a specific OLT
+      operationId: v1-create-accessline
+      consumes:
+        - application/json
+      parameters:
+        - $ref: '#/parameters/X-Callback-Url'
+        - $ref: '#/parameters/X-Callback-Correlation-Id'
+        - $ref: '#/parameters/X-Callback-Method'
+        - $ref: '#/parameters/X-Business-Context'
+        - $ref: '#/parameters/X-Correlation-ID'
+        - $ref: '#/parameters/X-Request-ID'
+        - $ref: '#/parameters/accessNodeId'
+        - in: body
+          name: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1-create-accessline-request'
+      responses:
+        '202':
+          $ref: '#/responses/202'
+      x-operation-type: async
+  '/resource-order-resource-inventory/v1/access-line-configuration/{accessNodeId}/accessLines/{accessLineConfigurationId}':
+    patch:
+      tags:
+        - Configuration
+      description: Modify parameter values of an existing AccessLine-configuration on the OLT
+      operationId: v1-patch-accessline
+      consumes:
+        - application/json
+      parameters:
+        - $ref: '#/parameters/X-Callback-Url'
+        - $ref: '#/parameters/X-Callback-Correlation-Id'
+        - $ref: '#/parameters/X-Callback-Method'
+        - $ref: '#/parameters/X-Business-Context'
+        - $ref: '#/parameters/X-Correlation-ID'
+        - $ref: '#/parameters/X-Request-ID'
+        - $ref: '#/parameters/accessNodeId'
+        - $ref: '#/parameters/accessLineConfigurationId'
+        - in: body
+          name: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1-patch-accessline-request'
+      responses:
+        '202':
+          $ref: '#/responses/202'
+      x-operation-type: async
+    delete:
+      tags:
+        - Configuration
+      description: Delete one AccessLine-configuration out of a specific OLT
+      operationId: v1-delete-accessline
+      parameters:
+        - $ref: '#/parameters/X-Callback-Url'
+        - $ref: '#/parameters/X-Callback-Correlation-Id'
+        - $ref: '#/parameters/X-Callback-Method'
+        - $ref: '#/parameters/X-Business-Context'
+        - $ref: '#/parameters/X-Correlation-ID'
+        - $ref: '#/parameters/X-Request-ID'
+        - $ref: '#/parameters/accessNodeId'
+        - $ref: '#/parameters/accessLineConfigurationId'
+      responses:
+        '202':
+          $ref: '#/responses/202'
+      x-operation-type: async
+  /resource-order-resource-inventory/v1/dpu/accessLineGfastTpConfigurationTask:
+    post:
+      tags:
+        - Configuration
+      description: Creates an Access-Line-configuration on a specific DPU (PMA) /
+      operationId: v1-create-gfast-accessline-dpu
+      consumes:
+        - application/json
+      parameters:
+        - $ref: '#/parameters/X-Callback-Url'
+        - $ref: '#/parameters/X-Callback-Correlation-Id'
+        - $ref: '#/parameters/X-Callback-Method'
+        - $ref: '#/parameters/X-Business-Context'
+        - $ref: '#/parameters/X-Correlation-ID'
+        - $ref: '#/parameters/X-Request-ID'
+        - in: body
+          name: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1-create-gfast-accessline-dpu-request'
+      responses:
+        '202':
+          $ref: '#/responses/202'
+      x-operation-type: async
+  /resource-order-resource-inventory/v1/dpu/accessLineGfastTpDeconfigurationTask:
+    post:
+      tags:
+        - Configuration
+      description: deletes an Access-Line-configuration on a specific DPU (PMA) /
+      operationId: v1-delete-gfast-accessline-dpu
+      consumes:
+        - application/json
+      parameters:
+        - $ref: '#/parameters/X-Callback-Url'
+        - $ref: '#/parameters/X-Callback-Correlation-Id'
+        - $ref: '#/parameters/X-Callback-Method'
+        - $ref: '#/parameters/X-Business-Context'
+        - $ref: '#/parameters/X-Correlation-ID'
+        - $ref: '#/parameters/X-Request-ID'
+        - in: body
+          name: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1-delete-gfast-accessline-dpu-request'
+      responses:
+        '202':
+          $ref: '#/responses/202'
+      x-operation-type: async
+  /resource-order-resource-inventory/v1/olt/accessLineFttbConfigurationTask:
+    post:
+      tags:
+        - Configuration
+      description: Creates an Access-Line-configuration on a specific OLT
+      operationId: v1-create-gfast-accessline-olt
+      consumes:
+        - application/json
+      parameters:
+        - $ref: '#/parameters/X-Callback-Url'
+        - $ref: '#/parameters/X-Callback-Correlation-Id'
+        - $ref: '#/parameters/X-Callback-Method'
+        - $ref: '#/parameters/X-Business-Context'
+        - $ref: '#/parameters/X-Correlation-ID'
+        - $ref: '#/parameters/X-Request-ID'
+        - in: body
+          name: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1-create-gfast-accessline-olt-request'
+      responses:
+        '202':
+          $ref: '#/responses/202'
+      x-operation-type: async
+  /resource-order-resource-inventory/v1/olt/accessLineFttbDeconfigurationTask:
+    post:
+      tags:
+        - Configuration
+      description: 'Deletes an Access-Line-configuration of fttb from a specific OLT  '
+      operationId: v1-delete-gfast-accessline-olt
+      consumes:
+        - application/json
+      parameters:
+        - $ref: '#/parameters/X-Callback-Url'
+        - $ref: '#/parameters/X-Callback-Correlation-Id'
+        - $ref: '#/parameters/X-Callback-Method'
+        - $ref: '#/parameters/X-Business-Context'
+        - $ref: '#/parameters/X-Correlation-ID'
+        - $ref: '#/parameters/X-Request-ID'
+        - in: body
+          name: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1-delete-gfast-accessline-olt-request'
+      responses:
+        '202':
+          $ref: '#/responses/202'
+      x-operation-type: async
+  /resource-order-resource-inventory/v1/olt/accessLineFtthConfigurationTask:
+    post:
+      tags:
+        - Configuration
+      description: Creates an Access-Line-configuration on a specific OLT /
+      operationId: v1-create-pon-accessline-olt
+      consumes:
+        - application/json
+      parameters:
+        - $ref: '#/parameters/X-Callback-Url'
+        - $ref: '#/parameters/X-Callback-Correlation-Id'
+        - $ref: '#/parameters/X-Callback-Method'
+        - $ref: '#/parameters/X-Business-Context'
+        - $ref: '#/parameters/X-Correlation-ID'
+        - $ref: '#/parameters/X-Request-ID'
+        - in: body
+          name: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1-create-pon-accessline-olt-request'
+      responses:
+        '202':
+          $ref: '#/responses/202'
+      x-operation-type: async
+  /resource-order-resource-inventory/v1/olt/accessLineFtthDeconfigurationTask:
+    post:
+      tags:
+        - Configuration
+      description: Deletes an Access-Line-configuration on a specific OLT /
+      operationId: v1-delete-pon-accessline-olt
+      consumes:
+        - application/json
+      parameters:
+        - $ref: '#/parameters/X-Callback-Url'
+        - $ref: '#/parameters/X-Callback-Correlation-Id'
+        - $ref: '#/parameters/X-Callback-Method'
+        - $ref: '#/parameters/X-Business-Context'
+        - $ref: '#/parameters/X-Correlation-ID'
+        - $ref: '#/parameters/X-Request-ID'
+        - in: body
+          name: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1-delete-pon-accessline-olt-request'
+      responses:
+        '202':
+          $ref: '#/responses/202'
+      x-operation-type: async
+  '/resource-order-resource-inventory/v1/ancp-configuration/{accessNodeId}/ancpConfigurations':
+    post:
+      tags:
+        - Configuration
+      description: Create an ANCP-configuration in a specific OLT for binding to the BNG
+      operationId: v1-create-ancp-configuration
+      consumes:
+        - application/json
+      parameters:
+        - $ref: '#/parameters/X-Callback-Url'
+        - $ref: '#/parameters/X-Callback-Correlation-Id'
+        - $ref: '#/parameters/X-Callback-Method'
+        - $ref: '#/parameters/X-Business-Context'
+        - $ref: '#/parameters/X-Correlation-ID'
+        - $ref: '#/parameters/X-Request-ID'
+        - $ref: '#/parameters/accessNodeId'
+        - in: body
+          name: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1-create-ancp-configuration-request'
+      responses:
+        '202':
+          $ref: '#/responses/202'
+      x-operation-type: async
+  '/resource-order-resource-inventory/v1/ancp-status-test/{accessNodeId}/ancpConfigurations/{ancpConfigurationId}':
+    get:
+      tags:
+        - Configuration
+      description: Gets the current config-parameters of a specific ANCP-configuration and its status
+      operationId: v1-get-ancp-configuration
+      parameters:
+        - $ref: '#/parameters/X-Callback-Url'
+        - $ref: '#/parameters/X-Callback-Correlation-Id'
+        - $ref: '#/parameters/X-Callback-Method'
+        - $ref: '#/parameters/X-Business-Context'
+        - $ref: '#/parameters/X-Correlation-ID'
+        - $ref: '#/parameters/X-Request-ID'
+        - $ref: '#/parameters/accessNodeId'
+        - $ref: '#/parameters/ancpConfigurationId'
+      responses:
+        '202':
+          $ref: '#/responses/202'
+      x-operation-type: async
+  '/resource-order-resource-inventory/v1/ancp-configuration/{accessNodeId}/ancpConfigurations/{ancpConfigurationId}':
+    delete:
+      tags:
+        - Configuration
+      description: Deletes an ANCP-configuration
+      operationId: v1-delete-ancp-configuration
+      parameters:
+        - $ref: '#/parameters/X-Callback-Url'
+        - $ref: '#/parameters/X-Callback-Correlation-Id'
+        - $ref: '#/parameters/X-Callback-Method'
+        - $ref: '#/parameters/X-Business-Context'
+        - $ref: '#/parameters/X-Correlation-ID'
+        - $ref: '#/parameters/X-Request-ID'
+        - $ref: '#/parameters/accessNodeId'
+        - $ref: '#/parameters/ancpConfigurationId'
+      responses:
+        '202':
+          $ref: '#/responses/202'
+      x-operation-type: async
+  /resource-order-resource-inventory/v1/dpu/dpuConfigurationTask:
+    post:
+      tags:
+        - Configuration
+      description: DPU-Commissiong at MOSAIC-CP. Configures a new DPU via MOSAIC-CP /
+      operationId: v1-dpu-configuration-mcp
+      consumes:
+        - application/json
+      parameters:
+        - $ref: '#/parameters/X-Callback-Url'
+        - $ref: '#/parameters/X-Callback-Correlation-Id'
+        - $ref: '#/parameters/X-Callback-Method'
+        - $ref: '#/parameters/X-Business-Context'
+        - $ref: '#/parameters/X-Correlation-ID'
+        - $ref: '#/parameters/X-Request-ID'
+        - in: body
+          name: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1-dpu-configuration-mcp-request'
+      responses:
+        '202':
+          $ref: '#/responses/202'
+      x-operation-type: async
+  /resource-order-resource-inventory/v1/dpu/dpuDeconfigurationTask:
+    post:
+      tags:
+        - Configuration
+      description: DPU-Decommissiong at MOSAIC-CP. Deconfigures a DPU (via MOSAIC-CP) /
+      operationId: v1-dpu-deconfiguration-mcp
+      consumes:
+        - application/json
+      parameters:
+        - $ref: '#/parameters/X-Callback-Url'
+        - $ref: '#/parameters/X-Callback-Correlation-Id'
+        - $ref: '#/parameters/X-Callback-Method'
+        - $ref: '#/parameters/X-Business-Context'
+        - $ref: '#/parameters/X-Correlation-ID'
+        - $ref: '#/parameters/X-Request-ID'
+        - in: body
+          name: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1-dpu-deconfiguration-mcp-request'
+      responses:
+        '202':
+          $ref: '#/responses/202'
+      x-operation-type: async
+  /resource-order-resource-inventory/v1/olt/dpuConfigurationTask:
+    post:
+      tags:
+        - Configuration
+      description: Create a DPU-configuration in a specific OLT
+      operationId: v1-dpu-configuration-olt
+      consumes:
+        - application/json
+      parameters:
+        - $ref: '#/parameters/X-Callback-Url'
+        - $ref: '#/parameters/X-Callback-Correlation-Id'
+        - $ref: '#/parameters/X-Callback-Method'
+        - $ref: '#/parameters/X-Business-Context'
+        - $ref: '#/parameters/X-Correlation-ID'
+        - $ref: '#/parameters/X-Request-ID'
+        - in: body
+          name: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1-dpu-configuration-olt-request'
+      responses:
+        '202':
+          $ref: '#/responses/202'
+      x-operation-type: async
+  /resource-order-resource-inventory/v1/olt/dpuDeconfigurationTask:
+    post:
+      tags:
+        - Configuration
+      description: DELETE a DPU-configuration in a specific OLT
+      operationId: v1-dpu-deconfiguration-olt
+      consumes:
+        - application/json
+      parameters:
+        - $ref: '#/parameters/X-Callback-Url'
+        - $ref: '#/parameters/X-Callback-Correlation-Id'
+        - $ref: '#/parameters/X-Callback-Method'
+        - $ref: '#/parameters/X-Business-Context'
+        - $ref: '#/parameters/X-Correlation-ID'
+        - $ref: '#/parameters/X-Request-ID'
+        - in: body
+          name: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1-dpu-deconfiguration-olt-request'
+      responses:
+        '202':
+          $ref: '#/responses/202'
+      x-operation-type: async
+  '/resource-order-resource-inventory/v1/bhid-configuration/{accessNodeId}/bhidConfigurations':
+    post:
+      tags:
+        - Configuration
+      description: Configure the backhaulId to a specific PON-Port
+      operationId: v1-create-bhid-configuration
+      consumes:
+        - application/json
+      parameters:
+        - $ref: '#/parameters/X-Callback-Url'
+        - $ref: '#/parameters/X-Callback-Correlation-Id'
+        - $ref: '#/parameters/X-Callback-Method'
+        - $ref: '#/parameters/X-Business-Context'
+        - $ref: '#/parameters/X-Correlation-ID'
+        - $ref: '#/parameters/X-Request-ID'
+        - $ref: '#/parameters/accessNodeId'
+        - in: body
+          name: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1-create-bhid-configuration-request'
+      responses:
+        '202':
+          $ref: '#/responses/202'
+      x-operation-type: async
+  '/resource-order-resource-inventory/v1/bhid-configuration/{accessNodeId}/bhidConfigurations/{bhidConfigurationId}':
+    delete:
+      tags:
+        - Configuration
+      description: Delete the backhaulId to a specific PON-Port
+      operationId: v1-delete-bhid-configuration
+      parameters:
+        - $ref: '#/parameters/X-Callback-Url'
+        - $ref: '#/parameters/X-Callback-Correlation-Id'
+        - $ref: '#/parameters/X-Callback-Method'
+        - $ref: '#/parameters/X-Business-Context'
+        - $ref: '#/parameters/X-Correlation-ID'
+        - $ref: '#/parameters/X-Request-ID'
+        - $ref: '#/parameters/accessNodeId'
+        - $ref: '#/parameters/bhidConfigurationId'
+      responses:
+        '202':
+          $ref: '#/responses/202'
+      x-operation-type: async
+  /resource-order-resource-inventory/v1/ont-connectivity-test/:
+    post:
+      tags:
+        - Maintenance
+      description: Check the availability of exactly one ONT which is connected to a PON port
+      operationId: v1-ont-single-availability-check
+      consumes:
+        - application/json
+      parameters:
+        - $ref: '#/parameters/X-Callback-Url'
+        - $ref: '#/parameters/X-Callback-Correlation-Id'
+        - $ref: '#/parameters/X-Callback-Method'
+        - $ref: '#/parameters/X-Business-Context'
+        - $ref: '#/parameters/X-Correlation-ID'
+        - $ref: '#/parameters/X-Request-ID'
+        - in: body
+          name: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1-ont-single-availability-check-request'
+      responses:
+        '202':
+          $ref: '#/responses/202'
+      x-operation-type: async
+  /resource-order-resource-inventory/v1/ontPonDetection/:
+    post:
+      tags:
+        - Maintenance
+      description: Check the occurrence of an ONT registration alarmevent of not registered or wrong connected ONT device to an un/expected OLT inside of an exchange area.
+      operationId: v1-ont-pon-detection
+      consumes:
+        - application/json
+      parameters:
+        - $ref: '#/parameters/X-Callback-Url'
+        - $ref: '#/parameters/X-Callback-Correlation-Id'
+        - $ref: '#/parameters/X-Callback-Method'
+        - $ref: '#/parameters/X-Business-Context'
+        - $ref: '#/parameters/X-Correlation-ID'
+        - $ref: '#/parameters/X-Request-ID'
+        - in: body
+          name: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1-ont-pon-detection-request'
+      responses:
+        '202':
+          $ref: '#/responses/202'
+      x-operation-type: async
+  /resource-order-resource-inventory/v1/onuOpticalPowerMeasurement/:
+    post:
+      tags:
+        - Maintenance
+      description: 'Get the Attenuation Measurement from OLT of a connected ONU device (optical power) , DPU or ONT.'
+      operationId: v1-onu-optical-power
+      consumes:
+        - application/json
+      parameters:
+        - $ref: '#/parameters/X-Callback-Url'
+        - $ref: '#/parameters/X-Callback-Correlation-Id'
+        - $ref: '#/parameters/X-Callback-Method'
+        - $ref: '#/parameters/X-Business-Context'
+        - $ref: '#/parameters/X-Correlation-ID'
+        - $ref: '#/parameters/X-Request-ID'
+        - in: body
+          name: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1-onu-optical-power-request'
+      responses:
+        '202':
+          $ref: '#/responses/202'
+      x-operation-type: async
+  /resource-order-resource-inventory/v1/bulk-create-access-lines:
+    post:
+      tags:
+        - Bulk
+      description: Creates many Access-Line-configurations on OLTs
+      operationId: v1-bulk-create-accesslines
+      consumes:
+        - application/json
+      parameters:
+        - $ref: '#/parameters/X-Callback-Url'
+        - $ref: '#/parameters/X-Callback-Correlation-Id'
+        - $ref: '#/parameters/X-Callback-Method'
+        - $ref: '#/parameters/X-Business-Context'
+        - $ref: '#/parameters/X-Correlation-ID'
+        - $ref: '#/parameters/X-Request-ID'
+        - in: body
+          name: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1-bulk-create-accesslines-request'
+      responses:
+        '202':
+          $ref: '#/responses/202'
+      x-operation-type: async
+  /resource-order-resource-inventory/v1/bulk-delete-access-lines:
+    post:
+      tags:
+        - Bulk
+      description: Delete many Access-Line-configurations on OLTs
+      operationId: v1-bulk-delete-accesslines
+      consumes:
+        - application/json
+      parameters:
+        - $ref: '#/parameters/X-Callback-Url'
+        - $ref: '#/parameters/X-Callback-Correlation-Id'
+        - $ref: '#/parameters/X-Callback-Method'
+        - $ref: '#/parameters/X-Business-Context'
+        - $ref: '#/parameters/X-Correlation-ID'
+        - $ref: '#/parameters/X-Request-ID'
+        - in: body
+          name: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1-bulk-delete-accesslines-request'
+      responses:
+        '202':
+          $ref: '#/responses/202'
+      x-operation-type: async
+  /resource-order-resource-inventory/v1/bulk-create-BackhaulIds:
+    post:
+      tags:
+        - Bulk
+      description: Configure many backhaulIds to specific PON-Ports
+      operationId: v1-bulk-create-backhaul-Ids
+      consumes:
+        - application/json
+      parameters:
+        - $ref: '#/parameters/X-Callback-Url'
+        - $ref: '#/parameters/X-Callback-Correlation-Id'
+        - $ref: '#/parameters/X-Callback-Method'
+        - $ref: '#/parameters/X-Business-Context'
+        - $ref: '#/parameters/X-Correlation-ID'
+        - $ref: '#/parameters/X-Request-ID'
+        - in: body
+          name: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1-bulk-create-backhaul-Ids-request'
+      responses:
+        '202':
+          $ref: '#/responses/202'
+      x-operation-type: async
+  /resource-order-resource-inventory/v1/bulk-delete-BackhaulIds:
+    post:
+      tags:
+        - Bulk
+      description: Delete many backhaulIds to specific PON-Ports
+      operationId: v1-bulk-delete-backhaul-Ids
+      consumes:
+        - application/json
+      parameters:
+        - $ref: '#/parameters/X-Callback-Url'
+        - $ref: '#/parameters/X-Callback-Correlation-Id'
+        - $ref: '#/parameters/X-Callback-Method'
+        - $ref: '#/parameters/X-Business-Context'
+        - $ref: '#/parameters/X-Correlation-ID'
+        - $ref: '#/parameters/X-Request-ID'
+        - in: body
+          name: body
+          required: true
+          schema:
+            $ref: '#/definitions/v1-bulk-delete-backhaul-Ids-request'
+      responses:
+        '202':
+          $ref: '#/responses/202'
+      x-operation-type: async
+  /callback/seal/v1/getAccessnodeInventory:
+    post:
+      tags:
+        - Callbacks
+      operationId: callback-v1-get-accessnode-inventory
+      consumes:
+        - application/json
+      parameters:
+        - $ref: '#/parameters/X-Callback-Correlation-Id'
+        - $ref: '#/parameters/X-Business-Context'
+        - $ref: '#/parameters/X-Correlation-ID'
+        - $ref: '#/parameters/X-Request-ID'
+        - in: body
+          name: body
+          required: true
+          schema:
+            $ref: '#/definitions/callback-v1-get-accessnode-inventory-request'
+      responses:
+        '202':
+          description: Your callback API implementation should return this HTTP status code if the data was received successfully
+        '204':
+          description: Your callback API implementation should return this HTTP status code if no longer interested in further updates
+      x-reference-operation-id: v1-get-accessnode-inventory
+      x-operation-type: callback
+  /callback/seal/v1/createAccessline:
+    post:
+      tags:
+        - Callbacks
+      operationId: callback-v1-create-accessline
+      consumes:
+        - application/json
+      parameters:
+        - $ref: '#/parameters/X-Callback-Correlation-Id'
+        - $ref: '#/parameters/X-Business-Context'
+        - $ref: '#/parameters/X-Correlation-ID'
+        - $ref: '#/parameters/X-Request-ID'
+        - in: body
+          name: body
+          required: true
+          schema:
+            $ref: '#/definitions/callback-v1-create-accessline-request'
+      responses:
+        '202':
+          description: Your callback API implementation should return this HTTP status code if the data was received successfully
+        '204':
+          description: Your callback API implementation should return this HTTP status code if no longer interested in further updates
+      x-reference-operation-id: v1-create-accessline
+      x-operation-type: callback
+  /callback/seal/v1/patchAccessline:
+    post:
+      tags:
+        - Callbacks
+      operationId: callback-v1-patch-accessline
+      consumes:
+        - application/json
+      parameters:
+        - $ref: '#/parameters/X-Callback-Correlation-Id'
+        - $ref: '#/parameters/X-Business-Context'
+        - $ref: '#/parameters/X-Correlation-ID'
+        - $ref: '#/parameters/X-Request-ID'
+        - in: body
+          name: body
+          required: true
+          schema:
+            $ref: '#/definitions/callback-v1-patch-accessline-request'
+      responses:
+        '202':
+          description: Your callback API implementation should return this HTTP status code if the data was received successfully
+        '204':
+          description: Your callback API implementation should return this HTTP status code if no longer interested in further updates
+      x-reference-operation-id: v1-patch-accessline
+      x-operation-type: callback
+  /callback/seal/v1/deleteAccessline:
+    post:
+      tags:
+        - Callbacks
+      operationId: callback-v1-delete-accessline
+      consumes:
+        - application/json
+      parameters:
+        - $ref: '#/parameters/X-Callback-Correlation-Id'
+        - $ref: '#/parameters/X-Business-Context'
+        - $ref: '#/parameters/X-Correlation-ID'
+        - $ref: '#/parameters/X-Request-ID'
+        - in: body
+          name: body
+          required: true
+          schema:
+            $ref: '#/definitions/callback-v1-delete-accessline-request'
+      responses:
+        '202':
+          description: Your callback API implementation should return this HTTP status code if the data was received successfully
+        '204':
+          description: Your callback API implementation should return this HTTP status code if no longer interested in further updates
+      x-reference-operation-id: v1-delete-accessline
+      x-operation-type: callback
+  /callback/seal/v1/createGfastAccesslineDpu:
+    post:
+      tags:
+        - Callbacks
+      operationId: callback-v1-create-gfast-accessline-dpu
+      consumes:
+        - application/json
+      parameters:
+        - $ref: '#/parameters/X-Callback-Correlation-Id'
+        - $ref: '#/parameters/X-Business-Context'
+        - $ref: '#/parameters/X-Correlation-ID'
+        - $ref: '#/parameters/X-Request-ID'
+        - in: body
+          name: body
+          required: true
+          schema:
+            $ref: '#/definitions/callback-v1-create-gfast-accessline-dpu-request'
+      responses:
+        '202':
+          description: Your callback API implementation should return this HTTP status code if the data was received successfully
+        '204':
+          description: Your callback API implementation should return this HTTP status code if no longer interested in further updates
+      x-reference-operation-id: v1-create-gfast-accessline-dpu
+      x-operation-type: callback
+  /callback/seal/v1/deleteGfastAccesslineDpu:
+    post:
+      tags:
+        - Callbacks
+      operationId: callback-v1-delete-gfast-accessline-dpu
+      consumes:
+        - application/json
+      parameters:
+        - $ref: '#/parameters/X-Callback-Correlation-Id'
+        - $ref: '#/parameters/X-Business-Context'
+        - $ref: '#/parameters/X-Correlation-ID'
+        - $ref: '#/parameters/X-Request-ID'
+        - in: body
+          name: body
+          required: true
+          schema:
+            $ref: '#/definitions/callback-v1-delete-gfast-accessline-dpu-request'
+      responses:
+        '202':
+          description: Your callback API implementation should return this HTTP status code if the data was received successfully
+        '204':
+          description: Your callback API implementation should return this HTTP status code if no longer interested in further updates
+      x-reference-operation-id: v1-delete-gfast-accessline-dpu
+      x-operation-type: callback
+  /callback/seal/v1/createGfastAccesslineOlt:
+    post:
+      tags:
+        - Callbacks
+      operationId: callback-v1-create-gfast-accessline-olt
+      consumes:
+        - application/json
+      parameters:
+        - $ref: '#/parameters/X-Callback-Correlation-Id'
+        - $ref: '#/parameters/X-Business-Context'
+        - $ref: '#/parameters/X-Correlation-ID'
+        - $ref: '#/parameters/X-Request-ID'
+        - in: body
+          name: body
+          required: true
+          schema:
+            $ref: '#/definitions/callback-v1-create-gfast-accessline-olt-request'
+      responses:
+        '202':
+          description: Your callback API implementation should return this HTTP status code if the data was received successfully
+        '204':
+          description: Your callback API implementation should return this HTTP status code if no longer interested in further updates
+      x-reference-operation-id: v1-create-gfast-accessline-olt
+      x-operation-type: callback
+  /callback/seal/v1/deleteGfastAccesslineOlt:
+    post:
+      tags:
+        - Callbacks
+      operationId: callback-v1-delete-gfast-accessline-olt
+      consumes:
+        - application/json
+      parameters:
+        - $ref: '#/parameters/X-Callback-Correlation-Id'
+        - $ref: '#/parameters/X-Business-Context'
+        - $ref: '#/parameters/X-Correlation-ID'
+        - $ref: '#/parameters/X-Request-ID'
+        - in: body
+          name: body
+          required: true
+          schema:
+            $ref: '#/definitions/callback-v1-delete-gfast-accessline-olt-request'
+      responses:
+        '202':
+          description: Your callback API implementation should return this HTTP status code if the data was received successfully
+        '204':
+          description: Your callback API implementation should return this HTTP status code if no longer interested in further updates
+      x-reference-operation-id: v1-delete-gfast-accessline-olt
+      x-operation-type: callback
+  /callback/seal/v1/createPonAccesslineOlt:
+    post:
+      tags:
+        - Callbacks
+      operationId: callback-v1-create-pon-accessline-olt
+      consumes:
+        - application/json
+      parameters:
+        - $ref: '#/parameters/X-Callback-Correlation-Id'
+        - $ref: '#/parameters/X-Business-Context'
+        - $ref: '#/parameters/X-Correlation-ID'
+        - $ref: '#/parameters/X-Request-ID'
+        - in: body
+          name: body
+          required: true
+          schema:
+            $ref: '#/definitions/callback-v1-create-pon-accessline-olt-request'
+      responses:
+        '202':
+          description: Your callback API implementation should return this HTTP status code if the data was received successfully
+        '204':
+          description: Your callback API implementation should return this HTTP status code if no longer interested in further updates
+      x-reference-operation-id: v1-create-pon-accessline-olt
+      x-operation-type: callback
+  /callback/seal/v1/deletePonAccesslineOlt:
+    post:
+      tags:
+        - Callbacks
+      operationId: callback-v1-delete-pon-accessline-olt
+      consumes:
+        - application/json
+      parameters:
+        - $ref: '#/parameters/X-Callback-Correlation-Id'
+        - $ref: '#/parameters/X-Business-Context'
+        - $ref: '#/parameters/X-Correlation-ID'
+        - $ref: '#/parameters/X-Request-ID'
+        - in: body
+          name: body
+          required: true
+          schema:
+            $ref: '#/definitions/callback-v1-delete-pon-accessline-olt-request'
+      responses:
+        '202':
+          description: Your callback API implementation should return this HTTP status code if the data was received successfully
+        '204':
+          description: Your callback API implementation should return this HTTP status code if no longer interested in further updates
+      x-reference-operation-id: v1-delete-pon-accessline-olt
+      x-operation-type: callback
+  /callback/seal/v1/createAncpConfiguration:
+    post:
+      tags:
+        - Callbacks
+      operationId: callback-v1-create-ancp-configuration
+      consumes:
+        - application/json
+      parameters:
+        - $ref: '#/parameters/X-Callback-Correlation-Id'
+        - $ref: '#/parameters/X-Business-Context'
+        - $ref: '#/parameters/X-Correlation-ID'
+        - $ref: '#/parameters/X-Request-ID'
+        - in: body
+          name: body
+          required: true
+          schema:
+            $ref: '#/definitions/callback-v1-create-ancp-configuration-request'
+      responses:
+        '202':
+          description: Your callback API implementation should return this HTTP status code if the data was received successfully
+        '204':
+          description: Your callback API implementation should return this HTTP status code if no longer interested in further updates
+      x-reference-operation-id: v1-create-ancp-configuration
+      x-operation-type: callback
+  /callback/seal/v1/getAncpConfiguration:
+    post:
+      tags:
+        - Callbacks
+      operationId: callback-v1-get-ancp-configuration
+      consumes:
+        - application/json
+      parameters:
+        - $ref: '#/parameters/X-Callback-Correlation-Id'
+        - $ref: '#/parameters/X-Business-Context'
+        - $ref: '#/parameters/X-Correlation-ID'
+        - $ref: '#/parameters/X-Request-ID'
+        - in: body
+          name: body
+          required: true
+          schema:
+            $ref: '#/definitions/callback-v1-get-ancp-configuration-request'
+      responses:
+        '202':
+          description: Your callback API implementation should return this HTTP status code if the data was received successfully
+        '204':
+          description: Your callback API implementation should return this HTTP status code if no longer interested in further updates
+      x-reference-operation-id: v1-get-ancp-configuration
+      x-operation-type: callback
+  /callback/seal/v1/deleteAncpConfiguration:
+    post:
+      tags:
+        - Callbacks
+      operationId: callback-v1-delete-ancp-configuration
+      consumes:
+        - application/json
+      parameters:
+        - $ref: '#/parameters/X-Callback-Correlation-Id'
+        - $ref: '#/parameters/X-Business-Context'
+        - $ref: '#/parameters/X-Correlation-ID'
+        - $ref: '#/parameters/X-Request-ID'
+        - in: body
+          name: body
+          required: true
+          schema:
+            $ref: '#/definitions/callback-v1-delete-ancp-configuration-request'
+      responses:
+        '202':
+          description: Your callback API implementation should return this HTTP status code if the data was received successfully
+        '204':
+          description: Your callback API implementation should return this HTTP status code if no longer interested in further updates
+      x-reference-operation-id: v1-delete-ancp-configuration
+      x-operation-type: callback
+  /callback/seal/v1/dpuConfigurationMcp:
+    post:
+      tags:
+        - Callbacks
+      operationId: callback-v1-dpu-configuration-mcp
+      consumes:
+        - application/json
+      parameters:
+        - $ref: '#/parameters/X-Callback-Correlation-Id'
+        - $ref: '#/parameters/X-Business-Context'
+        - $ref: '#/parameters/X-Correlation-ID'
+        - $ref: '#/parameters/X-Request-ID'
+        - in: body
+          name: body
+          required: true
+          schema:
+            $ref: '#/definitions/callback-v1-dpu-configuration-mcp-request'
+      responses:
+        '202':
+          description: Your callback API implementation should return this HTTP status code if the data was received successfully
+        '204':
+          description: Your callback API implementation should return this HTTP status code if no longer interested in further updates
+      x-reference-operation-id: v1-dpu-configuration-mcp
+      x-operation-type: callback
+  /callback/seal/v1/dpuDeconfigurationMcp:
+    post:
+      tags:
+        - Callbacks
+      operationId: callback-v1-dpu-deconfiguration-mcp
+      consumes:
+        - application/json
+      parameters:
+        - $ref: '#/parameters/X-Callback-Correlation-Id'
+        - $ref: '#/parameters/X-Business-Context'
+        - $ref: '#/parameters/X-Correlation-ID'
+        - $ref: '#/parameters/X-Request-ID'
+        - in: body
+          name: body
+          required: true
+          schema:
+            $ref: '#/definitions/callback-v1-dpu-deconfiguration-mcp-request'
+      responses:
+        '202':
+          description: Your callback API implementation should return this HTTP status code if the data was received successfully
+        '204':
+          description: Your callback API implementation should return this HTTP status code if no longer interested in further updates
+      x-reference-operation-id: v1-dpu-deconfiguration-mcp
+      x-operation-type: callback
+  /callback/seal/v1/dpuConfigurationOlt:
+    post:
+      tags:
+        - Callbacks
+      operationId: callback-v1-dpu-configuration-olt
+      consumes:
+        - application/json
+      parameters:
+        - $ref: '#/parameters/X-Callback-Correlation-Id'
+        - $ref: '#/parameters/X-Business-Context'
+        - $ref: '#/parameters/X-Correlation-ID'
+        - $ref: '#/parameters/X-Request-ID'
+        - in: body
+          name: body
+          required: true
+          schema:
+            $ref: '#/definitions/callback-v1-dpu-configuration-olt-request'
+      responses:
+        '202':
+          description: Your callback API implementation should return this HTTP status code if the data was received successfully
+        '204':
+          description: Your callback API implementation should return this HTTP status code if no longer interested in further updates
+      x-reference-operation-id: v1-dpu-configuration-olt
+      x-operation-type: callback
+  /callback/seal/v1/dpuDeconfigurationOlt:
+    post:
+      tags:
+        - Callbacks
+      operationId: callback-v1-dpu-deconfiguration-olt
+      consumes:
+        - application/json
+      parameters:
+        - $ref: '#/parameters/X-Callback-Correlation-Id'
+        - $ref: '#/parameters/X-Business-Context'
+        - $ref: '#/parameters/X-Correlation-ID'
+        - $ref: '#/parameters/X-Request-ID'
+        - in: body
+          name: body
+          required: true
+          schema:
+            $ref: '#/definitions/callback-v1-dpu-deconfiguration-olt-request'
+      responses:
+        '202':
+          description: Your callback API implementation should return this HTTP status code if the data was received successfully
+        '204':
+          description: Your callback API implementation should return this HTTP status code if no longer interested in further updates
+      x-reference-operation-id: v1-dpu-deconfiguration-olt
+      x-operation-type: callback
+  /callback/seal/v1/createBhidConfiguration:
+    post:
+      tags:
+        - Callbacks
+      operationId: callback-v1-create-bhid-configuration
+      consumes:
+        - application/json
+      parameters:
+        - $ref: '#/parameters/X-Callback-Correlation-Id'
+        - $ref: '#/parameters/X-Business-Context'
+        - $ref: '#/parameters/X-Correlation-ID'
+        - $ref: '#/parameters/X-Request-ID'
+        - in: body
+          name: body
+          required: true
+          schema:
+            $ref: '#/definitions/callback-v1-create-bhid-configuration-request'
+      responses:
+        '202':
+          description: Your callback API implementation should return this HTTP status code if the data was received successfully
+        '204':
+          description: Your callback API implementation should return this HTTP status code if no longer interested in further updates
+      x-reference-operation-id: v1-create-bhid-configuration
+      x-operation-type: callback
+  /callback/seal/v1/deleteBhidConfiguration:
+    post:
+      tags:
+        - Callbacks
+      operationId: callback-v1-delete-bhid-configuration
+      consumes:
+        - application/json
+      parameters:
+        - $ref: '#/parameters/X-Callback-Correlation-Id'
+        - $ref: '#/parameters/X-Business-Context'
+        - $ref: '#/parameters/X-Correlation-ID'
+        - $ref: '#/parameters/X-Request-ID'
+        - in: body
+          name: body
+          required: true
+          schema:
+            $ref: '#/definitions/callback-v1-delete-bhid-configuration-request'
+      responses:
+        '202':
+          description: Your callback API implementation should return this HTTP status code if the data was received successfully
+        '204':
+          description: Your callback API implementation should return this HTTP status code if no longer interested in further updates
+      x-reference-operation-id: v1-delete-bhid-configuration
+      x-operation-type: callback
+  /callback/seal/v1/ontSingleAvailabilityCheck:
+    post:
+      tags:
+        - Callbacks
+      operationId: callback-v1-ont-single-availability-check
+      consumes:
+        - application/json
+      parameters:
+        - $ref: '#/parameters/X-Callback-Correlation-Id'
+        - $ref: '#/parameters/X-Business-Context'
+        - $ref: '#/parameters/X-Correlation-ID'
+        - $ref: '#/parameters/X-Request-ID'
+        - in: body
+          name: body
+          required: true
+          schema:
+            $ref: '#/definitions/callback-v1-ont-single-availability-check-request'
+      responses:
+        '202':
+          description: Your callback API implementation should return this HTTP status code if the data was received successfully
+        '204':
+          description: Your callback API implementation should return this HTTP status code if no longer interested in further updates
+      x-reference-operation-id: v1-ont-single-availability-check
+      x-operation-type: callback
+  /callback/seal/v1/ontPonDetection:
+    post:
+      tags:
+        - Callbacks
+      operationId: callback-v1-ont-pon-detection
+      consumes:
+        - application/json
+      parameters:
+        - $ref: '#/parameters/X-Callback-Correlation-Id'
+        - $ref: '#/parameters/X-Business-Context'
+        - $ref: '#/parameters/X-Correlation-ID'
+        - $ref: '#/parameters/X-Request-ID'
+        - in: body
+          name: body
+          required: true
+          schema:
+            $ref: '#/definitions/callback-v1-ont-pon-detection-request'
+      responses:
+        '202':
+          description: Your callback API implementation should return this HTTP status code if the data was received successfully
+        '204':
+          description: Your callback API implementation should return this HTTP status code if no longer interested in further updates
+      x-reference-operation-id: v1-ont-pon-detection
+      x-operation-type: callback
+  /callback/seal/v1/onuOpticalPower:
+    post:
+      tags:
+        - Callbacks
+      operationId: callback-v1-onu-optical-power
+      consumes:
+        - application/json
+      parameters:
+        - $ref: '#/parameters/X-Callback-Correlation-Id'
+        - $ref: '#/parameters/X-Business-Context'
+        - $ref: '#/parameters/X-Correlation-ID'
+        - $ref: '#/parameters/X-Request-ID'
+        - in: body
+          name: body
+          required: true
+          schema:
+            $ref: '#/definitions/callback-v1-onu-optical-power-request'
+      responses:
+        '202':
+          description: Your callback API implementation should return this HTTP status code if the data was received successfully
+        '204':
+          description: Your callback API implementation should return this HTTP status code if no longer interested in further updates
+      x-reference-operation-id: v1-onu-optical-power
+      x-operation-type: callback
+  /callback/seal/v1/bulkCreateAccesslines:
+    post:
+      tags:
+        - Callbacks
+      operationId: callback-v1-bulk-create-accesslines
+      consumes:
+        - application/json
+      parameters:
+        - $ref: '#/parameters/X-Callback-Correlation-Id'
+        - $ref: '#/parameters/X-Business-Context'
+        - $ref: '#/parameters/X-Correlation-ID'
+        - $ref: '#/parameters/X-Request-ID'
+        - in: body
+          name: body
+          required: true
+          schema:
+            $ref: '#/definitions/callback-v1-bulk-create-accesslines-request'
+      responses:
+        '202':
+          description: Your callback API implementation should return this HTTP status code if the data was received successfully
+        '204':
+          description: Your callback API implementation should return this HTTP status code if no longer interested in further updates
+      x-reference-operation-id: v1-bulk-create-accesslines
+      x-operation-type: callback
+  /callback/seal/v1/bulkDeleteAccesslines:
+    post:
+      tags:
+        - Callbacks
+      operationId: callback-v1-bulk-delete-accesslines
+      consumes:
+        - application/json
+      parameters:
+        - $ref: '#/parameters/X-Callback-Correlation-Id'
+        - $ref: '#/parameters/X-Business-Context'
+        - $ref: '#/parameters/X-Correlation-ID'
+        - $ref: '#/parameters/X-Request-ID'
+        - in: body
+          name: body
+          required: true
+          schema:
+            $ref: '#/definitions/callback-v1-bulk-delete-accesslines-request'
+      responses:
+        '202':
+          description: Your callback API implementation should return this HTTP status code if the data was received successfully
+        '204':
+          description: Your callback API implementation should return this HTTP status code if no longer interested in further updates
+      x-reference-operation-id: v1-bulk-delete-accesslines
+      x-operation-type: callback
+  /callback/seal/v1/bulkCreateBackhaulIds:
+    post:
+      tags:
+        - Callbacks
+      operationId: callback-v1-bulk-create-backhaul-Ids
+      consumes:
+        - application/json
+      parameters:
+        - $ref: '#/parameters/X-Callback-Correlation-Id'
+        - $ref: '#/parameters/X-Business-Context'
+        - $ref: '#/parameters/X-Correlation-ID'
+        - $ref: '#/parameters/X-Request-ID'
+        - in: body
+          name: body
+          required: true
+          schema:
+            $ref: '#/definitions/callback-v1-bulk-create-backhaul-Ids-request'
+      responses:
+        '202':
+          description: Your callback API implementation should return this HTTP status code if the data was received successfully
+        '204':
+          description: Your callback API implementation should return this HTTP status code if no longer interested in further updates
+      x-reference-operation-id: v1-bulk-create-backhaul-Ids
+      x-operation-type: callback
+  /callback/seal/v1/bulkDeleteBackhaulIds:
+    post:
+      tags:
+        - Callbacks
+      operationId: callback-v1-bulk-delete-backhaul-Ids
+      consumes:
+        - application/json
+      parameters:
+        - $ref: '#/parameters/X-Callback-Correlation-Id'
+        - $ref: '#/parameters/X-Business-Context'
+        - $ref: '#/parameters/X-Correlation-ID'
+        - $ref: '#/parameters/X-Request-ID'
+        - in: body
+          name: body
+          required: true
+          schema:
+            $ref: '#/definitions/callback-v1-bulk-delete-backhaul-Ids-request'
+      responses:
+        '202':
+          description: Your callback API implementation should return this HTTP status code if the data was received successfully
+        '204':
+          description: Your callback API implementation should return this HTTP status code if no longer interested in further updates
+      x-reference-operation-id: v1-bulk-delete-backhaul-Ids
+      x-operation-type: callback
+definitions:
+  v1-create-accessline-request:
+    properties:
+      shelf:
+        description: Number of the shelf
+        type: string
+        example: '0'
+      slot:
+        description: Number of the slot (only for huawei)
+        type: string
+        example: '4'
+      port:
+        description: Number of the port
+        type: string
+        example: '2'
+      uplinkSlot:
+        description: Number of the slot
+        type: string
+        example: '17'
+      uplinkPort:
+        description: Number of the uplinkPort
+        type: string
+        example: '128'
+      vlanId:
+        description: AnpTag
+        maximum: 4096
+        minimum: 0
+        type: number
+      ancpPartitionId:
+        description: Unique identification number of an ANCP-configuration within a ME
+        maximum: 255
+        minimum: 0
+        type: number
+        example: 3
+      serialNumber:
+        description: Serial number of the customer ONT. You can also specify 'DEFAULT' for SEAL to configure a default serial number
+        type: string
+        example: 4857544388CC4B42
+      lineId:
+        description: Line-ID of the service/customer
+        type: string
+        example: DEU.DTAG.42ARO
+      ontId:
+        description: ID of the ONT in the PON. ontId for dpu means ONU-ID of pon-port.
+        type: integer
+        example: 0
+      accessType:
+        description: Specifies the access-type
+        enum:
+          - PON
+          - GFAST
+        type: string
+      dpuName:
+        description: Endpoint key number which uniquely identifies a Manged element in the DTAG network
+        type: string
+        example: 49_231_50_71GC
+      forcedMode:
+        description: Flag to signalize that a deletion has to be done in before the creation to increase the robustness of the task
+        enum:
+          - 'true'
+          - 'false'
+        type: string
+  v1-patch-accessline-request:
+    properties:
+      serialNumber:
+        description: Serial number of the customer ONT. You can also specify 'DEFAULT' for SEAL to configure a default serial number
+        type: string
+        example: 4857544388CC4B42
+      lineId:
+        description: Line-ID of the service/customer
+        type: string
+        example: DEU.DTAG.42ARO
+  v1-create-gfast-accessline-dpu-request:
+    properties:
+      dpuName:
+        description: Endpoint key number which uniquely identifies a DPU in the DTAG network currently designed as endSz but can also be any other content
+        type: string
+        example: 49_341_2_7DPU
+      slot:
+        description: Number of the slot. Optional parameter - default value = 0
+        default: '0'
+        type: string
+        example: '0'
+      port:
+        description: Number of the slot
+        type: string
+        example: '1'
+      vlanId:
+        description: AnpTag
+        type: string
+        example: '2001'
+      lineId:
+        description: Unique identification number of the port/connector
+        type: string
+        example: DEU.DTAG.2010
+      lineProfile:
+        description: Line profile of the access line service
+        type: string
+        example: PV_FF_Gfast_500M_17a
+  v1-delete-gfast-accessline-dpu-request:
+    properties:
+      dpuName:
+        description: Endpoint key number which uniquely identifies a DPU in the DTAG network currently designed as endSz but can also be any other content
+        type: string
+        example: 49_341_2_7DPU
+      port:
+        description: Number of the port
+        type: string
+        example: '2'
+  v1-create-gfast-accessline-olt-request:
+    properties:
+      oltName:
+        description: Endpoint key number which uniquely identifies an OLT in the DTAG network
+        type: string
+        example: 49_341_1_76H1
+      shelf:
+        description: Number of the shelf
+        type: string
+        example: '1'
+      slot:
+        description: Number of the slot
+        type: string
+        example: '4'
+      port:
+        description: Number of the port
+        type: string
+        example: '2'
+      onuId:
+        description: ID of the ONU(DPU) in the PON of OLT.
+        type: integer
+        example: 0
+      uplinkSlot:
+        description: Number of the uplinkslot
+        type: string
+        example: '17'
+      uplinkShelf:
+        description: Number of the uplinkShelf
+        type: string
+        example: '1'
+      uplinkPort:
+        description: Number of the uplinkPort
+        type: string
+        example: '128'
+      vlanId:
+        description: AnpTag
+        type: string
+        example: '2001'
+      onuAccessId:
+        description: Parameter to identify the specific T-CONT on ONU
+        type: string
+        example: '13'
+      numberOfGemPort:
+        description: maximal number of GEM ports
+        type: string
+        example: '4'
+      dpuName:
+        description: Endpoint key number which uniquely identifies a DPU in the DTAG network
+        type: string
+        example: 49_341_1_7DPU
+  v1-delete-gfast-accessline-olt-request:
+    properties:
+      oltName:
+        description: Endpoint key number which uniquely identifies an OLT in the DTAG network
+        type: string
+        example: 49_341_1_76H1
+      shelf:
+        description: Number of the shelf
+        type: string
+        example: '1'
+      slot:
+        description: Number of the slot
+        type: string
+        example: '4'
+      port:
+        description: Number of the port
+        type: string
+        example: '2'
+      onuId:
+        description: ID of the ONU(DPU) in the PON of OLT.
+        type: integer
+        example: 0
+      onuAccessId:
+        description: Parameter to identify the specific T-CONT on ONU
+        type: string
+        example: '3'
+      numberOfGemPort:
+        description: maximal number of GEM ports
+        type: string
+        example: '4'
+      vlanId:
+        description: AnpTag
+        type: string
+        example: '2001'
+      dpuName:
+        description: Endpoint key number which uniquely identifies a DPU in the DTAG network
+        type: string
+        example: 49_341_1_7DPU
+  v1-create-pon-accessline-olt-request:
+    properties:
+      oltName:
+        description: Endpoint key number which uniquely identifies an OLT in the DTAG network
+        type: string
+        example: 49_341_1_76H1
+      shelf:
+        description: Number of the shelf
+        type: string
+        example: '1'
+      slot:
+        description: Number of the slot
+        type: string
+        example: '4'
+      port:
+        description: Number of the port
+        type: string
+        example: '2'
+      onuId:
+        description: ID of the ONU(ONT) in the PON of OLT.
+        type: integer
+        example: 0
+      uplinkSlot:
+        description: Number of the slot
+        type: string
+        example: '17'
+      uplinkPort:
+        description: Number of the uplinkPort
+        type: string
+        example: '128'
+      vlanId:
+        description: AnpTag
+        type: string
+        example: '2001'
+      ancpPartitionId:
+        description: Unique identification number of an ANCP-configuration within a ME
+        type: string
+        example: '3'
+      lineId:
+        description: Line-ID of the service/customer
+        type: string
+        example: DEU.DTAG.42ARO
+      serialNumber:
+        description: Serial number of the customer ONT. You can also specify 'DEFAULT' for SEAL to configure a default serial number
+        type: string
+        example: 4857544388CC4B42
+  v1-delete-pon-accessline-olt-request:
+    properties:
+      oltName:
+        description: Endpoint key number which uniquely identifies an OLT in the DTAG network
+        type: string
+        example: 49_341_1_76H1
+      shelf:
+        description: Number of the shelf
+        type: string
+        example: '1'
+      slot:
+        description: Number of the slot
+        type: string
+        example: '4'
+      port:
+        description: Number of the port
+        type: string
+        example: '2'
+      onuId:
+        description: ID of the ONU(ONT) in the PON of OLT.
+        type: integer
+        example: 0
+      vlanId:
+        description: AnpTag
+        type: string
+        example: '2001'
+  v1-create-ancp-configuration-request:
+    properties:
+      ancpInterfaceAccessNodeSubnetmask:
+        description: Subnetmask of the access node IP-address
+        maximum: 31
+        minimum: 0
+        type: number
+        example: 30
+      ancpInterfaceAccessNodeIp:
+        format: ipv4
+        description: IP-Address of the access node
+        type: string
+        example: 10.30.120.1
+      vlanId:
+        description: SVLAN of the ANCP-interface
+        maximum: 4096
+        minimum: 0
+        type: number
+        example: 16
+      ancpInterfaceId:
+        description: Number of the ANCP-interface
+        maximum: 8
+        minimum: 1
+        type: number
+        example: 3
+      ancpPartitionId:
+        description: Number of the ANCP-partition
+        maximum: 255
+        minimum: 0
+        type: number
+        example: 4
+      ancpInterfaceControllerNodeIp:
+        format: ipv4
+        description: IP-Address of the port on the controller node (BNG)
+        type: string
+        example: 10.30.120.2
+      uplinkSlot:
+        description: Number of the slot
+        type: string
+        example: '17'
+      uplinkPort:
+        description: Number of the uplinkPort
+        type: string
+        example: '128'
+      shelf:
+        description: Number of the shelf
+        type: string
+        example: '0'
+  v1-dpu-configuration-mcp-request:
+    properties:
+      dpuName:
+        description: Endpoint key number which uniquely identifies a DPU in the DTAG network currently designed as endSz but can also be any other content
+        type: string
+        example: 49_341_2_7DPU
+      uplinkPort:
+        description: Number of the uplinkPort
+        type: string
+        example: '1'
+      ancpInterfaceAccessNodeSubnetmask:
+        format: ipv4
+        description: Subnetmask of the access node IP-address with an optional leading "/"
+        type: string
+        example: /24
+      ancpInterfaceControllerNodeIp:
+        format: ipv4
+        description: IP-Address of the port on the controller node (BNG)
+        type: string
+        example: 10.30.120.2
+      ancpInterfaceAccessNodeIp:
+        format: ipv4
+        description: IP-Address of the access node
+        type: string
+        example: 10.30.120.1
+      ancpDpuName:
+        description: dpuName with "/" in the naming schema while endSz used for dpuName
+        type: string
+        example: 49/341/2/716A
+      managementDomainName:
+        description: 'Management domain name of dpu '
+        type: string
+        example: 49_911_01_ZSBJ
+      dpuProductName:
+        description: model name of dpu
+        type: string
+        example: SDX2221-16-TP
+      backhaulId:
+        description: 'The BackhaulID is used to clearly identify a share backhaul (= PON tree for FTTH/FTTB, bonded Copper backhaul for CuTTB), i.e. a NE3 connection that is share by multiple customers. Using BackhaulIDs, taken from ANCP connections of OLTs and DPUs, the BNG will be able to know the hierarchy of the customer-near aggregation and its limitations. It can then shape traffic according to that limitation to give every customer a fair part of the available bandwidth. This must be done dynamically for FTTB (Target solution), but can also be used for FTTH with some benefit'
+        type: string
+        example: '#bhid-1123abc1'
+      serialNumber:
+        description: ID for registration at the DPU
+        type: string
+        example: ADTN18081979
+  v1-dpu-deconfiguration-mcp-request:
+    properties:
+      dpuName:
+        description: Endpoint key number which uniquely identifies a DPU in the DTAG network
+        type: string
+        example: 49_341_2_7DPU
+      uplinkPort:
+        description: Number of the uplinkPort
+        type: string
+        example: '1'
+  v1-dpu-configuration-olt-request:
+    properties:
+      oltName:
+        description: Endpoint key number which uniquely identifies an OLT in the DTAG network
+        type: string
+        example: 49_341_1_76H1
+      onuId:
+        description: ID of the ONU(DPU) in the PON of OLT.
+        type: integer
+        example: 0
+      shelf:
+        description: Number of the shelf
+        type: string
+        example: '1'
+      slot:
+        description: Number of the slot
+        type: string
+        example: '4'
+      port:
+        description: Number of the port
+        type: string
+        example: '2'
+      ancpPartitionId:
+        description: Number of the ANCP-partition
+        type: string
+        example: '4'
+      dpuName:
+        description: Endpoint key number which uniquely identifies a DPU in the DTAG network
+        type: string
+        example: 49_341_1_7DPU
+      backhaulId:
+        description: 'The BackhaulID is used to clearly identify a share backhaul (= PON tree for FTTH/FTTB, bonded Copper backhaul for CuTTB), i.e. a NE3 connection that is share by multiple customers. Using BackhaulIDs, taken from ANCP connections of OLTs and DPUs, the BNG will be able to know the hierarchy of the customer-near aggregation and its limitations. It can then shape traffic according to that limitation to give every customer a fair part of the available bandwidth. This must be done dynamically for FTTB (Target solution), but can also be used for FTTH with some benefit'
+        type: string
+        example: '#bhid-1123abc1'
+      serialNumber:
+        description: ID for registration at the ONT
+        type: string
+        example: 48575443F3F84003
+  v1-dpu-deconfiguration-olt-request:
+    properties:
+      oltName:
+        description: Endpoint key number which uniquely identifies an OLT in the DTAG network
+        type: string
+        example: 49_341_1_76H1
+      onuId:
+        description: ID of the ONU(DPU) in the PON of OLT.
+        type: integer
+        example: 0
+      shelf:
+        description: Number of the shelf
+        type: string
+        example: '1'
+      slot:
+        description: Number of the slot
+        type: string
+        example: '4'
+      port:
+        description: Number of the port
+        type: string
+        example: '2'
+      dpuName:
+        description: Endpoint key number which uniquely identifies a DPU in the DTAG network
+        type: string
+        example: 49_341_1_7DPU
+  v1-create-bhid-configuration-request:
+    properties:
+      shelf:
+        description: Number of the shelf
+        type: string
+        example: '0'
+      slot:
+        description: Number of the slot (only for huawei)
+        type: string
+        example: '4'
+      port:
+        description: Number of the port
+        type: string
+        example: '2'
+      backhaulId:
+        description: 'The BackhaulID is used to clearly identify a share backhaul (= PON tree for FTTH/FTTB, bonded Copper backhaul for CuTTB), i.e. a NE3 connection that is share by multiple customers. Using BackhaulIDs, taken from ANCP connections of OLTs and DPUs, the BNG will be able to know the hierarchy of the customer-near aggregation and its limitations. It can then shape traffic according to that limitation to give every customer a fair part of the available bandwidth. This must be done dynamically for FTTB (Target solution), but can also be used for FTTH with some benefit'
+        type: string
+  v1-ont-single-availability-check-request:
+    properties:
+      endSz:
+        format: endSz
+        description: Endpoint key number which uniquely identifies a managed element in the DTAG network
+        type: string
+        example: 49_231_50_76H1
+      shelf:
+        description: Number of the shelf
+        type: string
+        example: '0'
+      slot:
+        description: Number of the slot (only for huawei)
+        type: string
+        example: '4'
+      port:
+        description: Number of the port
+        type: string
+        example: '2'
+      ontId:
+        description: ID of the ONT in the PON. ontId for dpu means ONU-ID of pon-port.
+        type: integer
+        example: 0
+  v1-ont-pon-detection-request:
+    required:
+      - serialNumber
+      - timeStampOfFirstEvent
+    properties:
+      serialNumber:
+        description: Serial number of the plugged ONT. It can be customer or monteurs ont.
+        type: string
+        example: 53434F4DA0311283
+      endSz:
+        format: endSz
+        description: Endpoint key number which uniquely identifies a managed element in the DTAG network. Used for the content VPSZ and ASB to restrict the exchange area of the UseCase.
+        type: string
+        example: 49_231_50_76H1
+      timeStampOfFirstEvent:
+        format: date-time
+        description: Timewindow for relevant ONT alarms/events to search in SEAL.
+        type: string
+        example: '2021-10-10T00:00:01.0000000+00:00'
+  v1-onu-optical-power-request:
+    properties:
+      oltName:
+        description: Endpoint key number which uniquely identifies an OLT in the DTAG network
+        type: string
+        example: 49_341_1_76H1
+      shelf:
+        description: Number of the shelf
+        type: string
+        example: '0'
+      slot:
+        description: Number of the slot (only for huawei)
+        type: string
+        example: '4'
+      port:
+        description: Number of the port
+        type: string
+        example: '2'
+      onuId:
+        description: ID of the ONU in the PON. onuId is used for ONT or DPU which are both an ONU.
+        type: integer
+        example: 0
+      ruType:
+        description: Type of RemoteUnit (DPU/ONT)
+        enum:
+          - ONT
+          - DPU
+        type: string
+        example: ONT
+  v1-bulk-create-accesslines-request:
+    properties:
+      items:
+        type: array
+        items:
+          required:
+            - itemId
+          type: object
+          properties:
+            accessType:
+              description: Specifies the access-type
+              enum:
+                - PON
+                - GFAST
+              type: string
+            itemId:
+              description: 'Unique identifier for single item in a bulk request. Can any value, as long as it''s unique for the bulk-request.'
+              type: string
+              example: f4d9ca76-0dbf-4056-886f-c40e0e7b31fb
+            dpuName:
+              description: Endpoint key number which uniquely identifies a Manged element in the DTAG network
+              type: string
+              example: 49_231_50_71GC
+      accessNodeId:
+        format: accessNodeId
+        description: Identifier which uniquely identifies an Access Node within the DTAG network
+        type: string
+        example: 49_231_50_71M1
+  v1-bulk-delete-accesslines-request:
+    properties:
+      items:
+        type: array
+        items:
+          type: object
+          properties:
+            accessLineConfigurationId:
+              format: accessLineConfigurationId
+              description: Identifier which uniquely identifies an Access Line. GFAST adds the optional parameter dpuName to the accessLineConfigurationId.
+              type: string
+              example: PON-1-4-2-17-128 or GFAST-1-4-2-17-128-49_231_50_71GC
+            itemId:
+              description: 'Unique identifier for single item in a bulk request. Can any value, as long as it''s unique for the bulk-request.'
+              type: string
+              example: f4d9ca76-0dbf-4056-886f-c40e0e7b31fb
+      accessNodeId:
+        format: accessNodeId
+        description: Identifier which uniquely identifies an Access Node within the DTAG network
+        type: string
+        example: 49_231_50_71M1
+  v1-bulk-create-backhaul-Ids-request:
+    properties:
+      items:
+        type: array
+        items:
+          type: object
+          properties:
+            shelf:
+              description: Number of the shelf
+              type: string
+              example: '0'
+            slot:
+              description: Number of the slot (only for huawei)
+              type: string
+              example: '4'
+            port:
+              description: Number of the port
+              type: string
+              example: '2'
+            backhaulId:
+              description: 'The BackhaulID is used to clearly identify a share backhaul (= PON tree for FTTH/FTTB, bonded Copper backhaul for CuTTB), i.e. a NE3 connection that is share by multiple customers. Using BackhaulIDs, taken from ANCP connections of OLTs and DPUs, the BNG will be able to know the hierarchy of the customer-near aggregation and its limitations. It can then shape traffic according to that limitation to give every customer a fair part of the available bandwidth. This must be done dynamically for FTTB (Target solution), but can also be used for FTTH with some benefit'
+              type: string
+            itemId:
+              description: 'Unique identifier for single item in a bulk request. Can any value, as long as it''s unique for the bulk-request.'
+              type: string
+              example: f4d9ca76-0dbf-4056-886f-c40e0e7b31fb
+      accessNodeId:
+        format: accessNodeId
+        description: Identifier which uniquely identifies an Access Node within the DTAG network
+        type: string
+        example: 49_231_50_71M1
+  v1-bulk-delete-backhaul-Ids-request:
+    properties:
+      items:
+        type: array
+        items:
+          type: object
+          properties:
+            bhidConfigurationId:
+              format: bhidConfigurationId
+              description: Identifier which uniquely identifies the resource to the OLT-BackhaulID configuration
+              type: string
+              example: 0-4-2
+            itemId:
+              description: 'Unique identifier for single item in a bulk request. Can any value, as long as it''s unique for the bulk-request.'
+              type: string
+              example: f4d9ca76-0dbf-4056-886f-c40e0e7b31fb
+      accessNodeId:
+        format: accessNodeId
+        description: Identifier which uniquely identifies an Access Node within the DTAG network
+        type: string
+        example: 49_231_50_71M1
+  callback-v1-get-accessnode-inventory-request:
+    properties:
+      payload:
+        properties:
+          managedElement:
+            properties:
+              name:
+                format: endSz
+                description: Endpoint key number which uniquely identifies a Manged element in the DTAG network
+                type: string
+                example: 49_231_50_71M1
+              ipAddress:
+                format: ipv4
+                description: ZDCN IP Address of ME
+                type: string
+                example: 10.182.69.11
+              productName:
+                description: Name of the device type
+                type: string
+                example: MA5600T
+              manufacturer:
+                description: Unique ID that identifies the vendor of the ME
+                type: string
+                example: HUAWEI
+              softwareVersion:
+                description: Firmware version of the access node
+                type: string
+                example: MA5600V800R008C02
+              resourceState:
+                description: Current planning status of the managed element
+                enum:
+                  - WORKING
+                  - NON_WORKING
+                type: string
+                example: WORKING
+              communicationState:
+                description: Shows whether Managed Element in the DTAG network can be managed by the EMS or not
+                enum:
+                  - CS_AVAILABLE
+                  - CS_UNAVAILABLE
+                type: string
+                example: CS_AVAILABLE
+          modules:
+            type: array
+            items:
+              properties:
+                slot:
+                  description: Number of the slot
+                  type: string
+                  example: '2'
+                installedEquipmentObjectType:
+                  description: Manufacturer's identification number of the module
+                  type: string
+                  example: H802GPBD
+                installedSerialNumber:
+                  description: Manufacturer specific serial number of the module
+                  type: string
+                  example: 020PFN6TBA603435
+                manufacturer:
+                  description: Unique identifier that identifies the vendor of the module
+                  type: string
+                  example: HUAWEI
+                installedVersion:
+                  description: Firmware version of the module
+                  type: string
+                  example: MA5600V800R017C10
+                resourceState:
+                  description: Current planning status of the module
+                  enum:
+                    - INSTALLING_INSTALLED
+                    - INSTALLING_INTEGRATED
+                    - INSTALLING_REJECTED
+                    - UNKNOWN
+                  type: string
+                  example: INSTALLING_INSTALLED
+                resourceFulfillmentState:
+                  description: Current service status of the module
+                  enum:
+                    - IN_SERVICE
+                    - OUT_OF_SERVICE
+                    - OUT_OF_SERVICE_BY_MAINTENANCE
+                    - SERV_NA
+                  type: string
+                  example: IN_SERVICE
+                shelf:
+                  description: Number of the shelf
+                  type: string
+                  example: '0'
+          ports:
+            type: array
+            items:
+              properties:
+                portType:
+                  description: Technical type of the port
+                  enum:
+                    - SIP
+                    - ADSL
+                    - VDSL
+                    - VVDSL
+                    - SVVDSL
+                    - SHDSL
+                    - ETHERNET
+                    - PON
+                    - GFAST
+                  type: string
+                  example: ETHERNET
+                installedPartNumberSFP:
+                  description: Part number of the SFP module which is connected to an Ethernet/PON port
+                  type: string
+                  example: OpticVendorSpecific:53 50 53 2D 34 33 2D 34 38 48 2D 48 50 2D 43 44 45 23 35 20 20 20 20 20 20 20 FF FF FF FF FF FF
+                installedMatNumberSFP:
+                  description: Material number of the SFP module which is connected to an Ethernet/PON port
+                  type: string
+                  example: 'OpticUserEeprom:'
+                shelf:
+                  description: Number of the shelf
+                  type: string
+                  example: '0'
+                slot:
+                  description: Number of the slot (only for huawei)
+                  type: string
+                  example: '4'
+                port:
+                  description: Number of the port
+                  type: string
+                  example: '2'
+          connections:
+            type: array
+            items:
+              properties:
+                vlanId:
+                  description: SVLAN of the ANCP-interface
+                  maximum: 4095
+                  minimum: 0
+                  type: number
+                  example: 2010
+                ancpPartitionId:
+                  description: Number of the ANCP-partition
+                  maximum: 255
+                  minimum: 0
+                  type: number
+                  example: 4
+                shelf:
+                  description: Number of the shelf
+                  type: string
+                  example: '0'
+                slot:
+                  description: Number of the slot (only for huawei)
+                  type: string
+                  example: '4'
+                port:
+                  description: Number of the port
+                  type: string
+                  example: '2'
+          onts:
+            type: array
+            items:
+              properties:
+                vlanId:
+                  description: VLAN ID per port for unique port identification
+                  maximum: 4095
+                  minimum: 0
+                  type: number
+                  example: 2010
+                serialNumber:
+                  description: ID for registration at the ONT
+                  type: string
+                  example: 48575443F3F84003
+                installedSerialNumber:
+                  description: Manufacturer specific serial number of the ONT
+                  type: string
+                  example: FFFFFFFF0500F8EA
+                lineId:
+                  description: Unique identification number of the port/connector
+                  type: string
+                  example: DEU.DTAG.2010
+                manufacturer:
+                  description: Unique ID that identifies the vendor of the ONT
+                  type: string
+                  example: HWTC
+                installedEquipmentObjectType:
+                  description: Manufacturer's identification number of the ONT
+                  type: string
+                  example: ONT
+                softwareVersion:
+                  description: Firmware version of the ONT
+                  type: string
+                  example: MA5600V800R017C10
+                lineProfile:
+                  description: Line Profile of the ONT
+                  type: string
+                  example: FTTH-generic_500M-up_1G-down
+                serviceProfile:
+                  description: Service Profile of the ONT
+                  type: string
+                  example: FTTH-generic
+                ontId:
+                  description: ID of the ONT in the PON. ontId for dpu means ONU-ID of pon-port.
+                  type: integer
+                  example: 0
+                shelf:
+                  description: Number of the shelf
+                  type: string
+                  example: '0'
+                slot:
+                  description: Number of the slot (only for huawei)
+                  type: string
+                  example: '4'
+                port:
+                  description: Number of the port
+                  type: string
+                  example: '2'
+          ancpConfigurations:
+            type: array
+            items:
+              properties:
+                ancpInterfaceAccessNodeIp:
+                  format: ipv4
+                  description: IP-Address of the access node
+                  type: string
+                  example: 10.30.120.1
+                vlanId:
+                  description: SVLAN of the ANCP-interface
+                  maximum: 4096
+                  minimum: 0
+                  type: number
+                  example: 16
+                ancpInterfaceId:
+                  description: Number of the ANCP-interface
+                  maximum: 8
+                  minimum: 1
+                  type: number
+                  example: 3
+                ancpPartitionId:
+                  description: Number of the ANCP-partition
+                  maximum: 255
+                  minimum: 0
+                  type: number
+                  example: 4
+                ancpInterfaceControllerNodeIp:
+                  format: ipv4
+                  description: IP-Address of the port on the controller node (BNG)
+                  type: string
+                  example: 10.30.120.2
+                uplinkSlot:
+                  description: Number of the slot
+                  type: string
+                  example: '17'
+                uplinkPort:
+                  description: Number of the uplinkPort
+                  type: string
+                  example: '128'
+                shelf:
+                  description: Number of the shelf
+                  type: string
+                  example: '0'
+      error:
+        properties:
+          status:
+            description: A status code that describes an error
+            type: number
+            example: 5100
+          message:
+            description: A status text wich describes the error or shows error trace from EMS or AN
+            type: string
+            example: Missing param name
+  callback-v1-create-accessline-request:
+    properties:
+      payload:
+        properties:
+          accessLineConfigurationId:
+            format: accessLineConfigurationId
+            description: Identifier which uniquely identifies an Access Line. GFAST adds the optional parameter dpuName to the accessLineConfigurationId.
+            type: string
+            example: PON-1-4-2-17-128 or GFAST-1-4-2-17-128-49_231_50_71GC
+      error:
+        properties:
+          status:
+            description: A status code that describes an error
+            type: number
+            example: 5100
+          message:
+            description: A status text wich describes the error or shows error trace from EMS or AN
+            type: string
+            example: Missing param name
+  callback-v1-patch-accessline-request:
+    properties:
+      error:
+        properties:
+          status:
+            description: A status code that describes an error
+            type: number
+            example: 5100
+          message:
+            description: A status text wich describes the error or shows error trace from EMS or AN
+            type: string
+            example: Missing param name
+  callback-v1-delete-accessline-request:
+    properties:
+      error:
+        properties:
+          status:
+            description: A status code that describes an error
+            type: number
+            example: 5100
+          message:
+            description: A status text wich describes the error or shows error trace from EMS or AN
+            type: string
+            example: Missing param name
+  callback-v1-create-gfast-accessline-dpu-request:
+    properties:
+      status:
+        description: A status code that indicates whether the job has run successfully or has run on an error
+        type: number
+        example: 2000
+      statustype:
+        description: A status text wich describes the success of the job
+        type: string
+        example: SUCCESS
+      message:
+        description: A status text wich describes the success of the job
+        type: string
+        example: successfully executed
+  callback-v1-delete-gfast-accessline-dpu-request:
+    properties:
+      status:
+        description: A status code that indicates whether the job has run successfully or has run on an error
+        type: number
+        example: 2000
+      statustype:
+        description: A status text wich describes the success of the job
+        type: string
+        example: SUCCESS
+      message:
+        description: A status text wich describes the success of the job
+        type: string
+        example: successfully executed
+  callback-v1-create-gfast-accessline-olt-request:
+    properties:
+      status:
+        description: A status code that indicates whether the job has run successfully or has run on an error
+        type: number
+        example: 2000
+      statustype:
+        description: A status text wich describes the success of the job
+        type: string
+        example: SUCCESS
+      message:
+        description: A status text wich describes the success of the job
+        type: string
+        example: successfully executed
+  callback-v1-delete-gfast-accessline-olt-request:
+    properties:
+      status:
+        description: A status code that indicates whether the job has run successfully or has run on an error
+        type: number
+        example: 2000
+      statustype:
+        description: A status text wich describes the success of the job
+        type: string
+        example: SUCCESS
+      message:
+        description: A status text wich describes the success of the job
+        type: string
+        example: successfully executed
+  callback-v1-create-pon-accessline-olt-request:
+    properties:
+      status:
+        description: A status code that indicates whether the job has run successfully or has run on an error
+        type: number
+        example: 2000
+      statustype:
+        description: A status text wich describes the success of the job
+        type: string
+        example: SUCCESS
+      message:
+        description: A status text wich describes the success of the job
+        type: string
+        example: successfully executed
+  callback-v1-delete-pon-accessline-olt-request:
+    properties:
+      status:
+        description: A status code that indicates whether the job has run successfully or has run on an error
+        type: number
+        example: 2000
+      statustype:
+        description: A status text wich describes the success of the job
+        type: string
+        example: SUCCESS
+      message:
+        description: A status text wich describes the success of the job
+        type: string
+        example: successfully executed
+  callback-v1-create-ancp-configuration-request:
+    properties:
+      payload:
+        properties:
+          ancpConfigurationId:
+            format: ancpConfigurationId
+            description: Identifier which uniquely identifies a ANCP-configuration
+            type: string
+      error:
+        properties:
+          status:
+            description: A status code that describes an error
+            type: number
+            example: 5100
+          message:
+            description: A status text wich describes the error or shows error trace from EMS or AN
+            type: string
+            example: Missing param name
+  callback-v1-get-ancp-configuration-request:
+    properties:
+      payload:
+        properties:
+          vlanId:
+            description: SVLAN of the ANCP-interface
+            maximum: 4096
+            minimum: 0
+            type: number
+            example: 16
+          ancpInterfaceId:
+            description: Number of the ANCP-interface
+            maximum: 8
+            minimum: 1
+            type: number
+            example: 3
+          ancpPartitionId:
+            description: Number of the ANCP-partition
+            maximum: 255
+            minimum: 0
+            type: number
+            example: 4
+          ancpInterfaceControllerNodeIp:
+            format: ipv4
+            description: IP-Address of the port on the controller node (BNG)
+            type: string
+            example: 10.30.120.2
+          adminState:
+            description: Admin State ANCP-session
+            enum:
+              - unlocked
+              - locked
+            type: string
+          operState:
+            description: Oper State of the ANCP-session
+            enum:
+              - up
+              - down
+              - unknown
+            type: string
+      error:
+        properties:
+          status:
+            description: A status code that describes an error
+            type: number
+            example: 5100
+          message:
+            description: A status text wich describes the error or shows error trace from EMS or AN
+            type: string
+            example: Missing param name
+  callback-v1-delete-ancp-configuration-request:
+    properties:
+      error:
+        properties:
+          status:
+            description: A status code that describes an error
+            type: number
+            example: 5100
+          message:
+            description: A status text wich describes the error or shows error trace from EMS or AN
+            type: string
+            example: Missing param name
+  callback-v1-dpu-configuration-mcp-request:
+    properties:
+      status:
+        description: A status code that indicates whether the job has run successfully or has run on an error
+        type: number
+        example: 2000
+      statustype:
+        description: A status text wich describes the success of the job
+        type: string
+        example: SUCCESS
+      message:
+        description: A status text wich describes the success of the job
+        type: string
+        example: successfully executed
+  callback-v1-dpu-deconfiguration-mcp-request:
+    properties:
+      status:
+        description: A status code that indicates whether the job has run successfully or has run on an error
+        type: number
+        example: 2000
+      statustype:
+        description: A status text wich describes the success of the job
+        type: string
+        example: SUCCESS
+      message:
+        description: A status text wich describes the success of the job
+        type: string
+        example: successfully executed
+  callback-v1-dpu-configuration-olt-request:
+    properties:
+      status:
+        description: A status code that indicates whether the job has run successfully or has run on an error
+        type: number
+        example: 2000
+      statustype:
+        description: A status text wich describes the success of the job
+        type: string
+        example: SUCCESS
+      message:
+        description: A status text wich describes the success of the job
+        type: string
+        example: successfully executed
+  callback-v1-dpu-deconfiguration-olt-request:
+    properties:
+      status:
+        description: A status code that indicates whether the job has run successfully or has run on an error
+        type: number
+        example: 2000
+      statustype:
+        description: A status text wich describes the success of the job
+        type: string
+        example: SUCCESS
+      message:
+        description: A status text wich describes the success of the job
+        type: string
+        example: successfully executed
+  callback-v1-create-bhid-configuration-request:
+    properties:
+      payload:
+        properties:
+          bhidConfigurationId:
+            format: bhidConfigurationId
+            description: Identifier which uniquely identifies the resource to the OLT-BackhaulID configuration
+            type: string
+            example: 0-4-2
+      error:
+        properties:
+          status:
+            description: A status code that describes an error
+            type: number
+            example: 5100
+          message:
+            description: A status text wich describes the error or shows error trace from EMS or AN
+            type: string
+            example: Missing param name
+  callback-v1-delete-bhid-configuration-request:
+    properties:
+      error:
+        properties:
+          status:
+            description: A status code that describes an error
+            type: number
+            example: 5100
+          message:
+            description: A status text wich describes the error or shows error trace from EMS or AN
+            type: string
+            example: Missing param name
+  callback-v1-ont-single-availability-check-request:
+    properties:
+      payload:
+        properties:
+          ontId:
+            description: ID of the ONT in the PON. ontId for dpu means ONU-ID of pon-port.
+            type: integer
+            example: 0
+          actualRunState:
+            description: Actual status of the ONT
+            enum:
+              - Online
+              - Offline
+              - Unknown
+            type: string
+            example: Online
+          lastDownTime:
+            format: date-time
+            description: Time when the ONT last went down
+            type: string
+            example: '2018-08-21T17:32:28.0000000+00:00'
+          lastDownCause:
+            description: Reason why the ONT last went down
+            type: string
+            example: LOS
+          lastUpTime:
+            format: date-time
+            description: ONT last up time
+            type: string
+            example: '2018-08-21T16:58:08.0000000+00:00'
+      error:
+        properties:
+          status:
+            description: A status code that describes an error
+            type: number
+            example: 5100
+          message:
+            description: A status text wich describes the error or shows error trace from EMS or AN
+            type: string
+            example: Missing param name
+  callback-v1-ont-pon-detection-request:
+    properties:
+      events:
+        type: array
+        items:
+          required:
+            - eventMessage
+            - timeStamp
+            - serialNumber
+          type: object
+          properties:
+            endSz:
+              format: endSz
+              description: Endpoint key number which uniquely identifies a managed element in the DTAG network. Used for the content VPSZ and ASB to restrict the exchange area of the UseCase.
+              type: string
+              example: 49_231_50_76H1
+            shelf:
+              description: Number of the shelf
+              type: string
+              example: '0'
+            slot:
+              description: Number of the slot (only for huawei)
+              type: string
+              example: '4'
+            port:
+              description: Number of the port
+              type: string
+              example: '2'
+            onuId:
+              description: ID of the ONU in the PON. onuId is used for ONT or DPU which are both an ONU.
+              type: integer
+              example: 0
+            serialNumber:
+              description: Serial number of the plugged ONT. It can be customer or monteurs ont.
+              type: string
+              example: 53434F4DA0311283
+            timeStamp:
+              format: date-time
+              description: 'timestamp of the OLT/ONT event, given by EMS.'
+              type: string
+              example: '2021-10-10T07:45:01.0000000+00:00'
+            eventMessage:
+              description: detailed information about the event. E.g. SerialNumber Conflict with linecard 3
+              type: string
+              example: SerialNumber conflict with linecard 3 port 2; Unregistered ONU.
+      status:
+        description: A status code that indicates whether the job has run successfully or has run on an error
+        type: number
+        example: 2000
+      statustype:
+        description: A status text wich describes the success of the job
+        type: string
+        example: SUCCESS
+      message:
+        description: A status text wich describes the success of the job
+        type: string
+        example: successfully executed
+  callback-v1-onu-optical-power-request:
+    properties:
+      payload:
+        required:
+          - actualRunState
+        properties:
+          onuId:
+            description: ID of the ONU in the PON. onuId is used for ONT or DPU which are both an ONU.
+            type: integer
+            example: 0
+          actualRunState:
+            description: Actual status of the ONT
+            enum:
+              - Online
+              - Offline
+              - Unknown
+            type: string
+            example: Online
+          transmittedPowerAtOltToAllOnus:
+            format: float
+            description: 'over all transmitted optical power level to all ONUs at OLT side, in dBm'
+            maximum: 255
+            minimum: -255
+            type: number
+            example: 3.64
+          receivedPowerAtOltFromRequestedOnu:
+            format: float
+            description: 'received optical power level from this ONU(id) at OLT side, in dBm'
+            maximum: 255
+            minimum: -255
+            type: number
+            example: -15.82
+          transmittedPowerOnu:
+            format: float
+            description: 'transmitted optical power level to OLT at ONU side, in dBm'
+            maximum: 255
+            minimum: -255
+            type: number
+            example: 2.16
+          receivedPowerOnu:
+            format: float
+            description: 'received optical power level from OLT at ONU side, dBm'
+            maximum: 255
+            minimum: -255
+            type: number
+            example: -14.46
+      status:
+        description: A status code that indicates whether the job has run successfully or has run on an error
+        type: number
+        example: 2000
+      statustype:
+        description: A status text wich describes the success of the job
+        type: string
+        example: SUCCESS
+      message:
+        description: A status text wich describes the success of the job
+        type: string
+        example: successfully executed
+  callback-v1-bulk-create-accesslines-request:
+    properties:
+      payload:
+        properties:
+          items:
+            type: array
+            items:
+              type: object
+              properties:
+                payload:
+                  properties:
+                    accessLineConfigurationId:
+                      format: accessLineConfigurationId
+                      description: Identifier which uniquely identifies an Access Line. GFAST adds the optional parameter dpuName to the accessLineConfigurationId.
+                      type: string
+                      example: PON-1-4-2-17-128 or GFAST-1-4-2-17-128-49_231_50_71GC
+                success:
+                  properties:
+                    status:
+                      type: number
+                      example: 2000
+                    message:
+                      type: string
+                      example: Successful request
+                error:
+                  properties:
+                    status:
+                      description: A status code that describes an error
+                      type: number
+                      example: 5100
+                    message:
+                      description: A status text wich describes the error or shows error trace from EMS or AN
+                      type: string
+                      example: Missing param name
+                itemId:
+                  description: 'Unique identifier for single item in a bulk request. Can any value, as long as it''s unique for the bulk-request.'
+                  type: string
+                  example: f4d9ca76-0dbf-4056-886f-c40e0e7b31fb
+      error:
+        properties:
+          status:
+            description: A status code that describes an error
+            type: number
+            example: 5100
+          message:
+            description: A status text wich describes the error or shows error trace from EMS or AN
+            type: string
+            example: Missing param name
+  callback-v1-bulk-delete-accesslines-request:
+    properties:
+      payload:
+        properties:
+          items:
+            type: array
+            items:
+              type: object
+              properties:
+                success:
+                  properties:
+                    status:
+                      type: number
+                      example: 2000
+                    message:
+                      type: string
+                      example: Successful request
+                error:
+                  properties:
+                    status:
+                      description: A status code that describes an error
+                      type: number
+                      example: 5100
+                    message:
+                      description: A status text wich describes the error or shows error trace from EMS or AN
+                      type: string
+                      example: Missing param name
+                itemId:
+                  description: 'Unique identifier for single item in a bulk request. Can any value, as long as it''s unique for the bulk-request.'
+                  type: string
+                  example: f4d9ca76-0dbf-4056-886f-c40e0e7b31fb
+      error:
+        properties:
+          status:
+            description: A status code that describes an error
+            type: number
+            example: 5100
+          message:
+            description: A status text wich describes the error or shows error trace from EMS or AN
+            type: string
+            example: Missing param name
+  callback-v1-bulk-create-backhaul-Ids-request:
+    properties:
+      payload:
+        properties:
+          items:
+            type: array
+            items:
+              type: object
+              properties:
+                payload:
+                  properties:
+                    bhidConfigurationId:
+                      format: bhidConfigurationId
+                      description: Identifier which uniquely identifies the resource to the OLT-BackhaulID configuration
+                      type: string
+                      example: 0-4-2
+                success:
+                  properties:
+                    status:
+                      type: number
+                      example: 2000
+                    message:
+                      type: string
+                      example: Successful request
+                error:
+                  properties:
+                    status:
+                      description: A status code that describes an error
+                      type: number
+                      example: 5100
+                    message:
+                      description: A status text wich describes the error or shows error trace from EMS or AN
+                      type: string
+                      example: Missing param name
+                itemId:
+                  description: 'Unique identifier for single item in a bulk request. Can any value, as long as it''s unique for the bulk-request.'
+                  type: string
+                  example: f4d9ca76-0dbf-4056-886f-c40e0e7b31fb
+      error:
+        properties:
+          status:
+            description: A status code that describes an error
+            type: number
+            example: 5100
+          message:
+            description: A status text wich describes the error or shows error trace from EMS or AN
+            type: string
+            example: Missing param name
+  callback-v1-bulk-delete-backhaul-Ids-request:
+    properties:
+      payload:
+        properties:
+          items:
+            type: array
+            items:
+              type: object
+              properties:
+                success:
+                  properties:
+                    status:
+                      type: number
+                      example: 2000
+                    message:
+                      type: string
+                      example: Successful request
+                error:
+                  properties:
+                    status:
+                      description: A status code that describes an error
+                      type: number
+                      example: 5100
+                    message:
+                      description: A status text wich describes the error or shows error trace from EMS or AN
+                      type: string
+                      example: Missing param name
+                itemId:
+                  description: 'Unique identifier for single item in a bulk request. Can any value, as long as it''s unique for the bulk-request.'
+                  type: string
+                  example: f4d9ca76-0dbf-4056-886f-c40e0e7b31fb
+      error:
+        properties:
+          status:
+            description: A status code that describes an error
+            type: number
+            example: 5100
+          message:
+            description: A status text wich describes the error or shows error trace from EMS or AN
+            type: string
+            example: Missing param name
+parameters:
+  accessNodeId:
+    in: path
+    name: accessNodeId
+    description: Identifier which uniquely identifies an Access Node within the DTAG network
+    required: true
+    type: string
+    format: accessNodeId
+  ancpConfigurationId:
+    in: path
+    name: ancpConfigurationId
+    description: Identifier which uniquely identifies an ANCP-configuration
+    required: true
+    type: string
+    format: ancpConfigurationId
+  accessLineConfigurationId:
+    in: path
+    name: accessLineConfigurationId
+    description: Identifier which uniquely identifies an Access Line configuration. GFAST adds the optional parameter dpuName to the accessLineConfigurationId.
+    required: true
+    type: string
+    format: accessLineConfigurationId
+  dpuConfigurationId:
+    in: path
+    name: dpuConfigurationId
+    description: Identifier which uniquely identifies a DPU-configuration
+    required: true
+    type: string
+    format: dpuConfigurationId
+  bhidConfigurationId:
+    in: path
+    name: bhidConfigurationId
+    description: Identifier which uniquely identifies the resource to the OLT-BackhaulID configuration
+    required: true
+    type: string
+    format: bhidConfigurationId
+  X-Correlation-ID:
+    in: header
+    name: X-Correlation-ID
+    description: Value for identifying a single transaction across multiple services up to the backend. Usually set by the originating consumer
+    type: string
+    format: uuid
+  X-Request-ID:
+    in: header
+    name: X-Request-ID
+    description: 'Value to identify an individual request across consuming application, middleware and service provider'
+    type: string
+    format: uuid
+  X-Business-Context:
+    in: header
+    name: X-Business-Context
+    description: The business context is a general classification for a larger number of requests (types) usually set by the originating consumer
+    type: string
+  X-Callback-Url:
+    in: header
+    name: X-Callback-Url
+    description: The provided REST-interface from the consumer where the expected callback is sent to
+    required: true
+    type: string
+    format: uri
+  X-Callback-Method:
+    in: header
+    name: X-Callback-Method
+    description: HTTP method which is used for the callback
+    type: string
+    default: POST
+    enum:
+      - POST
+  X-Callback-Correlation-Id:
+    in: header
+    name: X-Callback-Correlation-Id
+    description: Value for identifying a single transaction across multiple services up to the backend. Usually set by the originating consumer
+    required: true
+    type: string
+    format: uuid
+responses:
+  '202':
+    description: Accepted request
+tags:
+  - name: Configuration
+  - name: Maintenance
+  - name: Bulk
