@@ -4,7 +4,7 @@ info:
   description: This interface allows you to do CRUD-operations on the a4-resource-inventory
   contact:
     email: DL_Berlinium@telekom.de
-  version: 8.1.2
+  version: 8.3.0
 servers:
   - url: /
 #SECURITY--------------------------------------------------------------------------------------------------
@@ -2592,6 +2592,12 @@ components:
         isOptional:
           type: boolean
           description: attributes of this Port Spec item
+        autoShutdown:
+          type: boolean
+          description: attributes of this Port Spec item
+        createTp:
+          type: boolean
+          description: attributes of this Port Spec item
         logicalLabel:
           type: string
           description: attributes of this Port Spec item (Functional Port Label)
@@ -2903,7 +2909,7 @@ components:
     A10NspQosDto:
       type: object
       properties:
-        qosClass:
+        qosPriority:
           type: string
           description: attributes of this A10NspQos
         qosBandwidthUp:
