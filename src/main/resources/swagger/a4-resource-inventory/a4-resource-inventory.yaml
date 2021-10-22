@@ -4,7 +4,7 @@ info:
   description: This interface allows you to do CRUD-operations on the a4-resource-inventory
   contact:
     email: DL_Berlinium@telekom.de
-  version: 8.3.0
+  version: 8.4.0
 servers:
   - url: /
 #SECURITY--------------------------------------------------------------------------------------------------
@@ -98,6 +98,16 @@ paths:
         - name: networkElementGroupUuid
           in: query
           description: NEG-UUID for filtering the NetworkElements
+          schema:
+            type: string
+        - name: fiberOnLocationId
+          in: query
+          description: fiberOnLocationId for filtering the NetworkElements
+          schema:
+            type: string
+        - name: klsId
+          in: query
+          description: klsId for filtering the NetworkElements
           schema:
             type: string
       responses:
@@ -2446,6 +2456,9 @@ components:
         ztpIdent:
           type: string
           description: ZTP-Ident of this Network Element item
+        fiberOnLocationId:
+          type: string
+          description: FiberOnLocationId of this NetworkElement, this parameter is needed for dpuCommissioning
         networkElementGroupUuid:
           type: string
           description: UUID of Network Element Group item to which this Network Element
