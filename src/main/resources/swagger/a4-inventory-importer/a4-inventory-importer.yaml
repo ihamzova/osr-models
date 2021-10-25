@@ -1,7 +1,7 @@
 openapi: 3.0.3
 info:
   title: A4-Inventory-Importer API
-  version: 3.0.0
+  version: 3.1.0
   description: API for A4 Resource Inventory UI BFF communication
   contact:
     email: DL_Berlinium@telekom.de
@@ -14,7 +14,7 @@ paths:
     get:
       security:
         - OAuth2:
-            - 'rori:networkElement*Links:get'
+            - 'rori:networkElementLinks:full'
             - 'giga:cga:all-area-access'
       tags:
         - NetworkElementLinks
@@ -41,6 +41,33 @@ paths:
                 type: array
                 items:
                   $ref: "#/components/schemas/NetworkElementLink"
+        "400":
+          description: Bad Request
+        "404":
+          description: Not Found
+        "500":
+          description: Internal Server Error
+  /networkElementLinks/installation:
+    post:
+      security:
+        - OAuth2:
+            - 'rori:networkElementLinks:full'
+            - 'giga:cga:all-area-access'
+      tags:
+        - NetworkElementLinks
+      operationId: startNetworkElementLinkInstallation
+      requestBody:
+        description: list of uuids that should be installed
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                type: string
+        required: true
+      responses:
+        "200":
+          description: success
         "400":
           description: Bad Request
         "404":
@@ -185,146 +212,55 @@ paths:
           description: Bad Request
         "500":
           description: Internal Server Error
+  /resource-order-resource-inventory/v1/commissioningDpuA4Task:
+    post:
+      security:
+        - OAuth2:
+            - 'rori:commissioningDpuA4Task:post'
+            - 'giga:cga:all-area-access'
+      tags:
+        - commissioningDpuA4Task
+      operationId: commissioningDpuA4Task
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CommissioningDpuA4Task'
+      responses:
+        "201":
+          description: success
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/NetworkElement"
+        "400":
+          description: Bad Request
+        "500":
+          description: Internal Server Error
 components:
   schemas:
     NetworkElementLink:
-      required:
-        - href
-        - id
       type: object
-      properties:
-        id:
-          type: string
-          description: Identifier of an instance of the resource. Required to be unique
-            within the resource type.  Used in URIs as the identifier for specific
-            instances of a type.
-        href:
-          type: string
-          description: The URI for the object itself.
-          format: uri
-        creationTime:
-          type: string
-          description: This optional attribute identifies the DT material number of
-            a physical entity before it is installed. Set by OSS based on the retrieved
-            material number from the PSL system. This allows the OSS to convert/relate
-            the links retrieved from REBELL to functional network element links (NEL).
-        description:
-          type: string
-          description: free-text description of the resource
-        endszA:
-          type: string
-          description: Link to NE ENDSZ A
-        endszB:
-          type: string
-          description: Link to NE ENDSZ B
-        lastUpdateTime:
-          type: string
-          description: This optional attribute identifies the DT material number of
-            a physical entity before it is installed. Set by OSS based on the retrieved
-            material number from the PSL system. This allows the OSS to convert/relate
-            the links retrieved from REBELL to functional network element links (NEL).
-        lbz:
-          type: string
-          description: 'Leitungsbezeichnung in Rebell  Die Leitungsbezeichnung (LBZ)
-            bzw. die Leitungsbuchungsnummer (LBuNr) ist eine Zeichenkette, die sich
-            aus der LSZ (92Z), der OrdNr (1), der LSZ-Erg (EG), dem ZuBu, dem KennBu,
-            der EndSZ der Endstelle A und der EndSZ der Endstelle B zusammensetzt.
-            Beispiel: 92Z/1 EG 49/211/79/38 – 49/211/80/38 Langtext-Schreibweise:
-            92Z/1 EG Düsseldorf 79/38 – Düsseldorf 80/38 <LSZ> / <order number 10
-            digits with leading zeros> - <EndSzA> - <EndSzB> example: 4C1 / 0000000005-49
-            / 711/880001 / 7MC1-49 / 911/85 / 7ZJA'
-        lsz:
-          type: string
-          description: 'Leitungsschlüsselzahl This attribute defines the type of the
-            link. The lsz is part of the lbz (Leitungsbezeichnung). LSZ values used
-            in A4: https://gard.telekom.de/gardwiki/pages/viewpage.action?pageId=293228420
-            Note: A link in an FTTB PON tree does not have an lsz.'
-        orderNumber:
-          type: string
-          description: This attribute defines ...? The order number is part of the
-            lbz (Leitungsbezeichnung).
-        partyId:
-          type: string
-          description: This attribute defines the partyId of the requesting system.
-        pluralId:
-          type: string
-          description: This attribute contains the identifier of the link in Plural
-            (only FYI for user).
-        specificationVersion:
-          type: integer
-          description: This attribute contains the version of the class specification.
-        ueWegId:
-          type: string
-          description: Übertragungsweg-ID This attribute contains the unique identificator
-            of the link. (Line-ID?, LSZ?)
-        lifecycleState:
-          $ref: '#/components/schemas/LifecycleStateType'
-        operationalState:
-          $ref: '#/components/schemas/ResourceOperationalStateType'
-        '@baseType':
-          type: string
-          description: When sub-classing, this defines the super-class
-        '@schemaLocation':
-          type: string
-          description: A URI to a JSON-Schema file that defines additional attributes
-            and relationships
-          format: uri
-        '@type':
-          type: string
-          description: When sub-classing, this defines the sub-class entity name
-      description: |-
-        NetworkElementLink within Access 4.0 project
-        Skipped properties: activationFeature,attachment,note,place,resourceSpecification,value,startOperatingDate,endOperatingDate,administrativeState,resourceStatus,usageState,category,name,resourceVersion,relatedParty,networkElementPortUuid
-    LifecycleStateType:
-      type: string
-      description: LifecycleStateType enumerations for Access 4.0
-      enum:
-        - PLANNING
-        - INSTALLING
-        - OPERATING
-        - RETIRING
-    ResourceOperationalStateType:
-      type: string
-      description: OperationalStateType enumerations for Access 4.0
-      enum:
-        - FAILED
-        - INSTALLING
-        - NOT_MANAGEABLE
-        - WORKING
-        - NOT_WORKING
-    NetworkElement:
-      type: object
-      title: NetworkElement
-      description: Response an array of NetworkElements reduced to the needed fields
       properties:
         uuid:
           $ref: '#/components/schemas/AllowedUuidCharacters'
-        vpsz:
+        lbz:
           $ref: '#/components/schemas/AllowedCharacters'
-        fsz:
+        lsz:
           $ref: '#/components/schemas/AllowedCharacters'
-        description:
+        orderNumber:
           $ref: '#/components/schemas/AllowedCharacters'
-        ztpIdent:
+        pluralId:
           $ref: '#/components/schemas/AllowedCharacters'
-        plannedMatNumber:
+        ueWegId:
           $ref: '#/components/schemas/AllowedCharacters'
         lifecycleState:
           $ref: '#/components/schemas/AllowedCharacters'
         operationalState:
           $ref: '#/components/schemas/AllowedCharacters'
-        category:
+        rebellPortLabel:
           $ref: '#/components/schemas/AllowedCharacters'
-        address:
-          $ref: '#/components/schemas/AllowedCharacters'
-        plannedRackId:
-          $ref: '#/components/schemas/AllowedCharacters'
-        plannedRackPosition:
-          $ref: '#/components/schemas/AllowedCharacters'
-        planningDeviceName:
-          $ref: '#/components/schemas/AllowedCharacters'
-        type:
-          $ref: '#/components/schemas/AllowedCharacters'
+      description: NetworkElementLink within Access 4.0 project
     CsvFileUploadResult:
       type: object
       title: CsvFileUploadResult
@@ -346,6 +282,144 @@ components:
           $ref: '#/components/schemas/AllowedCharacters'
         numberNemoUpdateTasks:
           $ref: '#/components/schemas/AllowedCharacters'
+    CommissioningDpuA4Task:
+      required:
+        - dpuEndSz
+        - dpuSerialNumber
+        - dpuMaterialNumber
+        - dpuKlsId
+        - dpuFiberOnLocationId
+        - oltEndSz
+        - oltPonPort
+      type: object
+      properties:
+        dpuEndSz:
+          $ref: '#/components/schemas/AllowedCharacters'
+        dpuSerialNumber:
+          $ref: '#/components/schemas/AllowedCharacters'
+        dpuMaterialNumber:
+          $ref: '#/components/schemas/AllowedCharacters'
+        dpuKlsId:
+          $ref: '#/components/schemas/AllowedCharacters'
+        dpuFiberOnLocationId:
+          $ref: '#/components/schemas/AllowedCharacters'
+        oltEndSz:
+          $ref: '#/components/schemas/AllowedCharacters'
+        oltPonPort:
+          $ref: '#/components/schemas/AllowedCharacters'
+      description: Task object
+    NetworkElement:
+      title: NetworkElement
+      type: object
+      properties:
+        uuid:
+          type: string
+          description: UUID of this Network Element item
+          pattern: '[0-9a-fA-F]{8}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{12}'
+        creationTime:
+          type: string
+          description: Timestamp in UTC when this Network Element item was created.
+            Automatically filled when creating a new Network Element item
+          format: date-time
+        description:
+          type: string
+          description: attributes of this Network Element item
+          pattern: '[\w,/!=§#@€:µ.*+? \-\u00C0-\u017F]*'
+        lastUpdateTime:
+          type: string
+          description: Timestamp in UTC when this Network Element item was last updated.
+            Automatically updated when updating a Network Element item
+          format: date-time
+        specificationVersion:
+          type: string
+          description: specificationVersion of a Network Element
+          pattern: '[\w,/!=§#@€:µ.*+? \-\u00C0-\u017F]*'
+        address:
+          type: string
+          description: Address of this Network Element item
+          pattern: '[\w,/!=§#@€:µ.*+? \-\u00C0-\u017F]*'
+        administrativeState:
+          type: string
+          description: Administrative State of this Network Element item. Must contain
+            one valid state value
+          pattern: '[\w,/!=§#@€:µ.*+? \-\u00C0-\u017F]*'
+        fsz:
+          type: string
+          description: FSZ of this Network Element item. Must be unique in combination
+            with VPSZ
+          pattern: '[\w,/!=§#@€:µ.*+? \-\u00C0-\u017F]*'
+        vpsz:
+          type: string
+          description: VPSZ of this Network Element item. Must be unique in combination
+            with FSZ
+          pattern: '[\w,/!=§#@€:µ.*+? \-\u00C0-\u017F]*'
+        klsId:
+          type: string
+          description: KLS-ID of this Network Element item
+          pattern: '[\w,/!=§#@€:µ.*+? \-\u00C0-\u017F]*'
+        lifecycleState:
+          type: string
+          description: Lifecycle State of this Network Element item. Must contain
+            one valid state value
+          pattern: '[\w,/!=§#@€:µ.*+? \-\u00C0-\u017F]*'
+        operationalState:
+          type: string
+          description: Operational State of this Network Element item. Must contain
+            one valid state value
+          pattern: '[\w,/!=§#@€:µ.*+? \-\u00C0-\u017F]*'
+        plannedMatNumber:
+          type: string
+          description: planned material number of this Network Element item
+          pattern: '[\w,/!=§#@€:µ.*+? \-\u00C0-\u017F]*'
+        plannedRackId:
+          type: string
+          description: Planned Rack ID of this Network Element item
+          pattern: '[\w,/!=§#@€:µ.*+? \-\u00C0-\u017F]*'
+        plannedRackPosition:
+          type: string
+          description: Planned Rack Position of this Network Element item
+          pattern: '[\w,/!=§#@€:µ.*+? \-\u00C0-\u017F]*'
+        planningDeviceName:
+          type: string
+          description: Planning Device Name of this Network Element item
+          pattern: '[\w,/!=§#@€:µ.*+? \-\u00C0-\u017F]*'
+        roles:
+          type: string
+          description: Roles of this Network Element item. Must contain one valid
+            role value XX
+          pattern: '[\w,/!=§#@€:µ.*+? \-\u00C0-\u017F]*'
+        type:
+          type: string
+          description: Type of this Network Element item. Must contain one valid type
+            value
+          pattern: '[\w,/!=§#@€:µ.*+? \-\u00C0-\u017F]*'
+        category:
+          type: string
+          description: NE-Category for filtering the NetworkElements
+          pattern: '[\w,/!=§#@€:µ.*+? \-\u00C0-\u017F]*'
+        ztpIdent:
+          type: string
+          description: ZTP-Ident of this Network Element item
+          pattern: '[\w,/!=§#@€:µ.*+? \-\u00C0-\u017F]*'
+        networkElementGroupUuid:
+          type: string
+          description: UUID of Network Element Group item to which this Network Element
+            item belongs. Must contain UUID of an existing Network Element Group
+          pattern: '[\w,/!=§#@€:µ.*+? \-\u00C0-\u017F]*'
+        partyId:
+          type: string
+          description: Party ID of entity to which network elements belongs to
+          pattern: '[\w,/!=§#@€:µ.*+? \-\u00C0-\u017F]*'
+        fiberOnLocationId:
+          type: string
+          description: fiberOnLocationId of this Network Element item
+          pattern: '[\w,/!=§#@€:µ.*+? \-\u00C0-\u017F]*'
+        href:
+          type: string
+          description: References to NetworkElementGroup
+      description: Network Elements are one of several element types of A4 resources.
+        Needed for communication between A4 resource inventory and resource inventory
+        service.
     AllowedCharacters:
       title: AllowedCharacters
       pattern: '[\w,/!=§#@€:µ.*+? \-\u00C0-\u017F]*'
@@ -366,3 +440,5 @@ components:
             'giga:cga:all-area-access': General Access Scope
             'rori:networkElements:get': GET Scope
             'rori:ztpIdent:post': POST Scope
+            'rori:networkElementLinks:full': Full Scope
+            'rori:commissioningDpuA4Task:post': POST Scope
