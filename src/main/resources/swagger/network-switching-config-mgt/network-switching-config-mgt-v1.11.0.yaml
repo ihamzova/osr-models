@@ -1,0 +1,402 @@
+openapi: 3.0.1
+info:
+  title: Access line switching
+  description: |-
+    ## Access line switching API
+
+    Microservice which is implementing switching process of access line logical resources for PON Network Switching.
+  version: 1.11.0
+servers:
+  - url: http://localhost:8098/
+tags:
+  - name: NetworkSwitching
+paths:
+  /resource-order-resource-inventory/v1/networkSwitchingProcess:
+    post:
+      tags:
+        - NetworkSwitching
+      summary: Network switching process
+      description: Starts network switching process according to action
+      operationId: startNetworkSwitchingProcess
+      security:
+        - OAuth2:
+            - 'rori:switchingProcess:write'
+            - 'giga:cga:all-area-access'
+      requestBody:
+        description: Network Switching info
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/NetworkSwitchingRequestDto'
+        required: true
+      responses:
+        202:
+          description: Process started
+          content:
+            application/json;charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/NetworkSwitchingProcessResponse'
+        400:
+          description: Bad request
+          content:
+            application/json;charset=UTF-8:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+        500:
+          description: Can't perform operation
+          content:
+            application/json;charset=UTF-8:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+    get:
+      tags:
+        - NetworkSwitching
+      summary: Network switching packages
+      description: List of network switching packages by criteria
+      operationId: getPackages
+      security:
+        - OAuth2:
+            - 'rori:switchingProcess:read'
+            - 'giga:cga:all-area-access'
+      parameters:
+        - name: endSZ
+          in: query
+          description: For filtering on the base of 'targetPort.endSZ' field
+          schema:
+            type: string
+        - name: slotName
+          in: query
+          description: For filtering on the base of 'targetPort.slotName' field
+          schema:
+            type: string
+        - name: portName
+          in: query
+          description: For filtering on the base of 'targetPort.portName' field
+          schema:
+            type: string
+        - name: fields
+          in: query
+          description: Comma-separated properties to provide in response
+          schema:
+            type: string
+        - name: page
+          in: query
+          description: Requested index for start page of resources to be provided in response (0 based)
+          schema:
+            type: integer
+            format: int32
+        - name: limit
+          in: query
+          description: Requested number of resources to be provided in response
+          schema:
+            type: integer
+            format: int32
+      responses:
+        '200':
+          description: Success
+          headers:
+            X-Total-Count:
+              description: Total number of items matching criteria
+              schema:
+                type: integer
+            X-Result-Count:
+              description: Actual number of items returned in the response body
+              schema:
+                type: integer
+          content:
+            application/json;charset=utf-8:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/NetworkSwitchingPackage'
+        400:
+          description: Bad request
+          content:
+            application/json;charset=UTF-8:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+        500:
+          description: Can't perform operation
+          content:
+            application/json;charset=UTF-8:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+
+  /resource-order-resource-inventory/v1/networkSwitchingProcess/{id}:
+    get:
+      tags:
+        - NetworkSwitching
+      summary: Network switching packages
+      description: Retrieves a network switching package
+      operationId: getPackage
+      security:
+        - OAuth2:
+            - 'rori:switchingProcess:read'
+            - 'giga:cga:all-area-access'
+      parameters:
+        - name: id
+          in: path
+          description: Identifier of the package
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: fields
+          in: query
+          description: Comma-separated properties to provide in response
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json;charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/NetworkSwitchingPackage'
+        400:
+          description: Bad request
+          content:
+            application/json;charset=UTF-8:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+        500:
+          description: Can't perform operation
+          content:
+            application/json;charset=UTF-8:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+
+components:
+  securitySchemes:
+    OAuth2:
+      type: oauth2
+      flows:
+        clientCredentials:
+          tokenUrl: 'https://rhsso-develop.magic.telekom.de/auth/realms/GigabitHub/protocol/openid-connect/token'
+          scopes:
+            'rori:switchingProcess:write': Write scope
+            'rori:switchingProcess:read': Read scope
+            'giga:cga:all-area-access': General access scope
+  schemas:
+    NetworkSwitchingProcessResponse:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        phase:
+          $ref: '#/components/schemas/ProcessPhase'
+        previousPhase:
+          $ref: '#/components/schemas/ProcessPhase'
+
+    Port:
+      type: object
+      properties:
+        endSZ:
+          type: string
+        slotName:
+          type: string
+        portName:
+          type: string
+
+    BusinessProcess:
+      type: object
+      properties:
+        status:
+          description: Business process status
+          type: string
+        startDate:
+          type: string
+          format: date-time
+        endDate:
+          type: string
+          format: date-time
+        lastActivity:
+          description: Last successfull activity
+          type: string
+        incidentActivity:
+          description: Incident activity
+          type: string
+        incidentMessage:
+          description: Incident message
+          type: string
+
+    NetworkSwitchingPackage:
+      type: object
+      properties:
+        id:
+          type: integer
+          description: Internal (from database) id of process entity
+          format: int64
+        version:
+          type: integer
+          format: int64
+        targetPort:
+          $ref: '#/components/schemas/Port'
+        packageId:
+          type: string
+        partyId:
+          type: integer
+          description: party Id
+          format: int64
+        phase:
+          $ref: '#/components/schemas/ProcessPhase'
+        creationDate:
+          type: string
+          format: date-time
+        modificationDate:
+          type: string
+          format: date-time
+        processInfo:
+          $ref: '#/components/schemas/BusinessProcess'
+        homeIds:
+          description: list of home ids
+          type: array
+          items:
+            $ref: '#/components/schemas/HomeId'
+
+    HomeId:
+      type: object
+      properties:
+        id:
+          type: integer
+          description: Internal (from database) id of Home Id entity
+          format: int64
+        version:
+          type: integer
+          description: Version of object
+          format: int64
+        homeId:
+          type: string
+          description: HomeId from pool for access line
+        lineIds:
+          description: list of Line Ids
+          type: array
+          items:
+            $ref: '#/components/schemas/LineIds'
+
+    LineIds:
+      type: object
+      properties:
+        id:
+          type: integer
+          description: Internal (from database) id of Line Ids entity
+          format: int64
+        version:
+          type: integer
+          description: Version of object
+          format: int64
+        lineId:
+          type: string
+          description: line id of mirrored access line
+        lineIdOnTargetPort:
+          type: string
+          description: line id of line on target port
+
+    NetworkSwitchingRequestDto:
+      required:
+        - action
+      type: object
+      properties:
+        id:
+          description: id of switching package(only for commit action)
+          type: integer
+          format: int64
+        homeIdList:
+          description: list of home ids
+          type: array
+          items:
+            type: string
+        endSz:
+          description: endSz of target port
+          pattern: '[0-9]{1,6}\/[0-9]{1,6}\/[0-9]{1,6}\/[a-zA-Z0-9]{2,4}'
+          type: string
+        portNumber:
+          description: port
+          type: string
+        slotNumber:
+          description: slot
+          type: string
+        action:
+          $ref: '#/components/schemas/SwitchingAction'
+        sourcePortAction:
+          $ref: '#/components/schemas/SourcePortAction'
+
+    ProcessPhase:
+      type: string
+      description: Status of Network Switching process phase
+      enum:
+        - IN_PREPARATION
+        - PREPARED
+        - EXECUTION
+        - COMMIT_IN_PROGRESS
+        - FINISHED
+        - ROLLBACK_FAILED
+        - IN_ROLLBACK
+        - ROLLBACKED
+        - PREPARATION_FAILED
+        - COMMIT_FAILED
+        - UPDATE_FAILED
+        - UPDATING
+    SwitchingAction:
+      type: string
+      description: Action of network switching process
+      enum:
+        - PREPARE
+        - COMMIT
+        - ROLLBACK
+
+    SourcePortAction:
+      type: string
+      description: Action of source port at commit action
+      enum:
+        - PREPROVISION
+        - DECONFIGURE
+        - NO_DECONFIGURE_IN_SEAL
+        - NA
+
+    ProblemDetails:
+      required:
+        - title
+        - type
+      type: object
+      properties:
+        type:
+          type: string
+          description: type
+        title:
+          type: string
+          description: title
+        status:
+          type: integer
+          description: status
+          format: int32
+        detail:
+          type: string
+          description: detail
+        instance:
+          type: string
+          description: instance
+        embedded:
+          $ref: '#/components/schemas/SpecificProblemDetails'
+      description: Error response of 4xx and 5xx http statuses.
+    SpecificProblemDetails:
+      required:
+        - code
+        - reason
+      type: object
+      properties:
+        code:
+          type: string
+          description: code
+        reason:
+          type: string
+          description: reason
+        message:
+          type: string
+          description: message
+        status:
+          type: integer
+          description: status
+          format: int32
+      description: Specific problem details(including fehlerbuildnummer code).
