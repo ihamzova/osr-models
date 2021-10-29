@@ -1,7 +1,7 @@
 openapi: 3.0.3
 info:
   title: A4-Inventory-Importer API
-  version: 3.1.1
+  version: 3.2.0
   description: API for A4 Resource Inventory UI BFF communication
   contact:
     email: DL_Berlinium@telekom.de
@@ -234,9 +234,18 @@ paths:
               schema:
                 $ref: "#/components/schemas/NetworkElement"
         "400":
-          description: Bad Request
+          description: commissioningDpuA4Tasks - Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
         "500":
-          description: Internal Server Error
+          description: commissioningDpuA4Tasks - Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
 components:
   schemas:
     NetworkElementLink:
@@ -430,6 +439,23 @@ components:
       pattern: '[0-9a-fA-F]{8}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{12}'
       type: string
       description: Validator for AllowedUuidCharacters
+    Error:
+      type: object
+      properties:
+        code:
+          type: string
+          description: the code of the Fehlerbildnummer
+        reason:
+          type: string
+          description: Text that explains the reason for error. This can be shown
+            to a client user.
+          example: Http Error
+        message:
+          type: string
+          description: Text that provide more details and corrective actions related
+            to the error. This can be shown to a client user.
+          example: Please check your request
+      description: Error model from the TMF OpenAPI
   securitySchemes:
     OAuth2:
       type: oauth2
