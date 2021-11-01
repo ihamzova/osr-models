@@ -1,11 +1,10 @@
 swagger: '2.0'
 info:
-  title: DPU Demand Inventory Management
-  description: This is TMF Device Resource Inventory Management API specification for DPU Demand
-  version: 1.2.1
-host: 'localhost:8080'
+  title: DPU Planning
+  description: DPU Planning API specification
+  version: 1.3.0
+host: localhost:8080
 basePath: /resource-order-resource-inventory/v1
-
 schemes:
   - https
 consumes:
@@ -18,19 +17,19 @@ securityDefinitions:
   OauthSecurity:
     type: oauth2
     flow: application
-    tokenUrl: 'https://example.org/token'
+    tokenUrl: https://example.org/token
     scopes:
-      'rori:dpuDemand:read': DpuDemand Read Scope
-      'rori:dpuDemand:full': DpuDemand Full Scope
-      'giga:cga:all-area-access': Default Scope
+      rori:dpuDemand:read: DpuDemand Read Scope
+      rori:dpuDemand:full: DpuDemand Full Scope
+      giga:cga:all-area-access: Default Scope
 paths:
-
   /dpuDemand:
     get:
       security:
         - OauthSecurity:
-            - 'rori:dpuDemand:read'
-            - 'giga:cga:all-area-access'
+            - rori:dpuDemand:full
+            - rori:dpuDemand:read
+            - giga:cga:all-area-access
       operationId: findDpuDemand
       summary: find DpuDemand objects
       description: This operation list or find DpuDemand entities
@@ -41,8 +40,8 @@ paths:
           description: For filtering on the base of 'dpuAccessTechnology' field (equality)
           in: query
           enum:
-            -  FTTB_COAX
-            -  FTTB_CUDA
+            - FTTB_COAX
+            - FTTB
           type: string
         - name: dpuEndSz
           description: For filtering on the base of 'dpuEndSz' field (equality)
@@ -57,15 +56,17 @@ paths:
           in: query
           type: string
         - name: numberOfNeededDpuPorts
-          description: For filtering on the base of 'numberOfNeededDpuPorts' field (equality)
+          description: >-
+            For filtering on the base of 'numberOfNeededDpuPorts' field
+            (equality)
           in: query
           type: string
         - name: state
           description: For filtering on the base of 'state' field (equality)
           in: query
           enum:
-            -  OPEN
-            -  FULFILLED
+            - OPEN
+            - FULFILLED
           type: string
         - name: workorderId
           description: For filtering on the base of 'workorderId' field (equality)
@@ -112,8 +113,8 @@ paths:
     post:
       security:
         - OauthSecurity:
-            - 'rori:dpuDemand:full'
-            - 'giga:cga:all-area-access'
+            - rori:dpuDemand:full
+            - giga:cga:all-area-access
       operationId: createDpuDemand
       summary: Creates a DpuDemand
       description: This operation creates a DpuDemand entity.
@@ -155,15 +156,18 @@ paths:
           description: Internal Server Error
           schema:
             $ref: '#/definitions/Error'
-  '/dpuDemand/{id}':
+  /dpuDemand/{id}:
     get:
       security:
         - OauthSecurity:
-            - 'rori:dpuDemand:read'
-            - 'giga:cga:all-area-access'
+            - rori:dpuDemand:full
+            - rori:dpuDemand:read
+            - giga:cga:all-area-access
       operationId: retrieveDpuDemand
       summary: Retrieves a DpuDemand by ID
-      description: This operation retrieves a DpuDemand entity. Attribute selection is enabled for all first level attributes.
+      description: >-
+        This operation retrieves a DpuDemand entity. Attribute selection is
+        enabled for all first level attributes.
       tags:
         - dpuDemand
       parameters:
@@ -204,8 +208,8 @@ paths:
     patch:
       security:
         - OauthSecurity:
-            - 'rori:dpuDemand:full'
-            - 'giga:cga:all-area-access'
+            - rori:dpuDemand:full
+            - giga:cga:all-area-access
       operationId: patchDpuDemand
       summary: Updates partially a DpuDemand
       description: This operation updates partially a DpuDemand entity.
@@ -263,8 +267,8 @@ paths:
     delete:
       security:
         - OauthSecurity:
-            - 'rori:dpuDemand:full'
-            - 'giga:cga:all-area-access'
+            - rori:dpuDemand:full
+            - giga:cga:all-area-access
       operationId: deleteDpuDemand
       summary: Deletes a DpuDemand
       description: This operation deletes a DpuDemand entity.
@@ -303,12 +307,12 @@ paths:
           description: Internal Server Error
           schema:
             $ref: '#/definitions/Error'
-
 definitions:
   DpuDemand:
     type: object
-    description: |-
-      A DpuDemand represents the need for one DPU at a location to be planned and commissioned. There can be multiple demands/DPUs at a location.
+    description: >-
+      A DpuDemand represents the need for one DPU at a location to be planned
+      and commissioned. There can be multiple demands/DPUs at a location.
     required:
       - href
       - id
@@ -317,12 +321,13 @@ definitions:
       - numberOfNeededDpuPorts
       - state
       - dpuAccessTechnology
-      - type
-      - baseType
     properties:
       id:
         type: string
-        description: Identifier of an instance of the resource. Required to be unique within the resource type.  Used in URIs as the identifier for specific instances of a type.
+        description: >-
+          Identifier of an instance of the resource. Required to be unique
+          within the resource type.  Used in URIs as the identifier for specific
+          instances of a type.
       href:
         format: uri
         type: string
@@ -337,118 +342,146 @@ definitions:
         format: date-time
         type: string
         description: modification date with timezone (ISO-8601)
-
       dpuAccessTechnology:
         $ref: '#/definitions/dpuAccessTechnology'
       dpuEndSz:
-        example: '49/341/4/76G1'
+        example: 49/341/4/76G1
         type: string
-        description: 'Endstellenschlüsselzahl – Termination node key. Filled once DPU was planned. Reference to DPU which fulfills this demand.'
+        description: >-
+          Endstellenschlüsselzahl – Termination node key. Filled once DPU was
+          planned. Reference to DPU which fulfills this demand.
       dpuInstallationInstruction:
-        example: '30cm neben APL'
+        example: 30cm neben APL
         type: string
-        description: 'Freetext description of location or other instruction as to where and how DPU shall be installed within dpuLocation.'
+        description: >-
+          Freetext description of location or other instruction as to where and
+          how DPU shall be installed within dpuLocation.
       dpuLocation:
-        example: 'Technikraum Keller links'
+        example: Technikraum Keller links
         type: string
-        description: 'Freetext description of location of the DPU within the building.'
+        description: Freetext description of location of the DPU within the building.
       fiberOnLocationId:
         example: '11116666555544443333'
         type: string
-        description: 'reference to FiberOnLocation (Gebäudeteil)'
+        description: reference to FiberOnLocation (Gebäudeteil)
       klsId:
         example: '16828404'
         type: string
-        description: 'Reference the postal address in KLS'
+        description: Reference the postal address in KLS
       numberOfNeededDpuPorts:
         example: '12'
         type: integer
-        description: 'Number of ports that are needed at least on the DPU to fulfill the demand.'
+        description: >-
+          Number of ports that are needed at least on the DPU to fulfill the
+          demand.
       state:
         $ref: '#/definitions/DpuDemandState'
       workorderId:
         example: '2'
         type: string
-        description: 'reference to dpu installation workorder'
+        description: reference to dpu installation workorder
+      emsNbiName:
+        example: SDX2221-16-TP
+        type: string
+        description: naming convention for EMS, aka DPU type
+      dpuMatName:
+        example: SDX2221-16 TP-AC-M-FTTB ETSI
+        type: string
+        description: short name from material catalog
+      dpuMatNo:
+        example: '40898329'
+        type: string
+        description: number from material catalog
+      dpuPortCount:
+        example: '8'
+        type: integer
+        description: number of G.Fast ports at this DPU
       '@baseType':
         type: string
         description: 'When sub-classing, this defines the super-class: Entity'
       '@schemaLocation':
         type: string
         format: uri
-        description: A URI to a JSON-Schema file that defines additional attributes and relationships
+        description: >-
+          A URI to a JSON-Schema file that defines additional attributes and
+          relationships
       '@type':
         type: string
         description: 'When sub-classing, this defines the sub-class entity name: DpuDemand'
   DpuDemand_Create:
     type: object
-    description: |-
-      DPU Demand without an ID, which has to be created bs inventory
+    description: DPU Demand without an ID, which has to be created bs inventory
     required:
       - fiberOnLocationId
       - klsId
       - numberOfNeededDpuPorts
       - state
       - dpuAccessTechnology
-      - type
-      - baseType
     properties:
       dpuAccessTechnology:
         $ref: '#/definitions/dpuAccessTechnology'
       dpuEndSz:
-        example: '49/341/4/76G1'
+        example: 49/341/4/76G1
         type: string
-        description: 'Endstellenschlüsselzahl – Termination node key'
+        description: Endstellenschlüsselzahl – Termination node key
       dpuInstallationInstruction:
-        example: '30cm neben APL'
+        example: 30cm neben APL
         type: string
-        description: 'Freetext description of location or other instruction as to where and how DPU shall be installed within dpuLocation'
+        description: >-
+          Freetext description of location or other instruction as to where and
+          how DPU shall be installed within dpuLocation
       dpuLocation:
-        example: 'Technikraum Keller links'
+        example: Technikraum Keller links
         type: string
-        description: 'Freetext description of location of the DPU within the building'
+        description: Freetext description of location of the DPU within the building
       fiberOnLocationId:
         example: '11116666555544443333'
         type: string
-        description: 'reference to FiberOnLocation (Gebäudeteil)'
+        description: reference to FiberOnLocation (Gebäudeteil)
       klsId:
         example: '16828404'
         type: string
-        description: 'Reference to an information object in KLS'
+        description: Reference to an information object in KLS
       numberOfNeededDpuPorts:
         example: '12'
         type: integer
-        description: 'Number of ports that are needed at least on the DPU to fulfill the demand.'
+        description: >-
+          Number of ports that are needed at least on the DPU to fulfill the
+          demand.
       state:
         $ref: '#/definitions/DpuDemandState'
       workorderId:
         example: '2'
         type: string
-        description: 'reference to dpu installation workorder'
+        description: reference to dpu installation workorder
       '@baseType':
         type: string
-        description: 'When sub-classing, this defines the super-class'
+        description: When sub-classing, this defines the super-class
       '@schemaLocation':
         type: string
         format: uri
-        description: A URI to a JSON-Schema file that defines additional attributes and relationships
+        description: >-
+          A URI to a JSON-Schema file that defines additional attributes and
+          relationships
       '@type':
         type: string
-        description: 'When sub-classing, this defines the sub-class entity name'
+        description: When sub-classing, this defines the sub-class entity name
   DpuDemandState:
     type: string
     description: state enumeration of an dpuDemand
     example: OPEN
     enum:
-      -  OPEN
-      -  FULFILLED
+      - OPEN
+      - FULFILLED
   dpuAccessTechnology:
     type: string
-    description: The technology offered by DPU to customer side, access medium of an dpuDemand.
-    example: FTTB_CUDA
+    description: >-
+      The technology offered by DPU to customer side, access medium of an
+      dpuDemand.
+    example: FTTB
     enum:
-      -  FTTB_CUDA
-      -  FTTB_COAX
+      - FTTB
+      - FTTB_COAX
   JsonPatchOperation:
     type: object
     description: A JSONPatch operation as defined by RFC 6902
@@ -475,9 +508,10 @@ definitions:
     required:
       - op
       - path
-
   Error:
-    description: 'Used when an API throws an Error, typically with a HTTP error response-code (3xx, 4xx, 5xx)'
+    description: >-
+      Used when an API throws an Error, typically with a HTTP error
+      response-code (3xx, 4xx, 5xx)
     type: object
     required:
       - code
@@ -485,13 +519,17 @@ definitions:
     properties:
       code:
         type: string
-        description: 'Application relevant detail, defined in the API or a common list.'
+        description: Application relevant detail, defined in the API or a common list.
       reason:
         type: string
-        description: Explanation of the reason for the error which can be shown to a client user.
+        description: >-
+          Explanation of the reason for the error which can be shown to a client
+          user.
       message:
         type: string
-        description: More details and corrective actions related to the error which can be shown to a client user.
+        description: >-
+          More details and corrective actions related to the error which can be
+          shown to a client user.
       state:
         type: string
         description: HTTP Error code extension
@@ -501,11 +539,13 @@ definitions:
         description: URI of documentation describing the error.
       '@baseType':
         type: string
-        description: 'When sub-classing, this defines the super-class.'
+        description: When sub-classing, this defines the super-class.
       '@schemaLocation':
         type: string
         format: uri
-        description: A URI to a JSON-Schema file that defines additional attributes and relationships
+        description: >-
+          A URI to a JSON-Schema file that defines additional attributes and
+          relationships
       '@type':
         type: string
-        description: 'When sub-classing, this defines the sub-class entity name.'
+        description: When sub-classing, this defines the sub-class entity name.
