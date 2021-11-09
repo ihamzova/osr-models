@@ -7,7 +7,7 @@ info:
     catalog. A Resource candidate makes a Resource Specification available to a resource
     catalog. Resources can be logical (eg: MSISDN, IP-addresses) or physical (eg:
     cables, routers, firewalls).'
-  version: 4.0.6
+  version: 4.0.7
 servers:
   - url: 'http://localhost'
 #SECURITY--------------------------------------------------------------------------------------------------
@@ -21,7 +21,7 @@ paths:
     post:
       security:
         - OAuth2:
-            - 'rori:resourceOrder:write'
+            - 'giga:request:full'
             - 'giga:cga:all-area-access'
       tags:
         - resourceOrder
@@ -39,7 +39,7 @@ paths:
           in: header
           schema:
             type: string
-        - name: x-request-id
+        - name: x-callback-id
           in: header
           schema:
             type: string
@@ -93,6 +93,10 @@ paths:
         resourceOrderCallback:
           '{$request.header.x-callback-url}':
             post:
+              security:
+                - OAuth2:
+                    - 'giga:callback:full'
+                    - 'giga:cga:all-area-access'
               summary: ResourceOrder callback
               operationId: resourceOrderCallback_Post
               parameters:
