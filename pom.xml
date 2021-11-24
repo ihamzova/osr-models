@@ -703,6 +703,12 @@
                                         </inputSpec>
                                     </item>
                                     <item>
+                                        <name>a4.commissioning.client</name>
+                                        <inputSpec>
+                                            ${project.basedir}/src/main/resources/swagger/wg-a4-provisioning/wg-a4-provisioning-v1.9.0.yaml
+                                        </inputSpec>
+                                    </item>
+                                    <item>
                                         <name>line.id.generator.v2_1_0.client</name>
                                         <inputSpec>
                                             ${project.basedir}/src/main/resources/swagger/line-id-generator/line-id-generator-v2.1.0.yaml
