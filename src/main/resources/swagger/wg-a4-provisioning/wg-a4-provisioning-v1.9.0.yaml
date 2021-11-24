@@ -23,11 +23,10 @@ paths:
             - 'giga:cga:all-area-access'
       parameters:
         - $ref: '#/components/parameters/X-Callback-Id'
-        - $ref: '#/components/parameters/X-Callback-Correlation-Id'
-        - $ref: '#/components/parameters/X-Callback-Url'
+        - $ref: '#/components/parameters/X-Callback-Correlation-Id-Required'
+        - $ref: '#/components/parameters/X-Callback-Url-Required'
         - $ref: '#/components/parameters/X-Callback-Error-Url'
         - $ref: '#/components/parameters/X-Callback-Method'
-        - $ref: '#/components/parameters/businessKey'
       requestBody:
         description: A4 Access line info
         content:
@@ -55,7 +54,7 @@ paths:
           $ref: '#/components/callbacks/ErrorCallback'
         DeprovisioningCallback:
           $ref: '#/components/callbacks/A4DeprovisioningCallback'
-  /callback/wgAccessProvisioning/v1/deprovisioning:
+  /callback/wgA4Provisioning/v1/deprovisioning:
     post:
       tags:
         - callback
@@ -88,6 +87,37 @@ paths:
                 $ref: '#/components/schemas/ProblemDetails'
       x-async-responses:
         reference-operation-id: startAccessLineDeprovisioning
+      x-codegen-request-body-name: body
+  /callback/wgA4Provisioning/v1/deprovisioning/error:
+    post:
+      tags:
+        - callback
+      summary: Endpoint to receive error from 3scale in case of technical failure
+      description: Receives error from 3scale in case of technical failure. The endpoint
+        is used only for unexpected errors which could not be processed by the provider
+        itself. Like HTTP 404 Not Found, HTTP 503 Service Unavailable.
+      operationId: receiveDeprovisioningError
+      security:
+        - OAuth2:
+            - 'giga:callback:full'
+            - 'giga:cga:all-area-access'
+            - 'rori:actAccCallback:post'
+      parameters:
+        - $ref: '#/components/parameters/X-Callback-Correlation-Id-Required'
+        - $ref: '#/components/parameters/X-Callback-Request-Id'
+        - $ref: '#/components/parameters/X-Callback-Error-Id'
+        - $ref: '#/components/parameters/X-Callback-Error-HTTP-Code'
+      requestBody:
+        content:
+          '*/*':
+            schema:
+              type: object
+        required: false
+      responses:
+        202:
+          description: Your callback API implementation should return this HTTP status
+            code if the data was received successfully
+          content: { }
       x-codegen-request-body-name: body
   /resource-order-resource-inventory/v1/a4/accessLines:
     post:
@@ -387,11 +417,5 @@ components:
       name: X-Callback-Method
       in: header
       description: Default method if not specified is POST.
-      schema:
-        type: string
-    businessKey:
-      name: businessKey
-      in: query
-      description: Process business key
       schema:
         type: string
