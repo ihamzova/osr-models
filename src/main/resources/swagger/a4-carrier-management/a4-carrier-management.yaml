@@ -4,8 +4,10 @@ info:
   description: API for availability check for NSPA10NSP and allocate and release operations
     for L2BSA NSP
   contact:
+    name: API Support
+    url: https://www.example.com/support
     email: DL_Berlinium@telekom.de
-  version: 2.0.0
+  version: 2.0.1
 servers:
   - url: 'http://localhost'
 #SECURITY--------------------------------------------------------------------------------------------------
@@ -41,18 +43,6 @@ paths:
                 type: string
         400:
           description: allocate a L2Bsa NSP - Bad Request
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-        403:
-          description: allocate a L2Bsa NSP - Forbidden
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-        404:
-          description: allocate a L2Bsa NSP - Not Found
           content:
             application/json:
               schema:
@@ -96,20 +86,46 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
-        403:
-          description: release a L2Bsa NSP - Forbidden
+        500:
+          description: release a L2Bsa NSP - Internal Error
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
-        404:
-          description: release a L2Bsa NSP - Not Found
+      x-codegen-request-body-name: uuid
+  /resource-order-resource-inventory/v1/releaseA10NspNspTask:
+    post:
+      security:
+        - OAuth2:
+            - 'rori:releaseA10NspNspTask:post'
+            - 'giga:cga:all-area-access'
+      tags:
+        - releaseA10NspNspTask
+      summary: Releasing a A10Nsp NSP based on its UUID
+      description: This operation intended to release a A10Nsp NSP
+      operationId: releaseA10NspNspTask
+      requestBody:
+        description: uuid of the A10Nsp NSP that shall be released (json object)
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ReleaseA10NspNspTask'
+        required: true
+      responses:
+        200:
+          description: release a A10NSP - OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ReleaseA10NspNspTask'
+        400:
+          description: release a A10NSP - Bad Request
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
         500:
-          description: release a L2Bsa NSP - Internal Error
+          description: release a A10NSP - Internal Error
           content:
             application/json:
               schema:
@@ -142,18 +158,6 @@ paths:
                 $ref: '#/components/schemas/NegCarrierConnection'
         400:
           description: get NegCarrierConnections - Bad Request
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-        403:
-          description: get NegCarrierConnections - Forbidden
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-        404:
-          description: get NegCarrierConnections - Not Found
           content:
             application/json:
               schema:
@@ -205,6 +209,15 @@ components:
         uuid:
           $ref: '#/components/schemas/AllowedUuidCharacters'
       description: ReleaseL2BsaNspResponse
+    ReleaseA10NspNspTask:
+      title: ReleaseA10NspNspTask
+      required:
+        - uuid
+      type: object
+      properties:
+        uuid:
+          $ref: '#/components/schemas/AllowedUuidCharacters'
+      description: ReleaseA10NspNspTask
     NegCarrierConnection:
       title: NegCarrierConnection
       required:
@@ -271,4 +284,5 @@ components:
             'giga:cga:all-area-access': General Access Scope
             'rori:allocateL2BsaNspTask:post': POST Scope
             'rori:releaseL2BsaNspTask:post': POST Scope
+            'rori:releaseA10NspNspTask:post': POST Scope
             'rori:negCarrierConnections:get': GET Scope
