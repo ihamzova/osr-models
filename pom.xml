@@ -697,6 +697,12 @@
                                         </inputSpec>
                                     </item>
                                     <item>
+                                        <name>ri.abstraction.layer.v1_9_0.client</name>
+                                        <inputSpec>
+                                            ${project.basedir}/src/main/resources/swagger/ri-abstraction-layer/ri-abstraction-layer-v1.9.0.yaml
+                                        </inputSpec>
+                                    </item>
+                                    <item>
                                         <name>wg.a4.provisioning.v1_6_0.client</name>
                                         <inputSpec>
                                             ${project.basedir}/src/main/resources/swagger/wg-a4-provisioning/wg-a4-provisioning-v1.6.0.yaml
