@@ -1,0 +1,288 @@
+openapi: 3.0.0
+info:
+  version: 1.2.0
+  title: OSR Support
+  description: OSR Support API for execution scripts.
+servers:
+  - url: 'http://localhost'
+tags:
+  - name: OsrSupportController
+paths:
+  /resource-order-resource-inventory/v1/osrSupport:
+    get:
+      operationId: operationList
+      tags:
+        - OsrSupportController
+      summary: Get list of supported operations
+      description: API for getting list of supported operations
+      security:
+        - OAuth2:
+            - 'rori:osrSupport:read'
+            - 'giga:cga:all-area-access'
+      responses:
+        '200':
+          description: Successfully find
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ResponseScriptDto'
+        '400':
+          description: Can't perform operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+        '500':
+          description: Internal error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+  /resource-order-resource-inventory/v1/osrSupport/executeTask:
+    post:
+      tags:
+        - OsrSupportController
+      summary: Execute script
+      description: Finds a script by action and executes it with received parameters
+      operationId: execute
+      security:
+        - apmToken: [ ]
+        - OAuth2:
+            - 'rori:osrSupport:read'
+            - 'giga:cga:all-area-access'
+            - 'rori:accessLine:write'
+            - 'rori:managementAccessLine:read'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ExecuteScriptDto'
+      responses:
+        '202':
+          description: Script successfully started
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StartScriptExecutionDto'
+        '400':
+          description: Bad Request (Sync Response on POST Request)
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+        '500':
+          description: Internal error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+      x-codegen-request-body-name: body
+
+  /resource-order-resource-inventory/v1/osrSupport/executeTask/{id}:
+    get:
+      tags:
+        - OsrSupportController
+      summary: Script execution info
+      description: Finds results of script execution
+      operationId: processInfo
+      security:
+        - apmToken: [ ]
+        - OAuth2:
+            - 'rori:osrSupport:read'
+            - 'giga:cga:all-area-access'
+      parameters:
+        - name: id
+          in: path
+          description: Identifier of the process
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: Script result successfully found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProcessScriptDto'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+        '500':
+          description: Internal error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+
+components:
+  securitySchemes:
+    apmToken:
+      type: apiKey
+      in: header
+      name: apm-principal-token
+    OAuth2:
+      type: oauth2
+      flows:
+        clientCredentials:
+          tokenUrl: 'https://rhsso-develop.magic.telekom.de/auth/realms/GigabitHub/protocol/openid-connect/token'
+          scopes:
+            'rori:osrSupport:read': Read scope
+            'rori:osrSupport:write': Write scope
+            'giga:cga:all-area-access': All granted scope
+            'rori:accessLine:write': Write scope
+            'rori:managementAccessLine:read': Read Scope
+  schemas:
+    ResponseScriptDto:
+      type: object
+      properties:
+        action:
+          type: string
+          description: Action type
+        description:
+          type: string
+          description: Script description
+        parameters:
+          type: array
+          items:
+            type: string
+          description: List of script parameters
+        title:
+          type: string
+          description: Title of the script
+    ScriptDto:
+      type: object
+      properties:
+        action:
+          type: string
+          description: Action type
+        apis:
+          type: string
+          description: Script apis
+        description:
+          type: string
+          description: Script description
+        parameters:
+          type: array
+          items:
+            type: string
+          description: List of script parameters
+        content:
+          type: string
+          description: Script content
+        title:
+          type: string
+          description: Title of the script
+    ExecuteScriptDto:
+      type: object
+      properties:
+        parameters:
+          type: object
+          additionalProperties:
+            type: string
+          description: List of script parameters
+        action:
+          type: string
+    ProcessScriptDto:
+      type: object
+      properties:
+        executionId:
+          type: string
+          description: ID of running script process
+        scriptAction:
+          type: string
+          description: Unique identifier of running script
+        user:
+          type: string
+          description: Username, which run the script
+        startTime:
+          type: string
+          format: date-time
+          description: Time when scrit started execution
+        finishTime:
+          type: string
+          format: date-time
+          description: Time when scrit finished execution
+        state:
+          type: string
+          enum:
+            - STARTED
+            - FINISHED
+            - FAILED
+          description: Current state of running script
+        errorMessage:
+          type: string
+          description: Error message if script was failed
+        parameters:
+          type: array
+          items:
+            type: string
+          description: List of script parameters
+    StartScriptExecutionDto:
+      type: object
+      properties:
+        processId:
+          type: string
+          format: uuid
+          description: ID of started process
+        startTime:
+          type: string
+          format: date-time
+          description: Time when scrit started execution
+    ProblemDetails:
+      type: object
+      required:
+        - title
+        - type
+      properties:
+        type:
+          type: string
+          description: type
+        title:
+          type: string
+          description: title
+        status:
+          type: integer
+          format: int32
+          description: status
+        detail:
+          type: string
+          description: detail
+        instance:
+          type: string
+          description: instance
+        embedded:
+          $ref: '#/components/schemas/SpecificProblemDetails'
+      description: Error response of 4xx and 5xx http statuses.
+    SpecificProblemDetails:
+      type: object
+      required:
+        - code
+        - reason
+      properties:
+        code:
+          type: string
+          description: code
+        reason:
+          type: string
+          description: reason
+        message:
+          type: string
+          description: message
+        status:
+          type: integer
+          format: int32
+          description: status
+      description: Specific problem details(including fehlerbuildnummer code).
