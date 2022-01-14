@@ -10,7 +10,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>osr-models</artifactId>
-    <version>0.0.142</version>
+    <version>0.0.143</version>
 
     <properties>
         <framework.version>${project.parent.version}</framework.version>
@@ -784,6 +784,12 @@
                                         <name>network.switching.config.mgt.v1_11_0.client</name>
                                         <inputSpec>
                                             ${project.basedir}/src/main/resources/swagger/network-switching-config-mgt/network-switching-config-mgt-v1.11.0.yaml
+                                        </inputSpec>
+                                    </item>
+                                    <item>
+                                        <name>osr.support.v1_2_0.client</name>
+                                        <inputSpec>
+                                            ${project.basedir}/src/main/resources/swagger/osr-support/osr-support-v1.2.0.yaml
                                         </inputSpec>
                                     </item>
                                 </items>
