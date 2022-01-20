@@ -5,32 +5,19 @@
     <parent>
         <artifactId>acc-aggregator-bom</artifactId>
         <groupId>com.tsystems.tm.acc.tests</groupId>
-        <version>2.3.5</version>
+        <version>3.0.0</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>osr-models</artifactId>
-    <version>0.0.146</version>
+    <version>3.0.0.146</version>
 
     <properties>
         <framework.version>${project.parent.version}</framework.version>
         <common.swagger.template.folder>${project.build.outputDirectory}</common.swagger.template.folder>
     </properties>
 
-    <repositories>
-        <repository>
-            <id>automation</id>
-            <name>automation</name>
-            <url>http://digihub-wbench.psst.t-online.corp/nexus/content/repositories/automation/</url>
-        </repository>
-    </repositories>
-
     <dependencies>
-        <dependency>
-            <groupId>com.tsystems.tm.acc.tests</groupId>
-            <artifactId>acc-common-models</artifactId>
-            <version>${framework.version}</version>
-        </dependency>
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
