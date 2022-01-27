@@ -3,8 +3,10 @@ info:
   title: a4-resource-inventory
   description: This interface allows you to do CRUD-operations on the a4-resource-inventory
   contact:
+    name: Berlinium Support
+    url: https://gard.telekom.de/gardwiki/display/DGHB/Berlinium+Support
     email: DL_Berlinium@telekom.de
-  version: 8.4.0
+  version: 8.5.0
 servers:
   - url: /
 #SECURITY--------------------------------------------------------------------------------------------------
@@ -108,6 +110,11 @@ paths:
         - name: klsId
           in: query
           description: klsId for filtering the NetworkElements
+          schema:
+            type: string
+        - name: ztpIdent
+          in: query
+          description: ztpIdent for filtering the NetworkElements
           schema:
             type: string
       responses:
