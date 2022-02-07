@@ -10,7 +10,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>osr-models</artifactId>
-    <version>0.0.144</version>
+    <version>0.0.145</version>
 
     <properties>
         <framework.version>${project.parent.version}</framework.version>
@@ -439,6 +439,12 @@
                                         <name>uplink.test.data.management.v1_0_0.client</name>
                                         <inputSpec>
                                             ${project.basedir}/src/main/resources/swagger/olt-uplink-management/uplink-test-data-management-1.0.0.json
+                                        </inputSpec>
+                                    </item>
+                                    <item>
+                                        <name>uplink.resource.inventory.management.v5_2_1_client</name>
+                                        <inputSpec>
+                                            ${project.basedir}/src/main/resources/swagger/olt-uplink-management/uplink-resource-inventory-management-5.2.1.json
                                         </inputSpec>
                                     </item>
                                     <item>
