@@ -193,7 +193,7 @@
       "description": "Contains the Uplink object to be created",
       "properties": {
         "uplinkCreate": {
-          "$ref": "./uplink-resource-inventory-management-5.1.0.json#/definitions/Uplink_Create"
+          "$ref": "./uplink-resource-inventory-management-5.2.1.json#/definitions/Uplink_Create"
         }
       }
     },
@@ -209,7 +209,7 @@
           "description": "SQL which was already executed or can be executed later on"
         },
         "uplink": {
-          "$ref": "./uplink-resource-inventory-management-5.1.0.json#/definitions/Uplink",
+          "$ref": "./uplink-resource-inventory-management-5.2.1.json#/definitions/Uplink",
           "description": "contains the Uplink entity which was created when SQL was already executed"
         }
       }
