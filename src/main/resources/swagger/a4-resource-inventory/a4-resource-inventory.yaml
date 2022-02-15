@@ -6,7 +6,7 @@ info:
     name: Berlinium Support
     url: https://gard.telekom.de/gardwiki/display/DGHB/Berlinium+Support
     email: DL_Berlinium@telekom.de
-  version: 8.5.0
+  version: 8.6.0
 servers:
   - url: /
 #SECURITY--------------------------------------------------------------------------------------------------
@@ -1364,12 +1364,6 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
-        404:
-          description: get to NetworkServiceProfileFtthAccess/ - Not Found
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
         500:
           description: get to NetworkServiceProfileFtthAccess/ - Internal Server Error
           content:
@@ -1560,12 +1554,6 @@ paths:
                 $ref: '#/components/schemas/Error'
         403:
           description: get to TerminationPoint - Forbidden
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-        404:
-          description: get to TerminationPoint - Not Found
           content:
             application/json:
               schema:
@@ -2003,12 +1991,6 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
-        404:
-          description: get to NetworkServiceProfileA10NspDto/ - Not Found
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
         500:
           description: get to NetworkServiceProfileA10NspDto/ - Internal Server Error
           content:
@@ -2212,12 +2194,6 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
-        404:
-          description: get to NetworkServiceProfileL2BsaDto/ - Not Found
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
         500:
           description: get to NetworkServiceProfileL2BsaDto/ - Internal Server Error
           content:
@@ -2408,6 +2384,11 @@ components:
           description: Timestamp in UTC when this Network Element item was last updated.
             Automatically updated when updating a Network Element item
           format: date-time
+        lastSuccessfulSyncTime:
+          type: string
+          description: Timestamp in UTC when this NetworkElement item
+            was last synchronized with NEMO. Automatically updated from a4-nemo-updater
+          format: date-time
         specificationVersion:
           type: string
           description: specificationVersion of a Network Element
@@ -2500,13 +2481,18 @@ components:
           description: specificationVersion of NetworkElementGroup
         creationTime:
           type: string
-          description: Timestamp in UTC when this Network Element item was created.
-            Automatically filled when creating a new Network Element item
+          description: Timestamp in UTC when this NetworkElementGroup item was created.
+            Automatically filled when creating a new NetworkElementGroup item
           format: date-time
         lastUpdateTime:
           type: string
-          description: Timestamp in UTC when this Network Element item was last updated.
-            Automatically updated when updating a Network Element item
+          description: Timestamp in UTC when this NetworkElementGroup item was last updated.
+            Automatically updated when updating a NetworkElementGroup item
+          format: date-time
+        lastSuccessfulSyncTime:
+          type: string
+          description: Timestamp in UTC when this NetworkElementGroup item
+            was last synchronized with NEMO. Automatically updated from a4-nemo-updater
           format: date-time
         description:
           type: string
@@ -2534,6 +2520,11 @@ components:
           format: date-time
         lastUpdateTime:
           type: string
+          format: date-time
+        lastSuccessfulSyncTime:
+          type: string
+          description: Timestamp in UTC when this NetworkElementPort item
+            was last synchronized with NEMO. Automatically updated from a4-nemo-updater
           format: date-time
         specificationVersion:
           type: string
@@ -2699,6 +2690,11 @@ components:
             item was created. Automatically filled when creating a new NetworkServiceProfileFtthAccessDto
             item
           format: date-time
+        lastSuccessfulSyncTime:
+          type: string
+          description: Timestamp in UTC when this NetworkServiceProfileFtthAccessDto item
+            was last synchronized with NEMO. Automatically updated from a4-nemo-updater
+          format: date-time
         terminationPointFtthAccessUuid:
           type: string
           description: UUID of terminationPointFtthAccess item to which this NetworkServiceProfileFtthAccessDto
@@ -2781,6 +2777,11 @@ components:
           type: string
           description: Timestamp in UTC when this NetworkElementLink was last updated.
             Automatically updated when updating a NetworkElementLink
+          format: date-time
+        lastSuccessfulSyncTime:
+          type: string
+          description: Timestamp in UTC when this NetworkElementLink item
+            was last synchronized with NEMO. Automatically updated from a4-nemo-updater
           format: date-time
         specificationVersion:
           type: string
@@ -2902,6 +2903,11 @@ components:
             was created. Automatically filled when creating a new NetworkServiceProfileA10NspDto
             item
           format: date-time
+        lastSuccessfulSyncTime:
+          type: string
+          description: Timestamp in UTC when this NetworkServiceProfileA10NspDto item
+            was last synchronized with NEMO. Automatically updated from a4-nemo-updater
+          format: date-time
         terminationPointA10NspUuid:
           type: string
           description: UUID of terminationPointA10Nsp item to which this NetworkServiceProfileA10NspDto
@@ -2985,6 +2991,11 @@ components:
           description: Timestamp in UTC when this NetworkServiceProfileL2BsaDto item
             was created. Automatically filled when creating a new NetworkServiceProfileL2BsaDto
             item
+          format: date-time
+        lastSuccessfulSyncTime:
+          type: string
+          description: Timestamp in UTC when this NetworkServiceProfileL2BsaDto item
+            was last synchronized with NEMO. Automatically updated from a4-nemo-updater
           format: date-time
         terminationPointL2BsaUuid:
           type: string
