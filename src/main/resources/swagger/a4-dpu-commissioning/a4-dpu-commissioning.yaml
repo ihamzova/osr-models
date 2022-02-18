@@ -1,7 +1,7 @@
 openapi: 3.0.3
 info:
   title: A4-DPU-Commissioning API
-  version: 1.0.0
+  version: 1.1.0
   description: API for DPU Commissioning
   contact:
     email: DL_Berlinium@telekom.de
@@ -70,7 +70,7 @@ components:
         oltEndSz:
           $ref: '#/components/schemas/AllowedCharacters'
         oltPonPort:
-          $ref: '#/components/schemas/AllowedUuidCharacters'
+          $ref: '#/components/schemas/AllowedCharacters'
       description: Task object
     NetworkElement:
       title: NetworkElement
@@ -189,11 +189,6 @@ components:
       pattern: '[\w,/!=§#@€:µ.*+? \-\u00C0-\u017F]*'
       type: string
       description: Validator for AllowedCharacters
-    AllowedUuidCharacters:
-      title: AllowedUuidCharacters
-      pattern: '[0-9a-fA-F]{8}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{12}'
-      type: string
-      description: Validator for AllowedUuidCharacters
     Error:
       type: object
       properties:
