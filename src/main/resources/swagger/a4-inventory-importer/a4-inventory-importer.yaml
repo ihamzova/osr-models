@@ -1,7 +1,7 @@
 openapi: 3.0.3
 info:
   title: A4-Inventory-Importer API
-  version: 3.2.1
+  version: 3.3.0
   description: API for A4 Resource Inventory UI BFF communication
   contact:
     email: DL_Berlinium@telekom.de
@@ -215,9 +215,39 @@ paths:
               schema:
                 $ref: "#/components/schemas/CsvFileUploadResult"
         "400":
-          description:  Upload CSV File - Bad Request
+          description: Upload CSV File - Bad Request
         "500":
-          description:  Upload CSV File - Internal Server Error
+          description: Upload CSV File - Internal Server Error
+  /pluralAlignment:
+    post:
+      security:
+        - OAuth2:
+            - 'rori:pluralAlignment:post'
+            - 'giga:cga:all-area-access'
+      tags:
+        - PluralAlignment
+      operationId: pluralAlignment
+      description: Update resource inventory with data from PLURAL
+      parameters:
+        - name: nameNEG
+          in: query
+          description: Name of NetworkElementGroup
+          required: true
+          schema:
+            $ref: '#/components/schemas/AllowedCharacters'
+      responses:
+        "200":
+          description: post - success
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CsvFileUploadResult"
+        "400":
+          description: post - Bad Request
+        "404":
+          description: post - Not Found
+        "500":
+          description: post - Internal Server Error
 components:
   schemas:
     NetworkElementLink:
