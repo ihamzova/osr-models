@@ -10,7 +10,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>osr-models</artifactId>
-    <version>3.0.0.151</version>
+    <version>3.0.0.152</version>
 
     <properties>
         <framework.version>${project.parent.version}</framework.version>
@@ -306,6 +306,12 @@
                                         <name>rebell.client</name>
                                         <inputSpec>
                                             ${project.basedir}/src/main/resources/swagger/rebell/digiOss_0_95.yaml
+                                        </inputSpec>
+                                    </item>
+                                    <item>
+                                        <name>plural.tnp.client</name>
+                                        <inputSpec>
+                                            ${project.basedir}/src/main/resources/swagger/plural/plural.yaml
                                         </inputSpec>
                                     </item>
                                     <item>
