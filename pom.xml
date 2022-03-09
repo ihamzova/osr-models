@@ -738,15 +738,15 @@
                                         </inputSpec>
                                     </item>
                                     <item>
-                                        <name>a4.commissioning.client</name>
+                                        <name>wg.a4.provisioning.v1_11_0.client</name>
                                         <inputSpec>
-                                            ${project.basedir}/src/main/resources/swagger/wg-a4-provisioning/wg-a4-provisioning-v1.9.0.yaml
+                                            ${project.basedir}/src/main/resources/swagger/wg-a4-provisioning/wg-a4-provisioning-v1.11.0.yaml
                                         </inputSpec>
                                     </item>
                                     <item>
-                                        <name>a4.commissioning.v1_11_0.client</name>
+                                        <name>a4.commissioning.client</name>
                                         <inputSpec>
-                                            ${project.basedir}/src/main/resources/swagger/wg-a4-provisioning/wg-a4-provisioning-v1.11.0.yaml
+                                            ${project.basedir}/src/main/resources/swagger/wg-a4-provisioning/wg-a4-provisioning-v1.9.0.yaml
                                         </inputSpec>
                                     </item>
                                     <item>
