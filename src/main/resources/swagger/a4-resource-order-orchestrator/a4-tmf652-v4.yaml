@@ -1,13 +1,13 @@
 openapi: 3.0.1
 info:
-  title: Resource Ordering Management
+  title: Resource Ordering
   description: 'TMF652: The Resource Order API provides a standard mechanism for creating/placing,
     updating, canceling and deleting a Resource Order with all necessary order parameters.
     A Resource Order is based on a resource candidate that is defined in the resource
     catalog. A Resource candidate makes a Resource Specification available to a resource
     catalog. Resources can be logical (eg: MSISDN, IP-addresses) or physical (eg:
     cables, routers, firewalls).'
-  version: 5.0.1
+  version: 4.1.0
 servers:
   - url: 'http://localhost'
 #SECURITY--------------------------------------------------------------------------------------------------
@@ -21,17 +21,10 @@ paths:
     post:
       security:
         - OAuth2:
-            - 'rori:resourceOrder:full'
+            - 'giga:request:full'
             - 'giga:cga:all-area-access'
       tags:
         - resourceOrder
-      parameters:
-        - name: X-Business-Context
-          in: header
-          description: The business context is a general classification for a larger number of requests (types) usually set by the originating consumer.
-          required: false
-          schema:
-            type: string
       summary: Creates a ResourceOrder
       description: This operation creates a ResourceOrder entity.
       operationId: createResourceOrder
@@ -44,17 +37,7 @@ paths:
         required: true
       responses:
         201:
-          headers:
-            X-Business-Context:
-              description: The business context is a general classification for a larger number of requests (types) usually set by the originating consumer.
-              required: false
-              schema:
-                type: string
-          description: Created, return ResourceOrderId
-          content:
-            application/json:
-              schema:
-                type: string
+          description: Created
         400:
           description: Bad Request
           content:
@@ -1599,4 +1582,4 @@ components:
           tokenUrl: 'https://rhsso-develop.magic.telekom.de/auth/realms/GigabitHub/protocol/openid-connect/token'
           scopes:
             'giga:cga:all-area-access': General Access Scope
-            'rori:resourceOrder:full': FULL resourceOrder Scope
+            'rori:resourceOrder:write': WRITE Scope
