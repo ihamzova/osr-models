@@ -3,8 +3,10 @@ info:
   title: a4-resource-order-orchestrator
   description: This interface allows you to do CRUD-operations on the a4-resource-order-orchestrator
   contact:
+    name: API Support
+    url: https://www.example.com/support
     email: DL_Berlinium@telekom.de
-  version: 0.4.0
+  version: 1.0.0
 #SECURITY--------------------------------------------------------------------------------------------------
 security:
   - OAuth2:
@@ -24,6 +26,7 @@ paths:
         - name: uuid
           in: path
           required: true
+          description: needed to get the wished ResourceOrder
           schema:
             type: string
       responses:
@@ -35,18 +38,6 @@ paths:
                 $ref: '#/components/schemas/ResourceOrderDto'
         400:
           description: get ResourceOrder/{uuid} - Bad Request
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-        403:
-          description: get ResourceOrder/{uuid} - Forbidden
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-        404:
-          description: get ResourceOrder/{uuid} - Not Found
           content:
             application/json:
               schema:
@@ -70,26 +61,14 @@ paths:
         - name: uuid
           in: path
           required: true
+          description: needed to delete the wished ResourceOrder
           schema:
             type: string
       responses:
         204:
           description: delete to ResourceOrder/{uuid} - No Content
-          content: { }
         400:
           description: delete to ResourceOrder/{uuid} - Bad Request
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-        403:
-          description: delete to ResourceOrder/{uuid} - Forbidden
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-        404:
-          description: delete to ResourceOrder/{uuid} - Not Found
           content:
             application/json:
               schema:
@@ -111,9 +90,10 @@ paths:
       description: This operation intended to search all ResourceOrder.
       operationId: listResourceOrders
       parameters:
-        - name: vuepPublicReferenceNr
+        - name: publicReferenceId
           in: query
           required: false
+          description: a very fine named paramter var
           schema:
             type: string
       responses:
@@ -127,18 +107,6 @@ paths:
                   $ref: '#/components/schemas/ResourceOrderMainDataDto'
         400:
           description: list ResourceOrder - Bad Request
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-        403:
-          description: list ResourceOrder - Forbidden
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-        404:
-          description: list ResourceOrder - Not Found
           content:
             application/json:
               schema:
@@ -227,9 +195,9 @@ components:
         state:
           type: string
           description: The life cycle state of the resource.
-        vuep:
+        publicReferenceId:
           type: string
-          description: The VUEP Public Refenz Nr of the resource.
+          description: The publicReferenceId / VUEP Public Refenz Nr of the resource.
     ResourceOrderDto:
       type: object
       description: A Resource Order is a request to provision a set of Resources (logical and physical) triggered by the request to provision a Service through a Service Order
@@ -255,15 +223,15 @@ components:
         state:
           type: string
           description: The life cycle state of the resource.
-        vuep:
+        publicReferenceId:
           type: string
-          description: The VUEP Public Refenz Nr of the resource.
-        rahmenvertragsnummer:
+          description: The publicReferenceId / VUEP Public Refenz Nr of the resource.
+        frameContractId:
           type: string
-          description: The Rahmenvertragsnummer of the resource.
-        carrierAnschlussBsaReferenz:
+          description: The frameContractId / Rahmenvertragsnummer of the resource.
+        carrierBsaReference:
           type: string
-          description: The CarrierAnschlussBSA Referenz of the resource.
+          description: The carrierBsaReference / CarrierAnschlussBSA Referenz of the resource.
         notes:
           type: array
           items:
@@ -307,9 +275,9 @@ components:
     VlanRangeDto:
       type: object
       properties:
-        vlanRangeLower:
+        VlanRangeLower:
           type: string
-        vlanRangeUpper:
+        VlanRangeUpper:
           type: string
       description: VlanRange. within Access 4.0 project
     VlanRangeListDto:
