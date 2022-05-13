@@ -10,7 +10,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>osr-models</artifactId>
-    <version>3.0.0.159</version>
+    <version>3.0.0.160</version>
 
     <properties>
         <framework.version>${project.parent.version}</framework.version>
@@ -309,12 +309,6 @@
                                         </inputSpec>
                                     </item>
                                     <item>
-                                        <name>plural.tnp.client</name>
-                                        <inputSpec>
-                                            ${project.basedir}/src/main/resources/swagger/plural/plural.yaml
-                                        </inputSpec>
-                                    </item>
-                                    <item>
                                         <name>access.process.management.internal.v1.client</name>
                                         <inputSpec>
                                             ${project.basedir}/src/main/resources/swagger/access-process-management/access-process-management-internal-v1.yaml
@@ -591,6 +585,12 @@
                                         <name>a4.dpu.commissioning.client</name>
                                         <inputSpec>
                                             ${project.basedir}/src/main/resources/swagger/a4-dpu-commissioning/a4-dpu-commissioning.yaml
+                                        </inputSpec>
+                                    </item>
+                                    <item>
+                                        <name>plural.tnp.client</name>
+                                        <inputSpec>
+                                            ${project.basedir}/src/main/resources/swagger/plural/plural.yaml
                                         </inputSpec>
                                     </item>
                                     <item>
