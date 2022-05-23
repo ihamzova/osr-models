@@ -7,7 +7,7 @@ info:
     catalog. A Resource candidate makes a Resource Specification available to a resource
     catalog. Resources can be logical (eg: MSISDN, IP-addresses) or physical (eg:
     cables, routers, firewalls).'
-  version: 5.0.1
+  version: 5.0.2
 servers:
   - url: 'http://localhost'
 #SECURITY--------------------------------------------------------------------------------------------------
@@ -26,12 +26,8 @@ paths:
       tags:
         - resourceOrder
       parameters:
-        - name: X-Business-Context
-          in: header
-          description: The business context is a general classification for a larger number of requests (types) usually set by the originating consumer.
-          required: false
-          schema:
-            type: string
+        - $ref: '#/components/parameters/X-Business-Context'
+        - $ref: '#/components/parameters/X-Request-ID'
       summary: Creates a ResourceOrder
       description: This operation creates a ResourceOrder entity.
       operationId: createResourceOrder
@@ -44,12 +40,6 @@ paths:
         required: true
       responses:
         201:
-          headers:
-            X-Business-Context:
-              description: The business context is a general classification for a larger number of requests (types) usually set by the originating consumer.
-              required: false
-              schema:
-                type: string
           description: Created, return ResourceOrderId
           content:
             application/json:
@@ -1600,3 +1590,25 @@ components:
           scopes:
             'giga:cga:all-area-access': General Access Scope
             'rori:resourceOrder:full': FULL resourceOrder Scope
+  parameters:
+    X-Request-ID:
+      name: X-Request-ID
+      in: header
+      description: Value to identify an individual request across consuming application,
+        middleware and service provider. This ID is to be generated for every single
+        request and not to be passed down (as X-Correlation-ID) to sub-services. Every
+        consuming application MUST create this value as UUID. The maximum length of
+        256 characters MUST NOT be exceeded (a standard UUID has 36 characters). The
+        creator MAY prefix the UUID with an application and/or instance defined string.
+      schema:
+        type: string
+    X-Business-Context:
+      name: X-Business-Context
+      in: header
+      description: The business context is a general classification for a larger number
+        of requests (types) usually set by the originating consumer. Any service receiving
+        this header parameter MUST forward it unmodified to other services it invokes.
+        Non-REST technologies (e.g. SOABP) might use a different identifier for this
+        attribute.
+      schema:
+        type: string
