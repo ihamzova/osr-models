@@ -1,10 +1,12 @@
 openapi: 3.0.1
 info:
   title: Resource Inventory Management
-  description: This is TMF Resource Inventory Management API specification for Access4.0
-  version: 4.0.4
-servers:
-  - url: https://serverRoot/resource-order-resource-inventory/v1
+  description: This is TMF Resource Inventory Management API specification for Access4.0 TMF 639 V4
+  contact:
+    name: API Support
+    url: https://www.example.com/support
+    email: DL_Berlinium@telekom.de
+  version: 4.1.0
 #SECURITY--------------------------------------------------------------------------------------------------
 security:
   - OAuth2:
@@ -1109,10 +1111,7 @@ components:
       description: Base schema for adressable entities
     AdministrationModeType:
       type: string
-      description: AdministrationMode enumerations for Access 4.0
-      enum:
-        - ENABLED
-        - DISABLED
+      description: AdministrationMode for Access 4.0
     Any:
       type: object
     Attachment:
@@ -1536,12 +1535,7 @@ components:
       description: Configuration feature
     LifecycleStateType:
       type: string
-      description: LifecycleStateType enumerations for Access 4.0
-      enum:
-        - PLANNING
-        - INSTALLING
-        - OPERATING
-        - RETIRING
+      description: LifecycleStateType for Access 4.0
     Location:
       type: object
       properties:
@@ -2530,20 +2524,10 @@ components:
         attributes shared by all concrete resources (e.g. TPE, EQUIPMENT) in the inventory.
     ResourceAdministrativeStateType:
       type: string
-      description: ResourceAdministrativeStateType enumerations
-      enum:
-        - locked
-        - unlocked
-        - shutdown
+      description: ResourceAdministrativeStateType
     ResourceOperationalStateType:
       type: string
-      description: OperationalStateType enumerations for Access 4.0
-      enum:
-        - FAILED
-        - INSTALLING
-        - NOT_MANAGEABLE
-        - WORKING
-        - NOT_WORKING
+      description: OperationalStateType for Access 4.0
     ResourceRef:
       required:
         - id
@@ -2827,21 +2811,10 @@ components:
         A ResourceSpecification is an abstract base class for representing a generic means for implementing a particular type of Resource. In essence, a ResourceSpecification defines the common attributes and relationships of a set of related Resources, while Resource defines a specific instance that is based on a particular ResourceSpecification.
     ResourceStatusType:
       type: string
-      description: ResourceStatusType enumerations
-      enum:
-        - standby
-        - alarm
-        - available
-        - reserved
-        - unknown
-        - suspended
+      description: ResourceStatusType
     ResourceUsageStateType:
       type: string
-      description: ResourceUsageStateType enumerations
-      enum:
-        - idle
-        - active
-        - busy
+      description: ResourceUsageStateType
     TerminationPoint:
       required:
         - href
