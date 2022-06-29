@@ -6,8 +6,6 @@ info:
 
     Microservice contains and processes information about access lines, network and line profiles.
   version: 5.8.1
-servers:
-  - url: http://localhost:8060/
 tags:
   - name: FillDatabase
 paths:
