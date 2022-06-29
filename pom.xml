@@ -10,7 +10,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>osr-models</artifactId>
-    <version>3.0.0.163</version>
+    <version>3.0.0.164</version>
 
     <properties>
         <framework.version>${project.parent.version}</framework.version>
@@ -654,6 +654,12 @@
                                         </inputSpec>
                                     </item>
                                     <item>
+                                        <name>access.line.resource.inventory.v5_38_1.client</name>
+                                        <inputSpec>
+                                            ${project.basedir}/src/main/resources/swagger/access-line-resource-inventory/access-line-resource-inventory-v5.38.1.yaml
+                                        </inputSpec>
+                                    </item>
+                                    <item>
                                         <name>access.line.resource.inventory.fill.db.v5_7_0.client</name>
                                         <inputSpec>
                                             ${project.basedir}/src/main/resources/swagger/access-line-resource-inventory/access-line-resource-inventory-fill-db-v5.7.0.yaml
@@ -669,6 +675,12 @@
                                         <name>access.line.resource.inventory.fill.db.v5_8_0.client</name>
                                         <inputSpec>
                                             ${project.basedir}/src/main/resources/swagger/access-line-resource-inventory/access-line-resource-inventory-fill-db-v5.8.0.yaml
+                                        </inputSpec>
+                                    </item>
+                                    <item>
+                                        <name>access.line.resource.inventory.fill.db.v5_8_1.client</name>
+                                        <inputSpec>
+                                            ${project.basedir}/src/main/resources/swagger/access-line-resource-inventory/access-line-resource-inventory-fill-db-v5.8.1.yaml
                                         </inputSpec>
                                     </item>
                                     <item>
