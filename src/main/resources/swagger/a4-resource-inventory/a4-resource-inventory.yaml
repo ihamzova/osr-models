@@ -6,7 +6,7 @@ info:
     name: Berlinium Support
     url: https://gard.telekom.de/gardwiki/display/DGHB/Berlinium+Support
     email: DL_Berlinium@telekom.de
-  version: 8.6.0
+  version: 8.7.0
 servers:
   - url: /
 #SECURITY--------------------------------------------------------------------------------------------------
@@ -1535,6 +1535,11 @@ paths:
         - name: parentUuid
           in: query
           description: UUID of parent item.
+          schema:
+            type: string
+        - name: carrierBsaReference
+          in: query
+          description: a carrier reference related to tp
           schema:
             type: string
       responses:
