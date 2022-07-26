@@ -6,7 +6,7 @@ info:
     name: Berlinium Support
     url: https://gard.telekom.de/gardwiki/display/DGHB/Berlinium+Support
     email: DL_Berlinium@telekom.de
-  version: 8.7.0
+  version: 8.8.0
 servers:
   - url: /
 #SECURITY--------------------------------------------------------------------------------------------------
@@ -1973,6 +1973,11 @@ paths:
         - name: itAccountingKey
           in: query
           description: itAccountingKey of NetworkServiceProfileA10Nsp
+          schema:
+            type: string
+        - name: networkElementLinkUuid
+          in: query
+          description: networkElementLinkUuid of NetworkServiceProfileA10Nsp
           schema:
             type: string
       responses:
