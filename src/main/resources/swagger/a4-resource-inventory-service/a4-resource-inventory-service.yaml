@@ -6,7 +6,7 @@ info:
     name: API Support
     url: https://www.example.com/support
     email: DL_Berlinium@telekom.de
-  version: 4.2.0
+  version: 4.3.0
 #SECURITY--------------------------------------------------------------------------------------------------
 security:
   - OAuth2:
@@ -17,6 +17,7 @@ tags:
   - name: networkElementLink
   - name: networkElementPort
   - name: nspFtthAccess
+  - name: nspA10Nsp
   - name: terminationPoint
 paths:
   /networkElements:
@@ -878,6 +879,176 @@ paths:
             application/json;charset=utf-8:
               schema:
                 $ref: '#/components/schemas/NspFtthAccess'
+        400:
+          description: Bad Request
+          content:
+            application/json;charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/Error'
+        401:
+          description: Unauthorized
+          content:
+            application/json;charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/Error'
+        403:
+          description: Forbidden
+          content:
+            application/json;charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/Error'
+        404:
+          description: Not Found
+          content:
+            application/json;charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/Error'
+        405:
+          description: Method Not allowed
+          content:
+            application/json;charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/Error'
+        409:
+          description: Conflict
+          content:
+            application/json;charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/Error'
+        500:
+          description: Internal Server Error
+          content:
+            application/json;charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /nspA10Nsp:
+    get:
+      security:
+        - OAuth2:
+            - 'rori:nspA10Nsp:get'
+            - 'giga:cga:all-area-access'
+      tags:
+        - nspA10Nsp
+      summary: List or find NspA10Nsp objects
+      description: This operation list or find NspA10Nsp entities
+      operationId: listNspA10Nsp
+      parameters:
+        - name: fields
+          in: query
+          description: Comma-separated properties to be provided in response
+          schema:
+            type: string
+        - name: offset
+          in: query
+          description: Requested index for start of resources to be provided in response
+          schema:
+            type: integer
+        - name: limit
+          in: query
+          description: Requested number of resources to be provided in response
+          schema:
+            type: integer
+        - name: itAccountingKey
+          in: query
+          description: For filtering on the base of 'itAccountingKey' field (equality)
+          schema:
+            type: string
+        - name: networkElementLinkUuid
+          in: query
+          description: For filtering on the base of 'networkElementLinkUuid' field (equality)
+          schema:
+            type: string
+      responses:
+        200:
+          description: Success
+          headers:
+            X-Total-Count:
+              description: Total number of items matching criteria
+              schema:
+                type: integer
+            X-Result-Count:
+              description: Actual number of items returned in the response body
+              schema:
+                type: integer
+          content:
+            application/json;charset=utf-8:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/NspA10Nsp'
+        400:
+          description: Bad Request
+          content:
+            application/json;charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/Error'
+        401:
+          description: Unauthorized
+          content:
+            application/json;charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/Error'
+        403:
+          description: Forbidden
+          content:
+            application/json;charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/Error'
+        404:
+          description: Not Found
+          content:
+            application/json;charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/Error'
+        405:
+          description: Method Not allowed
+          content:
+            application/json;charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/Error'
+        409:
+          description: Conflict
+          content:
+            application/json;charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/Error'
+        500:
+          description: Internal Server Error
+          content:
+            application/json;charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /nspA10Nsp/{id}:
+    get:
+      security:
+        - OAuth2:
+            - 'rori:nspA10Nsp:get'
+            - 'giga:cga:all-area-access'
+      tags:
+        - nspA10Nsp
+      summary: Retrieves a NspA10Nsp by ID
+      description: This operation retrieves a NspA10Nsp entity. Attribute selection
+        is enabled for all first level attributes.
+      operationId: retrieveNspA10Nsp
+      parameters:
+        - name: id
+          in: path
+          description: Identifier of the NspA10Nsp
+          required: true
+          schema:
+            type: string
+        - name: fields
+          in: query
+          description: Comma-separated properties to provide in response
+          schema:
+            type: string
+      responses:
+        200:
+          description: Success
+          content:
+            application/json;charset=utf-8:
+              schema:
+                $ref: '#/components/schemas/NspA10Nsp'
         400:
           description: Bad Request
           content:
@@ -2251,6 +2422,109 @@ components:
       description: |-
         NspFtthAccess within Access 4.0 project
         Skipped properties: activationFeature,attachment,note,place,resourceSpecification,value,startOperatingDate,endOperatingDate,administrativeState,resourceStatus,usageState,category,name,resourceVersion,relatedParty
+    NspA10Nsp:
+      required:
+        - href
+        - id
+      type: object
+      properties:
+        id:
+          type: string
+          description: Identifier of an instance of the resource. Required to be unique
+            within the resource type.  Used in URIs as the identifier for specific
+            instances of a type.
+        href:
+          type: string
+          description: The URI for the object itself.
+          format: uri
+        creationTime:
+          type: string
+          description: This optional attribute identifies the DT material number of
+            a physical entity before it is installed. Set by OSS based on the retrieved
+            material number from the PSL system. This allows the OSS to convert/relate
+            the links retrieved from REBELL to functional network element links (NEL).
+        description:
+          type: string
+          description: free-text description of the resource
+        lastUpdateTime:
+          type: string
+          description: This optional attribute identifies the DT material number of
+            a physical entity before it is installed. Set by OSS based on the retrieved
+            material number from the PSL system. This allows the OSS to convert/relate
+            the links retrieved from REBELL to functional network element links (NEL).
+        carrierBsaReference:
+          type: string
+          description: This optional attribute provides a reference to the Rahmenvertrag.
+        itAccountingKey:
+          type: string
+          description: This attribute contains VUEP Public Reference Number.
+        numberOfAssociatedNsps:
+          type: string
+          description: This optional attribute indicates the expected number of NspA10Nsps participating in a LAG.
+        mtuSize:
+          type: string
+          description: This attribute defines the the maximum transmission unit (MTU).
+        etherType:
+          type: string
+          description: EtherType is a two-octet field in an Ethernet frame.
+        lacpActive:
+          type: string
+          description: This attribute contains Link Aggregation Control Protocol (LACP) activated/deactivated.
+        lacpMode:
+          type: string
+          description: The Link Aggregation Control Protocol (LACP) mode defines the procedure of information exchange between the member ports of a Link Aggregation Group (LAG).
+        minActiveLagLinks:
+          type: string
+          description: This attribute defines the minimum number of active LAG links that are required for the LAG.
+        sVlanRange:
+          type: string
+          description: The entire S-VLAN range from 1 to 4094 is basically available on every A10-NSP interface to transfer traffic from end customer connections to the wholesale ISP.
+        dataRate:
+          type: string
+          description: This optional attribute defines the data rate which the Wholesale ISP has booked on associated port.
+        qosClasses:
+          type: string
+          description: This attribute contains A10Nsp Quality of Service.
+        qosMode:
+          type: string
+          description: This attribute defines the handling of traffic.
+        partyId:
+          type: string
+          description: This attribute defines the partyId of the requesting system.
+        specificationVersion:
+          type: integer
+          description: This attribute contains the version of the class specification.
+        networkElementLinkUuid:
+          type: string
+          description: This attribute is for the search by NEL uuid
+        administrativeMode:
+          $ref: '#/components/schemas/AdministrationModeType'
+        lifecycleState:
+          $ref: '#/components/schemas/LifecycleStateType'
+        operationalState:
+          $ref: '#/components/schemas/ResourceOperationalStateType'
+        resourceCharacteristic:
+          type: array
+          items:
+            $ref: '#/components/schemas/Characteristic'
+        resourceRelationship:
+          type: array
+          items:
+            $ref: '#/components/schemas/ResourceRelationship'
+        '@baseType':
+          type: string
+          description: When sub-classing, this defines the super-class
+        '@schemaLocation':
+          type: string
+          description: A URI to a JSON-Schema file that defines additional attributes
+            and relationships
+          format: uri
+        '@type':
+          type: string
+          description: When sub-classing, this defines the sub-class entity name
+      description: |-
+        NspA10Nsp within Access 4.0 project
+        Skipped properties: activationFeature,attachment,note,place,resourceSpecification,value,startOperatingDate,endOperatingDate,administrativeState,resourceStatus,usageState,category,name,resourceVersion,relatedParty
     Place:
       type: object
       properties:
@@ -2984,4 +3258,5 @@ components:
             'rori:networkElementLink:get': GET Scope
             'rori:networkElementPort:get': GET Scope
             'rori:nspFtthAccess:get': GET Scope
+            'rori:nspA10Nsp:get': GET Scope
             'rori:terminationPoint:get': GET Scope
