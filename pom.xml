@@ -12,6 +12,7 @@
     <artifactId>osr-models</artifactId>
     <version>3.0.0.169</version>
 
+
     <properties>
         <framework.version>${project.parent.version}</framework.version>
         <common.swagger.template.folder>${project.build.outputDirectory}</common.swagger.template.folder>
