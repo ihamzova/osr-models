@@ -7,7 +7,7 @@ info:
     catalog. A Resource candidate makes a Resource Specification available to a resource
     catalog. Resources can be logical (eg: MSISDN, IP-addresses) or physical (eg:
     cables, routers, firewalls).'
-  version: 5.0.3
+  version: 1.0.1
 servers:
   - url: 'http://localhost'
 #SECURITY--------------------------------------------------------------------------------------------------

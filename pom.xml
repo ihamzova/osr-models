@@ -10,7 +10,8 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>osr-models</artifactId>
-    <version>3.0.0.168</version>
+    <version>3.0.0.169</version>
+
 
     <properties>
         <framework.version>${project.parent.version}</framework.version>
@@ -564,9 +565,9 @@
                                         </inputSpec>
                                     </item>
                                     <item>
-                                        <name>a4.resource.order.direct.fiber.tmf652.v4.client</name>
+                                        <name>a4.resource.order.direct.fiber.client</name>
                                         <inputSpec>
-                                            ${project.basedir}/src/main/resources/swagger/a4-resource-order-direct-fiber/a4-tmf652-directFiber.yaml
+                                            ${project.basedir}/src/main/resources/swagger/a4-resource-order-direct-fiber/a4-resource-order-direct-fiber.yaml
                                         </inputSpec>
                                     </item>
                                     <item>
