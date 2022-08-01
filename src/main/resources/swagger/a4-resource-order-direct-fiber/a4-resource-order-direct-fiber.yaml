@@ -1208,7 +1208,6 @@ components:
           description: The actual type of the target instance when needed for disambiguation.
     ResourceRefOrValue:
       required:
-        - name
         - '@baseType'
         - '@type'
       type: object
