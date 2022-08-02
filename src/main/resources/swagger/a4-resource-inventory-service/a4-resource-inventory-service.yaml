@@ -2477,14 +2477,18 @@ components:
           type: string
           description: This attribute defines the minimum number of active LAG links that are required for the LAG.
         sVlanRange:
-          type: string
-          description: The entire S-VLAN range from 1 to 4094 is basically available on every A10-NSP interface to transfer traffic from end customer connections to the wholesale ISP.
+          type: array
+          description: VlanRange list for this NetworkServiceProfileA10NspDto item
+          items:
+            $ref: '#/components/schemas/VlanRange'
         dataRate:
           type: string
           description: This optional attribute defines the data rate which the Wholesale ISP has booked on associated port.
         qosClasses:
-          type: string
-          description: This attribute contains A10Nsp Quality of Service.
+          type: array
+          description: A10NspQos list for this NetworkServiceProfileA10NspDto item
+          items:
+            $ref: '#/components/schemas/A10NspQos'
         qosMode:
           type: string
           description: This attribute defines the handling of traffic.
@@ -2525,6 +2529,29 @@ components:
       description: |-
         NspA10Nsp within Access 4.0 project
         Skipped properties: activationFeature,attachment,note,place,resourceSpecification,value,startOperatingDate,endOperatingDate,administrativeState,resourceStatus,usageState,category,name,resourceVersion,relatedParty
+    VlanRange:
+      type: object
+      properties:
+        vlanRangeLower:
+          type: string
+          description: attributes of this VlanRange
+        vlanRangeUpper:
+          type: string
+          description: attributes of this VlanRange
+      description: The VlanRange list.
+    A10NspQos:
+      type: object
+      properties:
+        qosPriority:
+          type: string
+          description: attributes of this A10NspQos
+        qosBandwidthUp:
+          type: string
+          description: attributes of this A10NspQos
+        qosBandwidthDown:
+          type: string
+          description: attributes of this A10NspQos
+      description: The A10NspQos list.
     Place:
       type: object
       properties:
