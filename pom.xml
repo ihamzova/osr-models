@@ -583,6 +583,12 @@
                                         </inputSpec>
                                     </item>
                                     <item>
+                                        <name>a4.link.event.importer.client</name>
+                                        <inputSpec>
+                                            ${project.basedir}/src/main/resources/swagger/a4-inventory-importer/a4-link-import-event.yaml
+                                        </inputSpec>
+                                    </item>
+                                    <item>
                                         <name>a4.rebell.sync.client</name>
                                         <inputSpec>
                                             ${project.basedir}/src/main/resources/swagger/a4-rebell-sync/a4-rebell-sync.yaml
